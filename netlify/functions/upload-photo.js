@@ -48,8 +48,14 @@ exports.handler = async (event) => {
       body: JSON.stringify(payload)
     });
     if (!response.ok) {
-      const err = await response.text();
-      return { statusCode: response.status, body: JSON.stringify({ error: err }) };
+      let errMsg;
+      try {
+        const errJson = await response.json();
+        errMsg = errJson.message || JSON.stringify(errJson);
+      } catch {
+        errMsg = await response.text();
+      }
+      return { statusCode: response.status, body: JSON.stringify({ error: errMsg, status: response.status, path }) };
     }
     const url = `https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/${path}`;
     return {
