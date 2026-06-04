@@ -928,14 +928,31 @@ function buildRoster(){
 
 function uploadPhoto(pid,input){
   if(!input.files?.[0]) return;
+  const file=input.files[0];
   const reader=new FileReader();
-  reader.onload=e=>{
-    setPhoto(pid, e.target.result);
-    if(!D.players[pid]) D.players[pid]={};
-    D.players[pid].photo_url = e.target.result; // base64 stored in JSON — fine for small images
-    saveData();
+  reader.onload=async e=>{
+    const dataUrl=e.target.result;
+    setPhoto(pid,dataUrl); // optimistic preview
+    const base64=dataUrl.split(',')[1];
+    toast('Uploading photo…');
+    try{
+      const r=await fetch('/.netlify/functions/upload-photo',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({pid,filename:file.name,content:base64})
+      });
+      if(!r.ok) throw new Error(await r.text());
+      const {url}=await r.json();
+      if(!D.players[pid]) D.players[pid]={};
+      D.players[pid].photo_url=url;
+      setPhoto(pid,url);
+      saveData();
+      toast('Photo saved!');
+    }catch(e){
+      toast('Photo upload failed — '+e.message);
+    }
   };
-  reader.readAsDataURL(input.files[0]);
+  reader.readAsDataURL(file);
 }
 
 function setPhoto(pid,url){
