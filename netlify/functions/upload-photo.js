@@ -11,13 +11,12 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body); }
   catch { return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) }; }
 
-  const { pid, filename, content } = body;
-  if (!pid || !content) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Missing pid or content' }) };
+  const { pid, content, extension } = body;
+  if (!pid || !content || !extension) {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Missing pid, content, or extension' }) };
   }
 
-  const ext = (filename || 'photo.jpg').split('.').pop().toLowerCase() || 'jpg';
-  const path = `images/players/${pid}.${ext}`;
+  const path = `images/players/${pid}.${extension}`;
   const apiUrl = `https://api.github.com/repos/jcoogan80/mindset-nationals/contents/${path}`;
 
   // Check if file already exists so we can pass its SHA for updates

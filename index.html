@@ -969,12 +969,13 @@ function uploadPhoto(pid,input){
     const dataUrl=e.target.result;
     setPhoto(pid,dataUrl); // optimistic preview
     const base64=dataUrl.split(',')[1];
+    const ext=file.type.split('/')[1].replace('jpeg','jpg');
     toast('Uploading photo…');
     try{
       const r=await fetch('/.netlify/functions/upload-photo',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({pid,filename:file.name,content:base64})
+        body:JSON.stringify({pid,content:base64,extension:ext})
       });
       if(!r.ok) throw new Error(await r.text());
       const {url}=await r.json();
