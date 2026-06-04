@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#111111">
 <title>Mindset Premier 14 Red — 2026 Nationals Hub</title>
+<link rel="apple-touch-icon" href="images/mindset-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.2.0/dist/tabler-icons.min.css">
 <style>
@@ -157,7 +161,7 @@ body:not(.em) .unlock-next{display:none}
 
 /* PROFILES */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:.75rem}
-@media(max-width:480px){.pgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.pgrid{grid-template-columns:1fr}}
 .pcard{background:#fff;border-radius:12px;border:1px solid var(--lightgray);overflow:hidden}
 .pwrap{width:100%;aspect-ratio:3/4;background:var(--offwhite);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .pwrap img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
@@ -240,6 +244,37 @@ body.em .tredit-btn{display:block}
 .mbody{padding:.95rem}
 .mvw{position:relative;padding-bottom:56.25%;background:#000;border-radius:8px;overflow:hidden;margin-bottom:.85rem}
 .mvw iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+
+/* ── MOBILE OPTIMIZATIONS (max-width: 480px) ─────────────────── */
+@media(max-width:480px){
+  /* Header: hide countdown, compact */
+  .cd-mini{display:none}
+  .hdr{padding:.38rem .75rem;gap:.5rem}
+  .hdr-logo{width:38px;height:38px}
+  .hdr-title{font-size:1.1rem}
+
+  /* Tabs: horizontal scroll, no wrap */
+  .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex-shrink:0;min-height:44px}
+
+  /* Team photo banner height */
+  .team-banner-img{height:220px!important}
+
+  /* Stat banner: 2-column grid */
+  .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:.38rem;padding:.5rem .6rem}
+  .stat-row>span{grid-column:1/-1}
+  .sp{min-width:unset;flex:unset}
+
+  /* Day tabs: all 4 on one row */
+  .dtabs{gap:.15rem;padding:.2rem}
+  .dtab{font-size:.64rem;padding:.32rem .18rem}
+  .dtab .ds{font-size:.5rem}
+
+  /* Tap targets: 44px minimum */
+  .edit-btn{min-height:44px;padding:.5rem .8rem}
+  button{min-height:44px}
+}
 </style>
 </head>
 <body>
@@ -284,8 +319,8 @@ body.em .tredit-btn{display:block}
 
 <div class="wrap">
 
-  <div style="width:100%;border-radius:12px;overflow:hidden;margin-bottom:1rem;position:relative;max-height:320px">
-  <img src="images/team photo.jpg" style="width:100%;height:350px;object-fit:cover;object-position:center center;display:block">
+  <div class="team-banner" style="width:100%;border-radius:12px;overflow:hidden;margin-bottom:1rem;position:relative;max-height:320px">
+  <img src="images/team photo.jpg" class="team-banner-img" style="width:100%;height:350px;object-fit:cover;object-position:center center;display:block">
   <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.75));padding:1rem 1.25rem">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:#fff">Mindset Premier 14 Red</div>
     <div style="font-size:.78rem;color:rgba(255,255,255,0.7)">2026 USAV Girls Junior National Championships · Indianapolis, IN</div>
