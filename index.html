@@ -966,9 +966,8 @@ function uploadPhoto(pid,input){
   const file=input.files[0];
   const reader=new FileReader();
   reader.onload=async e=>{
-    const dataUrl=e.target.result;
-    setPhoto(pid,dataUrl); // optimistic preview
-    const base64=dataUrl.split(',')[1];
+    setPhoto(pid,e.target.result); // optimistic preview
+    const base64=e.target.result.split(',')[1];
     const ext=file.type.split('/')[1].replace('jpeg','jpg');
     toast('Uploading photo…');
     try{
