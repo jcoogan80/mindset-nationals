@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#111111">
@@ -961,25 +962,39 @@ function buildRoster(){
   });
 }
 
+function resizeImage(dataUrl, maxPx, quality){
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.width, h=img.height;
+      if(w>maxPx||h>maxPx){const s=Math.min(maxPx/w,maxPx/h);w=Math.round(w*s);h=Math.round(h*s);}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      resolve(c.toDataURL('image/jpeg',quality));
+    };
+    img.src=dataUrl;
+  });
+}
+
 function uploadPhoto(pid,input){
   if(!input.files?.[0]) return;
   const file=input.files[0];
   const reader=new FileReader();
   reader.onload=async e=>{
     setPhoto(pid,e.target.result); // optimistic preview
-    const base64=e.target.result.split(',')[1];
-    const ext=file.type.split('/')[1].replace('jpeg','jpg');
+    toast('Resizing photo…');
+    const resized=await resizeImage(e.target.result,1200,0.82);
+    const base64=resized.split(',')[1];
     console.log('pid:',pid);
-    console.log('extension:',ext);
-    console.log('content length:',base64.length);
-    console.log('content starts with:',base64.substring(0,30));
+    console.log('extension: jpg (resized to JPEG)');
+    console.log('content length after resize:',base64.length);
     console.log('sending to upload-photo...');
     toast('Uploading photo…');
     try{
       const r=await fetch('/.netlify/functions/upload-photo',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({pid,content:base64,extension:ext})
+        body:JSON.stringify({pid,content:base64,extension:'jpg'})
       });
       const responseText=await r.text();
       console.log('response status:',r.status);
