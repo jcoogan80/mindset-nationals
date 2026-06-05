@@ -10,11 +10,11 @@ exports.handler = async (event) => {
   let body;
   try { body = JSON.parse(event.body); }
   catch { return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) }; }
-  const { data, sha, user, repo } = body;
+  const { data, sha, user, repo, file } = body;
   if (!data || !user || !repo) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing required fields' }) };
   }
-  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/data.json`;
+  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${file || 'data.json'}`;
   const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
   const payload = { message: 'Update hub data', content, ...(sha ? { sha } : {}) };
   try {
