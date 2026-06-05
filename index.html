@@ -943,6 +943,23 @@ function buildProfiles(){
         <div class="pstat"><span class="lbl">Height</span><span class="val e" data-pf="height" data-pid="${p.id}">${pd.height||'—'}</span></div>
         <div class="pig"><i class="ti ti-brand-instagram"></i><span class="e" data-pf="instagram" data-pid="${p.id}" style="flex:1">${pd.instagram||'@instagram'}</span></div>
         <div class="rbox">
+          <details style="margin-bottom:.4rem">
+  <summary style="font-size:.68rem;color:var(--red);cursor:pointer;list-style:none;display:flex;align-items:center;gap:.25rem">
+    <i class="ti ti-info-circle"></i> How to add your reel
+  </summary>
+  <div style="font-size:.68rem;color:var(--gray);line-height:1.6;margin-top:.35rem;padding:.5rem;background:var(--offwhite);border-radius:7px">
+    <strong style="color:var(--black)">From Hudl:</strong><br>
+    1. Open your Hudl link<br>
+    2. Click the download (↓) button<br>
+    3. Save to your computer<br><br>
+    <strong style="color:var(--black)">Upload to YouTube:</strong><br>
+    1. Go to youtube.com → sign in<br>
+    2. Click + Create → Upload video<br>
+    3. Set visibility to <strong>Unlisted</strong><br>
+    4. Copy the YouTube URL<br>
+    5. Paste it in Add Highlight Reel
+  </div>
+</details>
           <div class="rph" id="rph-${p.id}" onclick="openReel('${p.id}','${p.name}')"><i class="ti ti-player-play-filled"></i><span>Add Highlight Reel</span></div>
           <div id="ract-${p.id}" style="display:none">
             <div style="display:flex;align-items:center;gap:.42rem">
