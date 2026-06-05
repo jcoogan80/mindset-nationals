@@ -30,6 +30,11 @@ body{font-family:var(--fb);background:#f0eeeb;color:var(--black)}
 .cdb{background:rgba(255,255,255,.1);border-radius:5px;padding:.22rem .38rem;text-align:center;min-width:34px}
 .cdn{font-family:var(--fd);font-size:.95rem;color:#fff;line-height:1;display:block}
 .cdl{font-size:.44rem;color:rgba(255,255,255,.42);display:block}
+.wx-mini{display:flex;gap:.25rem}
+.wxd{background:rgba(255,255,255,.1);border-radius:5px;padding:.2rem .32rem;text-align:center;min-width:36px}
+.wxday{font-size:.42rem;color:rgba(255,255,255,.42);display:block;letter-spacing:.3px;text-transform:uppercase}
+.wxem{font-size:.72rem;line-height:1.3;display:block}
+.wxtemp{font-size:.48rem;color:rgba(255,255,255,.72);display:block;line-height:1.2;white-space:nowrap}
 .edit-btn{font-size:.7rem;font-weight:600;padding:.28rem .6rem;border-radius:6px;border:1.5px solid rgba(255,255,255,.22);background:transparent;color:rgba(255,255,255,.65);cursor:pointer;white-space:nowrap;transition:all .15s}
 .edit-btn.on{background:var(--red);border-color:var(--red);color:#fff}
 
@@ -248,8 +253,9 @@ body.em .tredit-btn{display:block}
 
 /* ── MOBILE OPTIMIZATIONS (max-width: 480px) ─────────────────── */
 @media(max-width:480px){
-  /* Header: hide countdown, compact */
+  /* Header: hide countdown and weather, compact */
   .cd-mini{display:none}
+  .wx-mini{display:none}
   .hdr{padding:.38rem .75rem;gap:.5rem}
   .hdr-logo{width:38px;height:38px}
   .hdr-title{font-size:1.1rem}
@@ -298,6 +304,7 @@ body.em .tredit-btn{display:block}
       <div class="cdb"><span class="cdn" id="cd-m">--</span><span class="cdl">MIN</span></div>
       <div class="cdb"><span class="cdn" id="cd-s">--</span><span class="cdl">SEC</span></div>
     </div>
+    <div class="wx-mini" id="wx-mini"></div>
     <button class="edit-btn" id="edit-btn" onclick="promptEdit()"><i class="ti ti-lock"></i> Edit</button>
   </div>
 </header>
@@ -626,7 +633,7 @@ let playerReels = {};
 window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('hdr-logo').src = 'data:image/jpeg;base64,' + LOGO_B64;
   if (DEMO) document.getElementById('cfg-banner').style.display = 'block';
-  setupTabs(); setupDayTabs(); countdown();
+  setupTabs(); setupDayTabs(); countdown(); fetchWeather(); setInterval(fetchWeather,30*60*1000);
   await loadData();
   buildDayPanels(); buildProfiles(); buildStaffGrid(); buildRoster(); addSlots(9);
   renderAll();
@@ -1193,6 +1200,33 @@ function copyTxt(t){navigator.clipboard.writeText(t).catch(()=>{});toast('Copied
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
 function flashSaved(){const s=document.getElementById('saved');s.classList.add('on');clearTimeout(window._st);window._st=setTimeout(()=>s.classList.remove('on'),2200);}
 function loading(on){const b=document.getElementById('lbar');b.style.width=on?'65%':'100%';if(!on)setTimeout(()=>b.style.width='0',400);}
+function weatherEmoji(code){
+  if(code<=1) return '☀️';
+  if(code===2) return '⛅';
+  if(code===3) return '☁️';
+  if(code>=45&&code<=48) return '🌫️';
+  if(code>=51&&code<=67) return '🌧️';
+  if(code>=71&&code<=77) return '❄️';
+  if(code>=80&&code<=82) return '🌦️';
+  if(code>=95&&code<=99) return '⛈️';
+  return '🌤️';
+}
+async function fetchWeather(){
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=39.7684&longitude=-86.1581&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=fahrenheit&timezone=America%2FChicago&forecast_days=5');
+    if(!r.ok) return;
+    const data=await r.json();
+    const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const el=document.getElementById('wx-mini'); if(!el) return;
+    el.innerHTML=data.daily.time.map((t,i)=>{
+      const day=days[new Date(t+'T12:00:00').getDay()];
+      const em=weatherEmoji(data.daily.weathercode[i]);
+      const hi=Math.round(data.daily.temperature_2m_max[i]);
+      const lo=Math.round(data.daily.temperature_2m_min[i]);
+      return `<div class="wxd"><span class="wxday">${day}</span><span class="wxem">${em}</span><span class="wxtemp">${hi}°/${lo}°</span></div>`;
+    }).join('');
+  }catch{}
+}
 function countdown(){
   function tick(){
     const d=new Date('2026-06-25T08:00:00')-new Date();
