@@ -456,6 +456,8 @@ body.em .tredit-btn{display:block}
     <div class="sec-hd"><i class="ti ti-id-badge"></i><h2>Player Profiles</h2></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Tap photo to upload · click any field to edit · add highlight reel link</p>
     <div class="pgrid" id="pgrid"></div>
+    <div class="sec-hd" style="margin-top:1.5rem"><i class="ti ti-whistle" style="font-size:1.15rem;color:var(--red)"></i><h2>Coaching Staff</h2></div>
+    <div class="pgrid" id="staff-grid"></div>
   </div>
 
   <!-- HOTEL -->
@@ -626,7 +628,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (DEMO) document.getElementById('cfg-banner').style.display = 'block';
   setupTabs(); setupDayTabs(); countdown();
   await loadData();
-  buildDayPanels(); buildProfiles(); buildRoster(); addSlots(9);
+  buildDayPanels(); buildProfiles(); buildStaffGrid(); buildRoster(); addSlots(9);
   renderAll();
 });
 
@@ -973,6 +975,34 @@ function buildProfiles(){
     g.appendChild(c);
     if(pd.photo_url) setPhoto(p.id, pd.photo_url);
     if(pd.reel_url){playerReels[p.id]={type:'url',src:pd.reel_url};updateReelUI(p.id);}
+  });
+  bindPlayerEditables(g);
+}
+
+const STAFF=[
+  {id:'coach-head', role:'Head Coach', name:'Billy Koulouvaris', instagram:''},
+  {id:'coach-asst', role:'Asst Coach', name:'Marc Karam',        instagram:''},
+  {id:'coach-owner',role:'Owner',      name:'Randy Satovitz',    instagram:''},
+];
+
+function buildStaffGrid(){
+  const g=document.getElementById('staff-grid'); g.innerHTML='';
+  STAFF.forEach(s=>{
+    const pd=D.players[s.id]||{};
+    const c=document.createElement('div'); c.className='pcard'; c.id='pc-'+s.id;
+    c.innerHTML=`
+      <div class="pwrap" id="pw-${s.id}">
+        <div class="pph"><i class="ti ti-user-circle"></i><span>Tap to add photo</span></div>
+        <button class="pupbtn" onclick="document.getElementById('pin-${s.id}').click()"><i class="ti ti-camera"></i></button>
+        <input type="file" id="pin-${s.id}" accept="image/*" style="display:none" onchange="uploadPhoto('${s.id}',this)">
+      </div>
+      <div class="pbody">
+        <div style="font-size:.6rem;font-weight:600;letter-spacing:.8px;color:var(--red);text-transform:uppercase;margin-bottom:.18rem">${s.role}</div>
+        <div class="pname e" data-pf="name" data-pid="${s.id}">${pd.name||s.name}</div>
+        <div class="pig"><i class="ti ti-brand-instagram"></i><span class="e" data-pf="instagram" data-pid="${s.id}" style="flex:1">${pd.instagram||'@instagram'}</span></div>
+      </div>`;
+    g.appendChild(c);
+    if(pd.photo_url) setPhoto(s.id, pd.photo_url);
   });
   bindPlayerEditables(g);
 }
