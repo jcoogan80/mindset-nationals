@@ -1,0 +1,52 @@
+{
+  "hub": {
+    "hotel_checkin": "June 24 / July 3",
+    "hotel_code": "",
+    "hotel_phone": "",
+    "hotel_rate": "$__ / night",
+    "hotel_deadline": "Add cutoff date",
+    "hotel_notes": "Add breakfast info, pool hours, team dinner plans, shuttle details...",
+    "venue1_name": "Indiana Convention Center",
+    "venue1_addr": "100 S Capitol Ave, Indianapolis, IN 46225",
+    "venue2_name": "Gainbridge Fieldhouse",
+    "venue2_addr": "125 S Pennsylvania St, Indianapolis, IN 46204",
+    "park1_name": "Convention Center Parking",
+    "park1_info": "Add rates and tips here",
+    "park2_name": "Pan Am Plaza Garage",
+    "park2_info": "Add rates and tips here",
+    "rideshare_info": "Uber/Lyft drop-off zones and pickup spots",
+    "theme_days": "Add USAV theme day schedule here",
+    "noodles_location": "Add Noodles & Company location here",
+    "amc_tickets": "Add ticket purchase link here",
+    "other_fundraising": "Add GoFundMe, spirit wear store, or upcoming events here",
+    "coaches": "Head Coach: Jake Achettu - Asst Coach: Elmina Alic - Owner: Randy Satovitz",
+    "photo_album": "Paste your Google Photos, iCloud, or Dropbox link here",
+    "team_reel_url": "",
+    "overall_record": "0W â 0L",
+    "overall_sets": "0 â 0",
+    "overall_round": "Pool Play",
+    "day1_notes": "Pool play notes, court assignments, team updates...",
+    "day2_notes": "Bracket seeding, venue updates...",
+    "day3_notes": "Bracket position, upcoming opponents...",
+    "day4_notes": "Final placement, awards, team celebration...",
+    "day1_date": "Thursday, June 25, 2026 Â· Indiana Convention Center",
+    "day2_date": "Friday, June 26, 2026 Â· Venue TBD",
+    "day3_date": "Saturday, June 27, 2026 Â· Venue TBD",
+    "day4_date": "Sunday, June 28, 2026 Â· Venue TBD",
+    "day2_locked": true,
+    "day3_locked": true,
+    "day4_locked": true
+  },
+  "matches": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": []
+  },
+  "teams": [],
+  "players": {
+    "amelia-l": {
+      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/amelia-l.jpg"
+    }
+  }
+}
