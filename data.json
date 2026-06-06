@@ -61,7 +61,8 @@
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/liana-l.jpg"
     },
     "izzie-r": {
-      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/izzie-r.jpg"
+      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/izzie-r.jpg",
+      "num": "##"
     }
   }
 }
