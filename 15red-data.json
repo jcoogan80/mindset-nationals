@@ -46,7 +46,8 @@
   "teams": [],
   "players": {
     "15-amelia-l": {
-      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/15-amelia-l.jpg"
+      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/15-amelia-l.jpg",
+      "num": "10"
     }
   }
 }
