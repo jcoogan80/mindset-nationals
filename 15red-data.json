@@ -22,17 +22,17 @@
     "coaches": "Head Coach: Jake Achettu - Asst Coach: Elmina Alic - Owner: Randy Satovitz",
     "photo_album": "Paste your Google Photos, iCloud, or Dropbox link here",
     "team_reel_url": "",
-    "overall_record": "0W – 0L",
-    "overall_sets": "0 – 0",
+    "overall_record": "0W â 0L",
+    "overall_sets": "0 â 0",
     "overall_round": "Pool Play",
     "day1_notes": "Pool play notes, court assignments, team updates...",
     "day2_notes": "Bracket seeding, venue updates...",
     "day3_notes": "Bracket position, upcoming opponents...",
     "day4_notes": "Final placement, awards, team celebration...",
-    "day1_date": "Thursday, June 25, 2026 · Indiana Convention Center",
-    "day2_date": "Friday, June 26, 2026 · Venue TBD",
-    "day3_date": "Saturday, June 27, 2026 · Venue TBD",
-    "day4_date": "Sunday, June 28, 2026 · Venue TBD",
+    "day1_date": "Thursday, June 25, 2026 Â· Indiana Convention Center",
+    "day2_date": "Friday, June 26, 2026 Â· Venue TBD",
+    "day3_date": "Saturday, June 27, 2026 Â· Venue TBD",
+    "day4_date": "Sunday, June 28, 2026 Â· Venue TBD",
     "day2_locked": true,
     "day3_locked": true,
     "day4_locked": true
@@ -44,5 +44,9 @@
     "4": []
   },
   "teams": [],
-  "players": {}
+  "players": {
+    "15-amelia-l": {
+      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/15-amelia-l.jpg"
+    }
+  }
 }
