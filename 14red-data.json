@@ -22,17 +22,17 @@
     "coaches": "Head Coach: Billy Koulouvaris - Asst Coach: Marc Karam - Owner: Randy Satovitz",
     "photo_album": "Paste your Google Photos, iCloud, or Dropbox link here",
     "team_reel_url": "https://youtu.be/5LMulOJZtjk",
-    "overall_record": "0W ÃÂ¢ÃÂÃÂ 0L",
-    "overall_sets": "0 ÃÂ¢ÃÂÃÂ 0",
+    "overall_record": "0W ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ 0L",
+    "overall_sets": "0 ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ 0",
     "overall_round": "Pool Play",
     "day1_notes": "Pool play notes, court assignments, team updates...",
     "day2_notes": "Bracket seeding, venue updates...",
     "day3_notes": "Bracket position, upcoming opponents...",
     "day4_notes": "Final placement, awards, team celebration...",
-    "day1_date": "Thursday, June 25, 2026 ÃÂÃÂ· Indiana Convention Center",
-    "day2_date": "Friday, June 26, 2026 ÃÂÃÂ· Venue TBD",
-    "day3_date": "Saturday, June 27, 2026 ÃÂÃÂ· Venue TBD",
-    "day4_date": "Sunday, June 28, 2026 ÃÂÃÂ· Venue TBD",
+    "day1_date": "Thursday, June 25, 2026 ÃÂÃÂÃÂÃÂ· Indiana Convention Center",
+    "day2_date": "Friday, June 26, 2026 ÃÂÃÂÃÂÃÂ· Venue TBD",
+    "day3_date": "Saturday, June 27, 2026 ÃÂÃÂÃÂÃÂ· Venue TBD",
+    "day4_date": "Sunday, June 28, 2026 ÃÂÃÂÃÂÃÂ· Venue TBD",
     "day2_locked": true,
     "day3_locked": true,
     "day4_locked": true
@@ -127,7 +127,7 @@
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/peyton-b.jpg"
     },
     "coach-head": {
-      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/coach-head.png"
+      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/coach-head.jpg"
     },
     "coach-asst": {
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/coach-asst.png"
