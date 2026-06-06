@@ -1,0 +1,35 @@
+functionsDirectory = "C:\\Users\\jason\\Desktop\\Mindset VBC Nationals\\mindset-nationals\\netlify\\functions"
+functionsDirectoryOrigin = "config-v1"
+headersOrigin = "config"
+plugins = []
+redirects = []
+
+[build]
+publish = "C:\\Users\\jason\\Desktop\\Mindset VBC Nationals\\mindset-nationals"
+publishOrigin = "config"
+functions = "C:\\Users\\jason\\Desktop\\Mindset VBC Nationals\\mindset-nationals\\netlify\\functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[functions]
+
+[functions."*"]
+
+[[headers]]
+for = "/*"
+
+[headers.values]
+X-Frame-Options = "SAMEORIGIN"
+X-Content-Type-Options = "nosniff"
