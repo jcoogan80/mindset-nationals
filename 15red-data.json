@@ -5,7 +5,7 @@
     "hotel_phone": "(317) 856-9100",
     "hotel_rate": "$__ / night",
     "hotel_deadline": "Add cutoff date",
-    "hotel_notes": "Hilton Garden Inn Indianapolis Airport · 8910 Hatfield Drive, Indianapolis IN 46241",
+    "hotel_notes": "Hilton Garden Inn Indianapolis Airport Â· 8910 Hatfield Drive, Indianapolis IN 46241",
     "venue1_name": "Indiana Convention Center",
     "venue1_addr": "100 S Capitol Ave, Indianapolis, IN 46225",
     "venue2_name": "Gainbridge Fieldhouse",
@@ -22,17 +22,17 @@
     "coaches": "Head Coach: Jake Achettu - Asst Coach: Elmina Alic - Owner: Randy Satovitz",
     "photo_album": "Paste your Google Photos, iCloud, or Dropbox link here",
     "team_reel_url": "",
-    "overall_record": "0W â 0L",
-    "overall_sets": "0 â 0",
+    "overall_record": "0W Ã¢ÂÂ 0L",
+    "overall_sets": "0 Ã¢ÂÂ 0",
     "overall_round": "Pool Play",
     "day1_notes": "Pool play notes, court assignments, team updates...",
     "day2_notes": "Bracket seeding, venue updates...",
     "day3_notes": "Bracket position, upcoming opponents...",
     "day4_notes": "Final placement, awards, team celebration...",
-    "day1_date": "Thursday, June 25, 2026 Â· Indiana Convention Center",
-    "day2_date": "Friday, June 26, 2026 Â· Venue TBD",
-    "day3_date": "Saturday, June 27, 2026 Â· Venue TBD",
-    "day4_date": "Sunday, June 28, 2026 Â· Venue TBD",
+    "day1_date": "Thursday, June 25, 2026 ÃÂ· Indiana Convention Center",
+    "day2_date": "Friday, June 26, 2026 ÃÂ· Venue TBD",
+    "day3_date": "Saturday, June 27, 2026 ÃÂ· Venue TBD",
+    "day4_date": "Sunday, June 28, 2026 ÃÂ· Venue TBD",
     "day2_locked": true,
     "day3_locked": true,
     "day4_locked": true
@@ -84,13 +84,16 @@
     "15-nicole-t": {
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/15-nicole-t.jpg",
       "num": "5",
-      "height": "—",
+      "height": "â",
       "position": "Outside Hitter"
     },
     "15-victoria-g": {
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/15-victoria-g.jpg",
       "num": "16",
       "position": "Setter"
+    },
+    "coach15-owner": {
+      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/coach15-owner.jpg"
     }
   }
 }
