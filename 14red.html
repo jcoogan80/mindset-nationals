@@ -358,10 +358,10 @@ body.em .tredit-btn{display:block}
   <div class="stat-row">
     <span style="font-family:var(--fd);font-size:.75rem;letter-spacing:1px;color:rgba(255,255,255,.3);flex:0 0 auto">2025–26</span>
     <div class="sp sp-r"><span class="spn">#82</span><span class="spl">RANK</span></div>
-    <div class="sp sp-w"><span class="spn">41</span><span class="spl">WINS</span></div>
-    <div class="sp sp-l"><span class="spn">2</span><span class="spl">LOSSES</span></div>
-    <div class="sp sp-l"><span class="spn">43</span><span class="spl">MATCHES</span></div>
-    <div class="sp sp-p"><span class="spn">95.3%</span><span class="spl">WIN RATE</span></div>
+    <div class="sp sp-w"><span class="spn">61</span><span class="spl">WINS</span></div>
+    <div class="sp sp-l"><span class="spn">6</span><span class="spl">LOSSES</span></div>
+    <div class="sp sp-l"><span class="spn">67</span><span class="spl">MATCHES</span></div>
+    <div class="sp sp-p"><span class="spn">91%</span><span class="spl">WIN RATE</span></div>
   </div>
 
   <!-- TEAM REEL -->
@@ -485,6 +485,8 @@ body.em .tredit-btn{display:block}
     <div class="pgrid" id="pgrid"></div>
     <div class="sec-hd" style="margin-top:1.5rem"><i class="ti ti-whistle" style="font-size:1.15rem;color:var(--red)"></i><h2>Coaching Staff</h2></div>
     <div class="pgrid" id="staff-grid"></div>
+    <div class="sec-hd" style="margin-top:1.5rem"><i class="ti ti-confetti" style="font-size:1.15rem;color:var(--red)"></i><h2>Team Cheerleaders</h2></div>
+    <div class="pgrid" id="cheer-grid"></div>
   </div>
 
   <!-- HOTEL -->
@@ -655,7 +657,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (DEMO) document.getElementById('cfg-banner').style.display = 'block';
   setupTabs(); setupDayTabs(); countdown(); fetchWeather(); setInterval(fetchWeather,30*60*1000);
   await loadData();
-  buildDayPanels(); buildProfiles(); buildStaffGrid(); buildRoster(); addSlots(9);
+  buildDayPanels(); buildProfiles(); buildStaffGrid(); buildCheerleadersGrid(); buildRoster(); addSlots(9);
   renderAll();
 });
 
@@ -1016,6 +1018,33 @@ const STAFF=[
 function buildStaffGrid(){
   const g=document.getElementById('staff-grid'); g.innerHTML='';
   STAFF.forEach(s=>{
+    const pd=D.players[s.id]||{};
+    const c=document.createElement('div'); c.className='pcard'; c.id='pc-'+s.id;
+    c.innerHTML=`
+      <div class="pwrap" id="pw-${s.id}">
+        <div class="pph"><i class="ti ti-user-circle"></i><span>Tap to add photo</span></div>
+        <button class="pupbtn" onclick="document.getElementById('pin-${s.id}').click()"><i class="ti ti-camera"></i></button>
+        <input type="file" id="pin-${s.id}" accept="image/*" style="display:none" onchange="uploadPhoto('${s.id}',this)">
+      </div>
+      <div class="pbody">
+        <div style="font-size:.6rem;font-weight:600;letter-spacing:.8px;color:var(--red);text-transform:uppercase;margin-bottom:.18rem">${s.role}</div>
+        <div class="pname e" data-pf="name" data-pid="${s.id}">${pd.name||s.name}</div>
+        <div class="pig"><i class="ti ti-brand-instagram"></i><span class="e" data-pf="instagram" data-pid="${s.id}" style="flex:1">${pd.instagram||'@instagram'}</span></div>
+      </div>`;
+    g.appendChild(c);
+    if(pd.photo_url) setPhoto(s.id, pd.photo_url);
+  });
+  bindPlayerEditables(g);
+}
+
+const CHEERLEADERS=[
+  {id:'cheer-sydney', role:'Team Cheerleader', name:'Sydney Coogan',  instagram:''},
+  {id:'cheer-olivia', role:'Team Cheerleader', name:'Olivia Orozco',  instagram:''},
+];
+
+function buildCheerleadersGrid(){
+  const g=document.getElementById('cheer-grid'); g.innerHTML='';
+  CHEERLEADERS.forEach(s=>{
     const pd=D.players[s.id]||{};
     const c=document.createElement('div'); c.className='pcard'; c.id='pc-'+s.id;
     c.innerHTML=`
