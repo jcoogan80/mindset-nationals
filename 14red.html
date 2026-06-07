@@ -746,7 +746,7 @@ function renderPlayerData() {
 function bindEditables(root) {
   (root||document).querySelectorAll('[data-key]').forEach(el => {
     if (el._eb) return; el._eb = true;
-    el.contentEditable = 'true';
+    el.contentEditable = 'false';
     el.addEventListener('blur', () => {
       if (!editMode) return;
       const v = el.textContent.trim();
@@ -758,7 +758,7 @@ function bindEditables(root) {
 function bindPlayerEditables(root) {
   (root||document).querySelectorAll('[data-pf]').forEach(el => {
     if (el._eb) return; el._eb = true;
-    el.contentEditable = 'true';
+    el.contentEditable = 'false';
     el.addEventListener('blur', () => {
       if (!editMode) return;
       const pid = el.dataset.pid, f = el.dataset.pf, v = el.textContent.trim();
@@ -1216,11 +1216,13 @@ function enableEdit(){
   editMode=true; document.body.classList.add('em');
   const b=document.getElementById('edit-btn'); b.classList.add('on'); b.innerHTML='<i class="ti ti-lock-open"></i> Editing';
   [2,3,4].forEach(d=>{const ub=document.getElementById('ubtn'+d);if(ub)ub.disabled=false;});
+  document.querySelectorAll('[data-key], [data-pf]').forEach(el => el.contentEditable = 'true');
   toast('Edit mode on — changes save automatically');
 }
 function disableEdit(){
   editMode=false; document.body.classList.remove('em');
   const b=document.getElementById('edit-btn'); b.classList.remove('on'); b.innerHTML='<i class="ti ti-lock"></i> Edit';
+  document.querySelectorAll('[data-key], [data-pf]').forEach(el => el.contentEditable = 'false');
   toast('Edit mode off');
 }
 
