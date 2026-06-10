@@ -137,6 +137,8 @@
     "coach-owner": {
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/coach-owner.jpg",
       "instagram": "@mindsetvbc"
-    }
+    },
+    "cheer-sydney": {"num":"", "name":"Sydney Coogan", "position":"Team Cheerleader", "height":"", "instagram":"", "reel_url":"", "photo_url":""},
+    "cheer-olivia": {"num":"", "name":"Olivia Orozco", "position":"Team Cheerleader", "height":"", "instagram":"", "reel_url":"", "photo_url":""}
   }
 }
