@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parent Consent — Mindset VBC Nationals</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#CC0000;--black:#1a1a1a;--white:#fff;
+  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;
+  --card:rgba(255,255,255,.05);--border:rgba(255,255,255,.1);
+}
+body{font-family:var(--fb);background:var(--black);color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2.5rem 1rem 3rem}
+.back-link{align-self:flex-start;color:rgba(255,255,255,.5);text-decoration:none;font-size:.8rem;letter-spacing:.5px;margin-bottom:2rem;display:flex;align-items:center;gap:.35rem;transition:color .15s}
+.back-link:hover{color:var(--white)}
+.back-link::before{content:'←'}
+.site-title{font-family:var(--fd);font-size:2.8rem;letter-spacing:4px;text-align:center;line-height:1;margin-bottom:.4rem}
+.site-sub{font-size:.8rem;color:rgba(255,255,255,.45);text-align:center;letter-spacing:.6px;margin-bottom:.5rem}
+.divider{width:48px;height:2px;background:var(--red);border-radius:2px;margin:0 auto 2rem;opacity:.6}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.8rem;width:100%;max-width:520px}
+.form-intro{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:1.8rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border)}
+.field{margin-bottom:1.4rem}
+.field label{display:block;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.5rem}
+.field select,.field textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:var(--fb);font-size:.9rem;padding:.65rem .85rem;outline:none;transition:border-color .15s;appearance:none;-webkit-appearance:none}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff66' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .85rem center;padding-right:2.2rem}
+.field select:focus,.field textarea:focus{border-color:var(--red)}
+.field select option{background:#2a1a1a}
+.field textarea{resize:vertical;min-height:90px;line-height:1.5}
+.radio-group{display:flex;flex-direction:column;gap:.55rem}
+.radio-opt{display:flex;align-items:center;gap:.7rem;cursor:pointer;font-size:.88rem;color:rgba(255,255,255,.8);padding:.5rem .7rem;border-radius:8px;border:1px solid transparent;transition:border-color .15s,background .15s}
+.radio-opt:has(input:checked){background:rgba(204,0,0,.12);border-color:rgba(204,0,0,.4)}
+.radio-opt input[type=radio]{appearance:none;-webkit-appearance:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;position:relative;transition:border-color .15s}
+.radio-opt input[type=radio]:checked{border-color:var(--red)}
+.radio-opt input[type=radio]:checked::after{content:'';position:absolute;top:3px;left:3px;width:6px;height:6px;border-radius:50%;background:var(--red)}
+.submit-btn{width:100%;background:var(--red);border:none;border-radius:10px;padding:1rem;color:var(--white);font-family:var(--fd);font-size:1.2rem;letter-spacing:2px;cursor:pointer;margin-top:.6rem;transition:opacity .15s,transform .15s;box-shadow:0 4px 18px rgba(204,0,0,.35)}
+.submit-btn:hover{opacity:.88;transform:translateY(-2px)}
+.submit-btn:active{transform:translateY(0)}
+.submit-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.msg{display:none;text-align:center;padding:1rem 1.2rem;border-radius:10px;font-size:.88rem;margin-top:1rem;line-height:1.5}
+.msg.success{display:block;background:rgba(0,180,80,.12);border:1px solid rgba(0,180,80,.35);color:#7ff5b2}
+.msg.error{display:block;background:rgba(204,0,0,.12);border:1px solid rgba(204,0,0,.35);color:#ffaaaa}
+.required{color:var(--red)}
+@media(max-width:520px){
+  body{padding:2rem .9rem 2.5rem}
+  .site-title{font-size:2.2rem}
+  .form-card{padding:1.5rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<a class="back-link" href="/">Back to Hub</a>
+
+<h1 class="site-title">PARENT CONSENT</h1>
+<p class="site-sub">Mindset VBC · 2026 USAV Girls Junior Nationals</p>
+<div class="divider"></div>
+
+<div class="form-card">
+  <p class="form-intro">
+    This form collects consent for your athlete's name and/or photo to appear on the Mindset VBC Nationals team hub website. Please complete one form per player.
+  </p>
+
+  <form id="consent-form" novalidate>
+
+    <div class="field">
+      <label>Team <span class="required">*</span></label>
+      <select id="team-select" name="team" required>
+        <option value="">— Select team —</option>
+        <option value="U14">U14 Mindset Premier Red</option>
+        <option value="U15">U15 Mindset Premier Red</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Player Name <span class="required">*</span></label>
+      <select id="player-select" name="player" required>
+        <option value="">— Select team first —</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Website Consent <span class="required">*</span></label>
+      <p style="font-size:.75rem;color:rgba(255,255,255,.4);margin-bottom:.6rem;line-height:1.5">Do you consent to your athlete's information appearing on the team hub website?</p>
+      <div class="radio-group" id="web-group">
+        <label class="radio-opt"><input type="radio" name="web_consent" value="yes" required> Yes, I consent</label>
+        <label class="radio-opt"><input type="radio" name="web_consent" value="no"> No, do not include my athlete</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Photo Consent <span class="required">*</span></label>
+      <p style="font-size:.75rem;color:rgba(255,255,255,.4);margin-bottom:.6rem;line-height:1.5">How may photos of your athlete appear on the site?</p>
+      <div class="radio-group" id="photo-group">
+        <label class="radio-opt"><input type="radio" name="photo_consent" value="yes" required> Yes, include photos</label>
+        <label class="radio-opt"><input type="radio" name="photo_consent" value="name_only"> Name only — no photos</label>
+        <label class="radio-opt"><input type="radio" name="photo_consent" value="no"> No photos and no name</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Comments <span style="color:rgba(255,255,255,.3);font-weight:400;text-transform:none;letter-spacing:0;font-size:.72rem">(optional)</span></label>
+      <textarea id="comments" name="comments" placeholder="Any questions or additional notes for the coaching staff…"></textarea>
+    </div>
+
+    <button class="submit-btn" type="submit" id="submit-btn">SUBMIT CONSENT</button>
+    <div class="msg" id="msg"></div>
+
+  </form>
+</div>
+
+<script>
+const GITHUB_USER = 'jcoogan80';
+const GITHUB_REPO = 'mindset-nationals';
+const CONSENT_FILE = 'consent-data.json';
+const API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${CONSENT_FILE}`;
+
+const PLAYERS = {
+  U14: ['Alena H.','Clarice B.','Emily O.','Emma S.','Hailey Y.','Katrin S.','Lily J.','Peyton B.','Reese C.'],
+  U15: ['Amelia L.','Andrea K.','Ema V.','Emma L.','Evette T.','Isabella R.','Izzie R.','Liana L.','Nicole T.','Victoria G.']
+};
+
+const teamSel   = document.getElementById('team-select');
+const playerSel = document.getElementById('player-select');
+const form      = document.getElementById('consent-form');
+const submitBtn = document.getElementById('submit-btn');
+const msg       = document.getElementById('msg');
+
+teamSel.addEventListener('change', () => {
+  const team = teamSel.value;
+  playerSel.innerHTML = '<option value="">— Select player —</option>';
+  if (team && PLAYERS[team]) {
+    PLAYERS[team].forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      playerSel.appendChild(opt);
+    });
+  } else {
+    playerSel.innerHTML = '<option value="">— Select team first —</option>';
+  }
+});
+
+function showMsg(type, text) {
+  msg.className = 'msg ' + type;
+  msg.textContent = text;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const team       = teamSel.value;
+  const player     = playerSel.value;
+  const webConsent = form.querySelector('input[name="web_consent"]:checked')?.value;
+  const photoConsent = form.querySelector('input[name="photo_consent"]:checked')?.value;
+  const comments   = document.getElementById('comments').value.trim();
+
+  if (!team || !player || !webConsent || !photoConsent) {
+    showMsg('error', 'Please complete all required fields before submitting.');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'SAVING…';
+  msg.className = 'msg';
+
+  try {
+    // Fetch current data + SHA from GitHub
+    const getRes = await fetch(API_URL, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
+
+    let currentEntries = [];
+    let sha = null;
+
+    if (getRes.ok) {
+      const getJson = await getRes.json();
+      sha = getJson.sha;
+      try {
+        currentEntries = JSON.parse(atob(getJson.content.replace(/\n/g, '')));
+      } catch { currentEntries = []; }
+    }
+
+    // Append new submission
+    const newEntry = {
+      submitted_at: new Date().toISOString(),
+      team,
+      player,
+      web_consent: webConsent,
+      photo_consent: photoConsent,
+      comments: comments || null
+    };
+    currentEntries.push(newEntry);
+
+    // Save via Netlify function
+    const saveRes = await fetch('/.netlify/functions/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: currentEntries,
+        sha,
+        user: GITHUB_USER,
+        repo: GITHUB_REPO,
+        file: CONSENT_FILE
+      })
+    });
+
+    if (!saveRes.ok) {
+      const errJson = await saveRes.json().catch(() => ({}));
+      throw new Error(errJson.error || `HTTP ${saveRes.status}`);
+    }
+
+    showMsg('success', `Thank you! Consent recorded for ${player} (${team}). The coaching staff has been notified.`);
+    form.reset();
+    playerSel.innerHTML = '<option value="">— Select team first —</option>';
+
+  } catch (err) {
+    showMsg('error', `Submission failed: ${err.message}. Please try again or contact the coaching staff directly.`);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'SUBMIT CONSENT';
+  }
+});
+</script>
+</body>
+</html>
