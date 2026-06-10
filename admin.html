@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Consent Responses · Mindset VBC</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#CC0000;--black:#1a1a1a;--white:#fff;
+  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;
+  --card:rgba(255,255,255,.05);--border:rgba(255,255,255,.1);
+}
+body{font-family:var(--fb);background:var(--black);color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2.5rem 1rem 3rem}
+
+/* AUTH GATE */
+#auth-gate{width:100%;max-width:360px;text-align:center}
+#auth-gate h2{font-family:var(--fd);font-size:2rem;letter-spacing:3px;margin-bottom:.4rem}
+#auth-gate p{font-size:.8rem;color:rgba(255,255,255,.45);margin-bottom:1.6rem}
+.pw-wrap{position:relative;margin-bottom:.85rem}
+.pw-wrap input{width:100%;background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:9px;color:var(--white);font-family:var(--fb);font-size:.95rem;padding:.75rem 2.8rem .75rem 1rem;outline:none;transition:border-color .15s}
+.pw-wrap input:focus{border-color:var(--red)}
+.pw-toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:.85rem;padding:0;line-height:1}
+.pw-toggle:hover{color:rgba(255,255,255,.8)}
+.auth-btn{width:100%;background:var(--red);border:none;border-radius:9px;padding:.8rem;color:var(--white);font-family:var(--fd);font-size:1.15rem;letter-spacing:2px;cursor:pointer;transition:opacity .15s}
+.auth-btn:hover{opacity:.85}
+.auth-err{color:#ffaaaa;font-size:.8rem;margin-top:.6rem;display:none}
+
+/* MAIN CONTENT */
+#main{display:none;width:100%;max-width:1100px}
+
+/* HEADER */
+.page-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.page-title-wrap{}
+.page-title{font-family:var(--fd);font-size:2.4rem;letter-spacing:3px;line-height:1}
+.page-sub{font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:.5px;margin-top:.2rem}
+.header-actions{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap}
+.btn{border:none;border-radius:8px;padding:.55rem 1.1rem;font-family:var(--fb);font-size:.8rem;font-weight:600;cursor:pointer;letter-spacing:.4px;transition:opacity .15s,transform .15s;display:flex;align-items:center;gap:.4rem}
+.btn:hover{opacity:.85;transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-refresh{background:rgba(255,255,255,.1);color:var(--white)}
+.btn-csv{background:var(--red);color:var(--white)}
+.back-link{color:rgba(255,255,255,.4);text-decoration:none;font-size:.78rem;letter-spacing:.4px;display:flex;align-items:center;gap:.3rem;transition:color .15s}
+.back-link:hover{color:var(--white)}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.75rem;margin-bottom:2rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
+.stat-num{font-family:var(--fd);font-size:2rem;line-height:1;color:var(--white)}
+.stat-label{font-size:.7rem;color:rgba(255,255,255,.45);letter-spacing:.8px;text-transform:uppercase;margin-top:.2rem}
+.stat-sub{font-size:.7rem;color:rgba(255,255,255,.3);margin-top:.15rem}
+
+/* TABLE */
+.table-wrap{width:100%;overflow-x:auto;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead tr{background:rgba(255,255,255,.07)}
+th{padding:.75rem 1rem;text-align:left;font-size:.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.5);white-space:nowrap}
+td{padding:.7rem 1rem;border-top:1px solid rgba(255,255,255,.06);vertical-align:top;color:rgba(255,255,255,.82)}
+tr:last-child td{border-bottom:none}
+tbody tr{border-left:3px solid transparent;transition:background .12s}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+tbody tr.row-green{border-left-color:#22c55e}
+tbody tr.row-yellow{border-left-color:#eab308}
+tbody tr.row-red{border-left-color:#ef4444}
+.badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;font-weight:500;padding:.22rem .6rem;border-radius:5px;white-space:nowrap}
+.badge-green{background:rgba(34,197,94,.15);color:#86efac}
+.badge-yellow{background:rgba(234,179,8,.15);color:#fde047}
+.badge-red{background:rgba(239,68,68,.15);color:#fca5a5}
+.team-u14{color:#60a5fa;font-weight:600}
+.team-u15{color:#c084fc;font-weight:600}
+.comment-cell{max-width:220px;color:rgba(255,255,255,.5);font-size:.78rem;word-break:break-word}
+.comment-cell.empty{color:rgba(255,255,255,.2);font-style:italic}
+.dt-cell{white-space:nowrap;color:rgba(255,255,255,.55);font-size:.78rem}
+
+/* EMPTY / LOADING */
+.state-msg{text-align:center;padding:3.5rem 1rem;color:rgba(255,255,255,.35);font-size:.88rem}
+.state-msg .icon{font-size:2rem;display:block;margin-bottom:.6rem}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.15);border-top-color:var(--white);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* DIVIDER */
+.divider{width:48px;height:2px;background:var(--red);border-radius:2px;margin:0 auto 2rem;opacity:.6}
+
+@media(max-width:600px){
+  body{padding:1.5rem .75rem 2.5rem}
+  .page-header{flex-direction:column;align-items:flex-start}
+  .page-title{font-size:1.9rem}
+  th,td{padding:.6rem .7rem}
+  th{font-size:.6rem}
+  .comment-cell{max-width:130px}
+}
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-gate">
+  <div class="divider" style="margin-bottom:1.5rem"></div>
+  <h2>ADMIN ACCESS</h2>
+  <p>Consent form responses · Mindset VBC Nationals</p>
+  <div class="pw-wrap">
+    <input type="password" id="pw-input" placeholder="Enter password" autocomplete="current-password">
+    <button class="pw-toggle" id="pw-toggle" type="button" title="Show/hide password">👁</button>
+  </div>
+  <button class="auth-btn" id="auth-btn">UNLOCK</button>
+  <p class="auth-err" id="auth-err">Incorrect password. Please try again.</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+  <a class="back-link" href="/" style="margin-bottom:1.5rem;display:inline-flex">← Back to Hub</a>
+
+  <div class="page-header">
+    <div class="page-title-wrap">
+      <div class="page-title">CONSENT RESPONSES</div>
+      <div class="page-sub">Mindset VBC · 2026 USAV Girls Junior Nationals</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-refresh" id="refresh-btn"><span id="refresh-icon">↻</span> Refresh</button>
+      <button class="btn btn-csv" id="csv-btn">⬇ Download CSV</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid" id="stats-grid">
+    <div class="stat-card"><div class="stat-num" id="s-total">—</div><div class="stat-label">Total Responses</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-u14">—</div><div class="stat-label">U14 Responses</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-u15">—</div><div class="stat-label">U15 Responses</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-web-yes">—</div><div class="stat-label">Website Consent</div><div class="stat-sub">said Yes</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-photo-yes">—</div><div class="stat-label">Full Photo OK</div><div class="stat-sub">full consent</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-photo-name">—</div><div class="stat-label">Name Only</div><div class="stat-sub">no photos</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-photo-no">—</div><div class="stat-label">No Consent</div><div class="stat-sub">photos declined</div></div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table id="responses-table">
+      <thead>
+        <tr>
+          <th>Submitted</th>
+          <th>Team</th>
+          <th>Player</th>
+          <th>Website</th>
+          <th>Photo</th>
+          <th>Comments</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <tr><td colspan="6"><div class="state-msg"><span class="icon">⏳</span>Loading responses…</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const GITHUB_USER  = 'jcoogan80';
+const GITHUB_REPO  = 'mindset-nationals';
+const CONSENT_FILE = 'consent-data.json';
+const API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${CONSENT_FILE}`;
+const EDIT_PASSWORD = 'V0lleyb@ll123';
+
+let allData = [];
+
+/* ── AUTH ── */
+const authGate = document.getElementById('auth-gate');
+const mainEl   = document.getElementById('main');
+const pwInput  = document.getElementById('pw-input');
+const authErr  = document.getElementById('auth-err');
+
+function unlock() {
+  if (pwInput.value === EDIT_PASSWORD) {
+    authGate.style.display = 'none';
+    mainEl.style.display = 'block';
+    loadData();
+  } else {
+    authErr.style.display = 'block';
+    pwInput.value = '';
+    pwInput.focus();
+  }
+}
+
+document.getElementById('auth-btn').addEventListener('click', unlock);
+pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+document.getElementById('pw-toggle').addEventListener('click', () => {
+  pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+});
+
+/* ── DATA ── */
+async function loadData() {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = `<tr><td colspan="6"><div class="state-msg"><span class="spinner"></span>Fetching responses…</div></td></tr>`;
+
+  const refreshIcon = document.getElementById('refresh-icon');
+  refreshIcon.style.display = 'inline-block';
+
+  try {
+    const res = await fetch(API_URL, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' },
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error(`GitHub returned ${res.status}`);
+    const json = await res.json();
+    allData = JSON.parse(atob(json.content.replace(/\n/g, '')));
+    if (!Array.isArray(allData)) allData = [];
+    render(allData);
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="state-msg"><span class="icon">⚠️</span>Failed to load: ${err.message}</div></td></tr>`;
+  }
+}
+
+document.getElementById('refresh-btn').addEventListener('click', loadData);
+
+/* ── RENDER ── */
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' })
+       + ' · '
+       + d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', hour12:true });
+}
+
+function webBadge(v) {
+  if (v === 'yes')  return '<span class="badge badge-green">✅ Yes</span>';
+  if (v === 'no')   return '<span class="badge badge-red">❌ No</span>';
+  return '<span class="badge">—</span>';
+}
+
+function photoBadge(v) {
+  if (v === 'yes')       return '<span class="badge badge-green">✅ Full</span>';
+  if (v === 'name_only') return '<span class="badge badge-yellow">⚠️ Name Only</span>';
+  if (v === 'no')        return '<span class="badge badge-red">❌ No</span>';
+  return '<span class="badge">—</span>';
+}
+
+function rowClass(row) {
+  if (row.web_consent === 'no' || row.photo_consent === 'no') return 'row-red';
+  if (row.photo_consent === 'name_only') return 'row-yellow';
+  if (row.web_consent === 'yes' && row.photo_consent === 'yes') return 'row-green';
+  return '';
+}
+
+function escape(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function render(data) {
+  // Stats
+  const total = data.length;
+  const u14   = data.filter(r => r.team === 'U14').length;
+  const u15   = data.filter(r => r.team === 'U15').length;
+  const webYes = data.filter(r => r.web_consent === 'yes').length;
+  const pYes   = data.filter(r => r.photo_consent === 'yes').length;
+  const pName  = data.filter(r => r.photo_consent === 'name_only').length;
+  const pNo    = data.filter(r => r.photo_consent === 'no').length;
+
+  document.getElementById('s-total').textContent     = total;
+  document.getElementById('s-u14').textContent       = u14;
+  document.getElementById('s-u15').textContent       = u15;
+  document.getElementById('s-web-yes').textContent   = webYes;
+  document.getElementById('s-photo-yes').textContent = pYes;
+  document.getElementById('s-photo-name').textContent= pName;
+  document.getElementById('s-photo-no').textContent  = pNo;
+
+  const tbody = document.getElementById('table-body');
+
+  if (total === 0) {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="state-msg"><span class="icon">📋</span>No responses yet.</div></td></tr>`;
+    return;
+  }
+
+  // Sort newest first
+  const sorted = [...data].sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at));
+
+  tbody.innerHTML = sorted.map(row => {
+    const rc = rowClass(row);
+    const teamCls = row.team === 'U14' ? 'team-u14' : (row.team === 'U15' ? 'team-u15' : '');
+    const comment = row.comments
+      ? `<span title="${escape(row.comments)}">${escape(row.comments.length > 60 ? row.comments.slice(0,57)+'…' : row.comments)}</span>`
+      : '<span class="empty">—</span>';
+    return `<tr class="${rc}">
+      <td class="dt-cell">${escape(fmtDate(row.submitted_at))}</td>
+      <td class="${teamCls}">${escape(row.team || '—')}</td>
+      <td>${escape(row.player || '—')}</td>
+      <td>${webBadge(row.web_consent)}</td>
+      <td>${photoBadge(row.photo_consent)}</td>
+      <td class="comment-cell${row.comments ? '' : ' empty'}">${comment}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ── CSV EXPORT ── */
+document.getElementById('csv-btn').addEventListener('click', () => {
+  if (!allData.length) { alert('No data to export.'); return; }
+
+  const headers = ['Submitted','Team','Player','Website Consent','Photo Consent','Comments'];
+  const photoLabel = v => v === 'yes' ? 'Yes - Full' : v === 'name_only' ? 'Name Only' : v === 'no' ? 'No' : v || '';
+  const webLabel   = v => v === 'yes' ? 'Yes' : v === 'no' ? 'No' : v || '';
+  const csvEsc = v => {
+    if (v == null) return '';
+    const s = String(v);
+    return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g,'""')}"` : s;
+  };
+
+  const sorted = [...allData].sort((a,b) => new Date(b.submitted_at) - new Date(a.submitted_at));
+  const rows = sorted.map(r => [
+    fmtDate(r.submitted_at),
+    r.team || '',
+    r.player || '',
+    webLabel(r.web_consent),
+    photoLabel(r.photo_consent),
+    r.comments || ''
+  ].map(csvEsc).join(','));
+
+  const csv = [headers.join(','), ...rows].join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `mindset-consent-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
