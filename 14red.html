@@ -622,7 +622,6 @@ const GITHUB_USER  = 'jcoogan80';   // e.g. 'jcoogan80'
 const GITHUB_REPO  = 'mindset-nationals';         // e.g. 'mindset-nationals'
 // ── DO NOT put your token here — it goes in Netlify env variables ──
 // Change this password to something only your team knows:
-const EDIT_PASSWORD = 'V0lleyb@ll123';
 //
 //  STEP 7: Enable GitHub Pages:
 //          Repo → Settings → Pages → Source: Deploy from branch → main → / (root)
@@ -1222,7 +1221,7 @@ function promptEdit(){
   setTimeout(()=>document.getElementById('lock-pw').focus(),80);
 }
 function checkPw(){
-  if(document.getElementById('lock-pw').value===EDIT_PASSWORD){
+  if(document.getElementById('lock-pw').value==='Pr3m!er26'){
     document.getElementById('lock-overlay').style.display='none'; enableEdit();
   } else {
     document.getElementById('lock-err').style.display='block';

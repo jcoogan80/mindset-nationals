@@ -159,7 +159,7 @@ const GITHUB_USER  = 'jcoogan80';
 const GITHUB_REPO  = 'mindset-nationals';
 const CONSENT_FILE = 'consent-data.json';
 const API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${CONSENT_FILE}`;
-const EDIT_PASSWORD = 'V0lleyb@ll123';
+
 
 let allData = [];
 
@@ -170,7 +170,7 @@ const pwInput  = document.getElementById('pw-input');
 const authErr  = document.getElementById('auth-err');
 
 function unlock() {
-  if (pwInput.value === EDIT_PASSWORD) {
+  if (pwInput.value === 'Pr3m!er26') {
     authGate.style.display = 'none';
     mainEl.style.display = 'block';
     loadData();
