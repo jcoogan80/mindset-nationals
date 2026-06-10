@@ -35,7 +35,8 @@
     "day4_date": "Sunday, June 28, 2026 ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· Venue TBD",
     "day2_locked": true,
     "day3_locked": true,
-    "day4_locked": true
+    "day4_locked": true,
+    "st_w0": "0"
   },
   "matches": {
     "1": [],
