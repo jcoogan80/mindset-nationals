@@ -666,7 +666,7 @@ async function loadData() {
   if (DEMO) { applyDefaults(); return; }
   loading(true);
   try {
-    const r = await fetch(API, {headers:{'Accept':'application/vnd.github.v3+json'}});
+    const r = await fetch(API + '?t=' + Date.now(), {headers:{'Accept':'application/vnd.github.v3+json'}});
     if (!r.ok) throw new Error(r.status);
     const j = await r.json();
     fileSHA = j.sha;
@@ -684,7 +684,7 @@ async function saveData() {
     loading(true);
     try {
       // Token lives in Netlify env — never in this file
-      const r = await fetch('/.netlify/functions/save', {
+      let r = await fetch('/.netlify/functions/save', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
@@ -695,6 +695,22 @@ async function saveData() {
           file: '14red-data.json'
         })
       });
+      if (r.status === 409) {
+        // SHA conflict — re-fetch the latest SHA and retry once
+        const fresh = await fetch(API + '?t=' + Date.now(), {headers:{'Accept':'application/vnd.github.v3+json'}});
+        if (fresh.ok) { const fj = await fresh.json(); fileSHA = fj.sha; }
+        r = await fetch('/.netlify/functions/save', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            data: D,
+            sha: fileSHA,
+            user: GITHUB_USER,
+            repo: GITHUB_REPO,
+            file: '14red-data.json'
+          })
+        });
+      }
       if (!r.ok) throw new Error(await r.text());
       const j = await r.json();
       fileSHA = j.sha;
