@@ -368,11 +368,14 @@ function buildCW(){
         const k=r+','+c;
         if(NUMS[k]){const sp=document.createElement('span');sp.className='cw-num';sp.textContent=NUMS[k];div.appendChild(sp);}
         const inp=document.createElement('input');
-        inp.type='text';inp.maxLength=2;inp.id=`ci-${r}-${c}`;inp.autocomplete='off';inp.autocorrect='off';inp.spellcheck=false;
+        inp.type='text';inp.maxLength=2;inp.id=`ci-${r}-${c}`;
+        inp.autocomplete='off';inp.autocorrect='off';inp.spellcheck=false;
+        inp.inputMode='text';inp.setAttribute('autocapitalize','characters');
         inp.addEventListener('focus',()=>onFocus(r,c));
         inp.addEventListener('input',e=>onInput(e,r,c));
         inp.addEventListener('keydown',e=>onKey(e,r,c));
         div.appendChild(inp);
+        // Tapping the cell div focuses the input (works on mobile)
         div.addEventListener('click',()=>document.getElementById(`ci-${r}-${c}`).focus());
       }
       grid.appendChild(div);
@@ -380,40 +383,72 @@ function buildCW(){
   }
 }
 function wordsForCell(r,c){return Object.entries(WDEF).filter(([,cs])=>cs.some(([wr,wc])=>wr===r&&wc===c)).map(([k])=>k);}
-function selW(wid){
-  activeW=wid;
+
+// Highlight a word's cells and clue without moving focus
+function hlWord(wid){
   document.querySelectorAll('.cw-cell:not(.black)').forEach(el=>el.classList.remove('hi','active'));
   document.querySelectorAll('.cw-clue').forEach(el=>el.classList.remove('hl'));
-  const cl=document.getElementById('cl-'+wid);if(cl){cl.classList.add('hl');cl.scrollIntoView({block:'nearest'});}
+  if(!wid)return;
+  const cl=document.getElementById('cl-'+wid);
+  if(cl){cl.classList.add('hl');cl.scrollIntoView({block:'nearest'});}
   WDEF[wid].forEach(([r,c])=>{const el=document.getElementById(`cc-${r}-${c}`);if(el)el.classList.add('hi');});
+}
+
+// selW: called from clue clicks — highlights AND focuses the first cell of the word
+function selW(wid){
+  activeW=wid;
+  hlWord(wid);
   const [r0,c0]=WDEF[wid][0];
   const fi=document.getElementById(`ci-${r0}-${c0}`);if(fi)fi.focus();
 }
+
+// onFocus: called when any cell receives focus — highlights the word but does NOT steal focus
 function onFocus(r,c){
   const ws=wordsForCell(r,c);if(!ws.length)return;
-  const w=activeW&&ws.includes(activeW)?activeW:ws[0];
-  activeW=w;selW(w);
+  // Keep current word if this cell belongs to it, otherwise use the first matching word
+  const w=(activeW&&ws.includes(activeW))?activeW:ws[0];
+  activeW=w;
+  hlWord(w);
   const cell=document.getElementById(`cc-${r}-${c}`);if(cell)cell.classList.add('active');
 }
+
 function onInput(e,r,c){
   const inp=e.target;
+  // Strip to single uppercase letter — handles mobile multi-char events
   const v=inp.value.replace(/[^a-zA-Z]/g,'').toUpperCase().slice(-1);
-  inp.value=v;USERINPUT[r][c]=v;
+  inp.value=v;
+  USERINPUT[r][c]=v;
   if(v&&activeW){
     const cs=WDEF[activeW];
     const idx=cs.findIndex(([wr,wc])=>wr===r&&wc===c);
-    if(idx>=0&&idx<cs.length-1){const [nr,nc]=cs[idx+1];const nx=document.getElementById(`ci-${nr}-${nc}`);if(nx)nx.focus();}
+    // Advance to next cell in word; stay on last cell if at end
+    if(idx>=0&&idx<cs.length-1){
+      const [nr,nc]=cs[idx+1];
+      const nx=document.getElementById(`ci-${nr}-${nc}`);
+      if(nx)nx.focus();
+    }
   }
 }
+
 function onKey(e,r,c){
   if(e.key==='Backspace'){
-    const inp=document.getElementById(`ci-${r}-${c}`);
-    if(inp.value){inp.value='';USERINPUT[r][c]='';return;}
-    if(activeW){
-      const cs=WDEF[activeW];const idx=cs.findIndex(([wr,wc])=>wr===r&&wc===c);
-      if(idx>0){const [pr,pc]=cs[idx-1];const pv=document.getElementById(`ci-${pr}-${pc}`);if(pv){pv.value='';USERINPUT[pr][pc]='';pv.focus();}}
-    }
     e.preventDefault();
+    const inp=document.getElementById(`ci-${r}-${c}`);
+    if(inp.value){
+      // Cell has a value — clear it and stay here
+      inp.value='';USERINPUT[r][c]='';
+      return;
+    }
+    // Cell is empty — clear previous cell and move back
+    if(activeW){
+      const cs=WDEF[activeW];
+      const idx=cs.findIndex(([wr,wc])=>wr===r&&wc===c);
+      if(idx>0){
+        const [pr,pc]=cs[idx-1];
+        const pv=document.getElementById(`ci-${pr}-${pc}`);
+        if(pv){pv.value='';USERINPUT[pr][pc]='';pv.focus();}
+      }
+    }
   }
   if(e.key==='Tab'){
     e.preventDefault();
