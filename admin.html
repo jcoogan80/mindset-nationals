@@ -143,11 +143,12 @@ tbody tr.row-red{border-left-color:#ef4444}
           <th>Player</th>
           <th>Website</th>
           <th>Photo</th>
+          <th>Feedback</th>
           <th>Comments</th>
         </tr>
       </thead>
       <tbody id="table-body">
-        <tr><td colspan="6"><div class="state-msg"><span class="icon">⏳</span>Loading responses…</div></td></tr>
+        <tr><td colspan="7"><div class="state-msg"><span class="icon">⏳</span>Loading responses…</div></td></tr>
       </tbody>
     </table>
   </div>
@@ -189,7 +190,7 @@ document.getElementById('pw-toggle').addEventListener('click', () => {
 /* ── DATA ── */
 async function loadData() {
   const tbody = document.getElementById('table-body');
-  tbody.innerHTML = `<tr><td colspan="6"><div class="state-msg"><span class="spinner"></span>Fetching responses…</div></td></tr>`;
+  tbody.innerHTML = `<tr><td colspan="7"><div class="state-msg"><span class="spinner"></span>Fetching responses…</div></td></tr>`;
 
   const refreshIcon = document.getElementById('refresh-icon');
   refreshIcon.style.display = 'inline-block';
@@ -205,7 +206,7 @@ async function loadData() {
     if (!Array.isArray(allData)) allData = [];
     render(allData);
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="state-msg"><span class="icon">⚠️</span>Failed to load: ${err.message}</div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7"><div class="state-msg"><span class="icon">⚠️</span>Failed to load: ${err.message}</div></td></tr>`;
   }
 }
 
@@ -267,7 +268,7 @@ function render(data) {
   const tbody = document.getElementById('table-body');
 
   if (total === 0) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="state-msg"><span class="icon">📋</span>No responses yet.</div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7"><div class="state-msg"><span class="icon">📋</span>No responses yet.</div></td></tr>`;
     return;
   }
 
@@ -277,8 +278,8 @@ function render(data) {
   tbody.innerHTML = sorted.map(row => {
     const rc = rowClass(row);
     const teamCls = row.team === 'U14' ? 'team-u14' : (row.team === 'U15' ? 'team-u15' : '');
-    const comment = row.comments
-      ? `<span title="${escape(row.comments)}">${escape(row.comments.length > 60 ? row.comments.slice(0,57)+'…' : row.comments)}</span>`
+    const truncCell = (val) => val
+      ? `<span title="${escape(val)}">${escape(val.length > 60 ? val.slice(0,57)+'…' : val)}</span>`
       : '<span class="empty">—</span>';
     return `<tr class="${rc}">
       <td class="dt-cell">${escape(fmtDate(row.submitted_at))}</td>
@@ -286,7 +287,8 @@ function render(data) {
       <td>${escape(row.player || '—')}</td>
       <td>${webBadge(row.web_consent)}</td>
       <td>${photoBadge(row.photo_consent)}</td>
-      <td class="comment-cell${row.comments ? '' : ' empty'}">${comment}</td>
+      <td class="comment-cell${row.feedback ? '' : ' empty'}">${truncCell(row.feedback)}</td>
+      <td class="comment-cell${row.comments ? '' : ' empty'}">${truncCell(row.comments)}</td>
     </tr>`;
   }).join('');
 }
@@ -295,7 +297,7 @@ function render(data) {
 document.getElementById('csv-btn').addEventListener('click', () => {
   if (!allData.length) { alert('No data to export.'); return; }
 
-  const headers = ['Submitted','Team','Player','Website Consent','Photo Consent','Comments'];
+  const headers = ['Submitted','Team','Player','Website Consent','Photo Consent','Feedback','Comments'];
   const photoLabel = v => v === 'yes' ? 'Yes - Full' : v === 'name_only' ? 'Name Only' : v === 'no' ? 'No' : v || '';
   const webLabel   = v => v === 'yes' ? 'Yes' : v === 'no' ? 'No' : v || '';
   const csvEsc = v => {
@@ -311,6 +313,7 @@ document.getElementById('csv-btn').addEventListener('click', () => {
     r.player || '',
     webLabel(r.web_consent),
     photoLabel(r.photo_consent),
+    r.feedback || '',
     r.comments || ''
   ].map(csvEsc).join(','));
 

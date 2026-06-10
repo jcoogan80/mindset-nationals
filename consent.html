@@ -100,6 +100,12 @@ body{font-family:var(--fb);background:var(--black);color:var(--white);min-height
     </div>
 
     <div class="field">
+      <label>Website Feedback <span style="color:rgba(255,255,255,.3);font-weight:400;text-transform:none;letter-spacing:0;font-size:.72rem">(optional)</span></label>
+      <p style="font-size:.75rem;color:rgba(255,255,255,.4);margin-bottom:.6rem;line-height:1.5">Do you have any suggested additions, changes, or corrections to the website? Is there anything that looks wrong or missing?</p>
+      <textarea id="feedback" name="feedback" placeholder="e.g. My child's jersey number is incorrect, please add parking info, etc."></textarea>
+    </div>
+
+    <div class="field">
       <label>Comments <span style="color:rgba(255,255,255,.3);font-weight:400;text-transform:none;letter-spacing:0;font-size:.72rem">(optional)</span></label>
       <textarea id="comments" name="comments" placeholder="Any questions or additional notes for the coaching staff…"></textarea>
     </div>
@@ -155,6 +161,7 @@ form.addEventListener('submit', async (e) => {
   const webConsent = form.querySelector('input[name="web_consent"]:checked')?.value;
   const photoConsent = form.querySelector('input[name="photo_consent"]:checked')?.value;
   const comments   = document.getElementById('comments').value.trim();
+  const feedback   = document.getElementById('feedback').value.trim();
 
   if (!team || !player || !webConsent || !photoConsent) {
     showMsg('error', 'Please complete all required fields before submitting.');
@@ -189,6 +196,7 @@ form.addEventListener('submit', async (e) => {
       player,
       web_consent: webConsent,
       photo_consent: photoConsent,
+      feedback: feedback || null,
       comments: comments || null
     };
     currentEntries.push(newEntry);
