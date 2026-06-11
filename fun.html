@@ -648,8 +648,7 @@ async function loadSlotLB(){
     if(!r.ok)throw new Error(r.status);
     var j=await r.json();
     slotGHSHA=j.sha;
-    slotGHData=JSON.parse(atob(j.content.replace(/
-/g,'')));
+    slotGHData=JSON.parse(atob(j.content.replace(/\n/g,'')));
     slotLB=(slotGHData.slotLeaderboard||[]).slice(0,10);
     localStorage.setItem(LB_LS_KEY,JSON.stringify(slotLB));
   }catch(e){
@@ -666,8 +665,7 @@ async function saveSlotLBEntry(name,score){
     if(!r.ok)throw new Error('fetch failed');
     var j=await r.json();
     slotGHSHA=j.sha;
-    slotGHData=JSON.parse(atob(j.content.replace(/
-/g,'')));
+    slotGHData=JSON.parse(atob(j.content.replace(/\n/g,'')));
     var lb=(slotGHData.slotLeaderboard||[]).concat([entry]);
     lb.sort(function(a,b){return b.score-a.score;});
     slotGHData.slotLeaderboard=lb.slice(0,10);
@@ -679,8 +677,7 @@ async function saveSlotLBEntry(name,score){
     if(sr.status===409){
       // SHA conflict: re-fetch and retry
       var fr=await fetch(GH_API+'?t='+Date.now(),{headers:{Accept:'application/vnd.github.v3+json'}});
-      if(fr.ok){var fj=await fr.json();slotGHSHA=fj.sha;slotGHData=JSON.parse(atob(fj.content.replace(/
-/g,'')));var lb2=(slotGHData.slotLeaderboard||[]).concat([entry]);lb2.sort(function(a,b){return b.score-a.score;});slotGHData.slotLeaderboard=lb2.slice(0,10);slotLB=slotGHData.slotLeaderboard;}
+      if(fr.ok){var fj=await fr.json();slotGHSHA=fj.sha;slotGHData=JSON.parse(atob(fj.content.replace(/\n/g,'')));var lb2=(slotGHData.slotLeaderboard||[]).concat([entry]);lb2.sort(function(a,b){return b.score-a.score;});slotGHData.slotLeaderboard=lb2.slice(0,10);slotLB=slotGHData.slotLeaderboard;}
       var sr2=await fetch('/.netlify/functions/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:slotGHData,sha:slotGHSHA,user:GH_USER,repo:GH_REPO,file:GH_FILE})});
       if(sr2.ok){var sj2=await sr2.json();slotGHSHA=sj2.sha;}
     }else if(sr.ok){var sj=await sr.json();slotGHSHA=sj.sha;}
@@ -702,8 +699,7 @@ async function clearSlotLB(){
   try{
     var r=await fetch(GH_API+'?t='+Date.now(),{headers:{Accept:'application/vnd.github.v3+json'}});
     if(!r.ok)throw new Error('fetch failed');
-    var j=await r.json();slotGHSHA=j.sha;slotGHData=JSON.parse(atob(j.content.replace(/
-/g,'')));
+    var j=await r.json();slotGHSHA=j.sha;slotGHData=JSON.parse(atob(j.content.replace(/\n/g,'')));
     slotGHData.slotLeaderboard=[];slotLB=[];
     var sr=await fetch('/.netlify/functions/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:slotGHData,sha:slotGHSHA,user:GH_USER,repo:GH_REPO,file:GH_FILE})});
     if(sr.ok){var sj=await sr.json();slotGHSHA=sj.sha;}
@@ -745,7 +741,7 @@ function buildSlot(){
     return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span>'+s.label+'</span><span class="slot-pay-mult">'+s.mult+'× bet</span></div>';
   }).join('')+'<div class="slot-pay-row"><span>Any 2 matching</span><span class="slot-pay-mult">1× bet back</span></div>';
   var symGridHtml=SYMBOLS.map(function(s){
-    return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><div class="slot-sym-name">'+s.label+'</div><button class="slot-sym-upload" onclick="slotUploadSym(''+s.id+'')">upload</button></div>';
+    return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><div class="slot-sym-name">'+s.label+'</div><button class="slot-sym-upload" onclick="slotUploadSym(\''+s.id+'\')">upload</button></div>';
   }).join('');
 
   root.innerHTML=
