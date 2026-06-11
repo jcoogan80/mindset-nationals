@@ -39,7 +39,8 @@
     "st_w0": "0",
     "st_name1": "Gryffindor",
     "slotSymbols": {
-      "trophy": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/slot-trophy.jpg"
+      "trophy": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/slot-trophy.jpg",
+      "bolt": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/slot-bolt.jpg"
     },
     "donor_thanks": ""
   },
