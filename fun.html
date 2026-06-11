@@ -596,14 +596,14 @@ buildCW();
 // ==================== SLOT MACHINE ====================
 (function(){
 const SYMBOLS=[
-  {id:'vball',  emoji:'🏐', label:'Volleyball', mult:5,  weight:20},
-  {id:'star',   emoji:'⭐',      label:'Star',       mult:8,  weight:15},
-  {id:'fire',   emoji:'🔥', label:'Fire',       mult:12, weight:10},
-  {id:'heart',  emoji:'❤️',label:'Heart',      mult:6,  weight:18},
-  {id:'target', emoji:'🎯', label:'Target',     mult:15, weight:8},
-  {id:'bolt',   emoji:'⚡',     label:'Lightning',  mult:20, weight:6},
-  {id:'gem',    emoji:'💎', label:'Diamond',    mult:30, weight:4},
-  {id:'trophy', emoji:'🏆', label:'Jackpot',    mult:50, weight:2},
+  {id:'vball',  emoji:'🏐', label:'Volleyball', mult:5,  weight:22},
+  {id:'star',   emoji:'⭐', label:'Mindset',    mult:8,  weight:16},
+  {id:'fire',   emoji:'🔥', label:'Trophy',     mult:12, weight:14},
+  {id:'heart',  emoji:'❤️', label:'Nationals',  mult:6,  weight:14},
+  {id:'target', emoji:'🎯', label:'Logo',       mult:15, weight:12},
+  {id:'bolt',   emoji:'⚡', label:'Marc',       mult:20, weight:10},
+  {id:'gem',    emoji:'💎', label:'Coach',      mult:30, weight:7},
+  {id:'trophy', emoji:'🏆', label:'Jackpot Randy', mult:50, weight:5},
 ];
 const POOL=[];
 SYMBOLS.forEach(function(s){for(var i=0;i<s.weight;i++)POOL.push(s.id);});
@@ -675,19 +675,29 @@ async function loadSlotLB(){
     // Load persisted symbol images from hub.slotSymbols
     var ghSyms=(slotGHData.hub&&slotGHData.hub.slotSymbols)||{};
     SYMBOLS.forEach(function(s){
-      // GitHub persisted URL takes priority, then localStorage cache
       var ghUrl=ghSyms[s.id];
       if(ghUrl){s.imgUrl=ghUrl;symOverrides[s.id]=ghUrl;}
       else if(symOverrides[s.id]){s.imgUrl=symOverrides[s.id];}
     });
     localStorage.setItem(SYM_KEY,JSON.stringify(symOverrides));
+    // Load persisted custom labels from hub.slotLabels
+    var ghLabels=(slotGHData.hub&&slotGHData.hub.slotLabels)||{};
+    SYMBOLS.forEach(function(s){
+      var ghLabel=ghLabels[s.id];
+      if(ghLabel){s.customLabel=ghLabel;labelOverrides[s.id]=ghLabel;}
+    });
+    localStorage.setItem(LABEL_KEY,JSON.stringify(labelOverrides));
     // Re-render reels with loaded images
     var initIds=['vball','star','gem'];
     initIds.forEach(function(v,i){renderReel(i,v);});
-    // Re-render customize previews if panel is open
+    // Rebuild paytable so it shows current images + labels
+    rebuildPaytable();
+    // Update customize panel previews and label inputs
     SYMBOLS.forEach(function(s){
       var prev=document.getElementById('sym-prev-'+s.id);
       if(prev)prev.innerHTML=getSymHTML(s.id);
+      var labelInp=document.getElementById('sym-label-'+s.id);
+      if(labelInp)labelInp.value=s.customLabel||s.label;
     });
   }catch(e){
     try{slotLB=JSON.parse(localStorage.getItem(LB_LS_KEY)||'[]');}catch(e2){slotLB=[];}
@@ -786,6 +796,16 @@ function renderSlotLB(){
 function qualifiesForLB(score){
   if(slotLB.length<10)return true;
   return score>slotLB[slotLB.length-1].score;
+}
+
+// ── Paytable rebuild (called after GitHub data loads or symbol/label changes) ──
+function rebuildPaytable(){
+  var pt=document.querySelector('.slot-paytable');
+  if(!pt)return;
+  var payHtml=SYMBOLS.map(function(s){
+    return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span>'+(s.customLabel||s.label)+'</span><span class="slot-pay-mult">+'+s.mult*BET+' pts</span></div>';
+  }).join('')+'<div class="slot-pay-row"><span>Any 2 matching</span><span class="slot-pay-mult">+'+BET+' pts</span></div>';
+  pt.innerHTML='<div class="slot-paytable-title">💰 Paytable (3-of-a-kind)</div>'+payHtml;
 }
 
 // ── Build UI ───────────────────────────────────────────────────────────────
@@ -1033,6 +1053,8 @@ function slotUploadSym(id){
           if(reel)reel.innerHTML='<img src="'+bust+'" alt="'+id+'">';
         }
       });
+      // Rebuild paytable so it shows the new image immediately
+      rebuildPaytable();
       inp.value='';
     }catch(err){alert('Upload failed: '+err.message);inp.value='';}
   };
@@ -1051,9 +1073,10 @@ function slotResetSym(id){
   if(s)delete s.customLabel;
   if(Object.keys(labelOverrides).length){localStorage.setItem(LABEL_KEY,JSON.stringify(labelOverrides));}
   else{localStorage.removeItem(LABEL_KEY);}
-  // Clear from GitHub hub.slotSymbols so all devices see the reset
-  if(slotGHData&&slotGHData.hub&&slotGHData.hub.slotSymbols){
-    delete slotGHData.hub.slotSymbols[id];
+  // Clear from GitHub hub.slotSymbols + hub.slotLabels so all devices see the reset
+  if(slotGHData&&slotGHData.hub){
+    if(slotGHData.hub.slotSymbols)delete slotGHData.hub.slotSymbols[id];
+    if(slotGHData.hub.slotLabels)delete slotGHData.hub.slotLabels[id];
     saveSlotHubData();
   }
   // Update preview and label input immediately
@@ -1063,6 +1086,8 @@ function slotResetSym(id){
   if(inp&&s)inp.value=s.label;
   // Re-render any active reels showing this symbol
   [0,1,2].forEach(function(i){if(reelVals[i]===id)renderReel(i,id);});
+  // Rebuild paytable to reflect reset
+  rebuildPaytable();
 }
 
 function slotSaveLabel(id,val){
@@ -1073,12 +1098,26 @@ function slotSaveLabel(id,val){
     s.customLabel=val;
     labelOverrides[id]=val;
     localStorage.setItem(LABEL_KEY,JSON.stringify(labelOverrides));
+    // Persist to GitHub hub.slotLabels so all devices see the same label
+    if(slotGHData){
+      if(!slotGHData.hub)slotGHData.hub={};
+      if(!slotGHData.hub.slotLabels)slotGHData.hub.slotLabels={};
+      slotGHData.hub.slotLabels[id]=val;
+      saveSlotHubData();
+    }
   }else{
     delete s.customLabel;
     delete labelOverrides[id];
     if(Object.keys(labelOverrides).length){localStorage.setItem(LABEL_KEY,JSON.stringify(labelOverrides));}
     else{localStorage.removeItem(LABEL_KEY);}
+    // Remove from GitHub hub.slotLabels
+    if(slotGHData&&slotGHData.hub&&slotGHData.hub.slotLabels){
+      delete slotGHData.hub.slotLabels[id];
+      saveSlotHubData();
+    }
   }
+  // Rebuild paytable to reflect the new label
+  rebuildPaytable();
 }
 
 function slotResetSyms(){
@@ -1086,6 +1125,12 @@ function slotResetSyms(){
   symOverrides={};labelOverrides={};
   SYMBOLS.forEach(function(s){delete s.imgUrl;delete s.customLabel;});
   localStorage.removeItem(SYM_KEY);localStorage.removeItem(LABEL_KEY);
+  // Clear GitHub hub.slotSymbols and hub.slotLabels
+  if(slotGHData&&slotGHData.hub){
+    slotGHData.hub.slotSymbols={};
+    slotGHData.hub.slotLabels={};
+    saveSlotHubData();
+  }
   buildSlot();loadSlotLB();
 }
 
