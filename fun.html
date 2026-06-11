@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#111111">
 <title>Game Time 🎮 — Mindset Nationals</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23CC0000'/></svg>">
 <link rel="apple-touch-icon" href="images/mindset-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.2.0/dist/tabler-icons.min.css">
@@ -200,6 +201,9 @@ body.em .em-only{display:inline-flex}
 .slot-sym-preview img{width:100%;height:100%;object-fit:cover;border-radius:4px}
 .slot-sym-name{font-size:.58rem;color:#555;text-align:center}
 .slot-sym-upload{font-size:.65rem;color:#cc0000;cursor:pointer;background:none;border:none;padding:0;text-decoration:underline}
+.slot-sym-clear{font-size:.65rem;color:#555;cursor:pointer;background:none;border:none;padding:0;text-decoration:underline}
+.slot-sym-clear:hover{color:#ff6666}
+.slot-sym-actions{display:flex;gap:.3rem;align-items:center}
 /* lock overlay */
 #fun-lock-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center}
 #fun-lock-overlay.open{display:flex}
@@ -741,7 +745,7 @@ function buildSlot(){
     return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span>'+s.label+'</span><span class="slot-pay-mult">'+s.mult+'× bet</span></div>';
   }).join('')+'<div class="slot-pay-row"><span>Any 2 matching</span><span class="slot-pay-mult">1× bet back</span></div>';
   var symGridHtml=SYMBOLS.map(function(s){
-    return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><div class="slot-sym-name">'+s.label+'</div><button class="slot-sym-upload" onclick="slotUploadSym(\''+s.id+'\')">upload</button></div>';
+    return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><div class="slot-sym-name">'+s.label+'</div><div class="slot-sym-actions"><button class="slot-sym-upload" onclick="slotUploadSym(\''+s.id+'\')">upload</button>'+(symOverrides[s.id]?'<button class="slot-sym-clear" id="sym-clear-'+s.id+'" onclick="slotClearSym(\''+s.id+'\')">🗑️</button>':'<button class="slot-sym-clear" id="sym-clear-'+s.id+'" onclick="slotClearSym(\''+s.id+'\')" style="display:none">🗑️</button>')+'</div></div>';
   }).join('');
 
   root.innerHTML=
@@ -776,7 +780,7 @@ function buildSlot(){
     '<div class="slot-cust-panel" id="slot-cust-panel">'+
     '<div class="slot-cust-title">Upload a custom image for any symbol (square, max 400KB)</div>'+
     '<div class="slot-sym-grid">'+symGridHtml+'</div>'+
-    '<div style="margin-top:.5rem;text-align:right"><button onclick="slotResetSyms()" style="font-size:.7rem;color:#555;background:none;border:none;cursor:pointer;text-decoration:underline">Reset to defaults</button></div>'+
+    '<div style="margin-top:.5rem;text-align:right"><button onclick="slotResetSyms()" style="font-size:.7rem;color:#555;background:none;border:none;cursor:pointer;text-decoration:underline">Reset All to Default</button></div>'+
     '</div></div>'+
     '</div>';
 
@@ -958,9 +962,11 @@ function slotUploadSym(id){
       var data=await resp.json();
       symOverrides[id]=data.url;
       localStorage.setItem(SYM_KEY,JSON.stringify(symOverrides));
-      var bust=data.url+'?t='+Date.now();
+      var bust=data.url+'?v='+Date.now();
       var prev=document.getElementById('sym-prev-'+id);
       if(prev)prev.innerHTML='<img src="'+bust+'" alt="'+id+'">';
+      var clrBtn=document.getElementById('sym-clear-'+id);
+      if(clrBtn)clrBtn.style.display='';
       [0,1,2].forEach(function(i){
         if(reelVals[i]===id){
           var reel=document.getElementById('slot-reel-'+i);
@@ -971,6 +977,18 @@ function slotUploadSym(id){
     }catch(err){alert('Upload failed: '+err.message);inp.value='';}
   };
   inp.click();
+}
+
+function slotClearSym(id){
+  delete symOverrides[id];
+  if(Object.keys(symOverrides).length){localStorage.setItem(SYM_KEY,JSON.stringify(symOverrides));}
+  else{localStorage.removeItem(SYM_KEY);}
+  var prev=document.getElementById('sym-prev-'+id);
+  var s=SYMBOLS.find(function(x){return x.id===id;});
+  if(prev)prev.innerHTML=s?s.emoji:'?';
+  var clrBtn=document.getElementById('sym-clear-'+id);
+  if(clrBtn)clrBtn.style.display='none';
+  [0,1,2].forEach(function(i){if(reelVals[i]===id)renderReel(i,id);});
 }
 
 function slotResetSyms(){
@@ -1012,6 +1030,7 @@ window.slotDoSpin=slotDoSpin;
 window.slotToggleCust=slotToggleCust;
 window.slotUploadSym=slotUploadSym;
 window.slotResetSyms=slotResetSyms;
+window.slotClearSym=slotClearSym;
 window.slotSubmitScore=slotSubmitScore;
 window.slotNewGame=slotNewGame;
 window.slotRefreshLB=slotRefreshLB;
