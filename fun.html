@@ -203,7 +203,11 @@ body.em .em-only{display:inline-flex}
 .slot-sym-upload{font-size:.65rem;color:#cc0000;cursor:pointer;background:none;border:none;padding:0;text-decoration:underline}
 .slot-sym-clear{font-size:.65rem;color:#555;cursor:pointer;background:none;border:none;padding:0;text-decoration:underline}
 .slot-sym-clear:hover{color:#ff6666}
-.slot-sym-actions{display:flex;gap:.3rem;align-items:center}
+.slot-sym-actions{display:flex;gap:.3rem;align-items:center;justify-content:center}
+.slot-sym-label-inp{width:100%;font-size:.6rem;text-align:center;background:#1a1a1a;border:1px solid #333;border-radius:4px;color:#aaa;padding:.15rem .25rem;margin-top:.1rem;outline:none}
+.slot-sym-label-inp:focus{border-color:#cc0000;color:#fff}
+.slot-sym-reset{font-size:.65rem;color:#555;cursor:pointer;background:none;border:none;padding:0;text-decoration:underline}
+.slot-sym-reset:hover{color:#ff9966}
 /* lock overlay */
 #fun-lock-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center}
 #fun-lock-overlay.open{display:flex}
@@ -604,6 +608,7 @@ const POOL=[];
 SYMBOLS.forEach(function(s){for(var i=0;i<s.weight;i++)POOL.push(s.id);});
 
 const SYM_KEY='mindset-slot-symbols';
+const LABEL_KEY='mindset-slot-labels';
 const LB_LS_KEY='mindset-slot-lb';
 const GH_USER='jcoogan80';
 const GH_REPO='mindset-nationals';
@@ -613,7 +618,14 @@ const BET=10;
 const MAX_SPINS=10;
 
 var symOverrides={};
+var labelOverrides={};
 try{symOverrides=JSON.parse(localStorage.getItem(SYM_KEY)||'{}');}catch(e){}
+try{labelOverrides=JSON.parse(localStorage.getItem(LABEL_KEY)||'{}');}catch(e){}
+// Merge persisted state into SYMBOLS objects so all rendering reads from them
+SYMBOLS.forEach(function(s){
+  if(symOverrides[s.id])s.imgUrl=symOverrides[s.id];
+  if(labelOverrides[s.id])s.customLabel=labelOverrides[s.id];
+});
 
 var credits=100,spinCount=0,totalWon=0;
 var spinning=false,gameEnded=false;
@@ -638,9 +650,13 @@ function playEnd(win){if(win){[523,659,880,1047,1318].forEach(function(f,i){setT
 function randSym(){return POOL[Math.floor(Math.random()*POOL.length)];}
 
 function getSymHTML(id){
-  if(symOverrides[id])return '<img src="'+symOverrides[id]+'" alt="'+id+'">';
   var s=SYMBOLS.find(function(x){return x.id===id;});
+  if(s&&s.imgUrl)return '<img src="'+s.imgUrl+'" alt="'+id+'">';
   return s?s.emoji:'?';
+}
+function getSymLabel(id){
+  var s=SYMBOLS.find(function(x){return x.id===id;});
+  return (s&&s.customLabel)||(s&&s.label)||id;
 }
 
 // ── GitHub leaderboard ─────────────────────────────────────────────────────
@@ -745,7 +761,7 @@ function buildSlot(){
     return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span>'+s.label+'</span><span class="slot-pay-mult">'+s.mult+'× bet</span></div>';
   }).join('')+'<div class="slot-pay-row"><span>Any 2 matching</span><span class="slot-pay-mult">1× bet back</span></div>';
   var symGridHtml=SYMBOLS.map(function(s){
-    return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><div class="slot-sym-name">'+s.label+'</div><div class="slot-sym-actions"><button class="slot-sym-upload" onclick="slotUploadSym(\''+s.id+'\')">upload</button>'+(symOverrides[s.id]?'<button class="slot-sym-clear" id="sym-clear-'+s.id+'" onclick="slotClearSym(\''+s.id+'\')">🗑️</button>':'<button class="slot-sym-clear" id="sym-clear-'+s.id+'" onclick="slotClearSym(\''+s.id+'\')" style="display:none">🗑️</button>')+'</div></div>';
+    return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><input class="slot-sym-label-inp" id="sym-label-'+s.id+'" value="'+(s.customLabel||s.label)+'" placeholder="'+s.label+'" onblur="slotSaveLabel(\''+s.id+'\',this.value)"><div class="slot-sym-actions"><button class="slot-sym-upload" onclick="slotUploadSym(\''+s.id+'\')">upload</button><button class="slot-sym-reset" onclick="slotResetSym(\''+s.id+'\')">reset</button></div></div>';
   }).join('');
 
   root.innerHTML=
@@ -845,7 +861,7 @@ function evalSpin(){
     var s=SYMBOLS.find(function(x){return x.id===a;});
     won=BET*(s?s.mult:10);
     var big=s&&s.mult>=20;
-    msgTxt=big?'📥 JACKPOT! +'+won+' credits!':'🎉 Three of a kind! +'+won+'!';
+    msgTxt=big?'📥 JACKPOT! +'+won+' credits!':'🎉 Three '+getSymLabel(a)+'! +'+won+'!';
     msgCls=big?'jackpot':'win';
     [0,1,2].forEach(function(i){document.getElementById('slot-wrap-'+i).classList.add('winner');});
     playWin(big);
@@ -961,12 +977,13 @@ function slotUploadSym(id){
       if(!resp.ok)throw new Error(await resp.text());
       var data=await resp.json();
       symOverrides[id]=data.url;
+      var sym=SYMBOLS.find(function(x){return x.id===id;});
+      if(sym)sym.imgUrl=data.url;
       localStorage.setItem(SYM_KEY,JSON.stringify(symOverrides));
+      console.log('[slot] upload',id,'=>',data.url,'| LS:',localStorage.getItem(SYM_KEY),'| imgUrl:',sym&&sym.imgUrl);
       var bust=data.url+'?v='+Date.now();
       var prev=document.getElementById('sym-prev-'+id);
       if(prev)prev.innerHTML='<img src="'+bust+'" alt="'+id+'">';
-      var clrBtn=document.getElementById('sym-clear-'+id);
-      if(clrBtn)clrBtn.style.display='';
       [0,1,2].forEach(function(i){
         if(reelVals[i]===id){
           var reel=document.getElementById('slot-reel-'+i);
@@ -979,21 +996,48 @@ function slotUploadSym(id){
   inp.click();
 }
 
-function slotClearSym(id){
+function slotResetSym(id){
+  var s=SYMBOLS.find(function(x){return x.id===id;});
+  // Clear image
   delete symOverrides[id];
+  if(s)delete s.imgUrl;
   if(Object.keys(symOverrides).length){localStorage.setItem(SYM_KEY,JSON.stringify(symOverrides));}
   else{localStorage.removeItem(SYM_KEY);}
+  // Clear label
+  delete labelOverrides[id];
+  if(s)delete s.customLabel;
+  if(Object.keys(labelOverrides).length){localStorage.setItem(LABEL_KEY,JSON.stringify(labelOverrides));}
+  else{localStorage.removeItem(LABEL_KEY);}
+  // Update preview and label input immediately
   var prev=document.getElementById('sym-prev-'+id);
-  var s=SYMBOLS.find(function(x){return x.id===id;});
   if(prev)prev.innerHTML=s?s.emoji:'?';
-  var clrBtn=document.getElementById('sym-clear-'+id);
-  if(clrBtn)clrBtn.style.display='none';
+  var inp=document.getElementById('sym-label-'+id);
+  if(inp&&s)inp.value=s.label;
+  // Re-render any active reels showing this symbol
   [0,1,2].forEach(function(i){if(reelVals[i]===id)renderReel(i,id);});
+}
+
+function slotSaveLabel(id,val){
+  var s=SYMBOLS.find(function(x){return x.id===id;});
+  if(!s)return;
+  val=val.trim()||s.label;
+  if(val!==s.label){
+    s.customLabel=val;
+    labelOverrides[id]=val;
+    localStorage.setItem(LABEL_KEY,JSON.stringify(labelOverrides));
+  }else{
+    delete s.customLabel;
+    delete labelOverrides[id];
+    if(Object.keys(labelOverrides).length){localStorage.setItem(LABEL_KEY,JSON.stringify(labelOverrides));}
+    else{localStorage.removeItem(LABEL_KEY);}
+  }
 }
 
 function slotResetSyms(){
   if(!confirm('Reset all symbols to defaults?'))return;
-  symOverrides={};localStorage.removeItem(SYM_KEY);
+  symOverrides={};labelOverrides={};
+  SYMBOLS.forEach(function(s){delete s.imgUrl;delete s.customLabel;});
+  localStorage.removeItem(SYM_KEY);localStorage.removeItem(LABEL_KEY);
   buildSlot();loadSlotLB();
 }
 
@@ -1030,7 +1074,8 @@ window.slotDoSpin=slotDoSpin;
 window.slotToggleCust=slotToggleCust;
 window.slotUploadSym=slotUploadSym;
 window.slotResetSyms=slotResetSyms;
-window.slotClearSym=slotClearSym;
+window.slotResetSym=slotResetSym;
+window.slotSaveLabel=slotSaveLabel;
 window.slotSubmitScore=slotSubmitScore;
 window.slotNewGame=slotNewGame;
 window.slotRefreshLB=slotRefreshLB;
