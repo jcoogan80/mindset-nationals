@@ -329,18 +329,6 @@ body.em .tredit-btn{display:block}
   </div>
 </header>
 
-<!-- LOCK SCREEN -->
-<div class="overlay" id="lock-overlay" style="display:none">
-  <div class="lock-box">
-    <i class="ti ti-lock" style="font-size:1.9rem;color:var(--red);display:block;margin-bottom:.45rem"></i>
-    <h2>Editor Access</h2>
-    <p>Enter the team password to unlock editing</p>
-    <input type="password" class="lock-in" id="lock-pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
-    <button class="lock-btn" onclick="checkPw()">Unlock</button>
-    <div class="lock-err" id="lock-err">Incorrect password</div>
-    <button onclick="document.getElementById('lock-overlay').style.display='none'" style="margin-top:.7rem;font-size:.76rem;color:var(--gray);background:none;border:none;cursor:pointer">Cancel</button>
-  </div>
-</div>
 
 <div class="saved" id="saved">✓ Saved to GitHub</div>
 <div class="toast" id="toast"></div>
@@ -620,8 +608,10 @@ body.em .tredit-btn{display:block}
 // Your GitHub username and repo name (safe to put here — public info)
 const GITHUB_USER  = 'jcoogan80';   // e.g. 'jcoogan80'
 const GITHUB_REPO  = 'mindset-nationals';         // e.g. 'mindset-nationals'
-// ── DO NOT put your token here — it goes in Netlify env variables ──
-// Change this password to something only your team knows:
+// Register a GitHub OAuth App at github.com/settings/applications/new
+// Add GITHUB_CLIENT_ID + GITHUB_CLIENT_SECRET to Netlify env vars
+// Callback URLs: https://your-site.netlify.app/14red.html and /15red.html
+const GH_CLIENT_ID = 'YOUR_GITHUB_CLIENT_ID';    // safe to expose — secret stays in Netlify env
 //
 //  STEP 7: Enable GitHub Pages:
 //          Repo → Settings → Pages → Source: Deploy from branch → main → / (root)
@@ -656,9 +646,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('hdr-logo').src = 'data:image/jpeg;base64,' + LOGO_B64;
   if (DEMO) document.getElementById('cfg-banner').style.display = 'block';
   setupTabs(); setupDayTabs(); countdown(); fetchWeather(); setInterval(fetchWeather,30*60*1000);
+  const authed = await handleOAuthCallback();
   await loadData();
   buildDayPanels(); buildProfiles(); buildStaffGrid(); buildCheerleadersGrid(); buildRoster(); addSlots(9);
   renderAll();
+  if (authed) enableEdit();
 });
 
 // ── GITHUB I/O ─────────────────────────────────────────────────
@@ -666,7 +658,10 @@ async function loadData() {
   if (DEMO) { applyDefaults(); return; }
   loading(true);
   try {
-    const r = await fetch(API + '?t=' + Date.now(), {headers:{'Accept':'application/vnd.github.v3+json'}});
+    const _tok = sessionStorage.getItem('gh_token');
+    const _hdrs = {'Accept':'application/vnd.github.v3+json'};
+    if (_tok) _hdrs['Authorization'] = 'token ' + _tok;
+    const r = await fetch(API + '?t=' + Date.now(), {headers: _hdrs});
     if (!r.ok) throw new Error(r.status);
     const j = await r.json();
     fileSHA = j.sha;
@@ -682,34 +677,17 @@ async function saveData() {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
     loading(true);
+    const _saveToken = sessionStorage.getItem('gh_token');
+    if (!_saveToken) { toast('Sign in with GitHub to save'); loading(false); return; }
     try {
-      // Token lives in Netlify env — never in this file
-      let r = await fetch('/.netlify/functions/save', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({
-          data: D,
-          sha: fileSHA,
-          user: GITHUB_USER,
-          repo: GITHUB_REPO,
-          file: '14red-data.json'
-        })
-      });
+      const _ghHdrs = {'Authorization':'token '+_saveToken,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};
+      const _enc = obj => btoa(unescape(encodeURIComponent(JSON.stringify(obj, null, 2))));
+      let r = await fetch(API, {method:'PUT', headers:_ghHdrs, body:JSON.stringify({message:'Update hub data', content:_enc(D), sha:fileSHA})});
       if (r.status === 409) {
         // SHA conflict — re-fetch the latest SHA and retry once
-        const fresh = await fetch(API + '?t=' + Date.now(), {headers:{'Accept':'application/vnd.github.v3+json'}});
+        const fresh = await fetch(API + '?t=' + Date.now(), {headers:_ghHdrs});
         if (fresh.ok) { const fj = await fresh.json(); fileSHA = fj.sha; }
-        r = await fetch('/.netlify/functions/save', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            data: D,
-            sha: fileSHA,
-            user: GITHUB_USER,
-            repo: GITHUB_REPO,
-            file: '14red-data.json'
-          })
-        });
+        r = await fetch(API, {method:'PUT', headers:_ghHdrs, body:JSON.stringify({message:'Update hub data', content:_enc(D), sha:fileSHA})});
       }
       if (!r.ok) throw new Error(await r.text());
       const j = await r.json();
@@ -1121,7 +1099,7 @@ function uploadPhoto(pid,input){
       const r=await fetch('/.netlify/functions/upload-photo',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({pid,content:base64,extension:'jpg'})
+        body:JSON.stringify({pid,content:base64,extension:'jpg',token:sessionStorage.getItem('gh_token')})
       });
       const responseText=await r.text();
       console.log('response status:',r.status);
@@ -1215,18 +1193,27 @@ function rmSlot(id,e){e.stopPropagation();const s=document.getElementById(id);s.
 // ── AUTH / EDIT MODE ───────────────────────────────────────────
 function promptEdit(){
   if(editMode){disableEdit();return;}
-  document.getElementById('lock-pw').value='';
-  document.getElementById('lock-err').style.display='none';
-  document.getElementById('lock-overlay').style.display='flex';
-  setTimeout(()=>document.getElementById('lock-pw').focus(),80);
+  const token=sessionStorage.getItem('gh_token');
+  if(token){enableEdit();return;}
+  const state=Math.random().toString(36).slice(2);
+  sessionStorage.setItem('gh_oauth_state',state);
+  const params=new URLSearchParams({client_id:GH_CLIENT_ID,scope:'repo',redirect_uri:location.origin+location.pathname,state});
+  location.href='https://github.com/login/oauth/authorize?'+params;
 }
-function checkPw(){
-  if(document.getElementById('lock-pw').value==='Pr3m!er26'){
-    document.getElementById('lock-overlay').style.display='none'; enableEdit();
-  } else {
-    document.getElementById('lock-err').style.display='block';
-    document.getElementById('lock-pw').value=''; document.getElementById('lock-pw').focus();
-  }
+async function handleOAuthCallback(){
+  const params=new URLSearchParams(location.search);
+  const code=params.get('code'),state=params.get('state');
+  if(!code) return false;
+  if(state!==sessionStorage.getItem('gh_oauth_state')){toast('OAuth error — try again');return false;}
+  sessionStorage.removeItem('gh_oauth_state');
+  history.replaceState({},'',location.pathname);
+  try{
+    const r=await fetch('/.netlify/functions/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
+    if(!r.ok) throw new Error('Auth failed');
+    const {token}=await r.json();
+    sessionStorage.setItem('gh_token',token);
+    return true;
+  }catch(e){toast('GitHub login failed — '+e.message);return false;}
 }
 function enableEdit(){
   editMode=true; document.body.classList.add('em');
