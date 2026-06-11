@@ -129,11 +129,12 @@ body.em .em-only{display:inline-flex}
 @keyframes slotBlur{0%{opacity:1}50%{opacity:.35}100%{opacity:1}}
 .slot-reel img{width:72px;height:72px;object-fit:cover;border-radius:6px}
 .slot-info-row{display:flex;justify-content:space-between;align-items:center;margin:.8rem 0 .4rem}
-.slot-credits{font-family:var(--fd);font-size:1.4rem;color:#ffcc00;letter-spacing:1px}
-.slot-credits-label{font-family:var(--fb);font-size:.75rem;color:rgba(255,204,0,.6);margin-right:.3rem}
-.slot-bet-info{display:flex;align-items:center;gap:.4rem}
-.slot-bet-label{font-size:.8rem;color:#aaa;font-weight:600}
-.slot-bet-fixed{font-family:var(--fd);font-size:1.2rem;color:#ffcc00}
+.slot-wins{font-family:var(--fd);font-size:1.4rem;color:#00ff88;letter-spacing:1px}
+.slot-wins-label{font-family:var(--fb);font-size:.75rem;color:rgba(0,255,136,.6);margin-right:.3rem}
+.slot-best-win{display:flex;align-items:center;gap:.4rem}
+.slot-best-label{font-size:.8rem;color:#aaa;font-weight:600}
+.slot-best-val{font-family:var(--fd);font-size:1.2rem;color:#ffcc00}
+.slot-sym-chance{font-size:.58rem;color:#777;text-align:center;margin-top:.1rem;letter-spacing:.3px}
 .slot-spin-btn{width:100%;padding:.7rem;font-family:var(--fd);font-size:1.4rem;letter-spacing:2px;background:linear-gradient(135deg,#cc0000,#8b0000);color:#fff;border:none;border-radius:10px;cursor:pointer;box-shadow:0 4px 12px rgba(204,0,0,.4);transition:transform .1s,box-shadow .1s}
 .slot-spin-btn:active{transform:scale(.97)}
 .slot-spin-btn:disabled{background:#333;color:#555;box-shadow:none;cursor:not-allowed}
@@ -627,7 +628,7 @@ SYMBOLS.forEach(function(s){
   if(labelOverrides[s.id])s.customLabel=labelOverrides[s.id];
 });
 
-var credits=100,spinCount=0,totalWon=0;
+var spinCount=0,totalWins=0,bestWin=0;
 var spinning=false,gameEnded=false;
 var spinIntervals=[null,null,null];
 var reelVals=['🏐','⭐','💎'];
@@ -671,10 +672,44 @@ async function loadSlotLB(){
     slotGHData=JSON.parse(atob(j.content.replace(/\n/g,'')));
     slotLB=(slotGHData.slotLeaderboard||[]).slice(0,10);
     localStorage.setItem(LB_LS_KEY,JSON.stringify(slotLB));
+    // Load persisted symbol images from hub.slotSymbols
+    var ghSyms=(slotGHData.hub&&slotGHData.hub.slotSymbols)||{};
+    SYMBOLS.forEach(function(s){
+      // GitHub persisted URL takes priority, then localStorage cache
+      var ghUrl=ghSyms[s.id];
+      if(ghUrl){s.imgUrl=ghUrl;symOverrides[s.id]=ghUrl;}
+      else if(symOverrides[s.id]){s.imgUrl=symOverrides[s.id];}
+    });
+    localStorage.setItem(SYM_KEY,JSON.stringify(symOverrides));
+    // Re-render reels with loaded images
+    var initIds=['vball','star','gem'];
+    initIds.forEach(function(v,i){renderReel(i,v);});
+    // Re-render customize previews if panel is open
+    SYMBOLS.forEach(function(s){
+      var prev=document.getElementById('sym-prev-'+s.id);
+      if(prev)prev.innerHTML=getSymHTML(s.id);
+    });
   }catch(e){
     try{slotLB=JSON.parse(localStorage.getItem(LB_LS_KEY)||'[]');}catch(e2){slotLB=[];}
   }
   renderSlotLB();
+}
+
+// Save hub.slotSymbols (and optionally leaderboard) back to GitHub
+async function saveSlotHubData(){
+  if(!slotGHData)return;
+  try{
+    var sr=await fetch('/.netlify/functions/save',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({data:slotGHData,sha:slotGHSHA,user:GH_USER,repo:GH_REPO,file:GH_FILE})
+    });
+    if(sr.status===409){
+      var fr=await fetch(GH_API+'?t='+Date.now(),{headers:{Accept:'application/vnd.github.v3+json'}});
+      if(fr.ok){var fj=await fr.json();slotGHSHA=fj.sha;var prev=JSON.parse(atob(fj.content.replace(/\n/g,'')));slotGHData=Object.assign(prev,{hub:Object.assign(prev.hub||{},slotGHData.hub),slotLeaderboard:slotGHData.slotLeaderboard||prev.slotLeaderboard||[]});}
+      var sr2=await fetch('/.netlify/functions/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:slotGHData,sha:slotGHSHA,user:GH_USER,repo:GH_REPO,file:GH_FILE})});
+      if(sr2.ok){var sj2=await sr2.json();slotGHSHA=sj2.sha;}
+    }else if(sr.ok){var sj=await sr.json();slotGHSHA=sj.sha;}
+  }catch(e){console.warn('[slot] saveSlotHubData failed:',e.message);}
 }
 
 async function saveSlotLBEntry(name,score){
@@ -744,7 +779,7 @@ function renderSlotLB(){
     var isMine=i===sessionIdx;
     var cls=(isMine?' slot-lb-me':(i<3?' '+topCls[i]:''));
     var rank=i<3?medals[i]:'#'+(i+1);
-    return '<div class="slot-lb-row'+cls+'"><span class="slot-lb-rank">'+rank+'</span><span class="slot-lb-name">'+e.name+'</span><span class="slot-lb-score">'+e.score+'</span><span class="slot-lb-date">'+e.date+'</span></div>';
+    return '<div class="slot-lb-row'+cls+'"><span class="slot-lb-rank">'+rank+'</span><span class="slot-lb-name">'+e.name+'</span><span class="slot-lb-score">'+e.score+'<span style="font-size:.6rem;opacity:.6"> pts</span></span><span class="slot-lb-date">'+e.date+'</span></div>';
   }).join('');
 }
 
@@ -757,11 +792,13 @@ function qualifiesForLB(score){
 function buildSlot(){
   var root=document.getElementById('slot-root');
   if(!root)return;
+  var totalPool=SYMBOLS.reduce(function(sum,x){return sum+x.weight;},0);
   var payHtml=SYMBOLS.map(function(s){
-    return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span>'+s.label+'</span><span class="slot-pay-mult">'+s.mult+'× bet</span></div>';
-  }).join('')+'<div class="slot-pay-row"><span>Any 2 matching</span><span class="slot-pay-mult">1× bet back</span></div>';
+    return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span>'+(s.customLabel||s.label)+'</span><span class="slot-pay-mult">+'+s.mult*BET+' pts</span></div>';
+  }).join('')+'<div class="slot-pay-row"><span>Any 2 matching</span><span class="slot-pay-mult">+'+BET+' pts</span></div>';
   var symGridHtml=SYMBOLS.map(function(s){
-    return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><input class="slot-sym-label-inp" id="sym-label-'+s.id+'" value="'+(s.customLabel||s.label)+'" placeholder="'+s.label+'" onblur="slotSaveLabel(\''+s.id+'\',this.value)"><div class="slot-sym-actions"><button class="slot-sym-upload" onclick="slotUploadSym(\''+s.id+'\')">upload</button><button class="slot-sym-reset" onclick="slotResetSym(\''+s.id+'\')">reset</button></div></div>';
+    var pct=Math.round(s.weight/totalPool*100);
+    return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><input class="slot-sym-label-inp" id="sym-label-'+s.id+'" value="'+(s.customLabel||s.label)+'" placeholder="'+s.label+'" onblur="slotSaveLabel(\''+s.id+'\',this.value)"><div class="slot-sym-actions"><button class="slot-sym-upload" onclick="slotUploadSym(\''+s.id+'\')">upload</button><button class="slot-sym-reset" onclick="slotResetSym(\''+s.id+'\')">reset</button></div><div class="slot-sym-chance">~'+pct+'% per reel</div></div>';
   }).join('');
 
   root.innerHTML=
@@ -775,8 +812,8 @@ function buildSlot(){
     '<div class="slot-reel-wrap" id="slot-wrap-2"><div class="slot-reel" id="slot-reel-2"></div></div>'+
     '</div>'+
     '<div class="slot-info-row">'+
-    '<div class="slot-credits"><span class="slot-credits-label">CREDITS</span><span id="slot-credits">'+credits+'</span></div>'+
-    '<div class="slot-bet-info"><span class="slot-bet-label">BET</span><span class="slot-bet-fixed">'+BET+'</span></div>'+
+    '<div class="slot-wins"><span class="slot-wins-label">WINS</span><span id="slot-wins">0</span></div>'+
+    '<div class="slot-best-win"><span class="slot-best-label">BEST WIN</span><span class="slot-best-val" id="slot-best">–</span></div>'+
     '</div>'+
     '<div class="slot-msg" id="slot-msg">Good luck! 🍀 10 spins to score big!</div>'+
     '<button class="slot-spin-btn" id="slot-spin-btn" onclick="slotDoSpin()">SPIN</button>'+
@@ -811,9 +848,11 @@ function setMsg(txt,cls){
   el.className='slot-msg'+(cls?' '+cls:'');
   el.textContent=txt;
 }
-function updateCredits(){
-  var el=document.getElementById('slot-credits');
-  if(el)el.textContent=credits;
+function updateWins(){
+  var el=document.getElementById('slot-wins');
+  if(el)el.textContent=totalWins;
+  var best=document.getElementById('slot-best');
+  if(best)best.textContent=bestWin>0?'+'+bestWin:'–';
 }
 function updateCounter(){
   var el=document.getElementById('slot-counter');
@@ -826,8 +865,8 @@ function updateCounter(){
 function slotDoSpin(){
   if(spinning||gameEnded)return;
   playClick();
-  credits-=BET;spinCount++;
-  updateCredits();updateCounter();
+  spinCount++;
+  updateCounter();
   spinning=true;
   setMsg('🎰 Spinning...','');
   var btn=document.getElementById('slot-spin-btn');
@@ -861,13 +900,13 @@ function evalSpin(){
     var s=SYMBOLS.find(function(x){return x.id===a;});
     won=BET*(s?s.mult:10);
     var big=s&&s.mult>=20;
-    msgTxt=big?'📥 JACKPOT! +'+won+' credits!':'🎉 Three '+getSymLabel(a)+'! +'+won+'!';
+    msgTxt=big?'📥 JACKPOT! +'+won+' pts!':'🎉 Three '+getSymLabel(a)+'! +'+won+' pts!';
     msgCls=big?'jackpot':'win';
     [0,1,2].forEach(function(i){document.getElementById('slot-wrap-'+i).classList.add('winner');});
     playWin(big);
   }else if(a===b||b===c||a===c){
     won=BET;
-    msgTxt='👀 Two of a kind! +'+won+' back';
+    msgTxt='👀 Two of a kind! +'+won+' pts';
     msgCls='win';
     var wi=a===b?[0,1]:b===c?[1,2]:[0,2];
     wi.forEach(function(i){document.getElementById('slot-wrap-'+i).classList.add('winner');});
@@ -877,8 +916,8 @@ function evalSpin(){
     msgCls='lose';
     playLose();
   }
-  credits+=won;totalWon+=won;
-  updateCredits();
+  if(won>0){totalWins+=won;if(won>bestWin)bestWin=won;}
+  updateWins();
   setMsg(msgTxt+(spinCount<MAX_SPINS?' ('+(MAX_SPINS-spinCount)+' spins left)':''),msgCls);
   spinning=false;
   if(spinCount>=MAX_SPINS){
@@ -894,22 +933,20 @@ function evalSpin(){
 
 // ── End game ───────────────────────────────────────────────────────────────
 function showEndGame(){
-  sessionScore=credits;
-  var net=credits-100;
-  var qualifies=qualifiesForLB(credits);
+  sessionScore=totalWins;
+  var qualifies=qualifiesForLB(totalWins);
   var currentMin=slotLB.length>=10?slotLB[slotLB.length-1].score:null;
-  var bigWin=credits>100;
-  playEnd(bigWin);
+  playEnd(totalWins>0);
 
   var endHtml=
     '<div class="slot-endgame" id="slot-endgame">'+
-    '<div class="slot-end-score">'+credits+'</div>'+
-    '<div class="slot-end-label">FINAL SCORE</div>'+
+    '<div class="slot-end-score">'+totalWins+'</div>'+
+    '<div class="slot-end-label">TOTAL WINS EARNED</div>'+
     '<div class="slot-end-breakdown">'+
-    '<div class="slot-end-row"><span>Started with</span><span>100 credits</span></div>'+
-    '<div class="slot-end-row"><span>Total won</span><span class="'+(totalWon>0?'slot-end-pos':'')+'">+'+(totalWon)+'</span></div>'+
-    '<div class="slot-end-row"><span>Total spent</span><span class="slot-end-neg">−'+(MAX_SPINS*BET)+'</span></div>'+
-    '<div class="slot-end-row slot-end-final"><span>Final score</span><span>'+credits+'</span></div>'+
+    '<div class="slot-end-row"><span>Spins used</span><span>'+MAX_SPINS+' of '+MAX_SPINS+'</span></div>'+
+    '<div class="slot-end-row"><span>Total wins earned</span><span class="'+(totalWins>0?'slot-end-pos':'')+'">'+totalWins+'</span></div>'+
+    '<div class="slot-end-row"><span>Best single win</span><span class="'+(bestWin>0?'slot-end-pos':'slot-end-neg')+'">'+(bestWin>0?'+'+bestWin:'None')+'</span></div>'+
+    '<div class="slot-end-row slot-end-final"><span>Final score</span><span>'+totalWins+'</span></div>'+
     '</div>';
 
   if(qualifies){
@@ -920,7 +957,7 @@ function showEndGame(){
       '<button class="slot-submit-btn" id="slot-submit-btn" onclick="slotSubmitScore()">Save</button>'+
       '</div>';
   }else{
-    var minMsg=currentMin!==null?'The current #10 score is '+currentMin+'. Keep spinning!':'Play again to set the first record!';
+    var minMsg=currentMin!==null?'Top 10 minimum is '+currentMin+' wins. Play again to beat it!':'Play again to set the first record!';
     endHtml+='<div class="slot-end-noqualify">'+minMsg+'</div>';
   }
   endHtml+='<button class="slot-newgame-btn" onclick="slotNewGame()">🔁 Play Again</button></div>';
@@ -934,14 +971,14 @@ async function slotSubmitScore(){
   var btn=document.getElementById('slot-submit-btn');
   var name=(inp&&inp.value.trim())||'Anonymous';
   if(btn){btn.disabled=true;btn.textContent='Saving...';}
-  await saveSlotLBEntry(name,sessionScore);
+  await saveSlotLBEntry(name,totalWins);
   renderSlotLB();
   var nameRow=document.querySelector('.slot-end-name-row');
   if(nameRow)nameRow.innerHTML='<div class="slot-end-saved">✓ Score saved as "'+name+'"! Check the leaderboard below.</div>';
 }
 
 function slotNewGame(){
-  credits=100;spinCount=0;totalWon=0;spinning=false;gameEnded=false;sessionScore=null;sessionIdx=-1;
+  spinCount=0;totalWins=0;bestWin=0;spinning=false;gameEnded=false;sessionScore=null;sessionIdx=-1;
   buildSlot();
   loadSlotLB();
 }
@@ -980,7 +1017,13 @@ function slotUploadSym(id){
       var sym=SYMBOLS.find(function(x){return x.id===id;});
       if(sym)sym.imgUrl=data.url;
       localStorage.setItem(SYM_KEY,JSON.stringify(symOverrides));
-      console.log('[slot] upload',id,'=>',data.url,'| LS:',localStorage.getItem(SYM_KEY),'| imgUrl:',sym&&sym.imgUrl);
+      // Persist URL to 14red-data.json hub.slotSymbols so all devices see the same image
+      if(slotGHData){
+        if(!slotGHData.hub)slotGHData.hub={};
+        if(!slotGHData.hub.slotSymbols)slotGHData.hub.slotSymbols={};
+        slotGHData.hub.slotSymbols[id]=data.url;
+        saveSlotHubData();
+      }
       var bust=data.url+'?v='+Date.now();
       var prev=document.getElementById('sym-prev-'+id);
       if(prev)prev.innerHTML='<img src="'+bust+'" alt="'+id+'">';
@@ -1008,6 +1051,11 @@ function slotResetSym(id){
   if(s)delete s.customLabel;
   if(Object.keys(labelOverrides).length){localStorage.setItem(LABEL_KEY,JSON.stringify(labelOverrides));}
   else{localStorage.removeItem(LABEL_KEY);}
+  // Clear from GitHub hub.slotSymbols so all devices see the reset
+  if(slotGHData&&slotGHData.hub&&slotGHData.hub.slotSymbols){
+    delete slotGHData.hub.slotSymbols[id];
+    saveSlotHubData();
+  }
   // Update preview and label input immediately
   var prev=document.getElementById('sym-prev-'+id);
   if(prev)prev.innerHTML=s?s.emoji:'?';

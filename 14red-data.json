@@ -37,7 +37,9 @@
     "day3_locked": true,
     "day4_locked": true,
     "st_w0": "0",
-    "st_name1": "Gryffindor"
+    "st_name1": "Gryffindor",
+    "slotSymbols": {},
+    "donor_thanks": ""
   },
   "matches": {
     "1": [],
@@ -255,5 +257,9 @@
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/cheer-olivia.jpg"
     }
   },
-  "slotLeaderboard": []
+  "slotLeaderboard": [],
+  "fundraising": {
+    "goal": 5000,
+    "entries": []
+  }
 }
