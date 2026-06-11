@@ -190,7 +190,8 @@ body.em .em-only{display:inline-flex}
 .slot-end-saved{font-size:.85rem;color:#00ff88;padding:.4rem}
 .slot-newgame-btn{display:block;width:100%;max-width:200px;margin:.8rem auto 0;padding:.6rem;background:#1a1a1a;color:#ccc;border:1.5px solid #333;border-radius:8px;font-family:var(--fd);font-size:1.1rem;cursor:pointer;text-align:center}
 .slot-newgame-btn:hover{background:#2a2a2a}
-.slot-customize{width:100%;max-width:420px}
+.slot-customize{width:100%;max-width:420px;display:none}
+body.em .slot-customize{display:block}
 .slot-cust-toggle{width:100%;padding:.5rem .8rem;background:#1a1a1a;color:#888;border:1.5px solid #2a2a2a;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:.4rem}
 .slot-cust-toggle:hover{color:#bbb}
 .slot-cust-panel{display:none;background:#1a1a1a;border:1.5px solid #2a2a2a;border-radius:0 0 8px 8px;padding:.8rem;margin-top:-2px}
@@ -598,8 +599,8 @@ buildCW();
 const SYMBOLS=[
   {id:'vball',  emoji:'🏐', label:'Volleyball', mult:5,  weight:22},
   {id:'star',   emoji:'⭐', label:'Mindset',    mult:8,  weight:16},
-  {id:'fire',   emoji:'🔥', label:'Trophy',     mult:12, weight:14},
-  {id:'heart',  emoji:'❤️', label:'Nationals',  mult:6,  weight:14},
+  {id:'fire',   emoji:'🔥', label:'Trophy',     mult:10, weight:14},
+  {id:'heart',  emoji:'❤️', label:'Nationals',  mult:12, weight:14},
   {id:'target', emoji:'🎯', label:'Logo',       mult:15, weight:12},
   {id:'bolt',   emoji:'⚡', label:'Marc',       mult:20, weight:10},
   {id:'gem',    emoji:'💎', label:'Coach',      mult:30, weight:7},
@@ -799,13 +800,18 @@ function qualifiesForLB(score){
 }
 
 // ── Paytable rebuild (called after GitHub data loads or symbol/label changes) ──
+function symPayText(s){
+  var p3=BET*s.mult;
+  var p2=Math.round(p3*0.5);
+  return '<span style="color:#aaa">+'+p2+'</span><span style="font-size:.6rem;color:#666"> (×2)</span><span style="color:#666"> / </span><span class="slot-pay-mult">+'+p3+'</span><span style="font-size:.6rem;color:#888"> (×3)</span>';
+}
 function rebuildPaytable(){
   var pt=document.querySelector('.slot-paytable');
   if(!pt)return;
   var payHtml=SYMBOLS.map(function(s){
-    return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span>'+(s.customLabel||s.label)+'</span><span class="slot-pay-mult">+'+s.mult*BET+' pts</span></div>';
-  }).join('')+'<div class="slot-pay-row"><span>Any 2 matching</span><span class="slot-pay-mult">+'+BET+' pts</span></div>';
-  pt.innerHTML='<div class="slot-paytable-title">💰 Paytable (3-of-a-kind)</div>'+payHtml;
+    return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span style="flex:1">'+(s.customLabel||s.label)+'</span>'+symPayText(s)+'</div>';
+  }).join('');
+  pt.innerHTML='<div class="slot-paytable-title">💰 Paytable</div>'+payHtml;
 }
 
 // ── Build UI ───────────────────────────────────────────────────────────────
@@ -814,8 +820,8 @@ function buildSlot(){
   if(!root)return;
   var totalPool=SYMBOLS.reduce(function(sum,x){return sum+x.weight;},0);
   var payHtml=SYMBOLS.map(function(s){
-    return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span>'+(s.customLabel||s.label)+'</span><span class="slot-pay-mult">+'+s.mult*BET+' pts</span></div>';
-  }).join('')+'<div class="slot-pay-row"><span>Any 2 matching</span><span class="slot-pay-mult">+'+BET+' pts</span></div>';
+    return '<div class="slot-pay-row"><span class="slot-pay-sym">'+getSymHTML(s.id)+'</span><span style="flex:1">'+(s.customLabel||s.label)+'</span>'+symPayText(s)+'</div>';
+  }).join('');
   var symGridHtml=SYMBOLS.map(function(s){
     var pct=Math.round(s.weight/totalPool*100);
     return '<div class="slot-sym-item"><div class="slot-sym-preview" id="sym-prev-'+s.id+'">'+getSymHTML(s.id)+'</div><input class="slot-sym-label-inp" id="sym-label-'+s.id+'" value="'+(s.customLabel||s.label)+'" placeholder="'+s.label+'" onblur="slotSaveLabel(\''+s.id+'\',this.value)"><div class="slot-sym-actions"><button class="slot-sym-upload" onclick="slotUploadSym(\''+s.id+'\')">upload</button><button class="slot-sym-reset" onclick="slotResetSym(\''+s.id+'\')">reset</button></div><div class="slot-sym-chance">~'+pct+'% per reel</div></div>';
@@ -838,7 +844,7 @@ function buildSlot(){
     '<div class="slot-msg" id="slot-msg">Good luck! 🍀 10 spins to score big!</div>'+
     '<button class="slot-spin-btn" id="slot-spin-btn" onclick="slotDoSpin()">SPIN</button>'+
     '</div>'+
-    '<div class="slot-paytable"><div class="slot-paytable-title">💰 Paytable (3-of-a-kind &bull; Bet: '+BET+')</div>'+payHtml+'</div>'+
+    '<div class="slot-paytable"><div class="slot-paytable-title">💰 Paytable</div>'+payHtml+'</div>'+
     '<div class="slot-lb-section">'+
     '<div class="slot-lb-header">'+
     '<div class="slot-lb-title">🏆 TOP 10 HIGH SCORES</div>'+
@@ -925,8 +931,10 @@ function evalSpin(){
     [0,1,2].forEach(function(i){document.getElementById('slot-wrap-'+i).classList.add('winner');});
     playWin(big);
   }else if(a===b||b===c||a===c){
-    won=BET;
-    msgTxt='👀 Two of a kind! +'+won+' pts';
+    var matchId=a===b?a:(b===c?b:a);
+    var ms=SYMBOLS.find(function(x){return x.id===matchId;});
+    won=Math.round(BET*(ms?ms.mult:1)*0.5);
+    msgTxt='👀 Two '+getSymLabel(matchId)+'! +'+won+' pts';
     msgCls='win';
     var wi=a===b?[0,1]:b===c?[1,2]:[0,2];
     wi.forEach(function(i){document.getElementById('slot-wrap-'+i).classList.add('winner');});
