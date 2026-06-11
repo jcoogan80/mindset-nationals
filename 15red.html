@@ -452,7 +452,7 @@ body.em .tredit-btn{display:block}
     <div class="aform" id="add-team-form" style="margin-bottom:.75rem">
       <div style="font-size:.72rem;font-weight:600;margin-bottom:.5rem"><i class="ti ti-plus" style="color:var(--red);margin-right:3px"></i>Add a Team</div>
       <div class="fg2"><div><label class="fl">Team Name</label><input class="fi" id="tn" placeholder="Chicago Elite 14 Red"></div><div><label class="fl">State</label><input class="fi" id="ts" placeholder="IL" maxlength="3"></div></div>
-      <div class="fg3" style="grid-template-columns:1fr 1fr 1fr 1fr"><div><label class="fl">Rank</label><input class="fi" id="tr" type="number" placeholder="#"></div><div><label class="fl">Wins</label><input class="fi" id="tw" type="number" placeholder="0"></div><div><label class="fl">Losses</label><input class="fi" id="tl" type="number" placeholder="0"></div><div><label class="fl">Div</label><input class="fi" id="td" placeholder="Open"></div></div>
+      <div class="fg3" style="grid-template-columns:1fr 1fr 1fr 1fr"><div><label class="fl">Rank</label><input class="fi" id="tr" type="number" placeholder="#"></div><div><label class="fl">Wins</label><input class="fi" id="tw" type="number" placeholder="0"></div><div><label class="fl">Losses</label><input class="fi" id="tl" type="number" placeholder="0"></div><div><label class="fl">Club</label><input class="fi" id="td" placeholder="Club Name"></div></div>
       <button class="abtn" onclick="addTeam()"><i class="ti ti-check"></i> Add Team</button>
     </div>
     <div class="card" style="margin-bottom:.75rem">
@@ -472,10 +472,14 @@ body.em .tredit-btn{display:block}
       <div class="ds-box"><div class="dsn gr" id="scount">0</div><div class="dsl">States</div></div>
       <div class="ds-box"><div class="dsn" id="mrank" style="color:var(--red)">—</div><div class="dsl">Our Rank</div></div>
     </div>
+    <div style="font-size:.75rem;color:var(--gray);margin-bottom:.6rem;display:flex;align-items:center;gap:.35rem">
+      <i class="ti ti-info-circle" style="color:var(--red);font-size:.9rem;flex-shrink:0"></i>
+      <span><strong style="color:var(--black)">USAV National Rankings</strong> — rankings and records shown may not reflect all matches played</span>
+    </div>
     <div style="overflow-x:auto">
       <table class="st" style="min-width:460px">
-        <thead><tr><th style="width:38px">Rank</th><th>Team</th><th style="width:46px">State</th><th style="width:44px">Div</th><th style="width:36px">W</th><th style="width:36px">L</th><th style="width:30px"></th></tr></thead>
-        <tbody id="teams-body"><tr><td colspan="7" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr></tbody>
+        <thead><tr><th style="width:38px">Rank</th><th>Team</th><th>Club</th><th style="width:36px">W</th><th style="width:36px">L</th><th style="width:30px"></th></tr></thead>
+        <tbody id="teams-body"><tr><td colspan="6" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -879,14 +883,14 @@ function renderTeams() {
     return 0;
   });
   const tb=document.getElementById('teams-body'); if(!tb) return;
-  if(!arr.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr>';document.getElementById('teams-sum').style.display='none';return;}
+  if(!arr.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr>';document.getElementById('teams-sum').style.display='none';return;}
   tb.innerHTML='';
   arr.forEach((t,i)=>{
     const us=t.name.toLowerCase().includes('mindset');
     const rb=t.rank?`<span class="rdot${t.rank<=3?' t3':''}">${t.rank}</span>`:'<span style="color:#ccc">—</span>';
     const tr=document.createElement('tr'); tr.className='tr'+(us?' us':'');
     tr.innerHTML=`<td>${rb}</td><td>${t.name}${us?'<span style="font-size:.6rem;background:var(--red);color:#fff;border-radius:8px;padding:.1rem .38rem;margin-left:.3rem">⭐</span>':''}</td>
-      <td style="text-align:center">${t.state||'—'}</td><td style="text-align:center;font-size:.72rem">${t.division||'—'}</td>
+      <td style="font-size:.72rem">${t.club||'—'}</td>
       <td style="text-align:center"><span class="wl w">${t.wins}</span></td>
       <td style="text-align:center"><span class="wl l">${t.losses}</span></td>
       <td><button class="delbtn" onclick="delTeam(${i})"><i class="ti ti-trash"></i></button></td>`;
@@ -903,11 +907,10 @@ function renderTeams() {
 function addTeam(){
   if(!editMode) return;
   const name=document.getElementById('tn').value.trim(); if(!name){toast('Enter team name');return;}
-  D.teams.push({name, state:document.getElementById('ts').value.trim().toUpperCase(),
+  D.teams.push({name, club:document.getElementById('td').value.trim(),
     rank:parseInt(document.getElementById('tr').value)||null,
     wins:parseInt(document.getElementById('tw').value)||0,
-    losses:parseInt(document.getElementById('tl').value)||0,
-    division:document.getElementById('td').value.trim()});
+    losses:parseInt(document.getElementById('tl').value)||0});
   ['tn','ts','tr','tw','tl','td'].forEach(id=>{document.getElementById(id).value='';});
   renderTeams(); saveData(); toast('Team added!');
 }
