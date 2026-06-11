@@ -945,7 +945,7 @@ function slotUploadSym(id){
   inp.type='file';inp.accept='image/*';
   inp.onchange=async function(){
     var file=this.files[0];if(!file)return;
-    if(file.size>400*1024){alert('Image too large (max 400KB)');return;}
+    if(file.size>400*1024){alert('Image too large (max 400KB)');inp.value='';return;}
     try{
       var bmp=await createImageBitmap(file);
       var canvas=document.createElement('canvas');canvas.width=200;canvas.height=200;
@@ -958,10 +958,17 @@ function slotUploadSym(id){
       var data=await resp.json();
       symOverrides[id]=data.url;
       localStorage.setItem(SYM_KEY,JSON.stringify(symOverrides));
+      var bust=data.url+'?t='+Date.now();
       var prev=document.getElementById('sym-prev-'+id);
-      if(prev)prev.innerHTML=getSymHTML(id);
-      [0,1,2].forEach(function(i){if(reelVals[i]===id)renderReel(i,id);});
-    }catch(err){alert('Upload failed: '+err.message);}
+      if(prev)prev.innerHTML='<img src="'+bust+'" alt="'+id+'">';
+      [0,1,2].forEach(function(i){
+        if(reelVals[i]===id){
+          var reel=document.getElementById('slot-reel-'+i);
+          if(reel)reel.innerHTML='<img src="'+bust+'" alt="'+id+'">';
+        }
+      });
+      inp.value='';
+    }catch(err){alert('Upload failed: '+err.message);inp.value='';}
   };
   inp.click();
 }
