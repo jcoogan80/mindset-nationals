@@ -1358,6 +1358,7 @@ function setupTabs(){
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
     t.classList.add('active'); document.getElementById('tab-'+t.dataset.tab).classList.add('on');
+    if(t.dataset.tab==='teams') renderTeams();
   }));
 }
 function setupDayTabs(){
