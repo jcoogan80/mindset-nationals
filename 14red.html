@@ -756,6 +756,8 @@ let D = { hub:{}, matches:{1:[],2:[],3:[],4:[]}, teams:[], players:{}, fundraisi
 let fileSHA = '';
 let editMode = false;
 let saveTimer = null;
+let dataLoadedFromGitHub = false;
+const pageLoadTime = Date.now();
 let activeReelPid = null;
 let playerReels = {};
 
@@ -779,14 +781,31 @@ async function loadData() {
     const j = await r.json();
     fileSHA = j.sha;
     D = JSON.parse(atob(j.content.replace(/\n/g,'')));
+    dataLoadedFromGitHub = true;
   } catch(e) {
     toast('Could not load data — check GitHub config'); applyDefaults();
+    // Show persistent red error banner and disable editing
+    const banner = document.createElement('div');
+    banner.id = 'load-error-banner';
+    banner.style.cssText = 'background:#c0392b;color:#fff;text-align:center;padding:.7rem 1rem;font-size:.85rem;font-weight:bold;position:sticky;top:0;z-index:9999;';
+    banner.textContent = '⚠️ Failed to load saved data — editing is disabled. Refresh to try again.';
+    document.body.prepend(banner);
+    const editBtn = document.getElementById('edit-btn');
+    if (editBtn) { editBtn.disabled = true; editBtn.style.opacity = '0.4'; editBtn.style.cursor = 'not-allowed'; }
   }
   loading(false);
 }
 
 async function saveData() {
   if (DEMO || !editMode) return;
+  if (!dataLoadedFromGitHub) {
+    toast('⚠️ Cannot save — data failed to load. Refresh the page.');
+    return;
+  }
+  if (D.teams.length === 0 && Date.now() - pageLoadTime < 30000) {
+    toast('⚠️ Data not fully loaded — refresh before saving');
+    return;
+  }
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
     loading(true);
