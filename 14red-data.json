@@ -12,6 +12,12 @@
   "players": {},
   "fundraising": {
     "goal": 5000,
-    "entries": []
+    "entries": [
+      {
+        "name": "Not broken down yet",
+        "amount": 1150,
+        "date": "Jun 12, 2026"
+      }
+    ]
   }
 }
