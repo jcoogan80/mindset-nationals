@@ -4,13 +4,15 @@ exports.handler = async (event) => {
   if (!token) return { statusCode: 500, body: JSON.stringify({ error: 'No token' }) };
   let body;
   try { body = JSON.parse(event.body); } catch { return { statusCode: 400, body: JSON.stringify({ error: 'Bad JSON' }) }; }
-  let { pid, content, extension } = body;
+  let { pid, content, extension, token: userToken } = body;
   if (!pid || !content) return { statusCode: 400, body: JSON.stringify({ error: 'Missing pid or content' }) };
   if (content.includes('base64,')) content = content.split('base64,')[1];
   extension = extension || 'jpg';
   const path = `images/players/${pid}.${extension}`;
   const apiUrl = `https://api.github.com/repos/jcoogan80/mindset-nationals/contents/${path}`;
-  const headers = { 'Authorization': `token ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' };
+  const activeToken = userToken || token;
+  if (!activeToken) return { statusCode: 500, body: JSON.stringify({ error: 'No auth token available' }) };
+  const headers = { 'Authorization': `token ${activeToken}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' };
   let sha;
   try { const r = await fetch(apiUrl, { headers }); if (r.ok) { const j = await r.json(); sha = j.sha; } } catch {}
   const payload = { message: `Upload player photo ${pid}`, content, ...(sha ? { sha } : {}) };
