@@ -9,7 +9,11 @@
     "4": []
   },
   "teams": [],
-  "players": {},
+  "players": {
+    "alena-h": {
+      "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/alena-h.jpg"
+    }
+  },
   "fundraising": {
     "goal": 5000,
     "entries": [
