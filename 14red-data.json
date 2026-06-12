@@ -954,7 +954,7 @@
       "num": "3",
       "name": "Hailey Y.",
       "position": "DS / Libero",
-      "height": "5’7”",
+      "height": "",
       "instagram": "",
       "reel_url": "",
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/hailey-y.jpg"
@@ -990,7 +990,7 @@
       "num": "58",
       "name": "Clarice B.",
       "position": "Right Side Hitter",
-      "height": "—",
+      "height": "",
       "instagram": "",
       "reel_url": "",
       "photo_url": "https://raw.githubusercontent.com/jcoogan80/mindset-nationals/main/images/players/clarice-b.jpg"
@@ -1040,6 +1040,11 @@
       {
         "name": "Not broken down yet",
         "amount": 1150,
+        "date": "Jun 12, 2026"
+      },
+      {
+        "name": "Noodles and Co (estimate)",
+        "amount": 400,
         "date": "Jun 12, 2026"
       }
     ]
