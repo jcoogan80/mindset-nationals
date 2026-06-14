@@ -1,0 +1,4 @@
+/* PAGE-SPECIFIC MOBILE */
+@media(max-width:480px){
+  .team-banner-img{height:250px!important}
+}

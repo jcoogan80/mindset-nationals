@@ -1,0 +1,40 @@
+/* THERMOMETER */
+.thermo-wrap{background:#fff;border-radius:12px;border:1px solid var(--lightgray);padding:1.1rem 1.1rem .9rem;margin-bottom:.75rem;display:flex;gap:1.2rem;align-items:flex-start}
+.thermo-svg-col{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.thermo-info{flex:1}
+.thermo-goal{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--gray);margin-bottom:.18rem}
+.thermo-amount{font-family:var(--fd);font-size:2.2rem;color:var(--red);line-height:1;letter-spacing:1px}
+.thermo-pct{font-size:.78rem;color:var(--gray);margin:.15rem 0 .6rem}
+.thermo-sub{font-size:.72rem;color:var(--gray)}
+.thermo-sub strong{color:var(--black)}
+/* EVENT LOG */
+.flog-wrap{background:#fff;border-radius:12px;border:1px solid var(--lightgray);overflow:hidden;margin-bottom:.75rem}
+.flog-hdr{background:var(--black);color:#fff;padding:.55rem .9rem;display:flex;align-items:center;gap:.42rem}
+.flog-hdr span{font-family:var(--fd);font-size:1rem;letter-spacing:1.5px;flex:1}
+.flog-add{background:var(--offwhite);border-radius:0;padding:.65rem .9rem;display:none;border-bottom:1px solid var(--lightgray)}
+body.em .flog-add{display:block}
+.flog-add-row{display:grid;grid-template-columns:1fr auto auto;gap:.38rem;align-items:end}
+.flog-add-row .fl{font-size:.64rem;color:var(--gray);display:block;margin-bottom:.12rem}
+.flog-body{padding:.5rem .9rem}
+.flog-entry{display:flex;justify-content:space-between;align-items:center;padding:.42rem 0;border-bottom:.5px solid var(--lightgray)}
+.flog-entry:last-child{border-bottom:none}
+.flog-entry-info{flex:1}
+.flog-entry-name{font-size:.82rem;font-weight:600}
+.flog-entry-date{font-size:.66rem;color:var(--gray);margin-top:.06rem}
+.flog-entry-amt{font-family:var(--fd);font-size:1.1rem;color:var(--green);letter-spacing:.5px;margin-right:.5rem}
+.flog-empty{font-size:.78rem;color:var(--gray);text-align:center;padding:.7rem 0}
+/* DONOR */
+.donor-wrap{background:#fff;border-radius:12px;border:1px solid var(--lightgray);overflow:hidden;margin-bottom:.75rem}
+.donor-hdr{background:var(--red);color:#fff;padding:.55rem .9rem}
+.donor-hdr span{font-family:var(--fd);font-size:1rem;letter-spacing:1.5px}
+.donor-body{padding:.75rem .9rem}
+.donor-textarea{width:100%;min-height:90px;font-size:.8rem;padding:.45rem .6rem;border:1.5px solid var(--lightgray);border-radius:7px;font-family:var(--fb);resize:vertical;display:none}
+body.em .donor-textarea{display:block}
+.donor-save-btn{display:none;margin-top:.42rem;background:var(--red);color:#fff;border:none;border-radius:7px;padding:.38rem 1.1rem;font-size:.76rem;font-weight:600;cursor:pointer}
+body.em .donor-save-btn{display:inline-block}
+.donor-display{font-size:.8rem;line-height:1.65;color:var(--black);white-space:pre-wrap}
+.donor-display.empty{color:var(--gray);font-style:italic}
+/* PAGE-SPECIFIC MOBILE */
+@media(max-width:480px){
+  .team-banner-img{height:220px!important}
+}
