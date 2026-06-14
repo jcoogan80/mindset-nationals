@@ -5,173 +5,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mindset VBC — 2026 Nationals Hub</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23CC0000'/></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --red:#CC0000;--black:#1a1a1a;--white:#fff;
-  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;
-}
-body{font-family:var(--fb);background:var(--black);color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2.5rem 1rem 3rem}
-
-/* LOGO */
-.logo-wrap{margin-bottom:1.5rem}
-
-/* TITLES */
-.site-title{font-family:var(--fd);font-size:3.2rem;letter-spacing:4px;text-align:center;line-height:1;margin-bottom:.5rem}
-.site-sub{font-size:.82rem;color:rgba(255,255,255,.52);text-align:center;letter-spacing:.6px;margin-bottom:2.8rem;max-width:340px}
-
-/* TEAM BUTTONS */
-.teams{display:flex;gap:1.1rem;width:100%;max-width:680px;margin-bottom:3rem}
-.team-btn{flex:1;background:var(--red);border:none;border-radius:14px;padding:1.6rem 1.2rem;cursor:pointer;text-align:center;text-decoration:none;color:var(--white);display:block;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 20px rgba(204,0,0,.35)}
-.team-btn:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(204,0,0,.5)}
-.team-btn:active{transform:translateY(0)}
-.btn-name{font-family:var(--fd);font-size:1.65rem;letter-spacing:2px;display:block;line-height:1;margin-bottom:.4rem}
-.btn-cta{font-size:.74rem;font-weight:500;color:rgba(255,255,255,.7);letter-spacing:.5px;display:block;margin-bottom:.22rem}
-.btn-record{font-size:.64rem;color:rgba(255,255,255,.45);letter-spacing:.3px;display:block}
-
-/* COUNTDOWN */
-.cd-section{text-align:center}
-.cd-label{font-size:.68rem;color:rgba(255,255,255,.35);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.65rem}
-.cd-row{display:flex;gap:.55rem;justify-content:center}
-.cdb{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.55rem .75rem;text-align:center;min-width:62px}
-.cdn{font-family:var(--fd);font-size:2.2rem;color:var(--white);line-height:1;display:block}
-.cdl{font-size:.52rem;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;display:block;margin-top:.15rem}
-
-/* DIVIDER */
-.divider{width:48px;height:2px;background:var(--red);border-radius:2px;margin:0 auto 2rem;opacity:.6}
-
-@media(max-width:520px){
-  body{padding:2rem .9rem 2.5rem}
-  .site-title{font-size:2.4rem}
-  .teams{flex-direction:column;max-width:360px}
-  .team-btn{padding:1.4rem 1rem}
-  .btn-name{font-size:1.45rem;letter-spacing:1.5px}
-  .cdb{min-width:52px;padding:.45rem .55rem}
-  .cdn{font-size:1.8rem}
-}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
-<div class="logo-wrap">
-<svg width="200" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <clipPath id="ic">
-      <circle cx="150" cy="144" r="74"/>
-    </clipPath>
-  </defs>
+<div class="bg-fx"></div>
+<div class="bg-grid"></div>
+<div class="bg-orb a"></div>
+<div class="bg-orb b"></div>
+<div class="scroll-progress" id="scroll-progress"></div>
 
-  <!-- outer fill and rings -->
-  <circle cx="150" cy="150" r="140" fill="#6B0000"/>
-  <circle cx="150" cy="150" r="140" fill="none" stroke="#FFFFFF" stroke-width="3.5"/>
-  <circle cx="150" cy="150" r="131" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.35"/>
-
-  <!-- TOP ARCH: MINDSET VBC -->
-  <path id="t" d="M 44,150 A 106,106 0 0 1 256,150" fill="none"/>
-  <text font-family="Georgia, serif" font-size="20" fill="#FFFFFF" font-weight="700" letter-spacing="5">
-    <textPath href="#t" startOffset="50%" text-anchor="middle">MINDSET VBC</textPath>
-  </text>
-
-  <!-- inner circle -->
-  <circle cx="150" cy="144" r="74" fill="#3D0000"/>
-  <circle cx="150" cy="144" r="74" fill="none" stroke="#FFFFFF" stroke-width="2"/>
-  <circle cx="150" cy="144" r="68" fill="none" stroke="#CC6666" stroke-width="0.7" opacity="0.4"/>
-
-  <!-- Indy skyline -->
-  <g clip-path="url(#ic)">
-    <rect x="74" y="186" width="152" height="2.5" fill="#FFD0D0" opacity="0.9"/>
-    <rect x="168" y="100" width="14" height="88" fill="#FFD0D0"/>
-    <rect x="165" y="106" width="20" height="6" fill="#FFD0D0"/>
-    <rect x="169" y="95" width="12" height="7" fill="#FFD0D0"/>
-    <rect x="172" y="89" width="6" height="8" fill="#FFD0D0"/>
-    <rect x="174" y="83" width="2.5" height="8" fill="#FFD0D0"/>
-    <rect x="148" y="112" width="17" height="76" fill="#FFD0D0"/>
-    <rect x="145" y="118" width="23" height="5" fill="#FFD0D0"/>
-    <rect x="130" y="120" width="15" height="68" fill="#FFD0D0"/>
-    <rect x="186" y="124" width="13" height="64" fill="#FFD0D0"/>
-    <rect x="201" y="130" width="10" height="58" fill="#FFD0D0" opacity="0.85"/>
-    <rect x="113" y="128" width="14" height="60" fill="#FFD0D0" opacity="0.9"/>
-    <rect x="96" y="135" width="14" height="53" fill="#FFD0D0" opacity="0.78"/>
-    <rect x="82" y="141" width="12" height="47" fill="#FFD0D0" opacity="0.63"/>
-    <rect x="74" y="148" width="8" height="40" fill="#FFD0D0" opacity="0.48"/>
-    <rect x="213" y="137" width="9" height="51" fill="#FFD0D0" opacity="0.68"/>
-    <rect x="222" y="143" width="7" height="45" fill="#FFD0D0" opacity="0.53"/>
-    <rect x="147" y="160" width="6" height="28" fill="#FFD0D0" opacity="0.6"/>
-    <polygon points="150,155 145,162 155,162" fill="#FFD0D0" opacity="0.6"/>
-  </g>
-
-  <!-- volleyball panel lines -->
-  <path d="M76,144 C104,108 196,108 224,144" fill="none" stroke="#FFFFFF" stroke-width="2.4" clip-path="url(#ic)"/>
-  <path d="M76,144 C104,180 196,180 224,144" fill="none" stroke="#FFFFFF" stroke-width="2.4" clip-path="url(#ic)"/>
-  <path d="M150,70 C180,100 180,188 150,218" fill="none" stroke="#FFFFFF" stroke-width="2.4" clip-path="url(#ic)"/>
-
-  <!-- BOTTOM TEXT -->
-  <path id="bi" d="M 54,150 A 96,96 0 0 0 246,150" fill="none"/>
-  <text font-family="Georgia, serif" font-size="14" fill="#FFD0D0" font-weight="700" letter-spacing="2.5">
-    <textPath href="#bi" startOffset="50%" text-anchor="middle">2026 USA VOLLEYBALL</textPath>
-  </text>
-
-  <path id="bo" d="M 38,150 A 112,112 0 0 0 262,150" fill="none"/>
-  <text font-family="Georgia, serif" font-size="12" fill="#FFB3B3" letter-spacing="1.3">
-    <textPath href="#bo" startOffset="50%" text-anchor="middle">GIRLS JUNIOR NATIONAL CHAMPIONSHIPS</textPath>
-  </text>
-
-  <!-- star separators -->
-  <text x="8" y="154" font-family="serif" font-size="13" fill="#FFD0D0" text-anchor="middle">&#9733;</text>
-  <text x="292" y="154" font-family="serif" font-size="13" fill="#FFD0D0" text-anchor="middle">&#9733;</text>
-</svg>
-</div>
-
-<h1 class="site-title">MINDSET VBC</h1>
-<p class="site-sub">2026 USAV Girls Junior National Championships · Indianapolis, IN</p>
-
-<div class="teams">
-  <a class="team-btn" href="/14red.html">
-    <span class="btn-name">U14 MINDSET PREMIER RED</span>
-    <span class="btn-cta">View Team Hub →</span>
-  </a>
-  <a class="team-btn" href="/15red.html">
-    <span class="btn-name">U15 MINDSET PREMIER RED</span>
-    <span class="btn-cta">View Team Hub →</span>
-  </a>
-</div>
-
-<div class="divider"></div>
-
-<div class="cd-section">
-  <p class="cd-label">Countdown to Nationals</p>
-  <div class="cd-row" id="cd-row">
-    <div class="cdb"><span class="cdn" id="cd-d">--</span><span class="cdl">Days</span></div>
-    <div class="cdb"><span class="cdn" id="cd-h">--</span><span class="cdl">Hrs</span></div>
-    <div class="cdb"><span class="cdn" id="cd-m">--</span><span class="cdl">Min</span></div>
-    <div class="cdb"><span class="cdn" id="cd-s">--</span><span class="cdl">Sec</span></div>
+<!-- HERO -->
+<header class="hero">
+  <div class="medallion hero-el">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mindset VBC crest">
+      <defs>
+        <clipPath id="ic"><circle cx="150" cy="144" r="74"/></clipPath>
+      </defs>
+      <circle cx="150" cy="150" r="140" fill="#6B0000"/>
+      <circle cx="150" cy="150" r="140" fill="none" stroke="#FFFFFF" stroke-width="3.5"/>
+      <circle cx="150" cy="150" r="131" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.35"/>
+      <path id="t" d="M 44,150 A 106,106 0 0 1 256,150" fill="none"/>
+      <text font-family="Georgia, serif" font-size="20" fill="#FFFFFF" font-weight="700" letter-spacing="5">
+        <textPath href="#t" startOffset="50%" text-anchor="middle">MINDSET VBC</textPath>
+      </text>
+      <circle cx="150" cy="144" r="74" fill="#3D0000"/>
+      <circle cx="150" cy="144" r="74" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+      <circle cx="150" cy="144" r="68" fill="none" stroke="#CC6666" stroke-width="0.7" opacity="0.4"/>
+      <g clip-path="url(#ic)">
+        <rect x="74" y="186" width="152" height="2.5" fill="#FFD0D0" opacity="0.9"/>
+        <rect x="168" y="100" width="14" height="88" fill="#FFD0D0"/>
+        <rect x="165" y="106" width="20" height="6" fill="#FFD0D0"/>
+        <rect x="169" y="95" width="12" height="7" fill="#FFD0D0"/>
+        <rect x="172" y="89" width="6" height="8" fill="#FFD0D0"/>
+        <rect x="174" y="83" width="2.5" height="8" fill="#FFD0D0"/>
+        <rect x="148" y="112" width="17" height="76" fill="#FFD0D0"/>
+        <rect x="145" y="118" width="23" height="5" fill="#FFD0D0"/>
+        <rect x="130" y="120" width="15" height="68" fill="#FFD0D0"/>
+        <rect x="186" y="124" width="13" height="64" fill="#FFD0D0"/>
+        <rect x="201" y="130" width="10" height="58" fill="#FFD0D0" opacity="0.85"/>
+        <rect x="113" y="128" width="14" height="60" fill="#FFD0D0" opacity="0.9"/>
+        <rect x="96" y="135" width="14" height="53" fill="#FFD0D0" opacity="0.78"/>
+        <rect x="82" y="141" width="12" height="47" fill="#FFD0D0" opacity="0.63"/>
+        <rect x="74" y="148" width="8" height="40" fill="#FFD0D0" opacity="0.48"/>
+        <rect x="213" y="137" width="9" height="51" fill="#FFD0D0" opacity="0.68"/>
+        <rect x="222" y="143" width="7" height="45" fill="#FFD0D0" opacity="0.53"/>
+        <rect x="147" y="160" width="6" height="28" fill="#FFD0D0" opacity="0.6"/>
+        <polygon points="150,155 145,162 155,162" fill="#FFD0D0" opacity="0.6"/>
+      </g>
+      <path d="M76,144 C104,108 196,108 224,144" fill="none" stroke="#FFFFFF" stroke-width="2.4" clip-path="url(#ic)"/>
+      <path d="M76,144 C104,180 196,180 224,144" fill="none" stroke="#FFFFFF" stroke-width="2.4" clip-path="url(#ic)"/>
+      <path d="M150,70 C180,100 180,188 150,218" fill="none" stroke="#FFFFFF" stroke-width="2.4" clip-path="url(#ic)"/>
+      <path id="bi" d="M 54,150 A 96,96 0 0 0 246,150" fill="none"/>
+      <text font-family="Georgia, serif" font-size="14" fill="#FFD0D0" font-weight="700" letter-spacing="2.5">
+        <textPath href="#bi" startOffset="50%" text-anchor="middle">2026 USA VOLLEYBALL</textPath>
+      </text>
+      <path id="bo" d="M 38,150 A 112,112 0 0 0 262,150" fill="none"/>
+      <text font-family="Georgia, serif" font-size="12" fill="#FFB3B3" letter-spacing="1.3">
+        <textPath href="#bo" startOffset="50%" text-anchor="middle">GIRLS JUNIOR NATIONAL CHAMPIONSHIPS</textPath>
+      </text>
+      <text x="8" y="154" font-family="serif" font-size="13" fill="#FFD0D0" text-anchor="middle">&#9733;</text>
+      <text x="292" y="154" font-family="serif" font-size="13" fill="#FFD0D0" text-anchor="middle">&#9733;</text>
+    </svg>
   </div>
-</div>
+  <div class="eyebrow hero-el">2026 USAV Girls Junior Nationals</div>
+  <h1 class="site-title hero-el">MINDSET <span class="rd">VBC</span></h1>
+  <p class="site-sub hero-el">National Championships · Indianapolis, IN · June 25–28. Pick a team to enter their tournament hub — rosters, schedules, standings, and live updates.</p>
+  <div class="hero-cue"><span>Scroll</span><i class="ti ti-chevron-down"></i></div>
+</header>
 
-<script>
-function countdown(){
-  function tick(){
-    const d=new Date('2026-06-25T08:00:00')-new Date();
-    if(d<=0){document.getElementById('cd-row').innerHTML='<span style="font-family:\'Bebas Neue\',sans-serif;font-size:1.6rem;letter-spacing:2px;color:#fff">GAME TIME!</span>';return;}
-    const dy=Math.floor(d/86400000),h=Math.floor((d%86400000)/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000);
-    const pad=n=>String(n).padStart(2,'0');
-    document.getElementById('cd-d').textContent=pad(dy);
-    document.getElementById('cd-h').textContent=pad(h);
-    document.getElementById('cd-m').textContent=pad(m);
-    document.getElementById('cd-s').textContent=pad(s);
-  }
-  tick();setInterval(tick,1000);
-}
-countdown();
-</script>
+<!-- TEAMS -->
+<section class="section" id="teams">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="sec-kicker">Two Teams, One Mindset</div>
+      <h2 class="sec-title">Choose Your Hub</h2>
+    </div>
+    <div class="teams">
+      <a class="team-card" href="/14red.html" data-reveal>
+        <span class="tc-age">U14</span>
+        <span class="tc-flag">2026 Nationals</span>
+        <span class="tc-name">Mindset Premier<br>14 Red</span>
+        <span class="tc-meta">National Championships<span class="dot"></span>Indianapolis</span>
+        <span class="tc-go">View Team Hub <i class="ti ti-arrow-right"></i></span>
+      </a>
+      <a class="team-card" href="/15red.html" data-reveal>
+        <span class="tc-age">U15</span>
+        <span class="tc-flag">2026 Nationals</span>
+        <span class="tc-name">Mindset Premier<br>15 Red</span>
+        <span class="tc-meta">National Championships<span class="dot"></span>Indianapolis</span>
+        <span class="tc-go">View Team Hub <i class="ti ti-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
 
-<div style="text-align:center;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;gap:.75rem">
-  <a href="https://mindsetvolleyballclub.com/" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;color:rgba(255,255,255,0.6);text-decoration:none;font-size:.85rem;font-family:'DM Sans',sans-serif;transition:color .15s">
-    <i class="ti ti-world" style="font-size:1.1rem"></i>
-    Visit MindsetVolleyballClub.com
+<!-- COUNTDOWN -->
+<section class="section" id="countdown" style="padding-top:0">
+  <div class="wrap">
+    <div class="cd-card" data-reveal>
+      <div class="cd-inner">
+        <p class="cd-label">Countdown to First Serve</p>
+        <p class="cd-date">June 25 · <span class="rd">Indianapolis, IN</span></p>
+        <div class="cd-row" id="cd-row">
+          <div class="cdb"><span class="cdn" id="cd-d">--</span><span class="cdl">Days</span></div>
+          <div class="cdb"><span class="cdn" id="cd-h">--</span><span class="cdl">Hrs</span></div>
+          <div class="cdb"><span class="cdn" id="cd-m">--</span><span class="cdl">Min</span></div>
+          <div class="cdb"><span class="cdn" id="cd-s">--</span><span class="cdl">Sec</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <a class="foot-link" href="https://mindsetvolleyballclub.com/" target="_blank" rel="noopener">
+    <i class="ti ti-world"></i> Visit MindsetVolleyballClub.com
   </a>
-  <a href="/admin.html" style="color:rgba(255,255,255,0.2);text-decoration:none;font-size:.7rem;font-family:'DM Sans',sans-serif;letter-spacing:.5px;transition:color .15s" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'">Admin</a>
-</div>
+  <a class="foot-admin" href="/admin.html">Admin</a>
+</footer>
+
+<script src="index.js"></script>
 </body>
 </html>
