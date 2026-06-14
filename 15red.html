@@ -67,20 +67,50 @@ body{font-family:var(--fb);background:#f0eeeb;color:var(--black)}
 .wrap{max-width:800px;margin:0 auto;padding:.9rem}
 
 /* STAT BANNER */
-.stat-row{background:var(--black);border-radius:10px;padding:.5rem .9rem;margin-bottom:.9rem;display:flex;align-items:center;flex-wrap:wrap;gap:.38rem}
-.sp{display:flex;align-items:center;gap:.3rem;border-radius:7px;padding:.25rem .6rem;flex:1;min-width:62px;justify-content:center}
-.spn{font-family:var(--fd);font-size:1.2rem;line-height:1}
-.spl{font-size:.55rem;color:rgba(255,255,255,.42);letter-spacing:.5px;line-height:1.3}
-.sp-r{background:rgba(204,0,0,.3);border:1px solid rgba(204,0,0,.5)}.sp-r .spn{color:#fff}
-.sp-w{background:rgba(42,157,92,.2);border:1px solid rgba(42,157,92,.4)}.sp-w .spn{color:#5ecb8a}
-.sp-l{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}.sp-l .spn{color:#fff}
-.sp-p{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.3)}.sp-p .spn{color:#ffd700}
+.stat-row{background:linear-gradient(158deg,#1b1b1f 0%,#101013 100%);border:1px solid rgba(255,255,255,.07);border-radius:15px;padding:.95rem 1rem 1rem;margin-bottom:.9rem;box-shadow:0 20px 44px -26px rgba(0,0,0,.75)}
+.stat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;padding:0 .12rem}
+.stat-head-t{font-family:var(--fb);font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.42);display:flex;align-items:center;gap:.45rem}
+.stat-head-t::before{content:"";width:15px;height:2px;border-radius:2px;background:var(--red)}
+.stat-head-y{font-family:var(--fd);font-size:.84rem;letter-spacing:1.5px;color:#fff;background:rgba(204,0,0,.22);border:1px solid rgba(204,0,0,.45);border-radius:30px;padding:.14rem .62rem .02rem}
+.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
+.sp{position:relative;display:flex;flex-direction:column;align-items:center;gap:.18rem;padding:.85rem .4rem .72rem;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);overflow:hidden;transition:border-color .25s,background .25s}
+.sp::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--sp-accent,rgba(255,255,255,.25))}
+.sp::after{content:"";position:absolute;inset:0;background:radial-gradient(92% 62% at 50% 0%,var(--sp-glow,transparent),transparent 72%);pointer-events:none}
+.sp:hover{border-color:var(--sp-accent,rgba(255,255,255,.2));background:rgba(255,255,255,.06)}
+.sp-ic{position:relative;z-index:1;width:29px;height:29px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--sp-icbg,rgba(255,255,255,.08));color:var(--sp-accent,#fff);font-size:.98rem;margin-bottom:.14rem}
+.spn{position:relative;z-index:1;font-family:var(--fd);font-size:clamp(1.7rem,5.2vw,2.15rem);line-height:.92;letter-spacing:1px;color:#fff}
+.spl{position:relative;z-index:1;font-size:.56rem;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:1.2px;text-transform:uppercase;line-height:1.2;text-align:center}
+.sp-r{--sp-accent:#ff4d3d;--sp-glow:rgba(204,0,0,.34);--sp-icbg:rgba(204,0,0,.22)}
+.sp-w{--sp-accent:#5ecb8a;--sp-glow:rgba(42,157,92,.26);--sp-icbg:rgba(42,157,92,.2)}.sp-w .spn{color:#7ee0a3}
+.sp-l{--sp-accent:rgba(255,255,255,.55);--sp-glow:rgba(255,255,255,.05);--sp-icbg:rgba(255,255,255,.1)}
+.sp-m{--sp-accent:#6cb6e8;--sp-glow:rgba(108,182,232,.22);--sp-icbg:rgba(108,182,232,.18)}
+.sp-p{--sp-accent:#ffd23d;--sp-glow:rgba(255,210,61,.3);--sp-icbg:rgba(255,210,61,.2);background:rgba(255,210,61,.08);border-color:rgba(255,210,61,.3)}.sp-p .spn{color:#ffdd6b}
+html.js-reveal .stat-row .sp{opacity:0;transform:translateY(12px) scale(.95);transition:opacity .5s var(--ease-out,ease),transform .5s var(--ease-out,ease)}
+html.js-reveal .stat-row.reveal-in .sp{opacity:1;transform:none}
+html.js-reveal .stat-row.reveal-in .sp:nth-child(1){transition-delay:.04s}
+html.js-reveal .stat-row.reveal-in .sp:nth-child(2){transition-delay:.1s}
+html.js-reveal .stat-row.reveal-in .sp:nth-child(3){transition-delay:.16s}
+html.js-reveal .stat-row.reveal-in .sp:nth-child(4){transition-delay:.22s}
+html.js-reveal .stat-row.reveal-in .sp:nth-child(5){transition-delay:.28s}
+@media(prefers-reduced-motion:reduce){html.js-reveal .stat-row .sp{opacity:1!important;transform:none!important;transition:none!important}}
 
 /* TABS */
-.tabs{display:flex;gap:.32rem;flex-wrap:wrap;margin-bottom:1rem;background:#fff;border-radius:10px;padding:.32rem;border:1px solid var(--lightgray)}
-.tab{font-size:.73rem;font-weight:500;padding:.35rem .65rem;border-radius:7px;background:transparent;color:var(--gray);cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
-.tab:hover{background:var(--offwhite)}.tab.active{background:var(--red);color:#fff}
+.tabbar{position:sticky;top:var(--hdr-h,56px);z-index:150;margin-bottom:1rem;padding:.5rem 0;background:#f0eeeb;transition:box-shadow .25s}
+.tabbar.stuck{box-shadow:0 12px 22px -16px rgba(0,0,0,.55)}
+.tabbar::before,.tabbar::after{content:"";position:absolute;top:.5rem;bottom:.5rem;width:34px;z-index:3;pointer-events:none;opacity:0;transition:opacity .2s}
+.tabbar::before{left:0;background:linear-gradient(90deg,#f0eeeb 28%,transparent)}
+.tabbar::after{right:0;background:linear-gradient(270deg,#f0eeeb 28%,transparent)}
+.tabbar.can-left::before{opacity:1}.tabbar.can-right::after{opacity:1}
+.tabs{display:flex;gap:.3rem;background:#fff;border-radius:12px;padding:.34rem;border:1px solid var(--lightgray);overflow-x:auto;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:.34rem;font-size:.76rem;font-weight:500;padding:.5rem .8rem;min-height:40px;border-radius:8px;background:transparent;color:var(--gray);cursor:pointer;border:none;transition:background .18s,color .18s,box-shadow .18s;white-space:nowrap}
+.tab i{font-size:.98rem}
+.tab:hover{background:var(--offwhite);color:var(--black)}
+.tab.active{background:var(--red);color:#fff;box-shadow:0 4px 12px -3px rgba(204,0,0,.5)}
+.tab.active i{color:#fff}
 .sec{display:none}.sec.on{display:block}
+@media(prefers-reduced-motion:no-preference){.sec.on{animation:secfade .38s ease}}
+@keyframes secfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .sec-hd{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem}
 .sec-hd i{font-size:1.15rem;color:var(--red)}
 .sec-hd h2{font-family:var(--fd);font-size:1.25rem;letter-spacing:1px}
@@ -270,18 +300,17 @@ body.em .tredit-btn{display:block}
   .hdr-bar{display:flex;justify-content:space-between;align-items:center;width:100%;background:rgba(255,255,255,.08);padding:.3rem .75rem;gap:.4rem}
   #cd-m-m,#cd-s-m{display:none}
 
-  /* Tabs: horizontal scroll, no wrap */
-  .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .tabs::-webkit-scrollbar{display:none}
-  .tab{flex-shrink:0;min-height:44px}
+  /* Tabs: larger tap targets */
+  .tab{min-height:44px;font-size:.78rem;padding:.5rem .75rem}
 
   /* Team photo banner height */
   .team-banner-img{height:250px!important}
 
   /* Stat banner: 2-column grid */
-  .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:.38rem;padding:.5rem .6rem}
-  .stat-row>span{grid-column:1/-1}
-  .sp{min-width:unset;flex:unset}
+  .stat-grid{grid-template-columns:repeat(2,1fr);gap:.45rem}
+  .stat-row{padding:.8rem .8rem .85rem}
+  .sp-p{grid-column:1/-1;flex-direction:row;justify-content:center;gap:.55rem;padding:.65rem}
+  .sp-p .sp-ic{margin-bottom:0}
 
   /* Day tabs: all 4 on one row */
   .dtabs{gap:.15rem;padding:.2rem}
@@ -293,6 +322,9 @@ body.em .tredit-btn{display:block}
   button{min-height:44px}
 }
 </style>
+<link rel="stylesheet" href="css/modern-scroll.css">
+<link rel="stylesheet" href="css/player-spotlight.css">
+<link rel="stylesheet" href="css/gallery-lightbox.css">
 </head>
 <body>
 
@@ -330,6 +362,26 @@ body.em .tredit-btn{display:block}
   </div>
 </header>
 
+<!-- MODERN HERO -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">2026 USAV Girls Junior Nationals</div>
+    <div class="hero-medallion-wrap">
+      <div class="hero-medallion"><img id="hero-logo" alt="Mindset Premier 15 Red"></div>
+    </div>
+    <h1 class="hero-title">Mindset Premier<br><span class="rd">15 Red</span></h1>
+    <p class="hero-sub">National Championships · Indianapolis, IN · June 25–28</p>
+    <div class="hero-cd" aria-label="Countdown to first serve">
+      <div class="hcd"><span class="n" id="hcd-d">00</span><span class="l">Days</span></div>
+      <div class="hcd"><span class="n" id="hcd-h">00</span><span class="l">Hrs</span></div>
+      <div class="hcd"><span class="n" id="hcd-m">00</span><span class="l">Min</span></div>
+      <div class="hcd"><span class="n" id="hcd-s">00</span><span class="l">Sec</span></div>
+    </div>
+  </div>
+  <div class="hero-cue"><span>Scroll</span><i class="ti ti-chevron-down"></i></div>
+</section>
+<div class="scroll-progress" id="scroll-progress"></div>
+<button class="to-top" id="to-top" aria-label="Back to top"><i class="ti ti-arrow-up"></i></button>
 
 <div class="saved" id="saved">✓ Saved to GitHub</div>
 <div class="toast" id="toast"></div>
@@ -346,12 +398,17 @@ body.em .tredit-btn{display:block}
 
   <!-- STAT BANNER -->
   <div class="stat-row">
-    <span style="font-family:var(--fd);font-size:.75rem;letter-spacing:1px;color:rgba(255,255,255,.3);flex:0 0 auto">2025–26</span>
-    <div class="sp sp-r"><span class="spn">#291</span><span class="spl">RANK</span></div>
-    <div class="sp sp-w"><span class="spn">51</span><span class="spl">WINS</span></div>
-    <div class="sp sp-l"><span class="spn">21</span><span class="spl">LOSSES</span></div>
-    <div class="sp sp-l"><span class="spn">72</span><span class="spl">MATCHES</span></div>
-    <div class="sp sp-p"><span class="spn">70.8%</span><span class="spl">WIN RATE</span></div>
+    <div class="stat-head">
+      <span class="stat-head-t">Season Record</span>
+      <span class="stat-head-y">2025–26</span>
+    </div>
+    <div class="stat-grid">
+      <div class="sp sp-r"><div class="sp-ic"><i class="ti ti-trophy"></i></div><span class="spn">#291</span><span class="spl">National Rank</span></div>
+      <div class="sp sp-w"><div class="sp-ic"><i class="ti ti-circle-check"></i></div><span class="spn">51</span><span class="spl">Wins</span></div>
+      <div class="sp sp-l"><div class="sp-ic"><i class="ti ti-circle-x"></i></div><span class="spn">21</span><span class="spl">Losses</span></div>
+      <div class="sp sp-m"><div class="sp-ic"><i class="ti ti-ball-volleyball"></i></div><span class="spn">72</span><span class="spl">Matches</span></div>
+      <div class="sp sp-p"><div class="sp-ic"><i class="ti ti-trending-up"></i></div><span class="spn">70.8%</span><span class="spl">Win Rate</span></div>
+    </div>
   </div>
 
   <!-- TEAM REEL -->
@@ -379,8 +436,9 @@ body.em .tredit-btn{display:block}
   </div>
 
   <!-- MAIN TABS -->
-  <div class="tabs">
-    <button class="tab active" data-tab="schedule"><i class="ti ti-ball-volleyball"></i> Schedule</button>
+  <div class="tabbar" id="tabbar">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="schedule"><i class="ti ti-ball-volleyball"></i> Schedule</button>
     <button class="tab" data-tab="standings"><i class="ti ti-list-numbers"></i> Standings</button>
     <button class="tab" data-tab="teams"><i class="ti ti-tournament"></i> Teams</button>
     <button class="tab" data-tab="players"><i class="ti ti-id-badge"></i> Players</button>
@@ -388,7 +446,8 @@ body.em .tredit-btn{display:block}
     <button class="tab" data-tab="venue"><i class="ti ti-parking"></i> Venue</button>
     <button class="tab" data-tab="roster"><i class="ti ti-users"></i> Roster</button>
     <button class="tab" data-tab="photos"><i class="ti ti-camera"></i> Photos</button>
-    <button class="tab" onclick="window.location='fun.html'"><i class="ti ti-device-gamepad-2"></i> Game Time 🎮</button>
+      <button class="tab" onclick="window.location='fun.html'"><i class="ti ti-device-gamepad-2"></i> Game Time 🎮</button>
+    </div>
   </div>
 
   <!-- SCHEDULE -->
@@ -1268,5 +1327,10 @@ document.addEventListener('DOMContentLoaded',()=>bindEditables());
   <a href="/consent.html" style="color:rgba(255,255,255,0.45);text-decoration:none;font-size:.78rem;font-family:'DM Sans',sans-serif;letter-spacing:.4px;transition:color .15s" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Parent Consent Form</a>
   <a href="https://mindsetvolleyballclub.com/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.45);text-decoration:none;font-size:.78rem;font-family:'DM Sans',sans-serif;letter-spacing:.4px;transition:color .15s" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">MindsetVolleyballClub.com</a>
 </div>
+<script src="js/modern-scroll.js"></script>
+<script src="js/player-spotlight.js"></script>
+<script src="js/photo-lightbox.js"></script>
+<script src="js/tabbar.js"></script>
+<script src="js/swipe.js"></script>
 </body>
 </html>
