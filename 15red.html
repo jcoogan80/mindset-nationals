@@ -333,10 +333,8 @@
 // Your GitHub username and repo name (safe to put here — public info)
 const GITHUB_USER  = 'jcoogan80';   // e.g. 'jcoogan80'
 const GITHUB_REPO  = 'mindset-nationals';         // e.g. 'mindset-nationals'
-// Register a GitHub OAuth App at github.com/settings/applications/new
-// Add GITHUB_CLIENT_ID + GITHUB_CLIENT_SECRET to Netlify env vars
-// Callback URLs: https://your-site.netlify.app/14red.html and /15red.html
-const GH_CLIENT_ID = 'Ov23liMc72Tbec2jreXn';    // safe to expose — secret stays in Netlify env
+// ── DO NOT put your token here — it goes in Netlify env variables ──
+// Change this password to something only your team knows:
 //
 //  STEP 7: Enable GitHub Pages:
 //          Repo → Settings → Pages → Source: Deploy from branch → main → / (root)
@@ -373,11 +371,9 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('hdr-logo').src = 'data:image/jpeg;base64,' + LOGO_B64;
   if (DEMO) document.getElementById('cfg-banner').style.display = 'block';
   setupTabs(); setupDayTabs(); countdown(); fetchWeather(); setInterval(fetchWeather,30*60*1000);
-  const authed = await handleOAuthCallback();
   await loadData();
   buildDayPanels(); buildProfiles(); buildStaffGrid(); buildRoster(); addSlots(9);
   renderAll();
-  if (authed) enableEdit();
 });
 
 // ── GITHUB I/O ─────────────────────────────────────────────────
@@ -385,10 +381,7 @@ async function loadData() {
   if (DEMO) { applyDefaults(); return; }
   loading(true);
   try {
-    const _tok = sessionStorage.getItem('gh_token');
-    const _hdrs = {'Accept':'application/vnd.github.v3+json'};
-    if (_tok) _hdrs['Authorization'] = 'token ' + _tok;
-    const r = await fetch(API + '?t=' + Date.now(), {headers: _hdrs});
+    const r = await fetch(API + '?t=' + Date.now(), {headers:{'Accept':'application/vnd.github.v3+json'}});
     if (!r.ok) throw new Error(r.status);
     const j = await r.json();
     fileSHA = j.sha;
