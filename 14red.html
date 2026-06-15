@@ -167,17 +167,26 @@
   <div class="sec" id="tab-standings">
     <div class="sec-hd"><i class="ti ti-list-numbers"></i><h2>Standings</h2></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Click any cell to edit</p>
-    <div class="pl">Pool Play Standings</div>
-    <div style="overflow-x:auto">
+    <div class="pl"><i class="ti ti-medal"></i> Pool Play Standings</div>
+    <div class="st-card">
       <table class="st"><thead><tr><th>#</th><th>Team</th><th>W</th><th>L</th><th>Sets W</th><th>Sets L</th></tr></thead>
       <tbody id="stand-body"></tbody></table>
     </div>
-    <div class="card" style="margin-top:.85rem">
-      <div class="ct">Overall Tournament Record</div>
-      <div style="font-size:.79rem;color:var(--gray);margin-top:.25rem">
-        Record: <span class="e" data-key="overall_record">0W – 0L</span> &nbsp;|&nbsp;
-        Sets: <span class="e" data-key="overall_sets">0 – 0</span> &nbsp;|&nbsp;
-        Round: <span class="e" data-key="overall_round">Pool Play</span>
+    <div class="otr">
+      <div class="otr-hd"><i class="ti ti-trophy"></i> Overall Tournament Record</div>
+      <div class="otr-stats">
+        <div class="otr-stat">
+          <div class="otr-val"><span class="e" data-key="overall_w">0</span><span class="otr-dash">–</span><span class="e" data-key="overall_l">0</span></div>
+          <div class="otr-lab">Match Record (W–L)</div>
+        </div>
+        <div class="otr-stat">
+          <div class="otr-val"><span class="e" data-key="overall_sw">0</span><span class="otr-dash">–</span><span class="e" data-key="overall_sl">0</span></div>
+          <div class="otr-lab">Sets (W–L)</div>
+        </div>
+        <div class="otr-stat">
+          <div class="otr-val otr-round"><span class="e" data-key="overall_round">Pool Play</span></div>
+          <div class="otr-lab">Current Round</div>
+        </div>
       </div>
     </div>
   </div>
@@ -245,17 +254,38 @@
   <!-- HOTEL -->
   <div class="sec" id="tab-hotel">
     <div class="sec-hd"><i class="ti ti-bed"></i><h2>Hotel Info</h2></div>
-    <div style="background:var(--red);color:#fff;text-align:center;padding:.65rem .95rem;border-radius:8px;margin-bottom:.8rem;font-weight:600;font-size:.88rem">🏨 Team Hotel — Holiday Inn Indianapolis Airport</div>
-    <div class="igrid">
-      <div class="ib"><div class="il">Address</div><div class="iv">8555 Stansted Rd, Indianapolis, IN</div></div>
-      <div class="ib"><div class="il">Check-in / Check-out</div><div class="iv"><span class="e" data-key="hotel_checkin">June 24 / July 3</span></div></div>
-      <div class="ib"><div class="il">Group Booking Code</div><div class="iv"><span class="e" data-key="hotel_code">Add code here</span></div></div>
-      <div class="ib"><div class="il">Phone</div><div class="iv"><span class="e" data-key="hotel_phone">(317) 000-0000</span></div></div>
-      <div class="ib"><div class="il">Room Rate</div><div class="iv"><span class="e" data-key="hotel_rate">$__ / night</span></div></div>
-      <div class="ib"><div class="il">Booking Deadline</div><div class="iv"><span class="e" data-key="hotel_deadline">Add cutoff date</span></div></div>
+    <div class="hotel-card">
+      <div class="hotel-map">
+        <iframe title="Holiday Inn Indianapolis Airport — map" src="https://www.google.com/maps?q=Holiday+Inn+Indianapolis+Airport,+8555+Stansted+Dr,+Indianapolis,+IN+46241&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <span class="hotel-tag"><i class="ti ti-star-filled"></i> Team Hotel</span>
+      </div>
+      <div class="hotel-body">
+        <h3 class="hotel-name">Holiday Inn Indianapolis Airport</h3>
+        <p class="hotel-addr"><i class="ti ti-map-pin"></i> 8555 Stansted Dr, Indianapolis, IN 46241</p>
+        <div class="hotel-actions">
+          <a class="hbtn hbtn-primary" href="https://www.google.com/maps/dir/?api=1&destination=Holiday+Inn+Indianapolis+Airport,+8555+Stansted+Dr,+Indianapolis,+IN+46241" target="_blank" rel="noopener"><i class="ti ti-navigation"></i> Get Directions</a>
+          <a class="hbtn hbtn-ghost" href="tel:+13178566200"><i class="ti ti-phone"></i> Call Hotel</a>
+        </div>
+      </div>
     </div>
-    <div class="card" style="margin-top:.65rem"><div class="ct">Hotel Notes</div><div class="cs e" data-key="hotel_notes" style="min-height:1.8rem">Add breakfast info, pool hours, team dinner plans, shuttle info...</div></div>
-    <a href="https://maps.google.com/?q=8555+Stansted+Rd+Indianapolis+IN" target="_blank" style="display:inline-flex;align-items:center;gap:.32rem;margin-top:.42rem;font-size:.77rem;color:var(--red);text-decoration:none;font-weight:500"><i class="ti ti-map"></i> Open in Google Maps</a>
+    <div class="igrid">
+      <div class="ib"><div class="il">Check-in / Check-out</div><div class="iv"><span class="e" data-key="hotel_checkin">June 24 / June 28</span></div></div>
+      <div class="ib"><div class="il">Group Booking Code</div><div class="iv"><span class="e" data-key="hotel_code">G-00641618</span></div></div>
+      <div class="ib"><div class="il">Phone</div><div class="iv"><a class="hotel-tel" href="tel:+13178566200"><i class="ti ti-phone"></i><span class="e" data-key="hotel_phone">(317) 856-6200</span></a></div></div>
+      <div class="ib"><div class="il">Drive to Venue</div><div class="iv"><span class="e" data-key="hotel_drive">~15 min to Convention Center</span></div></div>
+    </div>
+    <div class="route-card">
+      <div class="route-hd">
+        <div class="route-stop"><span class="route-ic from"><i class="ti ti-bed"></i></span><div><div class="route-lbl">From</div><div class="route-name">Holiday Inn Airport</div></div></div>
+        <div class="route-mid"><i class="ti ti-arrow-right"></i><span class="route-dur">~15 min · 13 mi</span></div>
+        <div class="route-stop"><span class="route-ic to"><i class="ti ti-building"></i></span><div><div class="route-lbl">To</div><div class="route-name">Convention Center</div></div></div>
+      </div>
+      <div class="route-map">
+        <iframe title="Driving route from the team hotel to the Indiana Convention Center" src="https://www.google.com/maps?saddr=Holiday+Inn+Indianapolis+Airport,+8555+Stansted+Dr,+Indianapolis,+IN+46241&daddr=Indiana+Convention+Center,+100+S+Capitol+Ave,+Indianapolis,+IN+46225&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      <a class="hbtn hbtn-primary route-btn" href="https://www.google.com/maps/dir/?api=1&origin=Holiday+Inn+Indianapolis+Airport,+8555+Stansted+Dr,+Indianapolis,+IN+46241&destination=Indiana+Convention+Center,+100+S+Capitol+Ave,+Indianapolis,+IN+46225&travelmode=driving" target="_blank" rel="noopener"><i class="ti ti-navigation"></i> Open Directions to Venue</a>
+    </div>
+    <div class="card" style="margin-top:.65rem"><div class="ct">Hotel Notes</div><div class="cs e" data-key="hotel_notes" style="min-height:1.8rem">Add breakfast info, pool hours, team dinner plans, shuttle details...</div></div>
   </div>
 
   <!-- VENUE -->
@@ -567,11 +597,9 @@ async function loadData() {
   if (DEMO) { applyDefaults(); return; }
   loading(true);
   try {
-    const r = await fetch(API + '?t=' + Date.now(), {headers:{'Accept':'application/vnd.github.v3+json'}});
+    const r = await fetch('14red-data.json?t=' + Date.now());
     if (!r.ok) throw new Error(r.status);
-    const j = await r.json();
-    fileSHA = j.sha;
-    D = JSON.parse(atob(j.content.replace(/\n/g,'')));
+    D = await r.json();
     dataLoadedFromGitHub = true;
   } catch(e) {
     toast('Could not load data — check GitHub config'); applyDefaults();
@@ -601,6 +629,10 @@ async function saveData() {
   saveTimer = setTimeout(async () => {
     loading(true);
     try {
+      if (!fileSHA) {
+        const meta = await fetch(API + '?t=' + Date.now(), {headers:{'Accept':'application/vnd.github.v3+json'}});
+        if (meta.ok) { const mj = await meta.json(); fileSHA = mj.sha; }
+      }
       // Token lives in Netlify env — never in this file
       let r = await fetch('/.netlify/functions/save', {
         method: 'POST',
@@ -718,7 +750,7 @@ function buildDayPanels() {
   DAY_CFG.forEach(({d,label,date,badge}) => {
     const isLocked = d===1 ? false : (D.hub['day'+d+'_locked'] !== false && D.hub['day'+d+'_locked'] !== 'false');
     const div = document.createElement('div');
-    div.className='dpanel'+(d===1?' on':''); div.id='dp'+d;
+    div.className='dpanel'+(d===1?' on':''); div.id='dpanel'+d;
     div.innerHTML=`
       <div id="dlock${d}" class="ubanner" style="${!isLocked?'display:none':''}">
         <i class="ti ti-lock"></i>
@@ -824,12 +856,12 @@ function renderStandings() {
   const rows=['Mindset Premier 14 Red','Team 2','Team 3','Team 4'];
   tb.innerHTML=rows.map((name,i)=>`
     <tr class="${i===0?'hl':''}">
-      <td>${i+1}</td>
-      <td>${i===0?'<strong>'+name+'</strong>':`<span class="e" data-key="st_name${i}">${D.hub['st_name'+i]||name}</span>`}</td>
-      <td><span class="e" data-key="st_w${i}">${D.hub['st_w'+i]||0}</span></td>
-      <td><span class="e" data-key="st_l${i}">${D.hub['st_l'+i]||0}</span></td>
-      <td><span class="e" data-key="st_sw${i}">${D.hub['st_sw'+i]||0}</span></td>
-      <td><span class="e" data-key="st_sl${i}">${D.hub['st_sl'+i]||0}</span></td>
+      <td><span class="st-rank">${i+1}</span></td>
+      <td class="st-team">${i===0?'<strong>'+name+'</strong>':`<span class="e" data-key="st_name${i}">${D.hub['st_name'+i]||name}</span>`}</td>
+      <td class="st-w"><span class="e" data-key="st_w${i}">${D.hub['st_w'+i]||0}</span></td>
+      <td class="st-l"><span class="e" data-key="st_l${i}">${D.hub['st_l'+i]||0}</span></td>
+      <td class="st-sets"><span class="e" data-key="st_sw${i}">${D.hub['st_sw'+i]||0}</span></td>
+      <td class="st-sets"><span class="e" data-key="st_sl${i}">${D.hub['st_sl'+i]||0}</span></td>
     </tr>`).join('');
   bindEditables(tb);
 }
