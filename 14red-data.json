@@ -1089,6 +1089,11 @@
         "name": "Noodles and Co (estimate)",
         "amount": 400,
         "date": "Jun 12, 2026"
+      },
+      {
+        "name": "Movie Night",
+        "amount": 400,
+        "date": "Jun 15, 2026"
       }
     ]
   }
