@@ -2,3 +2,5 @@
 
 *.example
 .env
+
+/node_modules
