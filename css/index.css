@@ -164,3 +164,32 @@ body.js [data-reveal].in{opacity:1;transform:none}
   .medallion{width:clamp(120px,26vh,180px);margin-bottom:1rem}
   .hero-cue{display:none}
 }
+
+/* ====== INSTALL BANNER ====== */
+.install-banner{
+  position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:.75rem;
+  background:#1a1a1a;border:1px solid rgba(204,0,0,.45);
+  border-radius:14px;padding:.75rem 1rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+  width:calc(100% - 2rem);max-width:480px;
+  z-index:100;animation:banner-up .3s var(--ease) both
+}
+.install-banner[hidden]{display:none}
+@keyframes banner-up{from{opacity:0;transform:translateX(-50%) translateY(16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.install-banner>.ti{font-size:1.6rem;color:var(--red);flex-shrink:0}
+.install-text{flex:1;min-width:0}
+.install-text strong{display:block;font-family:var(--fd);font-size:1.05rem;letter-spacing:.04em;color:#fff}
+.install-text span{display:block;font-size:.78rem;color:rgba(255,255,255,.55);margin-top:.1rem}
+.install-btn{
+  flex-shrink:0;background:var(--red);color:#fff;border:none;
+  border-radius:8px;padding:.45rem .9rem;font-size:.82rem;font-weight:600;
+  cursor:pointer;white-space:nowrap
+}
+.install-btn:hover{background:#e60000}
+.install-close{
+  flex-shrink:0;background:none;border:none;color:rgba(255,255,255,.4);
+  cursor:pointer;padding:.2rem;font-size:1rem;line-height:1;
+  display:flex;align-items:center
+}
+.install-close:hover{color:#fff}
