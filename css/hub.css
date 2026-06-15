@@ -309,3 +309,70 @@ body.em .tredit-btn{display:block}
   .edit-btn{min-height:44px;padding:.5rem .8rem}
   button:not(.spot-dot){min-height:44px}
 }
+
+/* ── STANDINGS REDESIGN ───────────────────────────────────────── */
+.pl i{font-size:1rem;color:var(--red)}
+.st-card{background:#fff;border:1px solid var(--lightgray);border-radius:14px;overflow:hidden}
+.st thead th{text-align:center;padding:.62rem .35rem;color:var(--gray);font-weight:700;font-size:.6rem;text-transform:uppercase;letter-spacing:.7px;background:var(--offwhite);border-bottom:1px solid var(--lightgray)}
+.st thead th:nth-child(2){text-align:left;padding-left:.6rem}
+.st td{padding:.62rem .35rem;border-bottom:1px solid #f1efed;text-align:center;vertical-align:middle}
+.st td:nth-child(2){text-align:left;padding-left:.6rem}
+.st tbody tr:last-child td{border-bottom:none}
+.st-rank{display:inline-flex;align-items:center;justify-content:center;width:25px;height:25px;border-radius:50%;background:var(--offwhite);border:1px solid var(--lightgray);font-family:var(--fd);font-size:.95rem;color:var(--gray);line-height:1}
+.st tr.hl .st-rank{background:var(--red);color:#fff;border-color:var(--red)}
+.st-team{font-weight:600;color:var(--black)}
+.st tr.hl .st-team{color:var(--darkred)}
+.st-w{font-family:var(--fd);font-size:1.02rem;color:var(--green);letter-spacing:.5px}
+.st-l{font-family:var(--fd);font-size:1.02rem;color:var(--red);letter-spacing:.5px}
+.st-sets{color:var(--gray);font-size:.8rem;font-weight:500}
+
+/* ── OVERALL TOURNAMENT RECORD ───────────────────────────────── */
+.otr{background:linear-gradient(135deg,var(--darkred) 0%,var(--red) 100%);border-radius:14px;padding:1.05rem 1.1rem 1.1rem;margin-top:.9rem;color:#fff;box-shadow:0 8px 22px -12px rgba(204,0,0,.6)}
+.otr-hd{display:flex;align-items:center;gap:.45rem;font-family:var(--fd);letter-spacing:1.6px;font-size:1.08rem;text-transform:uppercase;margin-bottom:.85rem}
+.otr-hd i{font-size:1.15rem}
+.otr-stats{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:.55rem}
+.otr-stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:11px;padding:.7rem .4rem .62rem;text-align:center}
+.otr-val{font-family:var(--fd);font-size:2.2rem;line-height:1;letter-spacing:1px;display:flex;align-items:baseline;justify-content:center;gap:.22rem}
+.otr-val.otr-round{font-size:1.45rem;min-height:2.2rem;align-items:center}
+.otr-dash{opacity:.5;font-weight:400}
+.otr-lab{font-size:.6rem;text-transform:uppercase;letter-spacing:.7px;opacity:.82;margin-top:.45rem;font-weight:700}
+.otr .e{color:#fff;border-radius:3px}
+body.em .otr .e{border-bottom-color:rgba(255,255,255,.85);background:rgba(255,255,255,.14)}
+body.em .otr .e:focus{background:rgba(255,255,255,.22)}
+
+/* ── HOTEL REDESIGN ──────────────────────────────────────────── */
+.hotel-card{background:#fff;border:1px solid var(--lightgray);border-radius:14px;overflow:hidden;margin-bottom:.7rem;box-shadow:0 6px 18px -14px rgba(0,0,0,.4)}
+.hotel-map{position:relative;height:190px;background:var(--offwhite)}
+.hotel-map iframe{width:100%;height:100%;border:0;display:block}
+.hotel-tag{position:absolute;top:.6rem;left:.6rem;display:inline-flex;align-items:center;gap:.3rem;background:var(--red);color:#fff;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:.32rem .62rem;border-radius:30px;box-shadow:0 2px 8px rgba(0,0,0,.32)}
+.hotel-tag i{font-size:.72rem}
+.hotel-body{padding:.85rem .95rem 1rem}
+.hotel-name{font-family:var(--fd);font-size:1.45rem;letter-spacing:.8px;color:var(--black);line-height:1.05}
+.hotel-addr{display:flex;align-items:flex-start;gap:.34rem;font-size:.78rem;color:var(--gray);margin-top:.38rem;line-height:1.45}
+.hotel-addr i{color:var(--red);font-size:.92rem;margin-top:.06rem;flex-shrink:0}
+.hotel-actions{display:flex;gap:.5rem;margin-top:.85rem;flex-wrap:wrap}
+.hbtn{flex:1;min-width:135px;display:inline-flex;align-items:center;justify-content:center;gap:.42rem;font-size:.82rem;font-weight:700;padding:.72rem .9rem;border-radius:10px;text-decoration:none;cursor:pointer;transition:background .18s,border-color .18s}
+.hbtn i{font-size:1.02rem}
+.hbtn-primary{background:var(--red);color:#fff;border:1.5px solid var(--red)}
+.hbtn-primary:hover{background:var(--darkred);border-color:var(--darkred)}
+.hbtn-ghost{background:#fff;color:var(--red);border:1.5px solid var(--red)}
+.hbtn-ghost:hover{background:#fff5f5}
+.hotel-tel{display:inline-flex;align-items:center;gap:.34rem;color:var(--red);text-decoration:none;font-weight:600}
+.hotel-tel i{font-size:.86rem}
+.hotel-tel:hover{text-decoration:underline}
+body.em .hotel-tel{pointer-events:none}
+body.em .hotel-tel .e{pointer-events:auto}
+.route-card{background:#fff;border:1px solid var(--lightgray);border-radius:14px;overflow:hidden;margin-top:.7rem;box-shadow:0 6px 18px -14px rgba(0,0,0,.4)}
+.route-hd{display:flex;align-items:center;gap:.55rem;padding:.78rem .9rem;border-bottom:1px solid var(--lightgray)}
+.route-stop{display:flex;align-items:center;gap:.45rem;flex:1;min-width:0}
+.route-ic{width:31px;height:31px;min-width:31px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.92rem}
+.route-ic.from{background:var(--gray)}
+.route-ic.to{background:var(--red)}
+.route-lbl{font-size:.55rem;text-transform:uppercase;letter-spacing:.6px;color:var(--gray);font-weight:700}
+.route-name{font-size:.82rem;font-weight:700;color:var(--black);line-height:1.12;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.route-mid{display:flex;flex-direction:column;align-items:center;gap:.12rem;flex-shrink:0;padding:0 .15rem}
+.route-mid i{font-size:1.05rem;color:var(--red)}
+.route-dur{font-size:.56rem;font-weight:700;color:var(--gray);white-space:nowrap}
+.route-map{position:relative;height:200px;background:var(--offwhite)}
+.route-map iframe{width:100%;height:100%;border:0;display:block}
+.route-btn{display:flex;margin:.75rem .9rem .9rem}
