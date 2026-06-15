@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Feud Admin · Mindset VBC Nationals</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.2.0/dist/tabler-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#CC0000;--black:#1a1a1a;--white:#fff;
+  --card:rgba(255,255,255,.05);--border:rgba(255,255,255,.1);
+  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;
+}
+body{font-family:var(--fb);background:var(--black);color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2.5rem 1rem 4rem}
+
+/* AUTH GATE */
+#auth-gate{width:100%;max-width:360px;text-align:center}
+#auth-gate h2{font-family:var(--fd);font-size:2rem;letter-spacing:3px;margin-bottom:.4rem}
+#auth-gate p{font-size:.8rem;color:rgba(255,255,255,.45);margin-bottom:1.6rem}
+.pw-wrap{position:relative;margin-bottom:.85rem}
+.pw-wrap input{width:100%;background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:9px;color:var(--white);font-family:var(--fb);font-size:.95rem;padding:.75rem 2.8rem .75rem 1rem;outline:none;transition:border-color .15s}
+.pw-wrap input:focus{border-color:var(--red)}
+.pw-toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:1rem;padding:0;line-height:1;display:flex;align-items:center}
+.pw-toggle:hover{color:rgba(255,255,255,.8)}
+.auth-btn{width:100%;background:var(--red);border:none;border-radius:9px;padding:.8rem;color:var(--white);font-family:var(--fd);font-size:1.15rem;letter-spacing:2px;cursor:pointer;transition:opacity .15s}
+.auth-btn:hover{opacity:.85}
+.auth-err{color:#ffaaaa;font-size:.8rem;margin-top:.6rem;display:none}
+
+/* MAIN */
+#main{display:none;width:100%;max-width:1100px}
+
+/* HEADER */
+.page-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.page-title{font-family:var(--fd);font-size:2.4rem;letter-spacing:3px;line-height:1}
+.page-sub{font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:.5px;margin-top:.2rem}
+.header-actions{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap}
+
+/* BUTTONS */
+.btn{border:none;border-radius:8px;padding:.55rem 1.1rem;font-family:var(--fb);font-size:.82rem;font-weight:600;cursor:pointer;letter-spacing:.4px;transition:opacity .15s,transform .15s;display:inline-flex;align-items:center;gap:.4rem;text-decoration:none}
+.btn:hover{opacity:.85;transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-ghost{background:rgba(255,255,255,.1);color:var(--white)}
+.btn-red{background:var(--red);color:var(--white)}
+.btn-green{background:#16a34a;color:var(--white)}
+.btn-sm{padding:.35rem .75rem;font-size:.75rem}
+.btn-full{width:100%;justify-content:center;padding:.85rem;font-size:.95rem}
+
+/* DIVIDER */
+.divider{width:48px;height:2px;background:var(--red);border-radius:2px;margin:0 auto 2rem;opacity:.6}
+
+/* SECTION */
+.section{margin-bottom:2.5rem}
+.section-title{font-family:var(--fd);font-size:1.5rem;letter-spacing:2px;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.section-title .ti{font-size:1.3rem;color:var(--red)}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:.75rem}
+
+/* STATS ROW */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin-bottom:.5rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
+.stat-num{font-family:var(--fd);font-size:2.2rem;line-height:1}
+.stat-label{font-size:.7rem;color:rgba(255,255,255,.45);letter-spacing:.8px;text-transform:uppercase;margin-top:.2rem}
+
+/* NAMES LIST */
+.names-wrap{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.65rem}
+.name-chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:.25rem .75rem;font-size:.78rem;color:rgba(255,255,255,.85)}
+
+/* QUESTION CARD */
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.q-header{display:flex;align-items:center;gap:.75rem;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.03);flex-wrap:wrap}
+.q-num{font-family:var(--fd);font-size:1.25rem;color:var(--red);min-width:2.5rem}
+.q-text{font-size:.88rem;font-weight:500;flex:1;line-height:1.35}
+.q-include{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:rgba(255,255,255,.55);margin-left:auto;white-space:nowrap;cursor:pointer}
+.q-include input[type=checkbox]{accent-color:var(--red);width:14px;height:14px;cursor:pointer}
+.q-body{padding:1rem 1.2rem}
+
+/* ANSWER TABLE */
+.ans-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:.85rem}
+.ans-table th{padding:.5rem .75rem;text-align:left;font-size:.68rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.4);border-bottom:1px solid var(--border)}
+.ans-table td{padding:.5rem .75rem;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle}
+.ans-table tr:last-child td{border-bottom:none}
+.ans-table tr:hover td{background:rgba(255,255,255,.02)}
+.ans-rank{font-family:var(--fd);font-size:1rem;color:rgba(255,255,255,.25);width:28px}
+.ans-text{font-weight:500;color:var(--white)}
+.ans-count{background:rgba(204,0,0,.2);color:#fca5a5;font-weight:600;font-size:.78rem;padding:.2rem .55rem;border-radius:5px;display:inline-block;min-width:2rem;text-align:center}
+.pts-input{width:60px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:var(--white);font-family:var(--fb);font-size:.82rem;padding:.28rem .5rem;outline:none;text-align:center}
+.pts-input:focus{border-color:var(--red)}
+.merge-cb{accent-color:var(--red);width:14px;height:14px;cursor:pointer}
+.q-actions{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
+.no-answers{color:rgba(255,255,255,.3);font-size:.82rem;font-style:italic;padding:.4rem 0}
+
+/* BOARD PREVIEW */
+.board-preview{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:.8rem 1rem}
+.board-preview-title{font-size:.65rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.5rem}
+.board-chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.board-chip{background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.3);border-radius:6px;padding:.2rem .55rem;font-size:.75rem;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:.3rem}
+.board-chip-pts{font-family:var(--fd);font-size:.85rem;color:var(--red)}
+
+/* SAVE SECTION */
+.save-section{background:rgba(204,0,0,.08);border:1px solid rgba(204,0,0,.2);border-radius:12px;padding:1.5rem;text-align:center;margin-bottom:2rem}
+.save-section p{font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:1rem}
+.save-status{font-size:.82rem;margin-top:.75rem;min-height:1.2rem;color:rgba(255,255,255,.5)}
+.save-status.ok{color:#86efac}
+.save-status.err{color:#fca5a5}
+
+/* GAME LINK */
+.game-link-section{text-align:center}
+
+/* EMPTY / LOADING */
+.state-msg{text-align:center;padding:2.5rem 1rem;color:rgba(255,255,255,.35);font-size:.88rem}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.15);border-top-color:var(--white);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:640px){
+  body{padding:1.5rem .75rem 3rem}
+  .page-header{flex-direction:column;align-items:flex-start}
+  .page-title{font-size:1.9rem}
+  .q-header{gap:.5rem}
+  .q-num{font-size:1rem;min-width:2rem}
+  .ans-table td,.ans-table th{padding:.45rem .5rem}
+  .pts-input{width:50px}
+}
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-gate">
+  <div class="divider" style="margin-bottom:1.5rem"></div>
+  <h2>ADMIN ACCESS</h2>
+  <p>Family Feud admin · Mindset VBC Nationals</p>
+  <div class="pw-wrap">
+    <input type="password" id="pw-input" placeholder="Enter password" autocomplete="current-password">
+    <button class="pw-toggle" id="pw-toggle" type="button" title="Show/hide password">
+      <i class="ti ti-eye"></i>
+    </button>
+  </div>
+  <button class="auth-btn" id="auth-btn">UNLOCK</button>
+  <p class="auth-err" id="auth-err">Incorrect password. Please try again.</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+  <div class="page-header">
+    <div class="page-title-wrap">
+      <div class="page-title">FAMILY FEUD ADMIN</div>
+      <div class="page-sub">Survey responses · Mindset VBC Nationals</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="refresh-btn"><i class="ti ti-refresh"></i> Refresh</button>
+      <a class="btn btn-ghost" href="feud-game.html" target="_blank"><i class="ti ti-device-gamepad-2"></i> Open Game Board →</a>
+    </div>
+  </div>
+
+  <!-- SECTION 1: RESPONSE SUMMARY -->
+  <div class="section" id="summary-section">
+    <div class="section-title"><i class="ti ti-chart-bar section-title .ti"></i> RESPONSE SUMMARY</div>
+    <div id="summary-content">
+      <div class="state-msg"><span class="spinner"></span> Loading…</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: QUESTIONS -->
+  <div class="section" id="questions-section">
+    <div class="section-title"><i class="ti ti-list-check"></i> QUESTIONS &amp; ANSWERS</div>
+    <div id="questions-content">
+      <div class="state-msg"><span class="spinner"></span> Loading…</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: SAVE -->
+  <div class="save-section">
+    <div class="section-title" style="justify-content:center;margin-bottom:.5rem"><i class="ti ti-device-floppy"></i> SAVE GAME DATA</div>
+    <p>Compiles all included questions with their top 8 answers and saves to feud-data.json on GitHub.</p>
+    <button class="btn btn-red btn-full" id="save-btn" style="max-width:360px;margin:0 auto"><i class="ti ti-device-floppy"></i> Save Game Data</button>
+    <div class="save-status" id="save-status"></div>
+  </div>
+
+  <!-- SECTION 4: GAME LINK -->
+  <div class="game-link-section">
+    <a class="btn btn-green btn-full" href="feud-game.html" target="_blank" style="max-width:360px;margin:0 auto"><i class="ti ti-device-gamepad-2"></i> Open Game Board</a>
+  </div>
+</div>
+
+<script>
+const GITHUB_USER = 'jcoogan80';
+const GITHUB_REPO = 'mindset-nationals';
+const FILE = 'feud-data.json';
+const API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE}`;
+const PASSWORD = 'Pr3m!er26';
+
+const QUESTIONS = [
+  {id:'q1',  text:'Name something you always forget to pack for a volleyball tournament'},
+  {id:'q2',  text:'Name something coaches always say during a timeout'},
+  {id:'q3',  text:'Name something parents yell from the stands'},
+  {id:'q4',  text:"Name something you'd find in a volleyball player's bag"},
+  {id:'q5',  text:"Name the most annoying thing an opponent's team does"},
+  {id:'q6',  text:'Name something a libero would say'},
+  {id:'q7',  text:'Name an excuse players give when they miss a serve'},
+  {id:'q8',  text:'Name a snack you MUST have in the car on the way to a tournament'},
+  {id:'q9',  text:'Name something someone always forgets at the hotel when checking out'},
+  {id:'q10', text:'Name the first thing you do when you get to the hotel'},
+  {id:'q11', text:'Name something parents do while waiting between matches'},
+  {id:'q12', text:'Name the best post-game snack or meal'},
+  {id:'q13', text:'Name a movie every volleyball player has seen'},
+  {id:'q14', text:'Name a song that gets the team hyped before a match'},
+  {id:'q15', text:'Name a celebrity who would make the best volleyball coach'},
+  {id:'q16', text:'Name something Coach Billy always says'},
+  {id:'q17', text:'Name one word that describes this Mindset team'},
+  {id:'q18', text:'Name the first person to fall asleep on the bus or in the hotel'}
+];
+
+/* ───────── STATE ───────── */
+let feudData = null;      // full object from feud-data.json
+let fileSHA  = '';        // current GitHub SHA for the file
+// Per-question working state: Map<qid, [{text, count, points}]>
+let qState = {};          // qid -> array of answer rows (mutable)
+let qInclude = {};        // qid -> bool
+
+/* ───────── AUTH ───────── */
+const authGate = document.getElementById('auth-gate');
+const mainEl   = document.getElementById('main');
+const pwInput  = document.getElementById('pw-input');
+const authErr  = document.getElementById('auth-err');
+
+function unlock() {
+  if (pwInput.value === PASSWORD) {
+    authGate.style.display = 'none';
+    mainEl.style.display   = 'block';
+    loadData();
+  } else {
+    authErr.style.display = 'block';
+    pwInput.value = '';
+    pwInput.focus();
+  }
+}
+
+document.getElementById('auth-btn').addEventListener('click', unlock);
+pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+document.getElementById('pw-toggle').addEventListener('click', () => {
+  pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+  document.querySelector('.pw-toggle .ti').className =
+    `ti ti-eye${pwInput.type === 'password' ? '' : '-off'}`;
+});
+
+/* ───────── LOAD DATA ───────── */
+async function loadData() {
+  document.getElementById('summary-content').innerHTML =
+    `<div class="state-msg"><span class="spinner"></span> Fetching data…</div>`;
+  document.getElementById('questions-content').innerHTML =
+    `<div class="state-msg"><span class="spinner"></span> Fetching data…</div>`;
+
+  try {
+    const res = await fetch(API_URL, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' },
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error(`GitHub returned ${res.status}`);
+    const json = await res.json();
+    fileSHA  = json.sha;
+    feudData = JSON.parse(atob(json.content.replace(/\n/g,'')));
+    if (!feudData.responses) feudData.responses = [];
+    if (!feudData.gameData)  feudData.gameData  = { questions:[], teams:{team1:{name:'',score:0},team2:{name:'',score:0}}, currentRound:0 };
+    buildState();
+    renderSummary();
+    renderQuestions();
+  } catch(err) {
+    const msg = `<div class="state-msg"><i class="ti ti-alert-triangle" style="font-size:1.5rem;display:block;margin-bottom:.5rem;color:#fca5a5"></i>Failed to load: ${esc(err.message)}</div>`;
+    document.getElementById('summary-content').innerHTML = msg;
+    document.getElementById('questions-content').innerHTML = msg;
+  }
+}
+
+document.getElementById('refresh-btn').addEventListener('click', loadData);
+
+/* ───────── BUILD STATE ───────── */
+function buildState() {
+  qState   = {};
+  qInclude = {};
+  const responses = feudData.responses || [];
+  QUESTIONS.forEach(q => {
+    qState[q.id]   = tallyAnswers(responses, q.id);
+    qInclude[q.id] = true; // default include all
+  });
+  // If gameData already has questions, restore include flags
+  if (feudData.gameData && Array.isArray(feudData.gameData.questions)) {
+    const includedIds = new Set(feudData.gameData.questions.map(q => q.id));
+    if (includedIds.size > 0) {
+      QUESTIONS.forEach(q => {
+        qInclude[q.id] = includedIds.has(q.id);
+      });
+    }
+  }
+}
+
+/* ───────── TALLY ANSWERS ───────── */
+function tallyAnswers(responses, qid) {
+  const map = new Map(); // normalized -> {text (first occurrence), count}
+  responses.forEach(r => {
+    const raw = r.answers && r.answers[qid];
+    if (!raw || !raw.trim()) return;
+    const norm = raw.toLowerCase().trim();
+    if (map.has(norm)) {
+      map.get(norm).count++;
+    } else {
+      map.set(norm, { text: raw.trim(), count: 1 });
+    }
+  });
+  // Sort by count desc, then alpha
+  return Array.from(map.values())
+    .sort((a,b) => b.count - a.count || a.text.localeCompare(b.text))
+    .map(item => ({ text: item.text, count: item.count, points: item.count }));
+}
+
+/* ───────── RENDER SUMMARY ───────── */
+function renderSummary() {
+  const responses = feudData.responses || [];
+  const total = responses.length;
+  const names = responses.map(r => r.name || '').filter(Boolean);
+
+  let html = `<div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num">${total}</div>
+      <div class="stat-label">Total Responses</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${names.length}</div>
+      <div class="stat-label">Named Respondents</div>
+    </div>
+  </div>`;
+
+  if (names.length > 0) {
+    html += `<div class="card" style="margin-top:.75rem">
+      <div style="font-size:.72rem;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.5rem">Respondents</div>
+      <div class="names-wrap">
+        ${names.map(n => `<span class="name-chip">${esc(n)}</span>`).join('')}
+      </div>
+    </div>`;
+  } else {
+    html += `<div class="card" style="margin-top:.75rem;color:rgba(255,255,255,.3);font-size:.85rem;font-style:italic">No responses yet.</div>`;
+  }
+
+  document.getElementById('summary-content').innerHTML = html;
+}
+
+/* ───────── RENDER QUESTIONS ───────── */
+function renderQuestions() {
+  const el = document.getElementById('questions-content');
+  if (!feudData.responses || feudData.responses.length === 0) {
+    el.innerHTML = `<div class="state-msg">No survey responses loaded — questions will show here once responses are submitted.</div>`;
+    return;
+  }
+  el.innerHTML = QUESTIONS.map((q, i) => renderQuestionCard(q, i)).join('');
+  attachQuestionEvents();
+}
+
+function renderQuestionCard(q, i) {
+  const answers = qState[q.id] || [];
+  const included = qInclude[q.id] !== false;
+
+  let tableRows = '';
+  if (answers.length === 0) {
+    tableRows = `<tr><td colspan="5" class="no-answers">No answers for this question yet.</td></tr>`;
+  } else {
+    tableRows = answers.map((ans, idx) => `
+      <tr data-qid="${q.id}" data-idx="${idx}">
+        <td class="ans-rank">${idx+1}</td>
+        <td class="ans-text">${esc(ans.text)}</td>
+        <td><span class="ans-count">${ans.count}</span></td>
+        <td><input class="pts-input" type="number" min="1" value="${ans.points}"
+              data-qid="${q.id}" data-idx="${idx}" title="Point value"></td>
+        <td><input type="checkbox" class="merge-cb" data-qid="${q.id}" data-idx="${idx}" title="Select to merge"></td>
+      </tr>`).join('');
+  }
+
+  // Board preview: top 8 by points where points > 0
+  const boardAnswers = [...answers]
+    .filter(a => a.points > 0)
+    .sort((a,b) => b.points - a.points)
+    .slice(0, 8);
+
+  const boardChips = boardAnswers.length > 0
+    ? boardAnswers.map(a =>
+        `<span class="board-chip"><span class="board-chip-pts">${a.points}</span> ${esc(a.text)}</span>`
+      ).join('')
+    : `<span style="color:rgba(255,255,255,.25);font-size:.78rem;font-style:italic">No answers yet</span>`;
+
+  return `
+  <div class="q-card" id="qcard-${q.id}">
+    <div class="q-header">
+      <span class="q-num">Q${i+1}</span>
+      <span class="q-text">${esc(q.text)}</span>
+      <label class="q-include">
+        <input type="checkbox" class="q-include-cb" data-qid="${q.id}" ${included ? 'checked' : ''}>
+        Include in game
+      </label>
+    </div>
+    <div class="q-body">
+      <div class="q-actions">
+        <button class="btn btn-ghost btn-sm merge-btn" data-qid="${q.id}"><i class="ti ti-git-merge"></i> Merge Selected</button>
+        <span style="font-size:.72rem;color:rgba(255,255,255,.3)">${answers.length} unique answer${answers.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="ans-table" id="anstable-${q.id}">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Answer</th>
+              <th>Count</th>
+              <th>Points</th>
+              <th><i class="ti ti-git-merge" title="Merge"></i></th>
+            </tr>
+          </thead>
+          <tbody id="ansbody-${q.id}">${tableRows}</tbody>
+        </table>
+      </div>
+      <div class="board-preview" id="boardpreview-${q.id}">
+        <div class="board-preview-title"><i class="ti ti-layout-board-split"></i> Board answers (top 8)</div>
+        <div class="board-chips" id="boardchips-${q.id}">${boardChips}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ───────── ATTACH EVENTS ───────── */
+function attachQuestionEvents() {
+  // Points inputs
+  document.querySelectorAll('.pts-input').forEach(input => {
+    input.addEventListener('change', function() {
+      const qid = this.dataset.qid;
+      const idx = parseInt(this.dataset.idx);
+      const val = Math.max(1, parseInt(this.value) || 1);
+      this.value = val;
+      qState[qid][idx].points = val;
+      updateBoardPreview(qid);
+    });
+  });
+
+  // Include checkboxes
+  document.querySelectorAll('.q-include-cb').forEach(cb => {
+    cb.addEventListener('change', function() {
+      qInclude[this.dataset.qid] = this.checked;
+    });
+  });
+
+  // Merge buttons
+  document.querySelectorAll('.merge-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      mergeAnswers(this.dataset.qid);
+    });
+  });
+}
+
+/* ───────── MERGE ANSWERS ───────── */
+function mergeAnswers(qid) {
+  const checked = document.querySelectorAll(`.merge-cb[data-qid="${qid}"]:checked`);
+  if (checked.length < 2) {
+    alert('Select at least 2 answers to merge.');
+    return;
+  }
+
+  const indices = Array.from(checked).map(cb => parseInt(cb.dataset.idx)).sort((a,b) => a-b);
+  const firstIdx = indices[0];
+  const answers  = qState[qid];
+
+  // Sum counts, keep first answer's text
+  const totalCount = indices.reduce((sum, idx) => sum + answers[idx].count, 0);
+  answers[firstIdx].count  = totalCount;
+  answers[firstIdx].points = totalCount;
+
+  // Remove merged (except first) in reverse order
+  for (let i = indices.length - 1; i >= 1; i--) {
+    answers.splice(indices[i], 1);
+  }
+
+  // Re-sort by count desc
+  answers.sort((a,b) => b.count - a.count || a.text.localeCompare(b.text));
+
+  // Re-render just this question card
+  rerenderQuestionCard(qid);
+}
+
+/* ───────── RE-RENDER ONE QUESTION ───────── */
+function rerenderQuestionCard(qid) {
+  const qObj   = QUESTIONS.find(q => q.id === qid);
+  const qIdx   = QUESTIONS.indexOf(qObj);
+  const cardEl = document.getElementById(`qcard-${qid}`);
+  if (!cardEl || !qObj) return;
+  cardEl.outerHTML = renderQuestionCard(qObj, qIdx);
+  attachQuestionEvents();
+}
+
+/* ───────── UPDATE BOARD PREVIEW ───────── */
+function updateBoardPreview(qid) {
+  const answers = qState[qid] || [];
+  const boardAnswers = [...answers]
+    .filter(a => a.points > 0)
+    .sort((a,b) => b.points - a.points)
+    .slice(0, 8);
+
+  const el = document.getElementById(`boardchips-${qid}`);
+  if (!el) return;
+  el.innerHTML = boardAnswers.length > 0
+    ? boardAnswers.map(a =>
+        `<span class="board-chip"><span class="board-chip-pts">${a.points}</span> ${esc(a.text)}</span>`
+      ).join('')
+    : `<span style="color:rgba(255,255,255,.25);font-size:.78rem;font-style:italic">No answers yet</span>`;
+}
+
+/* ───────── BUILD GAME DATA ───────── */
+function buildGameData() {
+  const questions = [];
+  QUESTIONS.forEach(q => {
+    if (!qInclude[q.id]) return;
+    const answers = (qState[q.id] || [])
+      .filter(a => a.points > 0)
+      .sort((a,b) => b.points - a.points)
+      .slice(0, 8)
+      .map(a => ({ text: a.text, points: a.points, revealed: false }));
+    if (answers.length === 0) return;
+    questions.push({
+      id: q.id,
+      question: q.text,
+      answers,
+      active: false
+    });
+  });
+  // Mark first question as active if none are active
+  if (questions.length > 0 && !questions.some(q => q.active)) {
+    questions[0].active = true;
+  }
+  return questions;
+}
+
+/* ───────── SAVE ───────── */
+async function saveGameData() {
+  const saveBtn    = document.getElementById('save-btn');
+  const saveStatus = document.getElementById('save-status');
+
+  saveBtn.disabled = true;
+  saveBtn.innerHTML = `<span class="spinner"></span> Saving…`;
+  saveStatus.textContent = '';
+  saveStatus.className   = 'save-status';
+
+  try {
+    // Sync any live points inputs before building
+    document.querySelectorAll('.pts-input').forEach(input => {
+      const qid = input.dataset.qid;
+      const idx = parseInt(input.dataset.idx);
+      const val = Math.max(1, parseInt(input.value) || 1);
+      if (qState[qid] && qState[qid][idx]) {
+        qState[qid][idx].points = val;
+      }
+    });
+
+    const gameData = {
+      questions: buildGameData(),
+      teams: (feudData.gameData && feudData.gameData.teams) ||
+             { team1:{name:'',score:0}, team2:{name:'',score:0} },
+      currentRound: (feudData.gameData && feudData.gameData.currentRound) || 0
+    };
+
+    const payload = {
+      responses: feudData.responses || [],
+      gameData
+    };
+
+    const res = await fetch('/.netlify/functions/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: payload,
+        sha:  fileSHA,
+        user: GITHUB_USER,
+        repo: GITHUB_REPO,
+        file: FILE
+      })
+    });
+
+    if (!res.ok) {
+      const txt = await res.text();
+      throw new Error(`Save failed (${res.status}): ${txt}`);
+    }
+
+    const result = await res.json();
+    // Update SHA so next save doesn't conflict
+    if (result && result.content && result.content.sha) {
+      fileSHA = result.content.sha;
+    }
+    feudData.gameData = gameData;
+
+    saveStatus.textContent = `✓ Saved successfully — ${gameData.questions.length} question(s) compiled`;
+    saveStatus.className   = 'save-status ok';
+  } catch(err) {
+    saveStatus.textContent = `✗ ${err.message}`;
+    saveStatus.className   = 'save-status err';
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = `<i class="ti ti-device-floppy"></i> Save Game Data`;
+  }
+}
+
+document.getElementById('save-btn').addEventListener('click', saveGameData);
+
+/* ───────── UTILITIES ───────── */
+function esc(s) {
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindset Family Feud Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.2.0/dist/tabler-icons.min.css" />
+  <style>
+    :root {
+      --red: #CC0000;
+      --black: #111;
+      --white: #fff;
+      --gray: #aaa;
+      --lightgray: rgba(255,255,255,.08);
+      --fd: 'Bebas Neue', sans-serif;
+      --fb: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--fb);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      border-bottom: 3px solid var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .6rem 1.25rem;
+      gap: 1rem;
+    }
+
+    header .logo img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+
+    header .site-title {
+      font-family: var(--fd);
+      font-size: 1.35rem;
+      color: var(--white);
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    /* ── WRAP ── */
+    .wrap {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero h1 {
+      font-family: var(--fd);
+      font-size: 2.5rem;
+      color: var(--white);
+      letter-spacing: 3px;
+      line-height: 1;
+      margin-bottom: .6rem;
+    }
+
+    .hero p {
+      font-size: .88rem;
+      color: var(--gray);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto .9rem;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: var(--red);
+      border: none;
+      border-radius: 2px;
+      margin: 0 auto;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 12px;
+      padding: 1.1rem;
+      margin-bottom: .75rem;
+    }
+
+    .card-name {
+      background: #fff;
+      border: none;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-name label {
+      display: block;
+      font-size: .7rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: .5rem;
+    }
+
+    .q-card {
+      border-left: 3px solid var(--red);
+    }
+
+    .q-card .q-num {
+      font-family: var(--fd);
+      font-size: 1.4rem;
+      color: var(--red);
+      display: block;
+      line-height: 1;
+      margin-bottom: .2rem;
+    }
+
+    .q-card .q-text {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: .65rem;
+      line-height: 1.4;
+    }
+
+    /* ── INPUTS ── */
+    .field-input {
+      width: 100%;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      color: var(--white);
+      font-family: var(--fb);
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .field-input::placeholder { color: rgba(255,255,255,.3); }
+    .field-input:focus { border-color: var(--red); }
+    .field-input.error { border-color: #ff4444 !important; }
+
+    .card-name .field-input {
+      background: rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.15);
+      color: #111;
+    }
+
+    .card-name .field-input::placeholder { color: rgba(0,0,0,.35); }
+    .card-name .field-input:focus { border-color: var(--red); }
+    .card-name .field-input.error { border-color: #ff4444 !important; }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-submit {
+      width: 100%;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--fd);
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      border: none;
+      border-radius: 10px;
+      padding: .9rem;
+      cursor: pointer;
+      margin-top: .5rem;
+      transition: opacity .2s, transform .1s;
+    }
+
+    .btn-submit:hover:not(:disabled) { opacity: .88; }
+    .btn-submit:active:not(:disabled) { transform: scale(.98); }
+    .btn-submit:disabled { opacity: .55; cursor: not-allowed; }
+
+    /* ── SUCCESS ── */
+    #success-msg {
+      display: none;
+      background: linear-gradient(135deg, #0a4a1a, #0d6b27);
+      border: 1px solid #1a9940;
+      border-radius: 16px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    #success-msg .success-icon {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: .75rem;
+    }
+
+    #success-msg h2 {
+      font-family: var(--fd);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: var(--white);
+      margin-bottom: .6rem;
+    }
+
+    #success-msg p {
+      font-size: .95rem;
+      color: rgba(255,255,255,.85);
+      line-height: 1.5;
+    }
+
+    /* ── ALREADY SUBMITTED ── */
+    #already-submitted {
+      display: none;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 2.2rem 1.5rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    #already-submitted .check-icon {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: .75rem;
+    }
+
+    #already-submitted h2 {
+      font-family: var(--fd);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: var(--white);
+      margin-bottom: .4rem;
+    }
+
+    #already-submitted .submitted-name {
+      font-size: 1rem;
+      color: var(--gray);
+      margin-bottom: .3rem;
+    }
+
+    #already-submitted .game-night {
+      font-size: .95rem;
+      color: var(--white);
+      margin-bottom: 1.25rem;
+    }
+
+    #already-submitted .resubmit-link {
+      font-size: .78rem;
+      color: var(--gray);
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      font-family: var(--fb);
+      transition: color .2s;
+    }
+
+    #already-submitted .resubmit-link:hover { color: var(--white); }
+
+    /* ── TOAST ── */
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #cc2222;
+      color: var(--white);
+      font-family: var(--fb);
+      font-size: .88rem;
+      font-weight: 500;
+      padding: .75rem 1.4rem;
+      border-radius: 8px;
+      z-index: 9999;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,.5);
+      max-width: calc(100vw - 2rem);
+      text-align: center;
+    }
+
+    /* ── RESPONSIVE TWEAKS ── */
+    @media (max-width: 420px) {
+      .hero h1 { font-size: 2rem; }
+      header .site-title { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="images/mindset-logo.png" alt="Mindset VBC" />
+      </a>
+    </div>
+    <span class="site-title">🎯 MINDSET FAMILY FEUD</span>
+  </header>
+
+  <!-- MAIN -->
+  <main class="wrap">
+
+    <!-- ALREADY SUBMITTED -->
+    <div id="already-submitted">
+      <span class="check-icon">✅</span>
+      <h2>Already Submitted!</h2>
+      <p class="submitted-name">Submitted by: <strong id="submitted-name-display"></strong></p>
+      <p class="game-night">See you on game night! 🎉</p>
+      <button class="resubmit-link" onclick="clearAndResubmit()">Submitted by mistake? Clear and resubmit</button>
+    </div>
+
+    <!-- FORM SECTION -->
+    <div id="form-section">
+
+      <!-- HERO -->
+      <div class="hero">
+        <h1>🎯 FAMILY FEUD</h1>
+        <p>Answer each question with the FIRST thing that comes to mind! Your answers will be used for Family Feud game night at Nationals.</p>
+        <hr class="divider" />
+      </div>
+
+      <!-- FORM -->
+      <form id="feud-form" novalidate>
+
+        <!-- NAME CARD -->
+        <div class="card card-name">
+          <label for="player-name">Your Name</label>
+          <input
+            type="text"
+            id="player-name"
+            class="field-input"
+            placeholder="First and last name"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <!-- QUESTION CARDS -->
+        <div class="card q-card">
+          <span class="q-num">Q1</span>
+          <p class="q-text">Name something you always forget to pack for a volleyball tournament</p>
+          <input type="text" class="field-input q-input" data-q="q1" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q2</span>
+          <p class="q-text">Name something coaches always say during a timeout</p>
+          <input type="text" class="field-input q-input" data-q="q2" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q3</span>
+          <p class="q-text">Name something parents yell from the stands</p>
+          <input type="text" class="field-input q-input" data-q="q3" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q4</span>
+          <p class="q-text">Name something you'd find in a volleyball player's bag</p>
+          <input type="text" class="field-input q-input" data-q="q4" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q5</span>
+          <p class="q-text">Name the most annoying thing an opponent's team does</p>
+          <input type="text" class="field-input q-input" data-q="q5" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q6</span>
+          <p class="q-text">Name something a libero would say</p>
+          <input type="text" class="field-input q-input" data-q="q6" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q7</span>
+          <p class="q-text">Name an excuse players give when they miss a serve</p>
+          <input type="text" class="field-input q-input" data-q="q7" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q8</span>
+          <p class="q-text">Name a snack you MUST have in the car on the way to a tournament</p>
+          <input type="text" class="field-input q-input" data-q="q8" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q9</span>
+          <p class="q-text">Name something someone always forgets at the hotel when checking out</p>
+          <input type="text" class="field-input q-input" data-q="q9" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q10</span>
+          <p class="q-text">Name the first thing you do when you get to the hotel</p>
+          <input type="text" class="field-input q-input" data-q="q10" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q11</span>
+          <p class="q-text">Name something parents do while waiting between matches</p>
+          <input type="text" class="field-input q-input" data-q="q11" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q12</span>
+          <p class="q-text">Name the best post-game snack or meal</p>
+          <input type="text" class="field-input q-input" data-q="q12" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q13</span>
+          <p class="q-text">Name a movie every volleyball player has seen</p>
+          <input type="text" class="field-input q-input" data-q="q13" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q14</span>
+          <p class="q-text">Name a song that gets the team hyped before a match</p>
+          <input type="text" class="field-input q-input" data-q="q14" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q15</span>
+          <p class="q-text">Name a celebrity who would make the best volleyball coach</p>
+          <input type="text" class="field-input q-input" data-q="q15" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q16</span>
+          <p class="q-text">Name something Coach Billy always says</p>
+          <input type="text" class="field-input q-input" data-q="q16" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q17</span>
+          <p class="q-text">Name one word that describes this Mindset team</p>
+          <input type="text" class="field-input q-input" data-q="q17" placeholder="Your answer..." />
+        </div>
+
+        <div class="card q-card">
+          <span class="q-num">Q18</span>
+          <p class="q-text">Name the first person to fall asleep on the bus or in the hotel</p>
+          <input type="text" class="field-input q-input" data-q="q18" placeholder="Your answer..." />
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">SUBMIT MY ANSWERS</button>
+
+      </form>
+
+      <!-- SUCCESS -->
+      <div id="success-msg">
+        <span class="success-icon">🎉</span>
+        <h2>YOU'RE LOCKED IN!</h2>
+        <p id="success-text">See you on game night!</p>
+      </div>
+
+    </div><!-- /form-section -->
+
+  </main>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <script>
+    const GITHUB_API = 'https://api.github.com/repos/jcoogan80/mindset-nationals/contents/feud-data.json';
+    const SAVE_FN    = '/.netlify/functions/save';
+    const LS_KEY     = 'feud_submitted';
+
+    // ── On load: check already-submitted ──
+    (function checkSubmitted() {
+      const savedName = localStorage.getItem(LS_KEY);
+      if (savedName) {
+        showAlreadySubmitted(savedName);
+      }
+    })();
+
+    function showAlreadySubmitted(name) {
+      document.getElementById('form-section').style.display = 'none';
+      const el = document.getElementById('already-submitted');
+      document.getElementById('submitted-name-display').textContent = name;
+      el.style.display = 'block';
+    }
+
+    function clearAndResubmit() {
+      localStorage.removeItem(LS_KEY);
+      location.reload();
+    }
+
+    // ── Toast helper ──
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { t.style.display = 'none'; }, 4000);
+    }
+
+    // ── Validation ──
+    function validate() {
+      let firstError = null;
+
+      const nameInput = document.getElementById('player-name');
+      nameInput.classList.remove('error');
+      if (!nameInput.value.trim()) {
+        nameInput.classList.add('error');
+        if (!firstError) firstError = nameInput;
+      }
+
+      document.querySelectorAll('.q-input').forEach(input => {
+        input.classList.remove('error');
+        if (!input.value.trim()) {
+          input.classList.add('error');
+          if (!firstError) firstError = input;
+        }
+      });
+
+      if (firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstError.focus();
+        return false;
+      }
+      return true;
+    }
+
+    // ── Submit ──
+    document.getElementById('feud-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!validate()) return;
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const name = document.getElementById('player-name').value.trim();
+      const answers = {};
+      document.querySelectorAll('.q-input').forEach(input => {
+        answers[input.dataset.q] = input.value.trim();
+      });
+
+      try {
+        // 1. Fetch current feud-data.json from GitHub
+        const ghRes = await fetch(GITHUB_API, {
+          cache: 'no-store',
+          headers: { 'Accept': 'application/vnd.github.v3+json' }
+        });
+
+        if (!ghRes.ok) {
+          throw new Error('Could not load survey data. Please try again.');
+        }
+
+        const ghJson = await ghRes.json();
+        const sha = ghJson.sha;
+
+        // Decode base64 content
+        let feudData;
+        try {
+          const decoded = atob(ghJson.content.replace(/\n/g, ''));
+          feudData = JSON.parse(decoded);
+        } catch {
+          feudData = { responses: [], gameData: {} };
+        }
+
+        if (!Array.isArray(feudData.responses)) {
+          feudData.responses = [];
+        }
+
+        // 2. Append new response
+        feudData.responses.push({
+          name,
+          timestamp: new Date().toISOString(),
+          answers
+        });
+
+        // 3. POST to Netlify function
+        const saveRes = await fetch(SAVE_FN, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            data: feudData,
+            sha,
+            user: 'jcoogan80',
+            repo: 'mindset-nationals',
+            file: 'feud-data.json'
+          })
+        });
+
+        if (!saveRes.ok) {
+          const errBody = await saveRes.text();
+          throw new Error(errBody || 'Save failed. Please try again.');
+        }
+
+        // 4. Success!
+        localStorage.setItem(LS_KEY, name);
+
+        document.getElementById('feud-form').style.display = 'none';
+        const successMsg = document.getElementById('success-msg');
+        document.getElementById('success-text').textContent =
+          `Thanks ${name}! Your answers are locked in 🔒 See you on game night!`;
+        successMsg.style.display = 'block';
+        successMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      } catch (err) {
+        console.error(err);
+        showToast('⚠️ ' + (err.message || 'Something went wrong. Please try again.'));
+        btn.disabled = false;
+        btn.textContent = 'SUBMIT MY ANSWERS';
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindset Family Feud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #1565c0 100%);
+      color: #fff;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* ─── STATE WRAPPER ─────────────────────────────────────────────── */
+    .state {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .state.hidden { display: none !important; }
+
+    /* ─── GOLD TEXT ──────────────────────────────────────────────────── */
+    .gold {
+      color: #FFD700;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    }
+
+    /* ─── BUTTONS ────────────────────────────────────────────────────── */
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      transition: transform .15s, opacity .15s, box-shadow .15s;
+    }
+    button:hover:not(:disabled) { transform: scale(1.06); }
+    button:active:not(:disabled) { transform: scale(0.97); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ─── SPINNER ────────────────────────────────────────────────────── */
+    .spinner {
+      width: 28px; height: 28px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-top-color: #FFD700;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       STATE 1 — TITLE
+    ═══════════════════════════════════════════════════════════════════ */
+    #state-title { gap: 0; }
+
+    #title-logo {
+      width: 80px; height: 80px;
+      object-fit: contain;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 12px rgba(255,215,0,.5));
+    }
+
+    #title-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: #FFD700;
+      text-shadow: 0 0 20px rgba(255,215,0,.5);
+      line-height: 1;
+      margin: 0;
+    }
+
+    #title-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+      line-height: 1.1;
+      margin: 0 0 16px;
+    }
+
+    #title-divider {
+      width: 280px; height: 5px;
+      background: linear-gradient(90deg, transparent, #e53935, transparent);
+      border-radius: 3px;
+      margin: 8px 0 28px;
+    }
+
+    #btn-start {
+      background: #FFD700;
+      color: #1a237e;
+      font-size: 1.5rem;
+      padding: 1rem 3rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(255,215,0,.4);
+    }
+    #btn-start:hover:not(:disabled) { box-shadow: 0 6px 28px rgba(255,215,0,.65); }
+
+    #title-loading {
+      margin-top: 18px;
+      font-size: .95rem;
+      color: rgba(255,255,255,.7);
+      min-height: 26px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       STATE 2 — TEAM SETUP
+    ═══════════════════════════════════════════════════════════════════ */
+    #state-setup { gap: 0; }
+
+    #setup-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: #fff;
+      margin: 0 0 30px;
+      letter-spacing: 2px;
+    }
+
+    #setup-inputs {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .team-input-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .team-input-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      color: rgba(255,255,255,.75);
+      letter-spacing: .5px;
+    }
+
+    .team-input {
+      background: #fff;
+      color: #1a237e;
+      border: 3px solid transparent;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      padding: .75rem 1.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      width: 260px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .team-input:focus { border-color: #FFD700; }
+
+    #btn-play {
+      background: linear-gradient(135deg, #e53935, #b71c1c);
+      color: #fff;
+      font-size: 1.6rem;
+      padding: .9rem 3rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 18px rgba(229,57,53,.45);
+    }
+    #btn-play:hover { box-shadow: 0 6px 26px rgba(229,57,53,.7); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       STATE 3 — GAME PLAY
+    ═══════════════════════════════════════════════════════════════════ */
+    #state-game {
+      justify-content: flex-start;
+      padding: 0;
+      gap: 0;
+    }
+
+    /* ── TOP BAR ── */
+    #top-bar {
+      width: 100%;
+      height: 80px;
+      min-height: 80px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 24px;
+      background: rgba(0,0,0,.3);
+      border-bottom: 2px solid rgba(255,215,0,.3);
+      flex-shrink: 0;
+    }
+
+    .team-score-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .team-score-block.right { align-items: flex-end; }
+
+    .team-name-display {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.8);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .team-score-display {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: #FFD700;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+      line-height: 1;
+    }
+
+    #round-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    #round-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+
+    #round-pts {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      color: #FFD700;
+      letter-spacing: .5px;
+    }
+
+    /* ── QUESTION AREA ── */
+    #question-area {
+      width: 100%;
+      padding: 10px 2rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60px;
+      background: rgba(0,0,0,.15);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+
+    #question-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: #fff;
+      text-align: center;
+      letter-spacing: 1.5px;
+      line-height: 1.2;
+      max-width: 900px;
+    }
+
+    /* ── ANSWER BOARD ── */
+    #answer-board {
+      flex: 1;
+      width: 100%;
+      padding: 12px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    /* ── FLIP CARD ── */
+    .answer-card {
+      perspective: 800px;
+      min-height: 60px;
+    }
+    .answer-card.empty { visibility: hidden; }
+
+    .card-inner {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+    }
+    .answer-card.revealed .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #FFD700;
+    }
+
+    .card-front {
+      background: #1565c0;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .card-front:hover { background: #1976d2; }
+
+    .card-front-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: #FFD700;
+      text-shadow: 0 0 10px rgba(255,215,0,.4);
+    }
+
+    .card-back {
+      background: #2e7d32;
+      transform: rotateY(180deg);
+      border-color: #66bb6a;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px;
+    }
+
+    .card-answer-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .card-answer-pts {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: #FFD700;
+      letter-spacing: 1px;
+    }
+
+    /* ── BOTTOM CONTROLS ── */
+    #bottom-controls {
+      width: 100%;
+      min-height: 120px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: rgba(0,0,0,.35);
+      border-top: 2px solid rgba(255,215,0,.3);
+    }
+
+    /* ── STRIKES ── */
+    #strikes-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .strike-slot {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: transparent;
+      transition: all .2s;
+    }
+    .strike-slot.filled {
+      border-color: #ff1744;
+      color: #ff1744;
+      text-shadow: 0 0 8px rgba(255,23,68,.6);
+      animation: strikeIn .3s cubic-bezier(.4,0,.2,1) forwards;
+    }
+
+    @keyframes strikeIn {
+      0%   { transform: scale(0) rotate(-45deg); }
+      60%  { transform: scale(1.3) rotate(5deg); }
+      100% { transform: scale(1) rotate(0); }
+    }
+
+    /* ── CONTROL BUTTONS ROW ── */
+    #ctrl-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .ctrl-btn {
+      font-size: 1rem;
+      padding: .5rem 1rem;
+      border-radius: 8px;
+    }
+
+    #btn-strike {
+      background: #e53935;
+      color: #fff;
+    }
+    #btn-strike.steal-mode {
+      background: #ff9800;
+      color: #000;
+      animation: flashSteal .6s ease-in-out infinite alternate;
+    }
+    @keyframes flashSteal {
+      from { box-shadow: 0 0 0 rgba(255,152,0,0); }
+      to   { box-shadow: 0 0 18px 4px rgba(255,152,0,.8); }
+    }
+
+    #btn-award-t1 { background: #1565c0; color: #fff; }
+    #btn-award-t2 { background: #1565c0; color: #fff; }
+    #btn-next     { background: #455a64; color: #fff; }
+    #btn-reveal-all { background: #37474f; color: rgba(255,255,255,.85); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       STATE 4 — FINAL
+    ═══════════════════════════════════════════════════════════════════ */
+    #state-final { gap: 0; overflow: hidden; }
+
+    #final-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: #FFD700;
+      text-shadow: 0 0 30px rgba(255,215,0,.7);
+      margin: 0 0 24px;
+      animation: pulseGold 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGold {
+      from { text-shadow: 0 0 20px rgba(255,215,0,.5); }
+      to   { text-shadow: 0 0 50px rgba(255,215,0,1); }
+    }
+
+    #final-scores {
+      display: flex;
+      gap: 60px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .final-team-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .final-team-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: rgba(255,255,255,.9);
+      letter-spacing: 2px;
+    }
+
+    .final-team-score {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      line-height: 1;
+      color: #FFD700;
+      text-shadow: 0 0 20px rgba(255,215,0,.6);
+    }
+
+    .final-vs {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: rgba(255,255,255,.4);
+    }
+
+    #final-winner {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: #FFD700;
+      text-shadow: 0 0 30px rgba(255,215,0,.9);
+      margin-bottom: 32px;
+      letter-spacing: 3px;
+      animation: pulseGold 1s ease-in-out infinite alternate;
+    }
+
+    #btn-again {
+      background: linear-gradient(135deg, #FFD700, #ff9800);
+      color: #1a237e;
+      font-size: 1.5rem;
+      padding: .9rem 2.8rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(255,215,0,.4);
+      z-index: 10;
+    }
+
+    /* ── CONFETTI ── */
+    #confetti-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .confetto {
+      position: absolute;
+      top: -20px;
+      width: 10px; height: 14px;
+      border-radius: 2px;
+      opacity: .9;
+      animation: confettoFall linear forwards;
+    }
+
+    @keyframes confettoFall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: .9; }
+      80%  { opacity: .9; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     STATE 1 — TITLE
+═══════════════════════════════════════════════════════════════════ -->
+<div id="state-title" class="state">
+  <img id="title-logo" src="images/mindset-logo.png" alt="Mindset Logo"
+       onerror="this.style.display='none'" />
+  <p id="title-brand">MINDSET</p>
+  <p id="title-heading">FAMILY FEUD 🏐</p>
+  <div id="title-divider"></div>
+  <button id="btn-start">START GAME</button>
+  <div id="title-loading"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     STATE 2 — TEAM SETUP
+═══════════════════════════════════════════════════════════════════ -->
+<div id="state-setup" class="state hidden">
+  <p id="setup-title">Enter Team Names</p>
+  <div id="setup-inputs">
+    <div class="team-input-wrap">
+      <label class="team-input-label">🔴 Team 1 Name</label>
+      <input id="input-team1" class="team-input" type="text"
+             placeholder="Team 1 Name" maxlength="24" />
+    </div>
+    <div class="team-input-wrap">
+      <label class="team-input-label">🔵 Team 2 Name</label>
+      <input id="input-team2" class="team-input" type="text"
+             placeholder="Team 2 Name" maxlength="24" />
+    </div>
+  </div>
+  <button id="btn-play">LET'S PLAY!</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     STATE 3 — GAME PLAY
+═══════════════════════════════════════════════════════════════════ -->
+<div id="state-game" class="state hidden">
+
+  <!-- TOP BAR -->
+  <div id="top-bar">
+    <div class="team-score-block">
+      <span id="t1-name" class="team-name-display">Team 1</span>
+      <span id="t1-score" class="team-score-display">0</span>
+    </div>
+    <div id="round-info">
+      <span id="round-label">ROUND 1 OF 1</span>
+      <span id="round-pts">Points This Round: 0</span>
+    </div>
+    <div class="team-score-block right">
+      <span id="t2-name" class="team-name-display">Team 2</span>
+      <span id="t2-score" class="team-score-display">0</span>
+    </div>
+  </div>
+
+  <!-- QUESTION -->
+  <div id="question-area">
+    <div id="question-text">Loading question...</div>
+  </div>
+
+  <!-- ANSWER BOARD -->
+  <div id="answer-board"></div>
+
+  <!-- BOTTOM CONTROLS -->
+  <div id="bottom-controls">
+    <div id="strikes-row">
+      <div class="strike-slot" id="strike-0"></div>
+      <div class="strike-slot" id="strike-1"></div>
+      <div class="strike-slot" id="strike-2"></div>
+    </div>
+    <div id="ctrl-buttons">
+      <button id="btn-strike"      class="ctrl-btn">❌ STRIKE</button>
+      <button id="btn-award-t1"    class="ctrl-btn">🏆 +Points → <span id="ctrl-t1-name">Team 1</span></button>
+      <button id="btn-award-t2"    class="ctrl-btn">🏆 +Points → <span id="ctrl-t2-name">Team 2</span></button>
+      <button id="btn-reveal-all"  class="ctrl-btn">🔓 Reveal All</button>
+      <button id="btn-next"        class="ctrl-btn">➡️ Next Round</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     STATE 4 — FINAL
+═══════════════════════════════════════════════════════════════════ -->
+<div id="state-final" class="state hidden">
+  <div id="confetti-container"></div>
+  <p id="final-heading">🎉 GAME OVER! 🎉</p>
+  <div id="final-scores">
+    <div class="final-team-block">
+      <span id="final-t1-name" class="final-team-name">Team 1</span>
+      <span id="final-t1-score" class="final-team-score">0</span>
+    </div>
+    <span class="final-vs">VS</span>
+    <div class="final-team-block">
+      <span id="final-t2-name" class="final-team-name">Team 2</span>
+      <span id="final-t2-score" class="final-team-score">0</span>
+    </div>
+  </div>
+  <p id="final-winner"></p>
+  <button id="btn-again">🔄 PLAY AGAIN</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ─── AUDIO ─────────────────────────────────────────────────────── */
+  let audioCtx = null;
+
+  function ensureAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  }
+
+  function playReveal() {
+    try {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      [800, 1000, 1200].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + i * 0.09);
+        gain.gain.setValueAtTime(0, now + i * 0.09);
+        gain.gain.linearRampToValueAtTime(0.35, now + i * 0.09 + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.18);
+        osc.start(now + i * 0.09);
+        osc.stop(now + i * 0.09 + 0.2);
+      });
+    } catch(e) {}
+  }
+
+  function playStrike() {
+    try {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      const bufSize = audioCtx.sampleRate * 0.25;
+      const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
+      const src = audioCtx.createBufferSource();
+      src.buffer = buffer;
+      // low-pass filter to make it buzzy
+      const filt = audioCtx.createBiquadFilter();
+      filt.type = 'lowpass'; filt.frequency.value = 300;
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      src.connect(filt); filt.connect(gain); gain.connect(audioCtx.destination);
+      src.start(now); src.stop(now + 0.3);
+
+      // sawtooth tone underneath
+      const osc = audioCtx.createOscillator();
+      const og = audioCtx.createGain();
+      osc.type = 'sawtooth'; osc.frequency.value = 120;
+      og.gain.setValueAtTime(0.4, now);
+      og.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.connect(og); og.connect(audioCtx.destination);
+      osc.start(now); osc.stop(now + 0.28);
+    } catch(e) {}
+  }
+
+  function playRoundWin() {
+    try {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      const notes = [523.25, 659.25, 783.99]; // C5 E5 G5
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        const t = now + i * 0.14;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.45, t + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+        osc.start(t); osc.stop(t + 0.32);
+      });
+    } catch(e) {}
+  }
+
+  function playFanfare() {
+    try {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5 E5 G5 C6
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const t = now + i * 0.22;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.45, t + 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+        osc.start(t); osc.stop(t + 0.55);
+      });
+    } catch(e) {}
+  }
+
+  /* ─── STATE MACHINE ─────────────────────────────────────────────── */
+  const STATES = ['state-title', 'state-setup', 'state-game', 'state-final'];
+
+  function goToState(id) {
+    STATES.forEach(s => {
+      document.getElementById(s).classList.toggle('hidden', s !== id);
+    });
+  }
+
+  /* ─── GAME DATA ─────────────────────────────────────────────────── */
+  let gameData   = null;
+  let questions  = [];
+  let currentRound = 0;
+  let strikes    = 0;
+  let roundPoints = 0;
+  let scores     = { t1: 0, t2: 0 };
+  let team1name  = '';
+  let team2name  = '';
+  // local copy of revealed state (don't mutate gameData directly)
+  let revealedState = []; // array per question: array of booleans
+
+  const GITHUB_API_URL =
+    'https://api.github.com/repos/jcoogan80/mindset-nationals/contents/feud-data.json';
+
+  async function loadGameData() {
+    const loadingEl = document.getElementById('title-loading');
+    loadingEl.innerHTML = '<span class="spinner"></span> Loading game data...';
+    try {
+      const res = await fetch(GITHUB_API_URL, {
+        headers: { Accept: 'application/vnd.github.v3+json' },
+        cache: 'no-cache'
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const meta = await res.json();
+      // content is base64-encoded
+      const json = atob(meta.content.replace(/\n/g, ''));
+      gameData = JSON.parse(json);
+      questions = (gameData.questions || []).filter(q => q.active !== false);
+      // init revealed state
+      revealedState = questions.map(q => q.answers.map(() => false));
+      loadingEl.innerHTML = '✅ Game data loaded!';
+    } catch (err) {
+      console.warn('Failed to load feud-data.json from GitHub, using demo data.', err);
+      loadingEl.innerHTML = '⚠️ Using demo data (could not reach GitHub)';
+      useDemoData();
+    }
+    document.getElementById('btn-start').disabled = false;
+  }
+
+  function useDemoData() {
+    gameData = {
+      questions: [
+        {
+          id: 'q1',
+          question: 'Name something a volleyball player wears for protection.',
+          answers: [
+            { text: 'Knee pads',     points: 42 },
+            { text: 'Ankle brace',   points: 28 },
+            { text: 'Finger tape',   points: 14 },
+            { text: 'Arm sleeves',   points: 9  },
+            { text: 'Compression shorts', points: 5 },
+            { text: 'Glasses strap', points: 2  }
+          ],
+          active: true
+        },
+        {
+          id: 'q2',
+          question: 'Name something you do after winning a big tournament.',
+          answers: [
+            { text: 'Team picture',  points: 38 },
+            { text: 'Celebrate',     points: 25 },
+            { text: 'Call parents',  points: 18 },
+            { text: 'Social media post', points: 11 },
+            { text: 'Eat pizza',     points: 8  }
+          ],
+          active: true
+        },
+        {
+          id: 'q3',
+          question: 'Name something a coach yells during a game.',
+          answers: [
+            { text: 'Serve tough!',  points: 44 },
+            { text: 'Communicate!',  points: 30 },
+            { text: 'Rotate!',       points: 15 },
+            { text: 'Pass it up!',   points: 7  },
+            { text: 'Timeout!',      points: 4  }
+          ],
+          active: true
+        }
+      ],
+      teams: { team1: { name: '', score: 0 }, team2: { name: '', score: 0 } },
+      currentRound: 0
+    };
+    questions = gameData.questions.filter(q => q.active !== false);
+    revealedState = questions.map(q => q.answers.map(() => false));
+  }
+
+  /* ─── RENDER BOARD ──────────────────────────────────────────────── */
+  function renderBoard() {
+    const q = questions[currentRound];
+    const board = document.getElementById('answer-board');
+    board.innerHTML = '';
+
+    // Always render 8 cells (2×4 grid)
+    for (let i = 0; i < 8; i++) {
+      const card = document.createElement('div');
+      card.classList.add('answer-card');
+      card.dataset.idx = i;
+
+      if (i >= q.answers.length) {
+        card.classList.add('empty');
+        board.appendChild(card);
+        continue;
+      }
+
+      const ans = q.answers[i];
+      const isRevealed = revealedState[currentRound][i];
+
+      if (isRevealed) card.classList.add('revealed');
+
+      card.innerHTML = `
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <span class="card-front-num">${i + 1}</span>
+          </div>
+          <div class="card-face card-back">
+            <span class="card-answer-text">${escHtml(ans.text)}</span>
+            <span class="card-answer-pts">${ans.points} pts</span>
+          </div>
+        </div>`;
+
+      // Click front face to reveal
+      card.querySelector('.card-front').addEventListener('click', () => {
+        if (!card.classList.contains('revealed')) {
+          revealAnswer(i);
+        }
+      });
+
+      board.appendChild(card);
+    }
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  /* ─── START ROUND ───────────────────────────────────────────────── */
+  function startRound(idx) {
+    currentRound = idx;
+    strikes = 0;
+    roundPoints = 0;
+    updateStrikeDisplay();
+    updateRoundInfo();
+
+    const q = questions[currentRound];
+    document.getElementById('question-text').textContent = q.question;
+
+    // reset award/strike buttons
+    document.getElementById('btn-strike').disabled = false;
+    document.getElementById('btn-strike').classList.remove('steal-mode');
+    document.getElementById('btn-strike').textContent = '❌ STRIKE';
+
+    renderBoard();
+    recomputeRoundPoints(); // in case some answers were already revealed (shouldn't happen at start)
+    updateRoundPtsDisplay();
+  }
+
+  function recomputeRoundPoints() {
+    const q = questions[currentRound];
+    roundPoints = 0;
+    revealedState[currentRound].forEach((rev, i) => {
+      if (rev) roundPoints += (q.answers[i].points || 0);
+    });
+  }
+
+  /* ─── REVEAL ANSWER ─────────────────────────────────────────────── */
+  function revealAnswer(ansIdx) {
+    if (revealedState[currentRound][ansIdx]) return;
+    revealedState[currentRound][ansIdx] = true;
+
+    const q = questions[currentRound];
+    roundPoints += (q.answers[ansIdx].points || 0);
+    updateRoundPtsDisplay();
+
+    // Flip the card
+    const card = document.querySelector(`.answer-card[data-idx="${ansIdx}"]`);
+    if (card) card.classList.add('revealed');
+
+    playReveal();
+
+    // Check if all revealed
+    if (allRevealed()) {
+      playRoundWin();
+    }
+  }
+
+  function allRevealed() {
+    return revealedState[currentRound].every((v, i) => {
+      return v || i >= questions[currentRound].answers.length;
+    });
+  }
+
+  /* ─── ADD STRIKE ────────────────────────────────────────────────── */
+  function addStrike() {
+    if (strikes >= 3) return;
+    strikes++;
+    updateStrikeDisplay();
+    playStrike();
+
+    if (strikes >= 3) {
+      const btn = document.getElementById('btn-strike');
+      btn.textContent = '🔥 STEAL!';
+      btn.classList.add('steal-mode');
+      btn.disabled = true;
+    }
+  }
+
+  function updateStrikeDisplay() {
+    for (let i = 0; i < 3; i++) {
+      const slot = document.getElementById(`strike-${i}`);
+      if (i < strikes) {
+        slot.textContent = '✕';
+        slot.classList.add('filled');
+      } else {
+        slot.textContent = '';
+        slot.classList.remove('filled');
+        // re-trigger animation next time
+        slot.style.animation = 'none';
+        void slot.offsetWidth;
+        slot.style.animation = '';
+      }
+    }
+  }
+
+  /* ─── AWARD POINTS ──────────────────────────────────────────────── */
+  function awardPoints(team) {
+    if (team === 't1') {
+      scores.t1 += roundPoints;
+      animateScore('t1-score');
+    } else {
+      scores.t2 += roundPoints;
+      animateScore('t2-score');
+    }
+    roundPoints = 0;
+    updateScoreDisplay();
+    updateRoundPtsDisplay();
+    playRoundWin();
+  }
+
+  function animateScore(id) {
+    const el = document.getElementById(id);
+    el.style.transform = 'scale(1.4)';
+    el.style.transition = 'transform .2s';
+    setTimeout(() => { el.style.transform = 'scale(1)'; }, 250);
+  }
+
+  /* ─── NEXT ROUND ────────────────────────────────────────────────── */
+  function nextRound() {
+    if (currentRound + 1 >= questions.length) {
+      showFinalScreen();
+    } else {
+      startRound(currentRound + 1);
+    }
+  }
+
+  /* ─── REVEAL ALL ────────────────────────────────────────────────── */
+  function revealAll() {
+    const q = questions[currentRound];
+    q.answers.forEach((_, i) => {
+      if (!revealedState[currentRound][i]) {
+        setTimeout(() => revealAnswer(i), i * 120);
+      }
+    });
+  }
+
+  /* ─── FINAL SCREEN ──────────────────────────────────────────────── */
+  function showFinalScreen() {
+    document.getElementById('final-t1-name').textContent  = team1name;
+    document.getElementById('final-t2-name').textContent  = team2name;
+    document.getElementById('final-t1-score').textContent = scores.t1;
+    document.getElementById('final-t2-score').textContent = scores.t2;
+
+    let winnerText = '';
+    if (scores.t1 > scores.t2)       winnerText = `🏆 ${team1name} WINS!`;
+    else if (scores.t2 > scores.t1)  winnerText = `🏆 ${team2name} WINS!`;
+    else                              winnerText = "🤝 IT'S A TIE!";
+    document.getElementById('final-winner').textContent = winnerText;
+
+    goToState('state-final');
+    playFanfare();
+    launchConfetti();
+  }
+
+  /* ─── CONFETTI ──────────────────────────────────────────────────── */
+  function launchConfetti() {
+    const container = document.getElementById('confetti-container');
+    container.innerHTML = '';
+    const colors = ['#FFD700','#e53935','#1565c0','#fff','#66bb6a','#ff9800','#ab47bc'];
+    for (let i = 0; i < 120; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetto';
+      c.style.left        = Math.random() * 100 + 'vw';
+      c.style.width       = (8 + Math.random() * 8) + 'px';
+      c.style.height      = (10 + Math.random() * 10) + 'px';
+      c.style.background  = colors[Math.floor(Math.random() * colors.length)];
+      const dur = 2.5 + Math.random() * 3;
+      const delay = Math.random() * 2;
+      c.style.animationDuration = dur + 's';
+      c.style.animationDelay   = delay + 's';
+      c.style.borderRadius     = Math.random() > 0.5 ? '50%' : '2px';
+      container.appendChild(c);
+    }
+  }
+
+  /* ─── DISPLAY HELPERS ───────────────────────────────────────────── */
+  function updateScoreDisplay() {
+    document.getElementById('t1-score').textContent = scores.t1;
+    document.getElementById('t2-score').textContent = scores.t2;
+  }
+
+  function updateRoundInfo() {
+    document.getElementById('round-label').textContent =
+      `ROUND ${currentRound + 1} OF ${questions.length}`;
+    updateRoundPtsDisplay();
+  }
+
+  function updateRoundPtsDisplay() {
+    document.getElementById('round-pts').textContent =
+      `Points This Round: ${roundPoints}`;
+  }
+
+  function updateTeamNames() {
+    document.getElementById('t1-name').textContent      = team1name;
+    document.getElementById('t2-name').textContent      = team2name;
+    document.getElementById('ctrl-t1-name').textContent = team1name;
+    document.getElementById('ctrl-t2-name').textContent = team2name;
+  }
+
+  /* ─── WIRE UP BUTTONS ───────────────────────────────────────────── */
+
+  // Title → load then enable start
+  document.getElementById('btn-start').disabled = true;
+  document.getElementById('btn-start').addEventListener('click', () => {
+    ensureAudio();
+    goToState('state-setup');
+    // Pre-fill from gameData if team names present
+    if (gameData && gameData.teams) {
+      const t1 = gameData.teams.team1 && gameData.teams.team1.name;
+      const t2 = gameData.teams.team2 && gameData.teams.team2.name;
+      if (t1) document.getElementById('input-team1').value = t1;
+      if (t2) document.getElementById('input-team2').value = t2;
+    }
+  });
+
+  // Setup → game
+  document.getElementById('btn-play').addEventListener('click', () => {
+    ensureAudio();
+    const v1 = document.getElementById('input-team1').value.trim();
+    const v2 = document.getElementById('input-team2').value.trim();
+    team1name = v1 || 'Team 1';
+    team2name = v2 || 'Team 2';
+    scores = { t1: 0, t2: 0 };
+    revealedState = questions.map(q => q.answers.map(() => false));
+
+    updateTeamNames();
+    updateScoreDisplay();
+
+    goToState('state-game');
+    startRound(0);
+  });
+
+  // Strike
+  document.getElementById('btn-strike').addEventListener('click', () => {
+    ensureAudio();
+    addStrike();
+  });
+
+  // Award Team 1
+  document.getElementById('btn-award-t1').addEventListener('click', () => {
+    ensureAudio();
+    awardPoints('t1');
+  });
+
+  // Award Team 2
+  document.getElementById('btn-award-t2').addEventListener('click', () => {
+    ensureAudio();
+    awardPoints('t2');
+  });
+
+  // Reveal All
+  document.getElementById('btn-reveal-all').addEventListener('click', () => {
+    ensureAudio();
+    revealAll();
+  });
+
+  // Next Round
+  document.getElementById('btn-next').addEventListener('click', () => {
+    ensureAudio();
+    nextRound();
+  });
+
+  // Play Again
+  document.getElementById('btn-again').addEventListener('click', () => {
+    window.location.reload();
+  });
+
+  // Enter key on setup inputs
+  ['input-team1', 'input-team2'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('btn-play').click();
+    });
+  });
+
+  /* ─── KEYBOARD SHORTCUTS ────────────────────────────────────────── */
+  document.addEventListener('keydown', e => {
+    const state = STATES.find(s => !document.getElementById(s).classList.contains('hidden'));
+    if (state !== 'state-game') return;
+
+    const q = questions[currentRound];
+    if (!q) return;
+
+    // Number keys 1-8 → reveal that answer
+    const num = parseInt(e.key, 10);
+    if (num >= 1 && num <= 8) {
+      const idx = num - 1;
+      if (idx < q.answers.length) revealAnswer(idx);
+      return;
+    }
+
+    switch (e.key.toLowerCase()) {
+      case 's': addStrike(); break;
+      case '1': if (e.altKey) { awardPoints('t1'); } break;
+      case '2': if (e.altKey) { awardPoints('t2'); } break;
+      case 'r': revealAll(); break;
+      case 'n': nextRound(); break;
+    }
+  });
+
+  /* ─── INIT ──────────────────────────────────────────────────────── */
+  loadGameData();
+})();
+</script>
+</body>
+</html>

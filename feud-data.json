@@ -1,0 +1,8 @@
+{
+  "responses": [],
+  "gameData": {
+    "questions": [],
+    "teams": {"team1": {"name": "", "score": 0}, "team2": {"name": "", "score": 0}},
+    "currentRound": 0
+  }
+}
