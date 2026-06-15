@@ -642,19 +642,14 @@
   /* ────────────────────────────────────────────────────────────
      DATA LOADING
   ──────────────────────────────────────────────────────────── */
-  const API_URL = 'https://api.github.com/repos/jcoogan80/mindset-nationals/contents/feud-data.json';
-
   async function loadGameData() {
     const el = document.getElementById('title-loading');
     el.innerHTML = '<span class="spinner"></span> Loading game data...';
     try {
-      const res = await fetch(API_URL, {
-        headers: { Accept: 'application/vnd.github.v3+json' },
-        cache: 'no-store'
-      });
+      // Fetch the static file directly — no GitHub API, no rate limits, no base64
+      const res = await fetch('/feud-data.json?t=' + Date.now());
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      const meta = await res.json();
-      const data = JSON.parse(atob(meta.content.replace(/\n/g,'')));
+      const data = await res.json();
       const gd = data.gameData || data;
       questions = (gd.questions || []).filter(q => q.active !== false);
       if (!questions.length) throw new Error('No active questions in gameData');
@@ -673,15 +668,22 @@
       {
         id:'q1', question:'Name something you always forget to pack for a volleyball tournament',
         answers:[
-          {text:'Knee Pads',points:4},{text:'Water Bottle',points:3},
-          {text:'Charger',points:2},{text:'Shoes',points:1}
+          {text:'Knee Pads',points:25},{text:'Water Bottle',points:20},
+          {text:'Charger',points:15},{text:'Shoes',points:10},{text:'Socks',points:5}
         ], active:true
       },
       {
         id:'q2', question:'Name something coaches always say during a timeout',
         answers:[
-          {text:"Let's Go!",points:4},{text:'Move Your Feet',points:3},
-          {text:'Talk To Each Other',points:2},{text:'Serve Tough',points:1}
+          {text:"Let's Go!",points:25},{text:'Move Your Feet',points:20},
+          {text:'Talk To Each Other',points:15},{text:'Serve Tough',points:10},{text:'Have Fun',points:5}
+        ], active:true
+      },
+      {
+        id:'q3', question:"Name something you'd find in a volleyball player's bag",
+        answers:[
+          {text:'Knee Pads',points:25},{text:'Water Bottle',points:20},
+          {text:'Hair Ties',points:15},{text:'Spandex',points:10},{text:'Phone',points:5}
         ], active:true
       }
     ];
