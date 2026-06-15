@@ -82,7 +82,7 @@
         +(d.hasReelUI?'<div class="spot-stat"><span>Height</span><b>'+esc(d.height&&d.height!=='—'?d.height:'—')+'</b></div>':'')
       +'</div>';
     }
-    if(igText) html+=(ig?'<a class="spot-ig" href="'+esc(ig)+'" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i>'+esc(igText)+'</a>':'<div class="spot-ig"><i class="ti ti-brand-instagram"></i>'+esc(igText)+'</div>');
+    html+=(igText&&ig?'<a class="spot-ig" href="'+esc(ig)+'" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i>'+esc(igText)+'</a>':igText?'<div class="spot-ig"><i class="ti ti-brand-instagram"></i>'+esc(igText)+'</div>':'<div class="spot-ig" style="visibility:hidden" aria-hidden="true"><i class="ti ti-brand-instagram"></i></div>');
     if(d.hasReelUI) html+='<button class="spot-reel"><i class="ti ti-player-play-filled"></i>'+(d.hasReel?'Watch Highlights':'Add Highlight Reel')+'</button>';
     html+='</div>';
     spotCard.innerHTML=html;

@@ -230,11 +230,17 @@ body.em .pupbtn{display:block}
 .pkico{width:30px;height:30px;min-width:30px;background:var(--red);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.88rem}
 
 /* ROSTER */
-.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:.45rem}
-.rcard{background:var(--offwhite);border-radius:8px;padding:.6rem .55rem;text-align:center;border:1px solid var(--lightgray)}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:.6rem}
+.rcard{position:relative;background:#fff;border-radius:11px;overflow:hidden;border:1px solid var(--lightgray);transition:box-shadow .25s ease,transform .25s ease}
+.rcard:hover{box-shadow:0 10px 24px -10px rgba(0,0,0,.32);transform:translateY(-2px)}
+.rphoto{position:relative;aspect-ratio:3/4;overflow:hidden}
+.rphoto img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.rphoto-fb{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:3.4rem;letter-spacing:1px;color:rgba(255,255,255,.92);background:linear-gradient(155deg,var(--red),#7a0000)}
+.rnum-badge{position:absolute;top:.45rem;left:.45rem;z-index:2;min-width:30px;height:30px;padding:0 .35rem;border-radius:30px;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.05rem;line-height:1;box-shadow:0 2px 7px rgba(0,0,0,.35)}
+.rmeta{padding:.5rem .5rem .62rem;text-align:center}
 .rnum{font-family:var(--fd);font-size:1.6rem;color:var(--red);line-height:1}
-.rname{font-size:.73rem;font-weight:500;margin-top:.16rem}
-.rpos{font-size:.64rem;color:var(--gray)}
+.rname{font-size:.83rem;font-weight:700;color:var(--black);line-height:1.15}
+.rpos{font-size:.62rem;color:var(--gray);margin-top:.16rem;text-transform:uppercase;letter-spacing:.5px}
 
 /* GALLERY */
 .ggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:.55rem}
@@ -301,5 +307,5 @@ body.em .tredit-btn{display:block}
 
   /* Tap targets: 44px minimum */
   .edit-btn{min-height:44px;padding:.5rem .8rem}
-  button{min-height:44px}
+  button:not(.spot-dot){min-height:44px}
 }

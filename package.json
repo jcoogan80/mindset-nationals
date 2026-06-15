@@ -1,0 +1,15 @@
+{
+  "name": "mindset-nationals",
+  "version": "1.0.0",
+  "description": "Mindset VBC 2026 USAV Girls Junior Nationals tournament site",
+  "private": true,
+  "scripts": {
+    "start": "netlify dev"
+  },
+  "dependencies": {
+    "netlify": "^3.0.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

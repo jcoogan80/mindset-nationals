@@ -30,7 +30,7 @@
 
 <header class="hdr">
   <div class="hdr-main">
-    <img class="hdr-logo" id="hdr-logo" src="" alt="Mindset 2026">
+    <a href="/"><img class="hdr-logo" id="hdr-logo" src="" alt="Mindset 2026"></a>
     <div class="hdr-title">Mindset Premier 15 Red<span>2026 USAV Girls Junior Nationals · Indianapolis, IN</span></div>
     <div class="hdr-right">
       <div class="wx-mini" id="wx-mini"></div>
@@ -56,6 +56,7 @@
 
 <!-- MODERN HERO -->
 <section class="hero" id="hero">
+  <img class="hero-photo" src="images/_DSC1746.jpg" alt="Mindset Premier 15 Red — 2026 USAV Girls Junior Nationals" loading="eager">
   <div class="hero-inner">
     <div class="hero-eyebrow">2026 USAV Girls Junior Nationals</div>
     <div class="hero-medallion-wrap">
@@ -92,14 +93,6 @@
 </div>
 
 <div class="wrap">
-
-  <div style="width:100%;border-radius:12px;overflow:hidden;margin-bottom:1rem;position:relative">
-    <img src="images/15-team-photo.png" class="team-banner-img" style="width:100%;height:350px;object-fit:contain;object-position:center center;display:block;background-color:#000">
-    <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.78));padding:1rem 1.25rem">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:#fff">Mindset Premier 15 Red</div>
-      <div style="font-size:.78rem;color:rgba(255,255,255,0.7)">2026 USAV Girls Junior National Championships · Indianapolis, IN</div>
-    </div>
-  </div>
 
   <!-- STAT BANNER -->
   <div class="stat-row">
@@ -238,7 +231,7 @@
 
   <!-- PLAYERS -->
   <div class="sec" id="tab-players">
-    <div class="sec-hd"><i class="ti ti-id-badge"></i><h2>Player Profiles</h2></div>
+    <div class="sec-hd"><i class="ti ti-id-badge"></i><h2>Player Profiles</h2><button class="playall" id="playall-players"><i class="ti ti-player-play-filled"></i> Play All</button></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Tap photo to upload · click any field to edit · add highlight reel link</p>
     <div class="pgrid" id="pgrid"></div>
     <div class="sec-hd" style="margin-top:1.5rem"><i class="ti ti-whistle" style="font-size:1.15rem;color:var(--red)"></i><h2>Coaching Staff</h2></div>
@@ -801,8 +794,21 @@ function buildStaffGrid(){
 function buildRoster(){
   const g=document.getElementById('roster-grid'); g.innerHTML='';
   PLAYERS.forEach(p=>{
+    const pd = (D.players && D.players[p.id]) || {};
+    const num = pd.num || p.num;
+    const photoUrl = pd.photo_url || '';
+    const imgTag = photoUrl ? `<img src="${photoUrl}" alt="${p.name}" loading="lazy">` : '';
     const d=document.createElement('div'); d.className='rcard';
-    d.innerHTML=`<div class="rnum">${p.num}</div><div class="rname">${p.name}</div><div class="rpos">${p.pos}</div>`;
+    d.innerHTML=`
+      <div class="rphoto">
+        <div class="rphoto-fb">${num}</div>
+        ${imgTag}
+        <div class="rnum-badge">${num}</div>
+      </div>
+      <div class="rmeta">
+        <div class="rname">${p.name}</div>
+        <div class="rpos">${p.pos}</div>
+      </div>`;
     g.appendChild(d);
   });
 }
@@ -1049,7 +1055,7 @@ function countdown(){
 document.addEventListener('DOMContentLoaded',()=>bindEditables());
 </script>
 <div style="text-align:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap">
-  <a href="/consent.html" style="color:rgba(255,255,255,0.45);text-decoration:none;font-size:.78rem;font-family:'DM Sans',sans-serif;letter-spacing:.4px;transition:color .15s" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Parent Consent Form</a>
+  <a href="/consent" style="color:rgba(255,255,255,0.45);text-decoration:none;font-size:.78rem;font-family:'DM Sans',sans-serif;letter-spacing:.4px;transition:color .15s" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Parent Consent Form</a>
   <a href="https://mindsetvolleyballclub.com/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.45);text-decoration:none;font-size:.78rem;font-family:'DM Sans',sans-serif;letter-spacing:.4px;transition:color .15s" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">MindsetVolleyballClub.com</a>
 </div>
 <script src="js/modern-scroll.js"></script>
