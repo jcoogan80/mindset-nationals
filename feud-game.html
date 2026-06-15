@@ -414,6 +414,71 @@
       box-shadow: 0 4px 22px rgba(255,215,0,.45); z-index: 10;
     }
 
+    /* ══ 2X DOUBLE BADGE (scorebar) ══ */
+    #double-badge {
+      font-family: 'Bebas Neue', sans-serif; font-size: .82rem; letter-spacing: 1.5px;
+      color: #FF8C00; background: rgba(255,140,0,.15);
+      border: 1px solid rgba(255,140,0,.55); border-radius: 4px;
+      padding: 1px 7px;
+      animation: badgePulse .8s ease-in-out infinite alternate;
+    }
+    #double-badge.hidden { display: none; }
+    @keyframes badgePulse {
+      from { opacity: .65; }
+      to   { opacity: 1; box-shadow: 0 0 9px rgba(255,140,0,.55); }
+    }
+
+    /* ══ DOUBLE POINTS TRANSITION SCREEN ══ */
+    #state-double {
+      background: radial-gradient(ellipse at 50% 40%, #2a0d00 0%, #0d0400 55%, #000 100%);
+      z-index: 50;
+    }
+    #double-content {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      animation: doubleIn .65s cubic-bezier(.2, 1.35, .5, 1) both;
+    }
+    @keyframes doubleIn {
+      from { transform: scale(0.55); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+    .double-lightning {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      animation: lightFlash .35s ease-in-out infinite alternate;
+    }
+    @keyframes lightFlash {
+      from { opacity: .5; transform: scale(.9) rotate(-5deg); }
+      to   { opacity: 1;  transform: scale(1.15) rotate(5deg); }
+    }
+    #double-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 17vw, 11rem);
+      line-height: .92; text-align: center; color: #FFD700;
+      text-shadow: 0 0 40px rgba(255,215,0,.9), 0 0 80px rgba(255,120,0,.6);
+      animation: doubleGlow 1s ease-in-out infinite alternate;
+    }
+    @keyframes doubleGlow {
+      from { text-shadow: 0 0 30px rgba(255,215,0,.7), 0 0 60px rgba(255,100,0,.4); }
+      to   { text-shadow: 0 0 70px rgba(255,215,0,1), 0 0 110px rgba(255,100,0,.7), 0 0 150px rgba(220,30,0,.4); }
+    }
+    #double-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.45rem); font-weight: 700;
+      color: #fff; letter-spacing: .5px; text-align: center;
+    }
+    #double-values {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5.5vw, 3.8rem);
+      color: #FF8C00; letter-spacing: 3px;
+      text-shadow: 0 0 22px rgba(255,140,0,.8);
+      animation: doubleGlow 1s ease-in-out infinite alternate;
+    }
+    #btn-double-continue {
+      background: linear-gradient(135deg, #FFD700, #FF8C00);
+      color: #0d1b4b; font-size: 1.6rem;
+      padding: .9rem 3rem; border-radius: 12px; margin-top: 8px;
+      box-shadow: 0 4px 24px rgba(255,180,0,.45);
+    }
+    #btn-double-continue:hover { box-shadow: 0 6px 36px rgba(255,180,0,.75); }
+
     /* Confetti */
     #confetti-container {
       position: absolute; inset: 0; pointer-events: none; overflow: hidden;
@@ -475,6 +540,7 @@
     </div>
     <div class="score-center">
       <div id="round-label">ROUND 1 OF 1</div>
+      <div id="double-badge" class="hidden">⚡ 2X DOUBLE ⚡</div>
       <div id="round-pts">0 PTS REVEALED</div>
     </div>
     <div class="score-side right" id="score-right">
@@ -522,6 +588,20 @@
       <button id="btn-reveal-all"  class="ctrl-btn">🔓 REVEAL ALL</button>
       <button id="btn-next"        class="ctrl-btn">NEXT ROUND ➡</button>
     </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     STATE: DOUBLE POINTS TRANSITION
+══════════════════════════════════════════════════════════ -->
+<div id="state-double" class="state hidden">
+  <div id="double-content">
+    <div class="double-lightning">⚡</div>
+    <div id="double-headline">DOUBLE<br>POINTS</div>
+    <div class="double-lightning">⚡</div>
+    <div id="double-subtitle">All point values are now DOUBLED!</div>
+    <div id="double-values">50 &nbsp;·&nbsp; 40 &nbsp;·&nbsp; 30 &nbsp;·&nbsp; 20 &nbsp;·&nbsp; 10</div>
+    <button id="btn-double-continue">CONTINUE →</button>
   </div>
 </div>
 
@@ -617,6 +697,36 @@
     } catch(e) {}
   }
 
+  function playDoubleFanfare() {
+    try {
+      ensureAudio();
+      const ctx = audioCtx;
+      const now = ctx.currentTime;
+      // Bass thump
+      const bass = ctx.createOscillator(), bassG = ctx.createGain();
+      bass.type = 'sine'; bass.frequency.value = 80;
+      bass.connect(bassG); bassG.connect(ctx.destination);
+      bassG.gain.setValueAtTime(0, now);
+      bassG.gain.linearRampToValueAtTime(0.7, now + 0.05);
+      bassG.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+      bass.start(now); bass.stop(now + 0.6);
+      // Ascending dramatic fanfare
+      const notes = [220, 277, 330, 415, 523, 622, 784, 1047];
+      notes.forEach((freq, i) => {
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = i < 4 ? 'square' : 'triangle';
+        osc.frequency.value = freq;
+        osc.connect(g); g.connect(ctx.destination);
+        const t = now + i * 0.13;
+        const dur = i === notes.length - 1 ? 0.9 : 0.22;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.35, t + 0.04);
+        g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        osc.start(t); osc.stop(t + dur + 0.05);
+      });
+    } catch(e) {}
+  }
+
   function playFanfare() {
     try {
       ensureAudio();
@@ -636,7 +746,7 @@
   /* ────────────────────────────────────────────────────────────
      STATE MACHINE
   ──────────────────────────────────────────────────────────── */
-  const ALL_STATES = ['state-title','state-setup','state-game','state-final'];
+  const ALL_STATES = ['state-title','state-setup','state-game','state-double','state-final'];
   function goToState(id) {
     ALL_STATES.forEach(s => document.getElementById(s).classList.toggle('hidden', s !== id));
   }
@@ -654,15 +764,8 @@
   let revealedState= [];   // [round][answerIdx] = boolean
   let activeTeam   = null; // 't1' or 't2'
 
-  // Round structure: Q0-1 = Round 1 (1×), Q2-3 = Round 2 (2× double points)
-  const GAME_ROUNDS = [
-    { label: 'ROUND 1', indices: [0, 1], multiplier: 1 },
-    { label: 'ROUND 2', indices: [2, 3], multiplier: 2 }
-  ];
-  function currentGameRound() {
-    return GAME_ROUNDS.find(gr => gr.indices.includes(currentRound)) || GAME_ROUNDS[0];
-  }
-  function getMultiplier() { return currentGameRound().multiplier; }
+  // Rounds 1-2 (index 0-1): normal points. Round 3+ (index 2+): double points.
+  function getMultiplier() { return currentRound >= 2 ? 2 : 1; }
 
   /* ────────────────────────────────────────────────────────────
      DATA LOADING
@@ -762,13 +865,11 @@
 
   function updateBoardTitle() {
     const q = questions[currentRound];
-    const gr = currentGameRound();
-    const mult = gr.multiplier;
+    const mult = getMultiplier();
     const totalPts = q.answers.reduce((s, a) => s + (a.points || 0), 0) * mult;
-    const qInRound = gr.indices.indexOf(currentRound) + 1;
     const doubleTag = mult > 1 ? '  ·  ×2 DOUBLE' : '';
     document.getElementById('board-title').textContent =
-      `${gr.label} · Q${qInRound}${doubleTag}  ·  ${totalPts} PTS`;
+      `ROUND ${currentRound + 1}${doubleTag}  ·  ${totalPts} POINTS ON THE BOARD`;
   }
 
   function escHtml(s) {
@@ -928,11 +1029,23 @@
      NEXT ROUND / FINAL
   ──────────────────────────────────────────────────────────── */
   function nextRound() {
-    if (currentRound + 1 >= questions.length) {
+    const nextIdx = currentRound + 1;
+    if (nextIdx >= questions.length) {
       showFinal();
+    } else if (nextIdx === 2) {
+      // Transition to double points before starting round 3
+      showDoublePointsScreen(nextIdx);
     } else {
-      startRound(currentRound + 1);
+      startRound(nextIdx);
     }
+  }
+
+  function showDoublePointsScreen(nextIdx) {
+    goToState('state-double');
+    playDoubleFanfare();
+    document.getElementById('btn-double-continue').onclick = () => {
+      startRound(nextIdx);
+    };
   }
 
   function showFinal() {
@@ -959,12 +1072,10 @@
   }
 
   function updateRoundInfo() {
-    const gr = currentGameRound();
-    const qInRound = gr.indices.indexOf(currentRound) + 1;
-    const totalInRound = gr.indices.filter(i => i < questions.length).length;
-    const doubleTag = gr.multiplier > 1 ? ' · ×2 DOUBLE POINTS' : '';
     document.getElementById('round-label').textContent =
-      `${gr.label}${doubleTag} · Q${qInRound} OF ${totalInRound}`;
+      `ROUND ${currentRound + 1} OF ${questions.length}`;
+    const badge = document.getElementById('double-badge');
+    if (badge) badge.classList.toggle('hidden', getMultiplier() === 1);
     updateRoundPtsDisplay();
   }
 
