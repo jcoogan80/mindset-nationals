@@ -2,9 +2,9 @@
 /* IMPORTANT: bump this version string on every deploy to bust the cache for installed users */
 const CACHE = 'mindset-nationals-v1';
 const CORE = [
-  '/index.html',
-  '/14red.html',
-  '/15red.html',
+  '/',
+  '/14red',
+  '/15red',
   '/css/index.css',
   '/css/hub.css',
   '/css/14red.css',
