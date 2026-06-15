@@ -33,6 +33,48 @@
     button:active:not(:disabled) { transform: scale(0.97); }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
 
+    /* ── GAME LOCK OVERLAY ── */
+    #game-lock {
+      position: fixed; inset: 0; z-index: 99999;
+      background: linear-gradient(160deg, #0a0e2e 0%, #0d1f5c 45%, #0a3d7a 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0; padding: 2rem;
+    }
+    #game-lock.unlocked { display: none; }
+    #lock-icon { font-size: 3.2rem; margin-bottom: .5rem; }
+    #lock-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem;
+      color: #FFD700; letter-spacing: 2px; margin-bottom: .25rem; text-align: center;
+    }
+    #lock-sub {
+      font-size: .9rem; color: rgba(255,255,255,.6); margin-bottom: 1.8rem; text-align: center;
+    }
+    #lock-form {
+      display: flex; flex-direction: column; align-items: center; gap: .75rem;
+      width: 100%; max-width: 320px;
+    }
+    #lock-input {
+      width: 100%; padding: .7rem 1rem; font-size: 1rem;
+      border: 2px solid rgba(255,215,0,.35); border-radius: 8px;
+      background: rgba(255,255,255,.08); color: #fff;
+      outline: none; text-align: center; letter-spacing: 2px;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color .2s;
+    }
+    #lock-input:focus { border-color: #FFD700; }
+    #lock-input::placeholder { color: rgba(255,255,255,.35); letter-spacing: 0; }
+    #lock-submit {
+      width: 100%; background: #FFD700; color: #0d1b4b;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem;
+      padding: .65rem; border-radius: 8px; letter-spacing: 1px;
+    }
+    #lock-submit:hover { box-shadow: 0 4px 18px rgba(255,215,0,.5); }
+    #lock-error {
+      font-size: .8rem; color: #ff6b6b; text-align: center;
+      display: none; margin-top: -.25rem;
+    }
+    #lock-error.show { display: block; }
+
     /* ── SPINNER ── */
     .spinner {
       display: inline-block; width: 22px; height: 22px; vertical-align: middle;
@@ -504,6 +546,19 @@
   </style>
 </head>
 <body>
+
+<!-- GAME LOCK — shown until correct password entered -->
+<div id="game-lock">
+  <div id="lock-icon">🔒</div>
+  <div id="lock-title">MINDSET FAMILY FEUD</div>
+  <div id="lock-sub">Game board is locked. Enter the password to start.</div>
+  <div id="lock-form">
+    <input id="lock-input" type="password" placeholder="Enter password" autocomplete="off"
+           onkeydown="if(event.key==='Enter')checkGameLock()" />
+    <button id="lock-submit" onclick="checkGameLock()">UNLOCK GAME →</button>
+    <div id="lock-error">🔒 Game board is locked. See your team admin to start the game.</div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════════════════
      STATE 1 — TITLE
@@ -1189,6 +1244,22 @@
       case ' ': e.preventDefault(); revealNext(); break;
     }
   });
+
+  /* ────────────────────────────────────────────────────────────
+     GAME LOCK
+  ──────────────────────────────────────────────────────────── */
+  function checkGameLock() {
+    const val = document.getElementById('lock-input').value;
+    if (val === 'Pr3m!er26') {
+      document.getElementById('game-lock').classList.add('unlocked');
+    } else {
+      const err = document.getElementById('lock-error');
+      err.classList.add('show');
+      document.getElementById('lock-input').value = '';
+      document.getElementById('lock-input').focus();
+      setTimeout(() => err.classList.remove('show'), 3500);
+    }
+  }
 
   /* ────────────────────────────────────────────────────────────
      INIT
