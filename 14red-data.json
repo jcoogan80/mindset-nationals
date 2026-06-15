@@ -1094,6 +1094,11 @@
         "name": "Movie Night",
         "amount": 400,
         "date": "Jun 15, 2026"
+      },
+      {
+        "name": "Cash Donations",
+        "amount": 1473,
+        "date": "Jun 15, 2026"
       }
     ]
   }
