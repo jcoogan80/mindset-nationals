@@ -10,6 +10,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/index.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#CC0000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-192.png">
 </head>
 <body>
 
@@ -131,5 +137,6 @@
 </footer>
 
 <script src="index.js"></script>
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </body>
 </html>
