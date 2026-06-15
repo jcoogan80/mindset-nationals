@@ -255,6 +255,21 @@
     }
     .ans-row.revealed .ans-pts { color: #FFD700; }
 
+    /* ── DOUBLE MODE (Round 2) ── */
+    #game-board.double-mode {
+      border-color: #FF8C00;
+      box-shadow: 0 0 40px rgba(255,140,0,.5), 0 0 80px rgba(255,140,0,.2);
+    }
+    #game-board.double-mode .ans-row {
+      border-color: rgba(255,140,0,.35);
+    }
+    #game-board.double-mode .ans-row:hover:not(.revealed):not(.empty) {
+      background: #2a1800; border-color: rgba(255,140,0,.6);
+    }
+    #game-board.double-mode .ans-num { color: #FF8C00; }
+    #game-board.double-mode .ans-row.revealed .ans-pts { color: #FF8C00; }
+    #scorebar.double-mode { border-bottom-color: #FF8C00; }
+
     /* ── STRIKE OVERLAY ── */
     #strike-overlay {
       position: absolute; inset: 0;
@@ -639,6 +654,16 @@
   let revealedState= [];   // [round][answerIdx] = boolean
   let activeTeam   = null; // 't1' or 't2'
 
+  // Round structure: Q0-1 = Round 1 (1×), Q2-3 = Round 2 (2× double points)
+  const GAME_ROUNDS = [
+    { label: 'ROUND 1', indices: [0, 1], multiplier: 1 },
+    { label: 'ROUND 2', indices: [2, 3], multiplier: 2 }
+  ];
+  function currentGameRound() {
+    return GAME_ROUNDS.find(gr => gr.indices.includes(currentRound)) || GAME_ROUNDS[0];
+  }
+  function getMultiplier() { return currentGameRound().multiplier; }
+
   /* ────────────────────────────────────────────────────────────
      DATA LOADING
   ──────────────────────────────────────────────────────────── */
@@ -722,7 +747,7 @@
       row.innerHTML = `
         <div class="ans-num">${i + 1}</div>
         <div class="ans-text">${escHtml(ans.text)}</div>
-        <div class="ans-pts">${ans.points}</div>`;
+        <div class="ans-pts">${ans.points * getMultiplier()}</div>`;
 
       // Click row to reveal
       row.addEventListener('click', () => {
@@ -737,9 +762,13 @@
 
   function updateBoardTitle() {
     const q = questions[currentRound];
-    const totalPts = q.answers.reduce((s, a) => s + (a.points || 0), 0);
+    const gr = currentGameRound();
+    const mult = gr.multiplier;
+    const totalPts = q.answers.reduce((s, a) => s + (a.points || 0), 0) * mult;
+    const qInRound = gr.indices.indexOf(currentRound) + 1;
+    const doubleTag = mult > 1 ? '  ·  ×2 DOUBLE' : '';
     document.getElementById('board-title').textContent =
-      `Q${currentRound + 1}  ·  ${totalPts} POINTS ON THE BOARD`;
+      `${gr.label} · Q${qInRound}${doubleTag}  ·  ${totalPts} PTS`;
   }
 
   function escHtml(s) {
@@ -754,6 +783,12 @@
     strikes = 0;
     roundPoints = 0;
     activeTeam = null;
+
+    // Toggle double-mode styling when in Round 2
+    const isDouble = getMultiplier() > 1;
+    document.getElementById('game-board').classList.toggle('double-mode', isDouble);
+    const scorebar = document.getElementById('scorebar');
+    if (scorebar) scorebar.classList.toggle('double-mode', isDouble);
 
     updateStrikeSlots();
     updateRoundInfo();
@@ -778,7 +813,7 @@
     if (revealedState[currentRound][ansIdx]) return;
     revealedState[currentRound][ansIdx] = true;
 
-    const pts = questions[currentRound].answers[ansIdx].points || 0;
+    const pts = (questions[currentRound].answers[ansIdx].points || 0) * getMultiplier();
     roundPoints += pts;
     updateRoundPtsDisplay();
 
@@ -924,7 +959,12 @@
   }
 
   function updateRoundInfo() {
-    document.getElementById('round-label').textContent = `ROUND ${currentRound + 1} OF ${questions.length}`;
+    const gr = currentGameRound();
+    const qInRound = gr.indices.indexOf(currentRound) + 1;
+    const totalInRound = gr.indices.filter(i => i < questions.length).length;
+    const doubleTag = gr.multiplier > 1 ? ' · ×2 DOUBLE POINTS' : '';
+    document.getElementById('round-label').textContent =
+      `${gr.label}${doubleTag} · Q${qInRound} OF ${totalInRound}`;
     updateRoundPtsDisplay();
   }
 
