@@ -17,10 +17,11 @@
         "id": "q1",
         "question": "Name something you always forget to pack for a volleyball tournament",
         "answers": [
-          {"text": "Knee Pads",    "points": 4, "revealed": false},
-          {"text": "Water Bottle", "points": 3, "revealed": false},
-          {"text": "Charger",      "points": 2, "revealed": false},
-          {"text": "Shoes",        "points": 1, "revealed": false}
+          {"text": "Knee Pads",    "points": 25, "revealed": false},
+          {"text": "Water Bottle", "points": 20, "revealed": false},
+          {"text": "Charger",      "points": 15, "revealed": false},
+          {"text": "Shoes",        "points": 10, "revealed": false},
+          {"text": "Socks",        "points":  5, "revealed": false}
         ],
         "active": true
       },
@@ -28,10 +29,11 @@
         "id": "q2",
         "question": "Name something coaches always say during a timeout",
         "answers": [
-          {"text": "Let's Go!",          "points": 4, "revealed": false},
-          {"text": "Move Your Feet",     "points": 3, "revealed": false},
-          {"text": "Talk To Each Other", "points": 2, "revealed": false},
-          {"text": "Serve Tough",        "points": 1, "revealed": false}
+          {"text": "Let's Go!",          "points": 25, "revealed": false},
+          {"text": "Move Your Feet",     "points": 20, "revealed": false},
+          {"text": "Talk To Each Other", "points": 15, "revealed": false},
+          {"text": "Serve Tough",        "points": 10, "revealed": false},
+          {"text": "Have Fun",           "points":  5, "revealed": false}
         ],
         "active": true
       },
@@ -39,11 +41,11 @@
         "id": "q3",
         "question": "Name something parents yell from the stands",
         "answers": [
-          {"text": "Swing!",       "points": 4, "revealed": false},
-          {"text": "Come On!",     "points": 2, "revealed": false},
-          {"text": "Let's Go!",    "points": 2, "revealed": false},
-          {"text": "You Got This!","points": 1, "revealed": false},
-          {"text": "Get It Up!",   "points": 1, "revealed": false}
+          {"text": "Swing!",        "points": 25, "revealed": false},
+          {"text": "Come On!",      "points": 20, "revealed": false},
+          {"text": "Let's Go!",     "points": 15, "revealed": false},
+          {"text": "You Got This!", "points": 10, "revealed": false},
+          {"text": "Get It Up!",    "points":  5, "revealed": false}
         ],
         "active": true
       },
@@ -51,13 +53,11 @@
         "id": "q4",
         "question": "Name something you'd find in a volleyball player's bag",
         "answers": [
-          {"text": "Knee Pads",   "points": 3, "revealed": false},
-          {"text": "Water Bottle","points": 2, "revealed": false},
-          {"text": "Hair Ties",   "points": 1, "revealed": false},
-          {"text": "Spandex",     "points": 1, "revealed": false},
-          {"text": "Shoes",       "points": 1, "revealed": false},
-          {"text": "Snacks",      "points": 1, "revealed": false},
-          {"text": "Phone",       "points": 1, "revealed": false}
+          {"text": "Knee Pads",    "points": 25, "revealed": false},
+          {"text": "Water Bottle", "points": 20, "revealed": false},
+          {"text": "Hair Ties",    "points": 15, "revealed": false},
+          {"text": "Spandex",      "points": 10, "revealed": false},
+          {"text": "Phone",        "points":  5, "revealed": false}
         ],
         "active": true
       }

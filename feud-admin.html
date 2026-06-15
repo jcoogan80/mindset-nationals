@@ -174,7 +174,7 @@ body{font-family:var(--fb);background:var(--black);color:var(--white);min-height
   <!-- SECTION 3: SAVE -->
   <div class="save-section">
     <div class="section-title" style="justify-content:center;margin-bottom:.5rem"><i class="ti ti-device-floppy"></i> SAVE GAME DATA</div>
-    <p>Compiles all included questions with their top 8 answers and saves to feud-data.json on GitHub.</p>
+    <p>Compiles all included questions — top 5 answers with fixed point values (25/20/15/10/5) — and saves to feud-data.json on GitHub.</p>
     <button class="btn btn-red btn-full" id="save-btn" style="max-width:360px;margin:0 auto"><i class="ti ti-device-floppy"></i> Save Game Data</button>
     <div class="save-status" id="save-status"></div>
   </div>
@@ -365,26 +365,24 @@ function renderQuestionCard(q, i) {
   if (answers.length === 0) {
     tableRows = `<tr><td colspan="5" class="no-answers">No answers for this question yet.</td></tr>`;
   } else {
+    const FIXED_PTS = [25, 20, 15, 10, 5];
     tableRows = answers.map((ans, idx) => `
       <tr data-qid="${q.id}" data-idx="${idx}">
         <td class="ans-rank">${idx+1}</td>
         <td class="ans-text">${esc(ans.text)}</td>
         <td><span class="ans-count">${ans.count}</span></td>
-        <td><input class="pts-input" type="number" min="1" value="${ans.points}"
-              data-qid="${q.id}" data-idx="${idx}" title="Point value"></td>
+        <td style="font-family:var(--fd);font-size:.95rem;color:#FFD700;padding-left:.5rem">${idx < FIXED_PTS.length ? FIXED_PTS[idx] : '—'}</td>
         <td><input type="checkbox" class="merge-cb" data-qid="${q.id}" data-idx="${idx}" title="Select to merge"></td>
       </tr>`).join('');
   }
 
-  // Board preview: top 8 by points where points > 0
-  const boardAnswers = [...answers]
-    .filter(a => a.points > 0)
-    .sort((a,b) => b.points - a.points)
-    .slice(0, 8);
+  // Board preview: top 5 with fixed point values 25/20/15/10/5
+  const PREVIEW_PTS = [25, 20, 15, 10, 5];
+  const boardAnswers = [...answers].sort((a,b) => b.count - a.count).slice(0, 5);
 
   const boardChips = boardAnswers.length > 0
-    ? boardAnswers.map(a =>
-        `<span class="board-chip"><span class="board-chip-pts">${a.points}</span> ${esc(a.text)}</span>`
+    ? boardAnswers.map((a, i) =>
+        `<span class="board-chip"><span class="board-chip-pts">${PREVIEW_PTS[i]}</span> ${esc(a.text)}</span>`
       ).join('')
     : `<span style="color:rgba(255,255,255,.25);font-size:.78rem;font-style:italic">No answers yet</span>`;
 
@@ -410,7 +408,7 @@ function renderQuestionCard(q, i) {
               <th>#</th>
               <th>Answer</th>
               <th>Count</th>
-              <th>Points</th>
+              <th>Pts</th>
               <th><i class="ti ti-git-merge" title="Merge"></i></th>
             </tr>
           </thead>
@@ -418,7 +416,7 @@ function renderQuestionCard(q, i) {
         </table>
       </div>
       <div class="board-preview" id="boardpreview-${q.id}">
-        <div class="board-preview-title"><i class="ti ti-layout-board-split"></i> Board answers (top 8)</div>
+        <div class="board-preview-title"><i class="ti ti-layout-board-split"></i> Board answers (top 5 · fixed 25/20/15/10/5 pts)</div>
         <div class="board-chips" id="boardchips-${q.id}">${boardChips}</div>
       </div>
     </div>
@@ -427,18 +425,6 @@ function renderQuestionCard(q, i) {
 
 /* ───────── ATTACH EVENTS ───────── */
 function attachQuestionEvents() {
-  // Points inputs
-  document.querySelectorAll('.pts-input').forEach(input => {
-    input.addEventListener('change', function() {
-      const qid = this.dataset.qid;
-      const idx = parseInt(this.dataset.idx);
-      const val = Math.max(1, parseInt(this.value) || 1);
-      this.value = val;
-      qState[qid][idx].points = val;
-      updateBoardPreview(qid);
-    });
-  });
-
   // Include checkboxes
   document.querySelectorAll('.q-include-cb').forEach(cb => {
     cb.addEventListener('change', function() {
@@ -495,43 +481,36 @@ function rerenderQuestionCard(qid) {
 
 /* ───────── UPDATE BOARD PREVIEW ───────── */
 function updateBoardPreview(qid) {
+  const FIXED_PTS = [25, 20, 15, 10, 5];
   const answers = qState[qid] || [];
-  const boardAnswers = [...answers]
-    .filter(a => a.points > 0)
-    .sort((a,b) => b.points - a.points)
-    .slice(0, 8);
+  const top5 = [...answers].sort((a,b) => b.count - a.count).slice(0, 5);
 
   const el = document.getElementById(`boardchips-${qid}`);
   if (!el) return;
-  el.innerHTML = boardAnswers.length > 0
-    ? boardAnswers.map(a =>
-        `<span class="board-chip"><span class="board-chip-pts">${a.points}</span> ${esc(a.text)}</span>`
+  el.innerHTML = top5.length > 0
+    ? top5.map((a, i) =>
+        `<span class="board-chip"><span class="board-chip-pts">${FIXED_PTS[i]}</span> ${esc(a.text)}</span>`
       ).join('')
     : `<span style="color:rgba(255,255,255,.25);font-size:.78rem;font-style:italic">No answers yet</span>`;
 }
 
 /* ───────── BUILD GAME DATA ───────── */
 function buildGameData() {
+  const FIXED_PTS = [25, 20, 15, 10, 5];
   const questions = [];
   QUESTIONS.forEach(q => {
     if (!qInclude[q.id]) return;
-    const answers = (qState[q.id] || [])
-      .filter(a => a.points > 0)
-      .sort((a,b) => b.points - a.points)
-      .slice(0, 8)
-      .map(a => ({ text: a.text, points: a.points, revealed: false }));
-    if (answers.length === 0) return;
-    questions.push({
-      id: q.id,
-      question: q.text,
-      answers,
-      active: false
-    });
+    const top5 = (qState[q.id] || [])
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+    if (top5.length === 0) return;
+    const answers = top5.map((a, i) => ({
+      text: a.text,
+      points: FIXED_PTS[i],
+      revealed: false
+    }));
+    questions.push({ id: q.id, question: q.text, answers, active: true });
   });
-  // Mark first question as active if none are active
-  if (questions.length > 0 && !questions.some(q => q.active)) {
-    questions[0].active = true;
-  }
   return questions;
 }
 
@@ -546,16 +525,6 @@ async function saveGameData() {
   saveStatus.className   = 'save-status';
 
   try {
-    // Sync any live points inputs before building
-    document.querySelectorAll('.pts-input').forEach(input => {
-      const qid = input.dataset.qid;
-      const idx = parseInt(input.dataset.idx);
-      const val = Math.max(1, parseInt(input.value) || 1);
-      if (qState[qid] && qState[qid][idx]) {
-        qState[qid][idx].points = val;
-      }
-    });
-
     const gameData = {
       questions: buildGameData(),
       teams: (feudData.gameData && feudData.gameData.teams) ||

@@ -696,8 +696,7 @@
     const list = document.getElementById('answers-list');
     list.innerHTML = '';
 
-    const totalSlots = Math.max(q.answers.length, 4); // at least 4 rows always
-    const displaySlots = Math.min(totalSlots, 8);     // max 8
+    const displaySlots = 5; // always exactly 5 slots
 
     for (let i = 0; i < displaySlots; i++) {
       const row = document.createElement('div');
