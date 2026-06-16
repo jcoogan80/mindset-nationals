@@ -1326,19 +1326,13 @@ async function loadReels(){
   reelsLoaded = true;
 
   const pid = (D.hub && D.hub.lily_uploads_playlist_id) || 'UUjfy7Gzmj6B6kzYycCL0aPQ';
-  const YT_KEY = 'AIzaSyBU2Bj8mAZf8DLL9Wkjob3cWAgwXC9OLR0';
 
+  // Tile grid via Netlify function proxy
   try {
-    const params = new URLSearchParams({ part: 'snippet', playlistId: pid, maxResults: '50', key: YT_KEY });
-    const r = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?${params}`);
+    const r = await fetch(`/.netlify/functions/youtube?playlistId=${encodeURIComponent(pid)}`);
     if(!r.ok) throw new Error(`HTTP ${r.status}`);
     const d = await r.json();
-    const items = d.items.map(item => ({
-      videoId: item.snippet.resourceId.videoId,
-      title: item.snippet.title,
-      thumbnail: (item.snippet.thumbnails?.medium || item.snippet.thumbnails?.default)?.url || '',
-    }));
-    renderReelGrid(items);
+    renderReelGrid(d.items);
   } catch(e) {
     document.getElementById('reels-grid').innerHTML =
       `<p style="color:var(--gray);grid-column:1/-1;padding:1rem 0">Couldn't load videos — try again later.</p>`;
