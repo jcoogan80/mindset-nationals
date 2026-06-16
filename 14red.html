@@ -1310,15 +1310,22 @@ function disableEdit(){
 }
 
 // ── REELS ──────────────────────────────────────────────────────
-function loadReels(){
+async function loadReels(){
   if(reelsLoaded) return;
   reelsLoaded = true;
-  const videos = D.videos || [];
-  const items = videos.map(v => {
-    const m = v.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
-    return { videoId: m ? m[1] : '', title: v.title, thumbnail: v.thumbnail };
-  }).filter(v => v.videoId);
-  renderReelGrid(items);
+
+  const pid = (D.hub && D.hub.lily_uploads_playlist_id) || 'UUjfy7Gzmj6B6kzYycCL0aPQ';
+
+  // Tile grid via Netlify function proxy
+  try {
+    const r = await fetch(`/.netlify/functions/youtube?playlistId=${encodeURIComponent(pid)}`);
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d = await r.json();
+    renderReelGrid(d.items);
+  } catch(e) {
+    document.getElementById('reels-grid').innerHTML =
+      `<p style="color:var(--gray);grid-column:1/-1;padding:1rem 0">Couldn't load videos — try again later.</p>`;
+  }
 }
 
 function renderReelGrid(items){
