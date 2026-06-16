@@ -49,7 +49,8 @@ body{font-family:var(--fb);background:#f0eeeb;color:var(--black)}
 .lock-err{font-size:.76rem;color:var(--red);margin-top:.38rem;display:none}
 
 /* LAYOUT */
-.wrap{max-width:800px;margin:0 auto;padding:.9rem}
+.wrap{max-width:1180px;margin:0 auto;padding:.9rem 1.25rem}
+@media(max-width:600px){.wrap{padding:.9rem .75rem}}
 
 /* STAT BANNER */
 .stat-row{background:linear-gradient(158deg,#1b1b1f 0%,#101013 100%);border:1px solid rgba(255,255,255,.07);border-radius:15px;padding:.95rem 1rem 1rem;margin-bottom:.9rem;box-shadow:0 20px 44px -26px rgba(0,0,0,.75)}

@@ -1,6 +1,7 @@
 /* Mindset VBC — Nationals Hub service worker */
 /* IMPORTANT: bump this version string on every deploy to bust the cache for installed users */
-const CACHE = 'mindset-nationals-v1';
+const DEV = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
+const CACHE = '1781576900';
 const CORE = [
   '/',
   '/14red',
@@ -26,12 +27,14 @@ const CORE = [
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
+  if (DEV) return;
   e.waitUntil(
     caches.open(CACHE).then((c) => Promise.allSettled(CORE.map((u) => c.add(u))))
   );
 });
 
 self.addEventListener('activate', (e) => {
+  if (DEV) { e.waitUntil(self.clients.claim()); return; }
   e.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
@@ -42,6 +45,7 @@ self.addEventListener('activate', (e) => {
 const DATA_FILES = ['/14red-data.json', '/15red-data.json'];
 
 self.addEventListener('fetch', (e) => {
+  if (DEV) return; // pass all requests straight to the network in dev
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
