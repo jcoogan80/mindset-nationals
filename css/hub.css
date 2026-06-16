@@ -190,7 +190,8 @@ body:not(.em) .unlock-next{display:none}
 .wl.w{color:var(--green)}.wl.l{color:var(--red)}
 
 /* PROFILES */
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:.75rem}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.75rem}
+@media(max-width:700px){.pgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.pgrid{grid-template-columns:1fr}}
 .pcard{background:#fff;border-radius:12px;border:1px solid var(--lightgray);overflow:hidden}
 .pwrap{width:100%;aspect-ratio:3/4;background:var(--offwhite);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}

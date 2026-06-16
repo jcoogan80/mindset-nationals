@@ -94,7 +94,7 @@
 
 .reel-tile:hover {
   transform: scale(1.03);
-  box-shadow: 0 4px 16px rgba(204, 0, 0, .25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .25);
 }
 
 .reel-tile-thumb {
@@ -138,10 +138,20 @@
   line-height: 1.3;
   font-weight: 600;
   color: var(--black);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.reel-tile:hover .reel-tile-info {
+  display: block;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
 }
 
 /* YouTube video popup */
