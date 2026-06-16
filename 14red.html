@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/modern-scroll.css">
 <link rel="stylesheet" href="css/player-spotlight.css">
 <link rel="stylesheet" href="css/gallery-lightbox.css">
+<link rel="stylesheet" href="css/reels.css">
 </head>
 <body>
 
@@ -109,30 +110,6 @@
     </div>
   </div>
 
-  <!-- TEAM REEL -->
-  <div class="trwrap">
-    <div class="trhdr">
-      <span><i class="ti ti-player-play-filled" style="margin-right:.38rem"></i>TEAM HIGHLIGHT REEL</span>
-      <button class="tredit-btn" onclick="toggleTREdit()"><i class="ti ti-pencil"></i> Edit</button>
-    </div>
-    <div class="trdisplay">
-      <div class="trph" id="trph" onclick="document.body.classList.contains('em')&&toggleTREdit()">
-        <div class="trplaybtn"><i class="ti ti-player-play-filled"></i></div>
-        <span style="color:rgba(255,255,255,.52);font-size:.78rem">Add team highlight reel</span>
-        <span style="color:rgba(255,255,255,.28);font-size:.68rem">YouTube · Hudl · Vimeo</span>
-      </div>
-      <div class="triframe" id="triframe"><iframe id="triframe-el" allowfullscreen allow="autoplay;fullscreen"></iframe></div>
-    </div>
-    <div class="tredit-panel" id="tr-edit-panel">
-      <div style="font-size:.7rem;color:rgba(255,255,255,.38);margin-bottom:.38rem">PASTE VIDEO LINK</div>
-      <div style="display:flex;gap:.42rem;margin-bottom:.42rem">
-        <input class="di" id="tr-url-in" placeholder="https://www.youtube.com/watch?v=..." style="flex:1">
-        <button onclick="saveTR()" style="background:var(--red);color:#fff;border:none;border-radius:6px;padding:.35rem .7rem;font-size:.76rem;font-weight:600;cursor:pointer">Save</button>
-      </div>
-      <button onclick="clearTR()" style="font-size:.68rem;padding:.26rem .58rem;border:1px solid #444;border-radius:5px;background:transparent;color:#888;cursor:pointer"><i class="ti ti-trash"></i> Clear</button>
-    </div>
-  </div>
-
   <!-- MAIN TABS -->
   <div class="tabbar" id="tabbar">
     <div class="tabs" id="tabs">
@@ -146,6 +123,7 @@
       <button class="tab" data-tab="offcourt"><i class="ti ti-confetti"></i> 🎉 Off-Court</button>
       <button class="tab" data-tab="roster"><i class="ti ti-users"></i> Roster</button>
       <button class="tab" data-tab="photos"><i class="ti ti-camera"></i> Photos</button>
+      <button class="tab" data-tab="reels"><i class="ti ti-brand-youtube"></i> Reels</button>
       <button class="tab" onclick="window.location='fun.html'"><i class="ti ti-device-gamepad-2"></i> Game Time 🎮</button>
       <button class="tab" data-tab="feud"><i class="ti ti-target"></i> 🎯 Family Feud</button>
     </div>
@@ -569,6 +547,43 @@
     <div class="card" style="margin-top:.65rem"><div class="ct"><i class="ti ti-link" style="color:var(--red);vertical-align:-2px;margin-right:3px"></i>Shared Album Link</div><div class="cs e" data-key="photo_album">Paste your Google Photos, iCloud, or Dropbox link here so everyone can contribute!</div></div>
   </div>
 
+  <!-- REELS -->
+  <div class="sec" id="tab-reels">
+    <div class="sec-hd"><i class="ti ti-brand-youtube"></i><h2>Reels</h2></div>
+
+    <!-- TEAM HIGHLIGHT REEL -->
+    <div class="trwrap">
+      <div class="trhdr">
+        <span><i class="ti ti-player-play-filled" style="margin-right:.38rem"></i>TEAM HIGHLIGHT REEL</span>
+        <button class="tredit-btn" onclick="toggleTREdit()"><i class="ti ti-pencil"></i> Edit</button>
+      </div>
+      <div class="trdisplay">
+        <div class="trph" id="trph" onclick="document.body.classList.contains('em')&&toggleTREdit()">
+          <div class="trplaybtn"><i class="ti ti-player-play-filled"></i></div>
+          <span style="color:rgba(255,255,255,.52);font-size:.78rem">Add team highlight reel</span>
+          <span style="color:rgba(255,255,255,.28);font-size:.68rem">YouTube · Hudl · Vimeo</span>
+        </div>
+        <div class="triframe" id="triframe"><iframe id="triframe-el" allowfullscreen allow="autoplay;fullscreen"></iframe></div>
+      </div>
+      <div class="tredit-panel" id="tr-edit-panel">
+        <div style="font-size:.7rem;color:rgba(255,255,255,.38);margin-bottom:.38rem">PASTE VIDEO LINK</div>
+        <div style="display:flex;gap:.42rem;margin-bottom:.42rem">
+          <input class="di" id="tr-url-in" placeholder="https://www.youtube.com/watch?v=..." style="flex:1">
+          <button onclick="saveTR()" style="background:var(--red);color:#fff;border:none;border-radius:6px;padding:.35rem .7rem;font-size:.76rem;font-weight:600;cursor:pointer">Save</button>
+        </div>
+        <button onclick="clearTR()" style="font-size:.68rem;padding:.26rem .58rem;border:1px solid #444;border-radius:5px;background:transparent;color:#888;cursor:pointer"><i class="ti ti-trash"></i> Clear</button>
+      </div>
+    </div>
+
+    <div class="reels-grid-hd">
+      <span>All Videos</span>
+      <a class="reels-play-all" href="https://www.youtube.com/@Lily6_2030/videos" target="_blank" rel="noopener"><i class="ti ti-player-play"></i> Channel</a>
+    </div>
+    <div class="reels-grid" id="reels-grid">
+      <div class="reels-loading" style="position:static;color:var(--gray);padding:2rem 0">Loading videos&hellip;</div>
+    </div>
+  </div>
+
 </div><!-- /wrap -->
 
 <!-- REEL MODAL -->
@@ -588,6 +603,22 @@
         <input type="file" id="reel-file-in" accept="video/*" style="display:none" onchange="saveReelFile(this)">
       </div>
       <button onclick="clearReel()" id="reel-clear-btn" style="width:100%;margin-top:.5rem;font-size:.74rem;padding:.32rem;border:1px solid var(--lightgray);border-radius:6px;background:#fff;color:var(--gray);cursor:pointer;display:none"><i class="ti ti-trash"></i> Remove Reel</button>
+    </div>
+  </div>
+</div>
+
+<!-- YOUTUBE POPUP -->
+<div class="moverlay" id="yt-popup" style="display:none" onclick="closeYTPopup()">
+  <div class="yt-popup-box" onclick="event.stopPropagation()">
+    <div class="yt-popup-hdr">
+      <span id="yt-popup-title"></span>
+      <div class="yt-popup-actions">
+        <button onclick="document.getElementById('yt-popup-iframe').requestFullscreen()"><i class="ti ti-maximize"></i> Fullscreen</button>
+        <button onclick="closeYTPopup()"><i class="ti ti-x"></i></button>
+      </div>
+    </div>
+    <div class="reels-ratio" style="border-radius:0">
+      <iframe id="yt-popup-iframe" allowfullscreen allow="autoplay; fullscreen"></iframe>
     </div>
   </div>
 </div>
@@ -648,6 +679,7 @@ let dataLoadedFromGitHub = false;
 const pageLoadTime = Date.now();
 let activeReelPid = null;
 let playerReels = {};
+let reelsLoaded = false;
 
 // ── BOOT ───────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
@@ -657,7 +689,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   buildDayPanels(); buildProfiles(); buildStaffGrid(); buildCheerleadersGrid(); buildRoster(); addSlots(9);
   renderAll();
+  if(location.hash) switchTab(location.hash.slice(1));
 });
+
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeYTPopup(); });
 
 // ── GITHUB I/O ─────────────────────────────────────────────────
 async function loadData() {
@@ -1274,14 +1309,66 @@ function disableEdit(){
   toast('Edit mode off');
 }
 
+// ── REELS ──────────────────────────────────────────────────────
+function loadReels(){
+  if(reelsLoaded) return;
+  reelsLoaded = true;
+  const videos = D.videos || [];
+  const items = videos.map(v => {
+    const m = v.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+    return { videoId: m ? m[1] : '', title: v.title, thumbnail: v.thumbnail };
+  }).filter(v => v.videoId);
+  renderReelGrid(items);
+}
+
+function renderReelGrid(items){
+  const grid = document.getElementById('reels-grid');
+  if(!items || !items.length){
+    grid.innerHTML = '<p style="color:var(--gray);grid-column:1/-1;padding:1rem 0">No videos found.</p>';
+    return;
+  }
+  grid.innerHTML = items.map(v => {
+    const safeTitle = v.title.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    return `<div class="reel-tile" onclick="openYTPopup('${v.videoId}','${safeTitle}')">
+      <div class="reel-tile-thumb">
+        <img src="${v.thumbnail}" alt="" loading="lazy">
+        <div class="reel-tile-play"><i class="ti ti-player-play-filled"></i></div>
+      </div>
+      <div class="reel-tile-info">${v.title}</div>
+    </div>`;
+  }).join('');
+}
+
+function openYTPopup(videoId, title){
+  document.getElementById('yt-popup-title').textContent = title;
+  document.getElementById('yt-popup-iframe').src =
+    `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+  document.getElementById('yt-popup').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeYTPopup(){
+  document.getElementById('yt-popup').style.display = 'none';
+  document.getElementById('yt-popup-iframe').src = '';
+  document.body.style.overflow = '';
+}
+
 // ── TABS ───────────────────────────────────────────────────────
+function switchTab(name){
+  const btn=document.querySelector(`.tab[data-tab="${name}"]`);
+  if(!btn){switchTab('schedule');return;}
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+  btn.classList.add('active'); document.getElementById('tab-'+name).classList.add('on');
+  if(name==='teams') renderTeams();
+  if(name==='reels') loadReels();
+}
 function setupTabs(){
-  document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
-    t.classList.add('active'); document.getElementById('tab-'+t.dataset.tab).classList.add('on');
-    if(t.dataset.tab==='teams') renderTeams();
+  document.querySelectorAll('.tab[data-tab]').forEach(t=>t.addEventListener('click',()=>{
+    history.pushState(null,'','#'+t.dataset.tab);
+    switchTab(t.dataset.tab);
   }));
+  window.addEventListener('popstate',()=>switchTab(location.hash.slice(1)||'schedule'));
 }
 function setupDayTabs(){
   document.querySelectorAll('.dtab').forEach(t=>t.addEventListener('click',()=>{
