@@ -102,11 +102,11 @@
       <span class="stat-head-y">2025–26</span>
     </div>
     <div class="stat-grid">
-      <div class="sp sp-r"><div class="sp-ic"><i class="ti ti-trophy"></i></div><span class="spn">#82</span><span class="spl">National Rank</span></div>
-      <div class="sp sp-w"><div class="sp-ic"><i class="ti ti-circle-check"></i></div><span class="spn">66</span><span class="spl">Wins</span></div>
-      <div class="sp sp-l"><div class="sp-ic"><i class="ti ti-circle-x"></i></div><span class="spn">7</span><span class="spl">Losses</span></div>
-      <div class="sp sp-m"><div class="sp-ic"><i class="ti ti-ball-volleyball"></i></div><span class="spn">73</span><span class="spl">Matches</span></div>
-      <div class="sp sp-p"><div class="sp-ic"><i class="ti ti-trending-up"></i></div><span class="spn">90.4%</span><span class="spl">Win Rate</span></div>
+      <div class="sp sp-r"><div class="sp-ic"><i class="ti ti-trophy"></i></div><span class="spn">#103</span><span class="spl">National Rank</span></div>
+      <div class="sp sp-w"><div class="sp-ic"><i class="ti ti-circle-check"></i></div><span class="spn">70</span><span class="spl">Wins</span></div>
+      <div class="sp sp-l"><div class="sp-ic"><i class="ti ti-circle-x"></i></div><span class="spn">8</span><span class="spl">Losses</span></div>
+      <div class="sp sp-m"><div class="sp-ic"><i class="ti ti-ball-volleyball"></i></div><span class="spn">78</span><span class="spl">Matches</span></div>
+      <div class="sp sp-p"><div class="sp-ic"><i class="ti ti-trending-up"></i></div><span class="spn">89.7%</span><span class="spl">Win Rate</span></div>
     </div>
   </div>
 
@@ -190,19 +190,7 @@
       <div class="fg3" style="grid-template-columns:1fr 1fr 1fr 1fr"><div><label class="fl">Rank</label><input class="fi" id="tr" type="number" placeholder="#"></div><div><label class="fl">Wins</label><input class="fi" id="tw" type="number" placeholder="0"></div><div><label class="fl">Losses</label><input class="fi" id="tl" type="number" placeholder="0"></div><div><label class="fl">Club</label><input class="fi" id="td" placeholder="Club Name"></div></div>
       <button class="abtn" onclick="addTeam()"><i class="ti ti-check"></i> Add Team</button>
     </div>
-    <div class="card" style="margin-bottom:.75rem">
-      <div class="ct"><i class="ti ti-photo" style="color:var(--red);vertical-align:-2px;margin-right:4px"></i>Team List Screenshot</div>
-      <div id="tss-area" style="margin-top:.42rem;background:var(--offwhite);border:1.5px dashed var(--lightgray);border-radius:8px;padding:.85rem;text-align:center;cursor:pointer" onclick="document.getElementById('tss-in').click()">
-        <i class="ti ti-upload" style="font-size:1.35rem;color:var(--lightgray);display:block;margin-bottom:.28rem"></i>
-        <span style="font-size:.74rem;color:var(--gray)">Tap to upload a screenshot of the team list</span>
-        <input type="file" id="tss-in" accept="image/*" style="display:none" onchange="loadTSS(this)">
-      </div>
-      <div id="tss-prev" style="display:none;margin-top:.42rem">
-        <img id="tss-img" style="width:100%;border-radius:8px;max-height:360px;object-fit:contain" alt="">
-        <button onclick="clearTSS()" style="font-size:.68rem;margin-top:.32rem;padding:.2rem .58rem;border:1px solid var(--lightgray);border-radius:6px;background:#fff;color:var(--gray);cursor:pointer"><i class="ti ti-x"></i> Remove</button>
-      </div>
-    </div>
-    <div id="teams-sum" style="display:none;gap:.45rem;margin-bottom:.75rem">
+    <div id=teams-sum style="display:none;gap:.45rem;margin-bottom:.75rem">
       <div class="ds-box"><div class="dsn gr" id="tcount">0</div><div class="dsl">Teams</div></div>
       <div class="ds-box"><div class="dsn gr" id="scount">0</div><div class="dsl">States</div></div>
       <div class="ds-box"><div class="dsn" id="mrank" style="color:var(--red)">—</div><div class="dsl">Our Rank</div></div>
@@ -278,7 +266,7 @@
         <div style="background:var(--offwhite);border:1px solid var(--lightgray);border-radius:10px;padding:.7rem .85rem;margin:.65rem 0 .2rem">
           <div style="font-size:.6rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);margin-bottom:.4rem">Step 1 · Copy our team code</div>
           <div style="display:flex;align-items:center;gap:.55rem;flex-wrap:wrap">
-            <span class="chip" onclick="copyTxt('TBD')" style="font-size:1.05rem;padding:.32rem 1rem">TBD</span>
+            <span class="chip" onclick="copyTxt('g14MDSET1GL')" style="font-size:1.05rem;padding:.32rem 1rem">g14MDSET1GL</span>
             <span style="font-size:.7rem;color:var(--gray)"><i class="ti ti-click" style="vertical-align:-2px"></i> tap to copy</span>
           </div>
           <div style="font-size:.6rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);margin:.75rem 0 .4rem">Step 2 · Buy &amp; paste the code at checkout</div>
@@ -1392,8 +1380,7 @@ function setupDayTabs(){
 }
 
 // ── TEAM SCREENSHOT ────────────────────────────────────────────
-function loadTSS(i){if(!i.files?.[0])return;const r=new FileReader();r.onload=e=>{document.getElementById('tss-img').src=e.target.result;document.getElementById('tss-prev').style.display='block';document.getElementById('tss-area').style.display='none';};r.readAsDataURL(i.files[0]);}
-function clearTSS(){document.getElementById('tss-img').src='';document.getElementById('tss-prev').style.display='none';document.getElementById('tss-area').style.display='block';document.getElementById('tss-in').value='';}
+
 
 // ── UTILS ──────────────────────────────────────────────────────
 function copyTxt(t){navigator.clipboard.writeText(t).catch(()=>{});toast('Copied: '+t);}

@@ -60,9 +60,9 @@
     "offcourt_swig": "Add details here",
     "offcourt_group_dinner": "Add details here",
     "offcourt_game_night": "Add details here",
-    "donor_thanks": "Thank you to all the people that financially supported (apologies if I missed you on this list) this team.  \nDebbie Stetler\nEric Agnew\nLinda & Kevin Coogan\nCandy Miller\nSweeney Famiily\nChristine Kim\nPaul Gumila\nFox Family\nSchork Family\nAirola Family\nSoldo Family\nZanic Family\nDeSantiago Family\nAdeel Ashraf\nBeseda Family\nNissan Family\nBlickhahn Family\nKylee Boggs\nJedlink Family\nOrzoco Family (Immediate and Extended)\nHoge Family\nCichomski Family\nPaolone Family\nGabbard Family\nJames Ratcliff\nMary Agnew\n",
     "lily_uploads_playlist_id": "UUjfy7Gzmj6B6kzYycCL0aPQ",
-    "lily_channel_url": "https://www.youtube.com/@Lily6_2030"
+    "lily_channel_url": "https://www.youtube.com/@Lily6_2030",
+    "donor_thanks": "Thank you to all the people that financially supported (apologies if I missed you on this list) this team.  \nDebbie Stetler\nEric Agnew\nLinda & Kevin Coogan\nCandy Miller\nSweeney Famiily\nChristine Kim\nPaul Gumila\nFox Family\nSchork Family\nAirola Family\nSoldo Family\nZanic Family\nDeSantiago Family\nAdeel Ashraf\nBeseda Family\nNissan Family\nBlickhahn Family\nKylee Boggs\nJedlink Family\nOrzoco Family (Immediate and Extended)\nHoge Family\nCichomski Family\nPaolone Family\nGabbard Family\nBarkhoo Family\nEddie and Noura Barhoumeh\nAsif Khan\nErin Chikaraishi\nTanya Shamon\nPeter Zarras\nYusra Khan\nElisha Joseph\nChalabi Family\nGill Family\nTomasz Tarasiuk\nAnonymous\nVeronica Vargas\nJenny Grimm\nDebbie Agnew\nKaylyn Porter\nJordan Ryan\nDemitrios Mestousi\nDario Arroyo\nRadovic Family\nJames Ratcliff"
   },
   "matches": {
     "1": [
@@ -103,241 +103,241 @@
     {
       "name": "FW Fire 14Purple",
       "club": "Fort Worth Fire Volleyball Club",
-      "rank": 39,
-      "wins": 10,
-      "losses": 0,
-      "matches": 10,
-      "pct": "100%"
+      "rank": 108,
+      "wins": 16,
+      "losses": 4,
+      "matches": 20,
+      "pct": "80.0%"
     },
     {
       "name": "WF Waves 14-King",
       "club": "West Florida Volleyball Club",
-      "rank": 62,
-      "wins": 30,
-      "losses": 6,
-      "matches": 36,
-      "pct": "83.3%"
+      "rank": 121,
+      "wins": 45,
+      "losses": 13,
+      "matches": 58,
+      "pct": "77.6%"
     },
     {
       "name": "GP 14 Premier",
       "club": "Game Point",
-      "rank": 77,
-      "wins": 33,
-      "losses": 5,
-      "matches": 38,
-      "pct": "86.8%"
+      "rank": 75,
+      "wins": 69,
+      "losses": 10,
+      "matches": 79,
+      "pct": "87.3%"
     },
     {
       "name": "Team Momentum 14 Navy",
       "club": "Team Momentum",
-      "rank": 82,
-      "wins": 40,
-      "losses": 13,
-      "matches": 53,
-      "pct": "75.5%"
+      "rank": 113,
+      "wins": 47,
+      "losses": 18,
+      "matches": 65,
+      "pct": "72.3%"
     },
     {
       "name": "Ozark Juniors 14 Premier",
       "club": "Ozark Juniors Volleyball Club",
-      "rank": 85,
-      "wins": 48,
-      "losses": 15,
-      "matches": 63,
-      "pct": "76.2%"
+      "rank": 112,
+      "wins": 55,
+      "losses": 17,
+      "matches": 72,
+      "pct": "76.4%"
     },
     {
       "name": "Mindset Premier 14 Red",
       "club": "Mindset Volleyball Club",
-      "rank": 87,
-      "wins": 41,
-      "losses": 2,
-      "matches": 43,
-      "pct": "95.3%"
+      "rank": 103,
+      "wins": 70,
+      "losses": 8,
+      "matches": 78,
+      "pct": "89.7%"
     },
     {
       "name": "MAVS 816 14 Premier",
       "club": "MAVS 816",
-      "rank": 101,
-      "wins": 29,
-      "losses": 7,
-      "matches": 36,
-      "pct": "80.6%"
+      "rank": 207,
+      "wins": 31,
+      "losses": 10,
+      "matches": 41,
+      "pct": "75.6%"
     },
     {
       "name": "Top Select 14 Top Blue",
       "club": "TOP SELECT VOLLEYBALL ACADEMY",
-      "rank": 107,
-      "wins": 44,
-      "losses": 19,
-      "matches": 63,
-      "pct": "69.8%"
+      "rank": 143,
+      "wins": 47,
+      "losses": 22,
+      "matches": 69,
+      "pct": "68.1%"
     },
     {
       "name": "Amarillo Xtreme 14 Icons",
       "club": "Amarillo Xtreme Volleyball",
-      "rank": 111,
-      "wins": 27,
-      "losses": 7,
-      "matches": 34,
-      "pct": "79.4%"
+      "rank": 151,
+      "wins": 40,
+      "losses": 8,
+      "matches": 48,
+      "pct": "83.3%"
     },
     {
       "name": "STVA 14-1 Eddie",
       "club": "South Texas Volleyball Academy",
-      "rank": 115,
-      "wins": 38,
-      "losses": 9,
-      "matches": 47,
-      "pct": "80.9%"
+      "rank": 182,
+      "wins": 51,
+      "losses": 16,
+      "matches": 67,
+      "pct": "76.1%"
     },
     {
       "name": "CMVBC 14-1",
       "club": "Central Missouri VBC",
-      "rank": 116,
-      "wins": 20,
-      "losses": 6,
-      "matches": 26,
-      "pct": "76.9%"
+      "rank": 213,
+      "wins": 22,
+      "losses": 9,
+      "matches": 31,
+      "pct": "71.0%"
     },
     {
       "name": "MemphisVBAcademy14Red",
       "club": "Memphis Volleyball Academy",
-      "rank": 117,
-      "wins": 52,
-      "losses": 12,
-      "matches": 64,
-      "pct": "81.2%"
+      "rank": 175,
+      "wins": 60,
+      "losses": 17,
+      "matches": 77,
+      "pct": "77.9%"
     },
     {
       "name": "BSVBC 14 Black",
       "club": "Blue Steel VBC",
-      "rank": 118,
-      "wins": 43,
-      "losses": 14,
-      "matches": 57,
-      "pct": "75.4%"
+      "rank": 172,
+      "wins": 49,
+      "losses": 15,
+      "matches": 64,
+      "pct": "76.6%"
     },
     {
       "name": "St Joe STORM 14-1",
       "club": "St Joe STORM",
-      "rank": 121,
-      "wins": 6,
-      "losses": 1,
-      "matches": 7,
-      "pct": "85.7%"
+      "rank": 402,
+      "wins": 9,
+      "losses": 11,
+      "matches": 20,
+      "pct": "45.0%"
     },
     {
       "name": "14 PREMIER WILLIE NVA",
       "club": "Nona Volleyball Academy",
-      "rank": 124,
-      "wins": 40,
+      "rank": 122,
+      "wins": 52,
       "losses": 13,
-      "matches": 53,
-      "pct": "75.5%"
+      "matches": 65,
+      "pct": "80.0%"
     },
     {
       "name": "Madtown 141 National",
       "club": "Madtown Volleyball",
-      "rank": 126,
-      "wins": 29,
-      "losses": 10,
-      "matches": 39,
-      "pct": "74.4%"
+      "rank": 102,
+      "wins": 38,
+      "losses": 14,
+      "matches": 52,
+      "pct": "73.1%"
     },
     {
       "name": "417 MoJrs 14 Nat Black",
       "club": "417 Missouri Juniors",
-      "rank": 127,
-      "wins": 23,
-      "losses": 4,
-      "matches": 27,
-      "pct": "85.2%"
+      "rank": 194,
+      "wins": 44,
+      "losses": 7,
+      "matches": 51,
+      "pct": "86.3%"
     },
     {
       "name": "915 14 Hill",
       "club": "915 United Volleyball Club",
-      "rank": 136,
-      "wins": 35,
-      "losses": 13,
-      "matches": 48,
-      "pct": "72.9%"
+      "rank": 183,
+      "wins": 50,
+      "losses": 20,
+      "matches": 70,
+      "pct": "71.4%"
     },
     {
       "name": "PEAK 14-2",
       "club": "Oklahoma PEAK",
-      "rank": 139,
-      "wins": 36,
+      "rank": 185,
+      "wins": 37,
       "losses": 11,
-      "matches": 47,
-      "pct": "76.6%"
+      "matches": 48,
+      "pct": "77.1%"
     },
     {
       "name": "Circle City 14 Black",
       "club": "Circle City Elite",
-      "rank": 144,
-      "wins": 20,
-      "losses": 9,
-      "matches": 29,
-      "pct": "69%"
+      "rank": 218,
+      "wins": 44,
+      "losses": 25,
+      "matches": 69,
+      "pct": "63.8%"
     },
     {
       "name": "MAVS KC 14 Premier",
       "club": "MAVS KC",
-      "rank": 149,
-      "wins": 30,
-      "losses": 8,
-      "matches": 38,
-      "pct": "78.9%"
+      "rank": 169,
+      "wins": 47,
+      "losses": 10,
+      "matches": 57,
+      "pct": "82.5%"
     },
     {
       "name": "Paramount VBC 14 Jaz",
       "club": "Paramount Volleyball Club",
-      "rank": 154,
-      "wins": 39,
-      "losses": 17,
-      "matches": 56,
+      "rank": 110,
+      "wins": 55,
+      "losses": 24,
+      "matches": 79,
       "pct": "69.6%"
     },
     {
       "name": "St. Pete 14 Teal",
       "club": "St. Pete Volleyball Club",
-      "rank": 158,
-      "wins": 50,
-      "losses": 14,
-      "matches": 64,
-      "pct": "78.1%"
+      "rank": 124,
+      "wins": 58,
+      "losses": 15,
+      "matches": 73,
+      "pct": "79.5%"
     },
     {
       "name": "PSVA 14-1",
       "club": "Prostyle Volleyball Academy",
-      "rank": 163,
-      "wins": 37,
+      "rank": 190,
+      "wins": 38,
       "losses": 13,
-      "matches": 50,
-      "pct": "74%"
+      "matches": 51,
+      "pct": "74.5%"
     },
     {
       "name": "SVC 14 National",
       "club": "Siouxland Volleyball Club",
-      "rank": 165,
-      "wins": 17,
-      "losses": 5,
-      "matches": 22,
-      "pct": "77.3%"
+      "rank": 105,
+      "wins": 37,
+      "losses": 6,
+      "matches": 43,
+      "pct": "86.0%"
     },
     {
       "name": "Texas Tornados 14Adidas",
       "club": "Texas Tornados Volleyball",
-      "rank": 171,
-      "wins": 23,
-      "losses": 11,
-      "matches": 34,
-      "pct": "67.6%"
+      "rank": 200,
+      "wins": 30,
+      "losses": 13,
+      "matches": 43,
+      "pct": "69.8%"
     },
     {
       "name": "CC Force 141 Crossfire",
       "club": "Corpus Christi Force Volleyball Club",
-      "rank": 174,
+      "rank": 251,
       "wins": 33,
       "losses": 9,
       "matches": 42,
@@ -346,115 +346,115 @@
     {
       "name": "PEAK 14-1 Elite",
       "club": "Oklahoma PEAK",
-      "rank": 177,
-      "wins": 20,
-      "losses": 10,
-      "matches": 30,
-      "pct": "66.7%"
+      "rank": 233,
+      "wins": 36,
+      "losses": 16,
+      "matches": 52,
+      "pct": "69.2%"
     },
     {
       "name": "Topeka Elite 14-1",
       "club": "Topeka Elite",
-      "rank": 187,
-      "wins": 14,
-      "losses": 4,
-      "matches": 18,
-      "pct": "77.8%"
+      "rank": 363,
+      "wins": 15,
+      "losses": 9,
+      "matches": 24,
+      "pct": "62.5%"
     },
     {
       "name": "TOP NOTCH 14U Elite",
       "club": "Top Notch Volleyball Club",
-      "rank": 196,
-      "wins": 29,
-      "losses": 11,
-      "matches": 40,
-      "pct": "72.5%"
+      "rank": 268,
+      "wins": 30,
+      "losses": 13,
+      "matches": 43,
+      "pct": "69.8%"
     },
     {
       "name": "HPSTL 14 White",
       "club": "High Performance STL",
-      "rank": 206,
+      "rank": 203,
+      "wins": 42,
+      "losses": 19,
+      "matches": 61,
+      "pct": "68.9%"
+    },
+    {
+      "name": "NPJ Bend 14 National",
+      "club": "North Pacific Juniors - Bend",
+      "rank": 201,
+      "wins": 56,
+      "losses": 12,
+      "matches": 68,
+      "pct": "82.4%"
+    },
+    {
+      "name": "HPRIME14Gold",
+      "club": "HOUSTON PRIME ATHLETICS",
+      "rank": 338,
       "wins": 37,
       "losses": 15,
       "matches": 52,
       "pct": "71.2%"
     },
     {
-      "name": "NPJ Bend 14 National",
-      "club": "North Pacific Juniors - Bend",
-      "rank": 216,
-      "wins": 24,
-      "losses": 6,
-      "matches": 30,
-      "pct": "80%"
-    },
-    {
-      "name": "HPRIME14Gold",
-      "club": "HOUSTON PRIME ATHLETICS",
-      "rank": 222,
-      "wins": 29,
-      "losses": 9,
-      "matches": 38,
-      "pct": "76.3%"
-    },
-    {
       "name": "CSA 14 Navy",
       "club": "Colorado Springs Altitude",
-      "rank": 238,
-      "wins": 15,
-      "losses": 4,
-      "matches": 19,
-      "pct": "78.9%"
+      "rank": 726,
+      "wins": 26,
+      "losses": 14,
+      "matches": 40,
+      "pct": "65.0%"
     },
     {
       "name": "Vibe 14s-Black",
       "club": "Vibe VBC",
-      "rank": 247,
-      "wins": 7,
-      "losses": 2,
-      "matches": 9,
-      "pct": "77.8%"
+      "rank": 478,
+      "wins": 18,
+      "losses": 12,
+      "matches": 30,
+      "pct": "60.0%"
     },
     {
       "name": "MAVS 816 14 National",
       "club": "MAVS 816",
-      "rank": 249,
-      "wins": 19,
-      "losses": 11,
-      "matches": 30,
-      "pct": "63.3%"
+      "rank": 281,
+      "wins": 36,
+      "losses": 16,
+      "matches": 52,
+      "pct": "69.2%"
     },
     {
       "name": "ID Crush 14 Holtzclaw",
       "club": "Idaho Crush Volleyball",
-      "rank": 255,
-      "wins": 10,
-      "losses": 5,
-      "matches": 15,
-      "pct": "66.7%"
+      "rank": 256,
+      "wins": 19,
+      "losses": 19,
+      "matches": 38,
+      "pct": "50.0%"
     },
     {
       "name": "WPVC 14 Armour Orange",
       "club": "Winter Park Volleyball Club",
       "rank": 257,
-      "wins": 32,
-      "losses": 18,
-      "matches": 50,
-      "pct": "64%"
+      "wins": 43,
+      "losses": 22,
+      "matches": 65,
+      "pct": "66.2%"
     },
     {
       "name": "Panda VBC 14-1",
       "club": "Panda Volleyball Club",
-      "rank": 267,
-      "wins": 6,
-      "losses": 1,
-      "matches": 7,
-      "pct": "85.7%"
+      "rank": 823,
+      "wins": 10,
+      "losses": 10,
+      "matches": 20,
+      "pct": "50.0%"
     },
     {
       "name": "H. Prep 14 Mizuno",
       "club": "Houston PrepVolleyball Academy",
-      "rank": 275,
+      "rank": 350,
       "wins": 40,
       "losses": 19,
       "matches": 59,
@@ -463,227 +463,227 @@
     {
       "name": "South Central NE 14 Black",
       "club": "South Central NE",
-      "rank": 288,
-      "wins": 16,
-      "losses": 8,
-      "matches": 24,
-      "pct": "66.7%"
+      "rank": 287,
+      "wins": 26,
+      "losses": 11,
+      "matches": 37,
+      "pct": "70.3%"
     },
     {
       "name": "RSVBC 14-1",
       "club": "Reality Sports",
-      "rank": 290,
-      "wins": 31,
-      "losses": 11,
-      "matches": 42,
-      "pct": "73.8%"
+      "rank": 453,
+      "wins": 48,
+      "losses": 18,
+      "matches": 66,
+      "pct": "72.7%"
     },
     {
       "name": "Lions Cityside 14-1",
       "club": "1st Alliance VBC",
-      "rank": 301,
-      "wins": 34,
-      "losses": 16,
-      "matches": 50,
-      "pct": "68%"
+      "rank": 254,
+      "wins": 45,
+      "losses": 20,
+      "matches": 65,
+      "pct": "69.2%"
     },
     {
       "name": "United 14 National",
       "club": "United Volleyball Club",
-      "rank": 302,
-      "wins": 19,
-      "losses": 9,
-      "matches": 28,
-      "pct": "67.9%"
+      "rank": 349,
+      "wins": 28,
+      "losses": 12,
+      "matches": 40,
+      "pct": "70.0%"
     },
     {
       "name": "Iowa United 141 Elite",
       "club": "Iowa United",
-      "rank": 307,
+      "rank": 179,
+      "wins": 41,
+      "losses": 22,
+      "matches": 63,
+      "pct": "65.1%"
+    },
+    {
+      "name": "ECVC 14 BLACK",
+      "club": "East Coast Volleyball Club",
+      "rank": 235,
+      "wins": 39,
+      "losses": 15,
+      "matches": 54,
+      "pct": "72.2%"
+    },
+    {
+      "name": "SNVF 14 BLIZZARD",
+      "club": "Space Needle Volleyball Foundation",
+      "rank": 269,
+      "wins": 29,
+      "losses": 12,
+      "matches": 41,
+      "pct": "70.7%"
+    },
+    {
+      "name": "Dal Skyline 14 White-Iv",
+      "club": "Skyline Juniors",
+      "rank": 329,
+      "wins": 32,
+      "losses": 17,
+      "matches": 49,
+      "pct": "65.3%"
+    },
+    {
+      "name": "Adrenaline 14 Doug",
+      "club": "Adrenaline Volleyball Academy",
+      "rank": 490,
+      "wins": 25,
+      "losses": 22,
+      "matches": 47,
+      "pct": "53.2%"
+    },
+    {
+      "name": "TAV Houston 14 Blue",
+      "club": "TAV Houston",
+      "rank": 501,
+      "wins": 33,
+      "losses": 20,
+      "matches": 53,
+      "pct": "62.3%"
+    },
+    {
+      "name": "DYNASTY 14 Gold",
+      "club": "Adidas Team Dynasty",
+      "rank": 443,
+      "wins": 29,
+      "losses": 24,
+      "matches": 53,
+      "pct": "54.7%"
+    },
+    {
+      "name": "NPJ Salem 14 National",
+      "club": "North Pacific Juniors Volleyball Club",
+      "rank": 755,
+      "wins": 30,
+      "losses": 32,
+      "matches": 62,
+      "pct": "48.4%"
+    },
+    {
+      "name": "Alliance 14 REN",
+      "club": "Alliance Volleyball Club",
+      "rank": 399,
       "wins": 35,
       "losses": 22,
       "matches": 57,
       "pct": "61.4%"
     },
     {
-      "name": "ECVC 14 BLACK",
-      "club": "East Coast Volleyball Club",
-      "rank": 314,
-      "wins": 20,
-      "losses": 10,
-      "matches": 30,
-      "pct": "66.7%"
-    },
-    {
-      "name": "SNVF 14 BLIZZARD",
-      "club": "Space Needle Volleyball Foundation",
-      "rank": 334,
-      "wins": 16,
-      "losses": 8,
-      "matches": 24,
-      "pct": "66.7%"
-    },
-    {
-      "name": "Dal Skyline 14 White-Iv",
-      "club": "Skyline Juniors",
-      "rank": 342,
-      "wins": 10,
-      "losses": 5,
-      "matches": 15,
-      "pct": "66.7%"
-    },
-    {
-      "name": "Adrenaline 14 Doug",
-      "club": "Adrenaline Volleyball Academy",
-      "rank": 346,
-      "wins": 18,
-      "losses": 11,
-      "matches": 29,
-      "pct": "62.1%"
-    },
-    {
-      "name": "TAV Houston 14 Blue",
-      "club": "TAV Houston",
-      "rank": 390,
-      "wins": 32,
-      "losses": 18,
-      "matches": 50,
-      "pct": "64%"
-    },
-    {
-      "name": "DYNASTY 14 Gold",
-      "club": "Adidas Team Dynasty",
-      "rank": 409,
-      "wins": 24,
-      "losses": 19,
-      "matches": 43,
-      "pct": "55.8%"
-    },
-    {
-      "name": "NPJ Salem 14 National",
-      "club": "North Pacific Juniors Volleyball Club",
-      "rank": 412,
-      "wins": 15,
-      "losses": 9,
-      "matches": 24,
-      "pct": "62.5%"
-    },
-    {
-      "name": "Alliance 14 REN",
-      "club": "Alliance Volleyball Club",
-      "rank": 428,
-      "wins": 10,
-      "losses": 12,
-      "matches": 22,
-      "pct": "45.5%"
-    },
-    {
       "name": "Revolution Cburg 14 White",
       "club": "Revolution Volleyball Club",
-      "rank": 430,
-      "wins": 9,
-      "losses": 5,
-      "matches": 14,
-      "pct": "64.3%"
+      "rank": 854,
+      "wins": 14,
+      "losses": 13,
+      "matches": 27,
+      "pct": "51.9%"
     },
     {
       "name": "Boss CLE 14-2",
       "club": "Boss CLE Athletic Company",
-      "rank": 438,
-      "wins": 14,
-      "losses": 9,
-      "matches": 23,
-      "pct": "60.9%"
+      "rank": 243,
+      "wins": 48,
+      "losses": 17,
+      "matches": 65,
+      "pct": "73.8%"
     },
     {
       "name": "A5 Chattanooga 141",
       "club": "A5 Volleyball Club",
-      "rank": 449,
-      "wins": 13,
-      "losses": 9,
-      "matches": 22,
-      "pct": "59.1%"
+      "rank": 650,
+      "wins": 19,
+      "losses": 17,
+      "matches": 36,
+      "pct": "52.8%"
     },
     {
       "name": "Ka Ulukoa 14 James",
       "club": "Ka Ulukoa",
-      "rank": 455,
-      "wins": 4,
+      "rank": 435,
+      "wins": 6,
       "losses": 1,
-      "matches": 5,
-      "pct": "80%"
+      "matches": 7,
+      "pct": "85.7%"
     },
     {
       "name": "ID Crush IF 14 Keisha",
       "club": "Idaho Crush Volleyball",
-      "rank": 481,
-      "wins": 9,
-      "losses": 6,
-      "matches": 15,
-      "pct": "60%"
+      "rank": 493,
+      "wins": 10,
+      "losses": 7,
+      "matches": 17,
+      "pct": "58.8%"
     },
     {
       "name": "Air VBC 14 Blue",
       "club": "Air Volleyball Club",
-      "rank": 539,
-      "wins": 8,
-      "losses": 5,
-      "matches": 13,
-      "pct": "61.5%"
+      "rank": 573,
+      "wins": 16,
+      "losses": 7,
+      "matches": 23,
+      "pct": "69.6%"
     },
     {
       "name": "Wolf Pack 14 Black",
       "club": "Wolf Pack Volleyball",
-      "rank": 580,
-      "wins": 20,
-      "losses": 17,
-      "matches": 37,
-      "pct": "54.1%"
+      "rank": 789,
+      "wins": 25,
+      "losses": 18,
+      "matches": 43,
+      "pct": "58.1%"
     },
     {
       "name": "FORZA1 NORTH 14 ONE",
       "club": "Forza1 Volleyball North",
-      "rank": 597,
-      "wins": 15,
-      "losses": 10,
-      "matches": 25,
-      "pct": "60%"
+      "rank": 487,
+      "wins": 24,
+      "losses": 18,
+      "matches": 42,
+      "pct": "57.1%"
     },
     {
       "name": "TI Elite 14.1 Ohana",
       "club": "Team Indiana",
-      "rank": 600,
-      "wins": 11,
-      "losses": 5,
-      "matches": 16,
-      "pct": "68.8%"
+      "rank": 319,
+      "wins": 41,
+      "losses": 20,
+      "matches": 61,
+      "pct": "67.2%"
     },
     {
       "name": "BAVA 14 Waves",
       "club": "Bay Area Volleyball Academy",
-      "rank": 601,
-      "wins": 15,
-      "losses": 7,
-      "matches": 22,
-      "pct": "68.2%"
+      "rank": 607,
+      "wins": 48,
+      "losses": 27,
+      "matches": 75,
+      "pct": "64.0%"
     },
     {
       "name": "Ultimate G14 Gold",
       "club": "Ultimate VBC-Chicago",
-      "rank": 618,
-      "wins": 31,
-      "losses": 23,
-      "matches": 54,
-      "pct": "57.4%"
+      "rank": 174,
+      "wins": 55,
+      "losses": 25,
+      "matches": 80,
+      "pct": "68.8%"
     },
     {
       "name": "Premier Nebraska 14 Silver",
       "club": "Premier Nebraska Volleyball",
-      "rank": 623,
-      "wins": 28,
-      "losses": 18,
-      "matches": 46,
-      "pct": "60.9%"
+      "rank": 782,
+      "wins": 30,
+      "losses": 21,
+      "matches": 51,
+      "pct": "58.8%"
     },
     {
       "name": "SKY Elite 14 Black",
@@ -697,133 +697,133 @@
     {
       "name": "City Beach 14-Black",
       "club": "City Beach Volleyball Club",
-      "rank": 702,
-      "wins": 7,
-      "losses": 2,
-      "matches": 9,
-      "pct": "77.8%"
+      "rank": 764,
+      "wins": 20,
+      "losses": 11,
+      "matches": 31,
+      "pct": "64.5%"
     },
     {
       "name": "UNION 14 Black",
       "club": "UNION Volleyball Club",
-      "rank": 714,
-      "wins": 15,
-      "losses": 11,
-      "matches": 26,
-      "pct": "57.7%"
+      "rank": 687,
+      "wins": 35,
+      "losses": 29,
+      "matches": 64,
+      "pct": "54.7%"
     },
     {
       "name": "CoJrs 14Steve",
       "club": "Colorado Juniors",
-      "rank": 734,
-      "wins": 9,
-      "losses": 6,
-      "matches": 15,
-      "pct": "60%"
+      "rank": 827,
+      "wins": 17,
+      "losses": 12,
+      "matches": 29,
+      "pct": "58.6%"
     },
     {
       "name": "Sideout 14N Jeff",
       "club": "SOSVBC",
-      "rank": 791,
-      "wins": 10,
-      "losses": 12,
-      "matches": 22,
-      "pct": "45.5%"
+      "rank": 1098,
+      "wins": 15,
+      "losses": 16,
+      "matches": 31,
+      "pct": "48.4%"
     },
     {
       "name": "EU U14-Black",
       "club": "Evansville United Volleyball Academy",
-      "rank": 927,
-      "wins": 4,
-      "losses": 2,
-      "matches": 6,
-      "pct": "66.7%"
+      "rank": 188,
+      "wins": 37,
+      "losses": 13,
+      "matches": 50,
+      "pct": "74.0%"
     },
     {
       "name": "NKYVC 14-3 Typhoon",
       "club": "NKYVC",
-      "rank": 933,
-      "wins": 11,
-      "losses": 6,
-      "matches": 17,
-      "pct": "64.7%"
+      "rank": 1237,
+      "wins": 25,
+      "losses": 17,
+      "matches": 42,
+      "pct": "59.5%"
     },
     {
       "name": "Five:1 14-Black",
       "club": "Five1 VBC",
-      "rank": 972,
-      "wins": 8,
-      "losses": 7,
-      "matches": 15,
-      "pct": "53.3%"
+      "rank": 665,
+      "wins": 39,
+      "losses": 21,
+      "matches": 60,
+      "pct": "65.0%"
     },
     {
       "name": "Rancho Valley 14Premier",
       "club": "Rancho Valley",
-      "rank": 983,
-      "wins": 14,
+      "rank": 975,
+      "wins": 17,
       "losses": 12,
-      "matches": 26,
-      "pct": "53.8%"
+      "matches": 29,
+      "pct": "58.6%"
     },
     {
       "name": "WAVE 14-Nancy",
       "club": "Wave Volleyball Club",
-      "rank": 998,
-      "wins": 13,
-      "losses": 12,
-      "matches": 25,
-      "pct": "52%"
+      "rank": 599,
+      "wins": 30,
+      "losses": 20,
+      "matches": 50,
+      "pct": "60.0%"
     },
     {
       "name": "Prime 14 adidas O",
       "club": "Prime Volleyball Club",
-      "rank": 1003,
-      "wins": 22,
-      "losses": 19,
-      "matches": 41,
-      "pct": "53.7%"
+      "rank": 1166,
+      "wins": 24,
+      "losses": 21,
+      "matches": 45,
+      "pct": "53.3%"
     },
     {
       "name": "Victorium 14 UA",
       "club": "Victorium Volleyball",
-      "rank": 1013,
-      "wins": 14,
-      "losses": 13,
-      "matches": 27,
-      "pct": "51.9%"
+      "rank": 1381,
+      "wins": 25,
+      "losses": 27,
+      "matches": 52,
+      "pct": "48.1%"
     },
     {
       "name": "CYVBC Surge 14 Black",
       "club": "CYVBC Surge",
-      "rank": 1167,
-      "wins": 8,
-      "losses": 6,
-      "matches": 14,
-      "pct": "57.1%"
+      "rank": 622,
+      "wins": 23,
+      "losses": 12,
+      "matches": 35,
+      "pct": "65.7%"
     },
     {
       "name": "MADFROG 14S N BLACK",
       "club": "MAD FROG",
-      "rank": 1235,
-      "wins": 9,
-      "losses": 16,
-      "matches": 25,
-      "pct": "36%"
+      "rank": 838,
+      "wins": 25,
+      "losses": 25,
+      "matches": 50,
+      "pct": "50.0%"
     },
     {
       "name": "Club One AZ 14Platinum",
       "club": "Club One Volleyball AZ",
-      "rank": 1426,
-      "wins": 15,
-      "losses": 21,
-      "matches": 36,
-      "pct": "41.7%"
+      "rank": 1540,
+      "wins": 24,
+      "losses": 36,
+      "matches": 60,
+      "pct": "40.0%"
     },
     {
       "name": "NWF Select 14u Watson and Kaapa",
       "club": "Northwest Florida Select Volleyball Club",
-      "rank": 1428,
+      "rank": 1871,
       "wins": 35,
       "losses": 22,
       "matches": 57,
@@ -832,137 +832,137 @@
     {
       "name": "TORCH 14-Katie",
       "club": "TORCH Volleyball Club",
-      "rank": 1479,
-      "wins": 12,
+      "rank": 1485,
+      "wins": 15,
       "losses": 14,
-      "matches": 26,
-      "pct": "46.2%"
+      "matches": 29,
+      "pct": "51.7%"
     },
     {
       "name": "Elevation 14 Peak",
       "club": "Elevation Volleyball Club",
-      "rank": 1505,
-      "wins": 11,
-      "losses": 12,
-      "matches": 23,
-      "pct": "47.8%"
+      "rank": 941,
+      "wins": 24,
+      "losses": 27,
+      "matches": 51,
+      "pct": "47.1%"
     },
     {
       "name": "MARIN 14 Black",
       "club": "MARIN VOLLEYBALL",
-      "rank": 1523,
-      "wins": 6,
-      "losses": 9,
-      "matches": 15,
-      "pct": "40%"
+      "rank": 560,
+      "wins": 30,
+      "losses": 21,
+      "matches": 51,
+      "pct": "58.8%"
     },
     {
       "name": "VOLT 14-2",
       "club": "Volt Volleyball",
-      "rank": 1773,
-      "wins": 9,
-      "losses": 12,
-      "matches": 21,
-      "pct": "42.9%"
+      "rank": 646,
+      "wins": 31,
+      "losses": 21,
+      "matches": 52,
+      "pct": "59.6%"
     },
     {
       "name": "CVC 14-1",
       "club": "Centennial Volleyball Club",
-      "rank": 1813,
-      "wins": 6,
-      "losses": 6,
-      "matches": 12,
-      "pct": "50%"
+      "rank": 1519,
+      "wins": 28,
+      "losses": 23,
+      "matches": 51,
+      "pct": "54.9%"
     },
     {
       "name": "TVC 14-Black",
       "club": "Toledo Volleyball Club",
-      "rank": 1875,
-      "wins": 5,
-      "losses": 11,
-      "matches": 16,
-      "pct": "31.2%"
+      "rank": 953,
+      "wins": 27,
+      "losses": 26,
+      "matches": 53,
+      "pct": "50.9%"
     },
     {
       "name": "VolleyFX 14 Conjure",
       "club": "VolleyFX Volleyball Club Inc",
-      "rank": 2021,
-      "wins": 11,
-      "losses": 11,
-      "matches": 22,
-      "pct": "50%"
+      "rank": 2422,
+      "wins": 29,
+      "losses": 19,
+      "matches": 48,
+      "pct": "60.4%"
     },
     {
       "name": "Crosscourt 14 Purple",
       "club": "Crosscourt Volleyball Club Inc",
-      "rank": 2039,
-      "wins": 8,
-      "losses": 11,
-      "matches": 19,
-      "pct": "42.1%"
+      "rank": 2639,
+      "wins": 12,
+      "losses": 23,
+      "matches": 35,
+      "pct": "34.3%"
     },
     {
       "name": "BVC 14-Kim",
       "club": "Bakersfield Volleyball club",
-      "rank": 1664,
-      "wins": 10,
-      "losses": 14,
-      "matches": 24,
-      "pct": "41.7%"
+      "rank": 1929,
+      "wins": 11,
+      "losses": 15,
+      "matches": 26,
+      "pct": "42.3%"
     },
     {
       "name": "Angels",
       "club": "KVA",
-      "rank": null,
-      "wins": 0,
-      "losses": 0,
-      "matches": 0,
-      "pct": "N/A"
+      "rank": 5212,
+      "wins": 12,
+      "losses": 27,
+      "matches": 39,
+      "pct": "30.8%"
     },
     {
       "name": "CMASS Edge 14 Black",
       "club": "Central Mass Juniors",
-      "rank": null,
-      "wins": 0,
-      "losses": 0,
-      "matches": 0,
-      "pct": "N/A"
+      "rank": 3121,
+      "wins": 14,
+      "losses": 31,
+      "matches": 45,
+      "pct": "31.1%"
     },
     {
       "name": "Kohala 14-1",
       "club": "Na Kao O Kohala",
-      "rank": null,
-      "wins": 0,
-      "losses": 0,
-      "matches": 0,
-      "pct": "N/A"
+      "rank": 3694,
+      "wins": 1,
+      "losses": 2,
+      "matches": 3,
+      "pct": "33.3%"
     },
     {
       "name": "SF Elite 14 Salazar",
       "club": "SF Elite",
-      "rank": null,
-      "wins": 0,
-      "losses": 0,
-      "matches": 0,
-      "pct": "N/A"
+      "rank": 657,
+      "wins": 22,
+      "losses": 23,
+      "matches": 45,
+      "pct": "48.9%"
     },
     {
       "name": "SPORTIME 14 GOLD",
       "club": "SPORTIME VBC",
-      "rank": null,
-      "wins": 0,
-      "losses": 0,
-      "matches": 0,
-      "pct": "N/A"
+      "rank": 2095,
+      "wins": 8,
+      "losses": 16,
+      "matches": 24,
+      "pct": "33.3%"
     },
     {
       "name": "TeamLVC Girls 14U Black",
       "club": "TeamLVC Juniors",
-      "rank": null,
-      "wins": 0,
-      "losses": 0,
-      "matches": 0,
-      "pct": "N/A"
+      "rank": 1852,
+      "wins": 24,
+      "losses": 18,
+      "matches": 42,
+      "pct": "57.1%"
     }
   ],
   "players": {
