@@ -130,7 +130,7 @@
       "answers": {
         "q1": "Water Bottle",
         "q2": "Listen up",
-        "q3": "LetÃ¢ÂÂs Go",
+        "q3": "LetÃÂ¢ÃÂÃÂs Go",
         "q4": "A volleyball",
         "q5": "Complain about the ref",
         "q6": "Mine!",
@@ -178,7 +178,7 @@
       "answers": {
         "q1": "Positive attitude",
         "q2": "Guys we need to win!",
-        "q3": "Let’s go mindset!",
+        "q3": "Letâs go mindset!",
         "q4": "Volleyball",
         "q5": "Be good at volleyball",
         "q6": "Why is everyone wearing the wrong jersey",
@@ -189,11 +189,35 @@
         "q11": "Ai",
         "q12": "Sushi",
         "q13": "The mandalorian and grogu",
-        "q14": "Honey I’m good",
+        "q14": "Honey Iâm good",
         "q15": "Micheal Jackson",
-        "q16": "Don’t give up!",
+        "q16": "Donât give up!",
         "q17": "Amazing",
         "q18": "Emma"
+      }
+    },
+    {
+      "name": "Emma Stetler",
+      "timestamp": "2026-06-17T01:19:24.051Z",
+      "answers": {
+        "q1": "Warm up shirt",
+        "q2": "This is atrocious",
+        "q3": "My dad says “oh Emma” with a sigh",
+        "q4": "Maybe some shoes",
+        "q5": "Be better then me",
+        "q6": "Hit at me or just Emily",
+        "q7": "Sorry my finger slipped",
+        "q8": "Freeze dried mangos from Emily’s bento box",
+        "q9": "A toothbrush",
+        "q10": "Look for food",
+        "q11": "If your my mom walk 12 miles",
+        "q12": "7brew",
+        "q13": "Miracle season",
+        "q14": "Baby",
+        "q15": "Adam Sandler",
+        "q16": "This is pathetic",
+        "q17": "Crazy",
+        "q18": "Sarah Stetler"
       }
     }
   ],
