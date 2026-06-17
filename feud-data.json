@@ -130,7 +130,7 @@
       "answers": {
         "q1": "Water Bottle",
         "q2": "Listen up",
-        "q3": "LetÃÂ¢ÃÂÃÂs Go",
+        "q3": "LetÃÂÃÂ¢ÃÂÃÂÃÂÃÂs Go",
         "q4": "A volleyball",
         "q5": "Complain about the ref",
         "q6": "Mine!",
@@ -178,7 +178,7 @@
       "answers": {
         "q1": "Positive attitude",
         "q2": "Guys we need to win!",
-        "q3": "Letâs go mindset!",
+        "q3": "LetÃ¢ÂÂs go mindset!",
         "q4": "Volleyball",
         "q5": "Be good at volleyball",
         "q6": "Why is everyone wearing the wrong jersey",
@@ -189,9 +189,9 @@
         "q11": "Ai",
         "q12": "Sushi",
         "q13": "The mandalorian and grogu",
-        "q14": "Honey Iâm good",
+        "q14": "Honey IÃ¢ÂÂm good",
         "q15": "Micheal Jackson",
-        "q16": "Donât give up!",
+        "q16": "DonÃ¢ÂÂt give up!",
         "q17": "Amazing",
         "q18": "Emma"
       }
@@ -202,12 +202,12 @@
       "answers": {
         "q1": "Warm up shirt",
         "q2": "This is atrocious",
-        "q3": "My dad says “oh Emma” with a sigh",
+        "q3": "My dad says âoh Emmaâ with a sigh",
         "q4": "Maybe some shoes",
         "q5": "Be better then me",
         "q6": "Hit at me or just Emily",
         "q7": "Sorry my finger slipped",
-        "q8": "Freeze dried mangos from Emily’s bento box",
+        "q8": "Freeze dried mangos from Emilyâs bento box",
         "q9": "A toothbrush",
         "q10": "Look for food",
         "q11": "If your my mom walk 12 miles",
@@ -218,6 +218,30 @@
         "q16": "This is pathetic",
         "q17": "Crazy",
         "q18": "Sarah Stetler"
+      }
+    },
+    {
+      "name": "Emily Orozco",
+      "timestamp": "2026-06-17T03:41:04.737Z",
+      "answers": {
+        "q1": "nothing",
+        "q2": "time to lock in",
+        "q3": "GO MINDSET",
+        "q4": "tape",
+        "q5": "talking to the ref every five seconds",
+        "q6": "seam right or left",
+        "q7": "the floor was bad",
+        "q8": "starbucks",
+        "q9": "toothbrush",
+        "q10": "find the nearest food place",
+        "q11": "eat",
+        "q12": "sushi",
+        "q13": "the mandalorian movie",
+        "q14": "Honey i’m good",
+        "q15": "Michael Jackson",
+        "q16": "ayo!",
+        "q17": "goated",
+        "q18": "EMMA 100%"
       }
     }
   ],
