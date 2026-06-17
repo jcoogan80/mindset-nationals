@@ -130,7 +130,7 @@
       "answers": {
         "q1": "Water Bottle",
         "q2": "Listen up",
-        "q3": "Let’s Go",
+        "q3": "Letâs Go",
         "q4": "A volleyball",
         "q5": "Complain about the ref",
         "q6": "Mine!",
@@ -146,6 +146,30 @@
         "q16": "?",
         "q17": "Relentless",
         "q18": "?"
+      }
+    },
+    {
+      "name": "Hailey Yi",
+      "timestamp": "2026-06-17T00:39:46.746Z",
+      "answers": {
+        "q1": "Snacks",
+        "q2": "We are better than them",
+        "q3": "Score!",
+        "q4": "Bag tags",
+        "q5": "Cheering loudly during our serve",
+        "q6": "Mine!",
+        "q7": "The light was in my eye",
+        "q8": "Starbucks",
+        "q9": "Hair ties",
+        "q10": "Jump on the bed",
+        "q11": "Walking",
+        "q12": "Starbucks",
+        "q13": "Home alone",
+        "q14": "The one that got away",
+        "q15": "Harper Murray",
+        "q16": "Focus",
+        "q17": "Strong",
+        "q18": "Katrin"
       }
     }
   ],
