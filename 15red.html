@@ -698,7 +698,7 @@ function renderPlayerData() {
       const el = document.querySelector(`[data-pid="${p.id}"][data-pf="${f}"]`);
       if (el && pd[f]) el.textContent = pd[f];
     });
-    if (pd.photo_url) setPhoto(p.id, pd.photo_url);
+    if(pd.photo_url){const th=pd.photo_url.replace('images/players/','images/players/thumbs/').replace(/\.(png|gif|webp)$/,'.jpg');setPhoto(p.id,th,pd.photo_url);}
     if (pd.reel_url) { playerReels[p.id] = {type:'url',src:pd.reel_url}; updateReelUI(p.id); }
   });
 }
@@ -964,7 +964,7 @@ function buildProfiles(){
         </div>
       </div>`;
     g.appendChild(c);
-    if(pd.photo_url) setPhoto(p.id, pd.photo_url);
+    if(pd.photo_url){const th=pd.photo_url.replace('images/players/','images/players/thumbs/').replace(/\.(png|gif|webp)$/,'.jpg');setPhoto(p.id,th,pd.photo_url);}
     if(pd.reel_url){playerReels[p.id]={type:'url',src:pd.reel_url};updateReelUI(p.id);}
   });
   bindPlayerEditables(g);
@@ -993,7 +993,7 @@ function buildStaffGrid(){
         <div class="pig"><i class="ti ti-brand-instagram"></i><span class="e" data-pf="instagram" data-pid="${s.id}" style="flex:1">${pd.instagram||'@instagram'}</span></div>
       </div>`;
     g.appendChild(c);
-    if(pd.photo_url) setPhoto(s.id, pd.photo_url);
+    if(pd.photo_url){const th=pd.photo_url.replace('images/players/','images/players/thumbs/').replace(/\.(png|gif|webp)$/,'.jpg');setPhoto(s.id,th,pd.photo_url);}
   });
   bindPlayerEditables(g);
 }
@@ -1049,11 +1049,12 @@ function uploadPhoto(pid,input){
   reader.readAsDataURL(file);
 }
 
-function setPhoto(pid,url){
+function setPhoto(pid,url,fullUrl){
   const w=document.getElementById('pw-'+pid); if(!w) return;
   let img=w.querySelector('img');
   if(!img){img=document.createElement('img');img.alt=pid;const ph=w.querySelector('.pph');if(ph)ph.remove();w.insertBefore(img,w.firstChild);}
   img.src=url; img.style.cssText='width:100%;height:100%;object-fit:cover;display:block';
+  if(fullUrl){img.dataset.full=fullUrl;img.onerror=()=>{img.onerror=null;img.src=fullUrl;};}
 }
 
 // ── REELS ──────────────────────────────────────────────────────

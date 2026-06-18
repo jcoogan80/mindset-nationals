@@ -19,7 +19,7 @@
     var ract=document.getElementById('ract-'+pid);
     return {
       card:card,pid:pid,
-      photo: img&&img.getAttribute('src')? img.getAttribute('src') : '',
+      photo: img? (img.dataset.full||img.getAttribute('src')||'') : '',
       num: txt(card,'.pnum'),
       name: txt(card,'.pname'),
       position: txt(card,'[data-pf="position"]') || roleFallback(card),
