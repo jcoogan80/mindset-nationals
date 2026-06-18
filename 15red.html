@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/modern-scroll.css">
 <link rel="stylesheet" href="css/player-spotlight.css">
 <link rel="stylesheet" href="css/gallery-lightbox.css">
+<link rel="stylesheet" href="css/gallery-masonry.css">
 </head>
 <body>
 
@@ -56,7 +57,11 @@
 
 <!-- MODERN HERO -->
 <section class="hero" id="hero">
-  <img class="hero-photo" src="images/_DSC1746.jpg" alt="Mindset Premier 15 Red — 2026 USAV Girls Junior Nationals" loading="eager">
+  <picture>
+    <source media="(max-width: 600px)" srcset="images/_DSC1746-480.jpg">
+    <source media="(max-width: 1024px)" srcset="images/_DSC1746-768.jpg">
+    <img class="hero-photo" src="images/_DSC1746.jpg" alt="Mindset Premier 15 Red — 2026 USAV Girls Junior Nationals" loading="eager">
+  </picture>
   <div class="hero-inner">
     <div class="hero-eyebrow">2026 USAV Girls Junior Nationals</div>
     <div class="hero-medallion-wrap">
@@ -323,12 +328,181 @@
   <!-- PHOTOS -->
   <div class="sec" id="tab-photos">
     <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2></div>
-    <p style="font-size:.77rem;color:var(--gray);margin-bottom:.65rem">Tap any slot to upload a photo from the tournament.</p>
-    <div class="ggrid" id="gallery"></div>
-    <div style="margin-top:.65rem;text-align:center">
-      <button onclick="addSlots(6)" style="font-size:.74rem;font-weight:500;padding:.35rem .82rem;border:1.5px solid var(--lightgray);border-radius:20px;background:#fff;color:var(--gray);cursor:pointer"><i class="ti ti-plus"></i> Add 6 more slots</button>
+
+    <div id="gallery-drop-zone" style="text-align:center;margin-bottom:.9rem;padding:2rem 1rem 1.5rem;border:2px dashed #d0d0d0;border-radius:14px;background:#f7f7f7;transition:border-color .15s,background .15s;cursor:pointer">
+      <i class="ti ti-cloud-upload" style="font-size:2.2rem;color:#c0c0c0;display:block;margin-bottom:.6rem"></i>
+      <button id="gallery-upload-btn" style="font-size:.82rem;font-weight:600;padding:.45rem 1.1rem;border:none;border-radius:22px;background:var(--red);color:#fff;cursor:pointer;letter-spacing:.02em"><i class="ti ti-upload" style="margin-right:.35rem;vertical-align:-1px"></i>Add a Photo</button>
+      <div style="font-size:.72rem;color:var(--gray);margin-top:.5rem">or drag &amp; drop photos here</div>
+      <div id="gallery-status" style="font-size:.74rem;color:var(--gray);margin-top:.4rem;min-height:1.1em"></div>
+      <div id="gallery-progress" style="display:none;margin-top:.38rem;padding:0 .25rem">
+        <div style="height:5px;background:#e5e5e5;border-radius:99px;overflow:hidden">
+          <div id="gallery-progress-fill" style="height:100%;width:0%;background:var(--red);border-radius:99px;transition:width .1s linear"></div>
+        </div>
+      </div>
     </div>
-    <div class="card" style="margin-top:.65rem"><div class="ct"><i class="ti ti-link" style="color:var(--red);vertical-align:-2px;margin-right:3px"></i>Shared Album Link</div><div class="cs e" data-key="photo_album">Paste your Google Photos, iCloud, or Dropbox link here so everyone can contribute!</div></div>
+
+    <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif" multiple hidden>
+
+    <div id="gallery-pw-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:900;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:14px;padding:1.5rem 1.4rem;width:min(90vw,340px);text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.28)">
+        <p style="font-size:.88rem;font-weight:600;margin:0 0 .75rem;color:var(--black)">Enter the team password to upload</p>
+        <input type="password" id="gallery-pw-input" placeholder="Password" style="width:100%;box-sizing:border-box;padding:.5rem .7rem;border:1.5px solid #ddd;border-radius:8px;font-size:.9rem;margin-bottom:.55rem;outline:none">
+        <button id="gallery-pw-submit" style="width:100%;padding:.5rem;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer">Unlock</button>
+        <p id="gallery-pw-error" style="font-size:.76rem;color:var(--red);margin:.4rem 0 0;min-height:1em"></p>
+        <button onclick="document.getElementById('gallery-pw-modal').style.display='none'" style="margin-top:.5rem;background:none;border:none;font-size:.76rem;color:var(--gray);cursor:pointer">Cancel</button>
+      </div>
+    </div>
+
+    <div class="gal-bar">
+      <span class="gal-count" id="gallery-count">Loading photos…</span>
+    </div>
+    <div class="gal-earlier" id="gallery-earlier"></div>
+    <div class="mgallery" id="gallery-grid"></div>
+    <p id="gallery-empty" style="text-align:center;font-size:.8rem;color:var(--gray);margin:.5rem 0;display:none">No photos yet — be the first to add one!</p>
+    <div class="gal-loader" id="gallery-loader"><span class="gal-spin"></span> Loading more…</div>
+    <div class="gal-sentinel" id="gallery-sentinel"></div>
+    <div style="text-align:center">
+      <button class="gal-more" id="gallery-more" style="display:none"><i class="ti ti-chevron-down"></i> Load more photos</button>
+    </div>
+    <div class="gal-end" id="gallery-end" style="display:none">— you're all caught up —</div>
+
+    <script>
+    (function(){
+      var TEAM='15red';
+      var authed=sessionStorage.getItem('gallery_authed')==='1';
+      var pw=sessionStorage.getItem('gallery_pw')||'';
+      var pendingFiles=null;
+
+      function status(msg){document.getElementById('gallery-status').textContent=msg;}
+      function setProgress(pct){
+        var wrap=document.getElementById('gallery-progress');
+        var fill=document.getElementById('gallery-progress-fill');
+        wrap.style.display='block';
+        fill.style.width=Math.round(pct*100)+'%';
+      }
+      function hideProgress(){
+        var wrap=document.getElementById('gallery-progress');
+        var fill=document.getElementById('gallery-progress-fill');
+        wrap.style.display='none';
+        fill.style.width='0%';
+      }
+      function xhrPut(url,file,onProgress){
+        return new Promise(function(resolve,reject){
+          var xhr=new XMLHttpRequest();
+          xhr.open('PUT',url);
+          xhr.setRequestHeader('Content-Type',file.type);
+          xhr.upload.onprogress=function(e){if(e.lengthComputable)onProgress(e.loaded/e.total);};
+          xhr.onload=function(){if(xhr.status>=200&&xhr.status<300)resolve();else reject('Storage upload failed ('+xhr.status+')');};
+          xhr.onerror=function(){reject('Network error');};
+          xhr.send(file);
+        });
+      }
+      function renderGallery(images){
+        var empty=document.getElementById('gallery-empty');
+        var countEl=document.getElementById('gallery-count');
+        if(!images||!images.length){
+          document.getElementById('gallery-grid').innerHTML='';
+          empty.style.display='block';
+          if(countEl)countEl.innerHTML='';
+          return;
+        }
+        empty.style.display='none';
+        var urls=images.map(function(im){return im.url;});
+        window.GalleryScroll.init({
+          images:images,
+          grid:document.getElementById('gallery-grid'),
+          loader:document.getElementById('gallery-loader'),
+          sentinel:document.getElementById('gallery-sentinel'),
+          moreBtn:document.getElementById('gallery-more'),
+          endEl:document.getElementById('gallery-end'),
+          earlierEl:document.getElementById('gallery-earlier'),
+          countEl:countEl,
+          onOpen:function(idx){window.openLightbox(urls,idx);}
+        });
+      }
+
+      function loadGallery(){
+        fetch('/api/gallery-images?team='+TEAM)
+          .then(function(r){return r.json();})
+          .then(function(d){renderGallery(d.images);})
+          .catch(function(){status('Could not load photos.');});
+      }
+
+      function doUpload(files){
+        const {valid: imgs, invalid} = filterImageFiles(files);
+        if(invalid.length) status(invalid.map(f=>f.name).join(', ')+' skipped — not a supported image type.');
+        if(!imgs.length)return;
+        if(imgs.length>10){status('Max 10 photos at a time — please split into smaller batches.');return;}
+        var btn=document.getElementById('gallery-upload-btn');
+        btn.disabled=true;
+        setProgress(0);
+        function next(i){
+          if(i>=imgs.length){
+            setProgress(1);
+            status('Done — '+imgs.length+' photo'+(imgs.length>1?'s':'')+' added!');
+            setTimeout(hideProgress,2000);
+            btn.disabled=false;loadGallery();return;
+          }
+          var label=imgs.length>1?' ('+(i+1)+' of '+imgs.length+')':'';
+          status('Uploading'+label+'…');
+          maybeResize(imgs[i]).then(function(f){
+            return fetch('/api/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:f.name,contentType:f.type,team:TEAM,password:pw})})
+              .then(function(r){
+                if(r.status===401){authed=false;sessionStorage.removeItem('gallery_authed');sessionStorage.removeItem('gallery_pw');status('Session expired — please try again.');hideProgress();btn.disabled=false;return Promise.reject('auth');}
+                if(!r.ok)return r.json().then(function(e){return Promise.reject(e.error||'Upload failed');});
+                return r.json();
+              })
+              .then(function(d){
+                return xhrPut(d.uploadUrl,f,function(pct){setProgress((i+pct)/imgs.length);});
+              })
+              .then(function(){next(i+1);});
+          }).catch(function(err){if(err!=='auth')status('Error: '+err);hideProgress();btn.disabled=false;});
+        }
+        next(0);
+      }
+
+      function uploadOrPrompt(files){
+        if(!authed){pendingFiles=files||null;document.getElementById('gallery-pw-modal').style.display='flex';document.getElementById('gallery-pw-input').focus();return;}
+        if(files)doUpload(files);else document.getElementById('gallery-file').click();
+      }
+
+      document.getElementById('gallery-upload-btn').addEventListener('click',function(){uploadOrPrompt(null);});
+
+      document.getElementById('gallery-file').addEventListener('change',function(){doUpload(this.files);this.value='';});
+
+      const dropZone=document.getElementById('gallery-drop-zone');
+      ['dragenter','dragover'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.style.borderColor='var(--red)';dropZone.style.background='rgba(204,0,0,.04)';}));
+      dropZone.addEventListener('dragleave',e=>{if(!dropZone.contains(e.relatedTarget)){dropZone.style.borderColor='#d0d0d0';dropZone.style.background='#f7f7f7';}});
+      dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.style.borderColor='#d0d0d0';dropZone.style.background='#f7f7f7';uploadOrPrompt(e.dataTransfer.files);});
+
+      document.getElementById('gallery-pw-submit').addEventListener('click',function(){
+        var input=document.getElementById('gallery-pw-input');
+        var errEl=document.getElementById('gallery-pw-error');
+        var candidate=input.value;
+        if(!candidate){errEl.textContent='Please enter the password.';return;}
+        this.disabled=true;errEl.textContent='';
+        fetch('/api/validate-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:candidate})})
+          .then(function(r){return r.json();})
+          .then(function(d){
+            if(d.valid){
+              authed=true;pw=candidate;
+              sessionStorage.setItem('gallery_authed','1');
+              sessionStorage.setItem('gallery_pw',candidate);
+              document.getElementById('gallery-pw-modal').style.display='none';
+              input.value='';
+              const toUpload=pendingFiles;pendingFiles=null;
+              if(toUpload)doUpload(toUpload);else document.getElementById('gallery-file').click();
+            } else {errEl.textContent='Incorrect password. Try again.';}
+            document.getElementById('gallery-pw-submit').disabled=false;
+          })
+          .catch(function(){errEl.textContent='Error checking password.';document.getElementById('gallery-pw-submit').disabled=false;});
+      });
+
+      document.getElementById('gallery-pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('gallery-pw-submit').click();});
+
+      loadGallery();
+    })();
+    </script>
   </div>
 
 </div><!-- /wrap -->
@@ -417,7 +591,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (DEMO) document.getElementById('cfg-banner').style.display = 'block';
   setupTabs(); setupDayTabs(); countdown(); fetchWeather(); setInterval(fetchWeather,30*60*1000);
   await loadData();
-  buildDayPanels(); buildProfiles(); buildStaffGrid(); buildRoster(); addSlots(9);
+  buildDayPanels(); buildProfiles(); buildStaffGrid(); buildRoster();
   renderAll();
   if(location.hash) switchTab(location.hash.slice(1));
 });
@@ -1106,6 +1280,8 @@ document.addEventListener('DOMContentLoaded',()=>bindEditables());
 </div>
 <script src="js/modern-scroll.js"></script>
 <script src="js/player-spotlight.js"></script>
+<script src="js/image-utils.js"></script>
+<script src="js/gallery-infinite-scroll.js"></script>
 <script src="js/photo-lightbox.js"></script>
 <script src="js/tabbar.js"></script>
 <script src="js/swipe.js"></script>
