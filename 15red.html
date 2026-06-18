@@ -147,7 +147,6 @@
     <button class="tab" data-tab="players"><i class="ti ti-id-badge"></i> Players</button>
     <button class="tab" data-tab="hotel"><i class="ti ti-bed"></i> Hotel</button>
     <button class="tab" data-tab="venue"><i class="ti ti-parking"></i> Venue</button>
-    <button class="tab" data-tab="roster"><i class="ti ti-users"></i> Roster</button>
     <button class="tab" data-tab="photos"><i class="ti ti-camera"></i> Photos</button>
       <button class="tab" onclick="window.location='fun.html'"><i class="ti ti-device-gamepad-2"></i> Game Time 🎮</button>
     </div>
@@ -236,6 +235,7 @@
     <div class="sec-hd"><i class="ti ti-id-badge"></i><h2>Player Profiles</h2><button class="playall" id="playall-players"><i class="ti ti-player-play-filled"></i> Play All</button></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Tap photo to upload · click any field to edit · add highlight reel link</p>
     <div class="pgrid" id="pgrid"></div>
+    <div class="card" style="margin-top:.65rem"><div class="ct"><i class="ti ti-shirt" style="color:var(--red);vertical-align:-2px;margin-right:3px"></i>New Uniforms 🔥</div><img src="images/new-uniforms.png" alt="New Uniforms" style="width:100%;border-radius:6px;margin:.5rem 0 .35rem;display:block"><div class="cs">White jersey with Chicago skyline design · Mindset logo · Red &amp; black colorway</div></div>
     <div class="sec-hd" style="margin-top:1.5rem"><i class="ti ti-whistle" style="font-size:1.15rem;color:var(--red)"></i><h2>Coaching Staff</h2></div>
     <div class="pgrid" id="staff-grid"></div>
   </div>
@@ -318,13 +318,6 @@
   <!-- FUNDRAISING -->
 
   <!-- ROSTER -->
-  <div class="sec" id="tab-roster">
-    <div class="sec-hd"><i class="ti ti-users"></i><h2>Roster</h2></div>
-    <div class="card" style="margin-bottom:.65rem"><div class="ct"><i class="ti ti-shirt" style="color:var(--red);vertical-align:-2px;margin-right:3px"></i>New Uniforms 🔥</div><img src="images/new-uniforms.png" alt="New Uniforms" style="width:100%;border-radius:6px;margin:.5rem 0 .35rem;display:block"><div class="cs">White jersey with Chicago skyline design · Mindset logo · Red &amp; black colorway</div></div>
-    <div class="rgrid" id="roster-grid"></div>
-    <div class="card" style="margin-top:.65rem"><div class="ct">Coaches &amp; Staff</div><div class="cs e" data-key="coaches">Head Coach: Billy Koulouvaris · Mindset Owner: Randy Satovitz</div></div>
-  </div>
-
   <!-- PHOTOS -->
   <div class="sec" id="tab-photos">
     <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2></div>
@@ -591,7 +584,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (DEMO) document.getElementById('cfg-banner').style.display = 'block';
   setupTabs(); setupDayTabs(); countdown(); fetchWeather(); setInterval(fetchWeather,30*60*1000);
   await loadData();
-  buildDayPanels(); buildProfiles(); buildStaffGrid(); buildRoster();
+  buildDayPanels(); buildProfiles(); buildStaffGrid();
   renderAll();
   if(location.hash) switchTab(location.hash.slice(1));
 });
@@ -1003,28 +996,6 @@ function buildStaffGrid(){
     if(pd.photo_url) setPhoto(s.id, pd.photo_url);
   });
   bindPlayerEditables(g);
-}
-
-function buildRoster(){
-  const g=document.getElementById('roster-grid'); g.innerHTML='';
-  PLAYERS.forEach(p=>{
-    const pd = (D.players && D.players[p.id]) || {};
-    const num = pd.num || p.num;
-    const photoUrl = pd.photo_url || '';
-    const imgTag = photoUrl ? `<img src="${photoUrl}" alt="${p.name}" loading="lazy">` : '';
-    const d=document.createElement('div'); d.className='rcard';
-    d.innerHTML=`
-      <div class="rphoto">
-        <div class="rphoto-fb">${num}</div>
-        ${imgTag}
-        <div class="rnum-badge">${num}</div>
-      </div>
-      <div class="rmeta">
-        <div class="rname">${p.name}</div>
-        <div class="rpos">${p.pos}</div>
-      </div>`;
-    g.appendChild(d);
-  });
 }
 
 function resizeImage(dataUrl, maxPx, quality){
