@@ -36,8 +36,8 @@
     "overall_round": "Pool Play",
     "day1_notes": "Pool play notes, court assignments, team updates...",
     "day2_notes": "Bracket seeding, venue updates...",
-    "day3_notes": "Bracket position, upcoming opponents...",
-    "day4_notes": "Final placement, awards, team celebration...",
+    "day3_notes": "Schedule based on pool play results — check back after Day 2!",
+    "day4_notes": "Championship Sunday — schedule TBD based on Day 3 results",
     "day2_locked": true,
     "day3_locked": true,
     "day4_locked": true,
@@ -67,35 +67,43 @@
   "matches": {
     "1": [
       {
-        "opponent": "Pool Opponent 1",
-        "time_court": "TBD ÃÂ· Court TBD",
+        "opponent": "SNVF 14 BLIZZARD (#42)",
+        "time_court": "5:00 PM · Court 61 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
       },
       {
-        "opponent": "Pool Opponent 2",
-        "time_court": "TBD ÃÂ· Court TBD",
-        "score_us": "",
-        "score_them": "",
-        "result": "upcoming"
-      },
-      {
-        "opponent": "Pool Opponent 3",
-        "time_court": "TBD ÃÂ· Court TBD",
-        "score_us": "",
-        "score_them": "",
-        "result": "upcoming"
-      },
-      {
-        "opponent": "Pool Opponent 4",
-        "time_court": "TBD ÃÂ· Court TBD",
+        "opponent": "CMASS Edge 14 Black (#88)",
+        "time_court": "7:00 PM · Court 62 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
       }
     ],
-    "2": [],
+    "2": [
+      {
+        "opponent": "UNION 14 Black (#74)",
+        "time_court": "3:00 PM · Court 26 ICC",
+        "score_us": "",
+        "score_them": "",
+        "result": "upcoming"
+      },
+      {
+        "opponent": "DYNASTY 14 Gold (#56)",
+        "time_court": "5:00 PM · Court 27 ICC",
+        "score_us": "",
+        "score_them": "",
+        "result": "upcoming"
+      },
+      {
+        "opponent": "PSVA 14-1 (#9)",
+        "time_court": "7:00 PM · Court 27 ICC",
+        "score_us": "",
+        "score_them": "",
+        "result": "upcoming"
+      }
+    ],
     "3": [],
     "4": [],
     "pool": [

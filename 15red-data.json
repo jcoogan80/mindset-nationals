@@ -36,8 +36,8 @@
     "overall_round": "Pool Play",
     "day1_notes": "Pool play notes, court assignments, team updates...",
     "day2_notes": "Bracket seeding, venue updates...",
-    "day3_notes": "Bracket position, upcoming opponents...",
-    "day4_notes": "Final placement, awards, team celebration...",
+    "day3_notes": "Schedule based on pool play results — check back after Day 2!",
+    "day4_notes": "Championship Sunday — schedule TBD based on Day 3 results",
     "day2_locked": true,
     "day3_locked": true,
     "day4_locked": true
@@ -45,35 +45,43 @@
   "matches": {
     "1": [
       {
-        "opponent": "Pool Opponent 1",
-        "time_court": "TBD · Court TBD",
+        "opponent": "540 VB 15 Elite (#38)",
+        "time_court": "1:30 PM · Court 23 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
       },
       {
-        "opponent": "Pool Opponent 2",
-        "time_court": "TBD · Court TBD",
-        "score_us": "",
-        "score_them": "",
-        "result": "upcoming"
-      },
-      {
-        "opponent": "Pool Opponent 3",
-        "time_court": "TBD · Court TBD",
-        "score_us": "",
-        "score_them": "",
-        "result": "upcoming"
-      },
-      {
-        "opponent": "Pool Opponent 4",
-        "time_court": "TBD · Court TBD",
+        "opponent": "949 G15 Black (#92)",
+        "time_court": "3:30 PM · Court 38 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
       }
     ],
-    "2": [],
+    "2": [
+      {
+        "opponent": "Red Rock 15 Chi (#70)",
+        "time_court": "4:00 PM · Court 14 ICC",
+        "score_us": "",
+        "score_them": "",
+        "result": "upcoming"
+      },
+      {
+        "opponent": "Premier Nebraska 15 Red (#60)",
+        "time_court": "6:00 PM · Court 14 ICC",
+        "score_us": "",
+        "score_them": "",
+        "result": "upcoming"
+      },
+      {
+        "opponent": "GP 15 National (#5)",
+        "time_court": "8:00 PM · Court 13 ICC",
+        "score_us": "",
+        "score_them": "",
+        "result": "upcoming"
+      }
+    ],
     "3": [],
     "4": [],
     "pool": [
