@@ -75,7 +75,94 @@
     ],
     "2": [],
     "3": [],
-    "4": []
+    "4": [],
+    "pool": [
+      {
+        "scores": [
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ]
+        ],
+        "result": "pending"
+      },
+      {
+        "scores": [
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ]
+        ],
+        "result": "pending"
+      },
+      {
+        "scores": [
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ]
+        ],
+        "result": "pending"
+      },
+      {
+        "scores": [
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ]
+        ],
+        "result": "pending"
+      },
+      {
+        "scores": [
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ]
+        ],
+        "result": "pending"
+      }
+    ]
   },
   "teams": [
     {
@@ -85,7 +172,9 @@
       "wins": 22,
       "losses": 6,
       "matches": 28,
-      "pct": "78.6%"
+      "pct": "78.6%",
+      "seed": 9,
+      "pool": "R1P9"
     },
     {
       "name": "Premier Nebraska 15 Silver",
@@ -94,7 +183,9 @@
       "wins": 40,
       "losses": 12,
       "matches": 52,
-      "pct": "76.9%"
+      "pct": "76.9%",
+      "seed": 22,
+      "pool": "R1P10"
     },
     {
       "name": "Rhythm 15 Dasia",
@@ -103,7 +194,9 @@
       "wins": 42,
       "losses": 14,
       "matches": 56,
-      "pct": "75.0%"
+      "pct": "75.0%",
+      "seed": 26,
+      "pool": "R1P6"
     },
     {
       "name": "GP 15 National",
@@ -112,7 +205,9 @@
       "wins": 66,
       "losses": 11,
       "matches": 77,
-      "pct": "85.7%"
+      "pct": "85.7%",
+      "seed": 5,
+      "pool": "R1P5"
     },
     {
       "name": "Northern Lights 15-2",
@@ -121,7 +216,9 @@
       "wins": 51,
       "losses": 17,
       "matches": 68,
-      "pct": "75.0%"
+      "pct": "75.0%",
+      "seed": 16,
+      "pool": "R1P16"
     },
     {
       "name": "CC Force 151 Crossfire",
@@ -130,7 +227,9 @@
       "wins": 34,
       "losses": 10,
       "matches": 44,
-      "pct": "77.3%"
+      "pct": "77.3%",
+      "seed": 23,
+      "pool": "R1P11"
     },
     {
       "name": "15 Alfie National",
@@ -139,7 +238,9 @@
       "wins": 45,
       "losses": 10,
       "matches": 55,
-      "pct": "81.8%"
+      "pct": "81.8%",
+      "seed": 35,
+      "pool": "R1P4"
     },
     {
       "name": "Ozark Juniors 15 Premier",
@@ -148,7 +249,9 @@
       "wins": 57,
       "losses": 25,
       "matches": 82,
-      "pct": "69.5%"
+      "pct": "69.5%",
+      "seed": 24,
+      "pool": "R1P12"
     },
     {
       "name": "SC Elite 15 Blue-Jake",
@@ -157,7 +260,9 @@
       "wins": 45,
       "losses": 18,
       "matches": 63,
-      "pct": "71.4%"
+      "pct": "71.4%",
+      "seed": 6,
+      "pool": "R1P6"
     },
     {
       "name": "DCVA 15-Jose",
@@ -166,7 +271,9 @@
       "wins": 51,
       "losses": 18,
       "matches": 69,
-      "pct": "73.9%"
+      "pct": "73.9%",
+      "seed": 13,
+      "pool": "R1P13"
     },
     {
       "name": "Cajun Elite 15 Waylon",
@@ -175,7 +282,9 @@
       "wins": 38,
       "losses": 9,
       "matches": 47,
-      "pct": "80.9%"
+      "pct": "80.9%",
+      "seed": 33,
+      "pool": "R1P2"
     },
     {
       "name": "KC Power 15-3",
@@ -184,7 +293,9 @@
       "wins": 33,
       "losses": 14,
       "matches": 47,
-      "pct": "70.2%"
+      "pct": "70.2%",
+      "seed": 7,
+      "pool": "R1P7"
     },
     {
       "name": "CVC 15 ROYAL",
@@ -193,7 +304,9 @@
       "wins": 41,
       "losses": 10,
       "matches": 51,
-      "pct": "80.4%"
+      "pct": "80.4%",
+      "seed": 36,
+      "pool": "R1P3"
     },
     {
       "name": "Manhattan Mamba 15-1",
@@ -202,7 +315,9 @@
       "wins": 25,
       "losses": 4,
       "matches": 29,
-      "pct": "86.2%"
+      "pct": "86.2%",
+      "seed": 10,
+      "pool": "R1P10"
     },
     {
       "name": "EVA 15 National",
@@ -211,7 +326,9 @@
       "wins": 50,
       "losses": 10,
       "matches": 60,
-      "pct": "83.3%"
+      "pct": "83.3%",
+      "seed": 37,
+      "pool": "R1P6"
     },
     {
       "name": "Circle City 15 White",
@@ -220,7 +337,9 @@
       "wins": 54,
       "losses": 17,
       "matches": 71,
-      "pct": "76.1%"
+      "pct": "76.1%",
+      "seed": 17,
+      "pool": "R1P13"
     },
     {
       "name": "Core STL 15 Navy",
@@ -229,7 +348,9 @@
       "wins": 34,
       "losses": 16,
       "matches": 50,
-      "pct": "68.0%"
+      "pct": "68.0%",
+      "seed": 20,
+      "pool": "R1P16"
     },
     {
       "name": "AZ REV 15 Black",
@@ -238,7 +359,9 @@
       "wins": 48,
       "losses": 8,
       "matches": 56,
-      "pct": "85.7%"
+      "pct": "85.7%",
+      "seed": 47,
+      "pool": "R1P16"
     },
     {
       "name": "540 VB 15 Elite",
@@ -247,7 +370,9 @@
       "wins": 52,
       "losses": 18,
       "matches": 70,
-      "pct": "74.3%"
+      "pct": "74.3%",
+      "seed": 38,
+      "pool": "R1P5"
     },
     {
       "name": "PVA 15 NATIONAL",
@@ -256,7 +381,9 @@
       "wins": 52,
       "losses": 19,
       "matches": 71,
-      "pct": "73.2%"
+      "pct": "73.2%",
+      "seed": 56,
+      "pool": "R1P9"
     },
     {
       "name": "Sideout 15N Matt",
@@ -265,7 +392,9 @@
       "wins": 32,
       "losses": 6,
       "matches": 38,
-      "pct": "84.2%"
+      "pct": "84.2%",
+      "seed": 45,
+      "pool": "R1P14"
     },
     {
       "name": "United 15 National",
@@ -274,7 +403,9 @@
       "wins": 33,
       "losses": 10,
       "matches": 43,
-      "pct": "76.7%"
+      "pct": "76.7%",
+      "seed": 28,
+      "pool": "R1P8"
     },
     {
       "name": "CSA 15 Navy",
@@ -283,7 +414,9 @@
       "wins": 29,
       "losses": 16,
       "matches": 45,
-      "pct": "64.4%"
+      "pct": "64.4%",
+      "seed": 55,
+      "pool": "R1P10"
     },
     {
       "name": "HP South 15 Premier",
@@ -292,7 +425,9 @@
       "wins": 40,
       "losses": 20,
       "matches": 60,
-      "pct": "66.7%"
+      "pct": "66.7%",
+      "seed": 39,
+      "pool": "R1P8"
     },
     {
       "name": "AZ Sky 15 Gold",
@@ -301,7 +436,9 @@
       "wins": 44,
       "losses": 26,
       "matches": 70,
-      "pct": "62.9%"
+      "pct": "62.9%",
+      "seed": 1,
+      "pool": "R1P1"
     },
     {
       "name": "HJV 15 PREMIER",
@@ -310,7 +447,9 @@
       "wins": 47,
       "losses": 28,
       "matches": 75,
-      "pct": "62.7%"
+      "pct": "62.7%",
+      "seed": 12,
+      "pool": "R1P12"
     },
     {
       "name": "A5 15-Jennie",
@@ -319,7 +458,9 @@
       "wins": 26,
       "losses": 10,
       "matches": 36,
-      "pct": "72.2%"
+      "pct": "72.2%",
+      "seed": 58,
+      "pool": "R1P7"
     },
     {
       "name": "PEAK 15-2",
@@ -328,7 +469,9 @@
       "wins": 42,
       "losses": 13,
       "matches": 55,
-      "pct": "76.4%"
+      "pct": "76.4%",
+      "seed": 71,
+      "pool": "R1P8"
     },
     {
       "name": "PSVC 15 Jay",
@@ -337,7 +480,9 @@
       "wins": 31,
       "losses": 16,
       "matches": 47,
-      "pct": "66.0%"
+      "pct": "66.0%",
+      "seed": 40,
+      "pool": "R1P7"
     },
     {
       "name": "EP Elite 15U Smack 1",
@@ -346,7 +491,9 @@
       "wins": 31,
       "losses": 16,
       "matches": 47,
-      "pct": "66.0%"
+      "pct": "66.0%",
+      "seed": 11,
+      "pool": "R1P11"
     },
     {
       "name": "Sanford Fargo 15-UA",
@@ -355,7 +502,9 @@
       "wins": 32,
       "losses": 11,
       "matches": 43,
-      "pct": "74.4%"
+      "pct": "74.4%",
+      "seed": 57,
+      "pool": "R1P8"
     },
     {
       "name": "GJ 15 PREMIER",
@@ -364,7 +513,9 @@
       "wins": 43,
       "losses": 13,
       "matches": 56,
-      "pct": "76.8%"
+      "pct": "76.8%",
+      "seed": 59,
+      "pool": "R1P6"
     },
     {
       "name": "BAVA 15 Blaze",
@@ -373,7 +524,9 @@
       "wins": 55,
       "losses": 22,
       "matches": 77,
-      "pct": "71.4%"
+      "pct": "71.4%",
+      "seed": 31,
+      "pool": "R1P3"
     },
     {
       "name": "Iowa Rockets 15R",
@@ -382,7 +535,9 @@
       "wins": 41,
       "losses": 23,
       "matches": 64,
-      "pct": "64.1%"
+      "pct": "64.1%",
+      "seed": 15,
+      "pool": "R1P15"
     },
     {
       "name": "NKYVC 15-2 Tide",
@@ -391,7 +546,9 @@
       "wins": 40,
       "losses": 19,
       "matches": 59,
-      "pct": "67.8%"
+      "pct": "67.8%",
+      "seed": 41,
+      "pool": "R1P10"
     },
     {
       "name": "TCVA 15 Green Adidas",
@@ -400,7 +557,9 @@
       "wins": 42,
       "losses": 18,
       "matches": 60,
-      "pct": "70.0%"
+      "pct": "70.0%",
+      "seed": 48,
+      "pool": "R1P15"
     },
     {
       "name": "DSVC 15 NATIONAL BLUE",
@@ -409,7 +568,9 @@
       "wins": 30,
       "losses": 11,
       "matches": 41,
-      "pct": "73.2%"
+      "pct": "73.2%",
+      "seed": 72,
+      "pool": "R1P7"
     },
     {
       "name": "ARIZONA STORM 15LIGHTNING",
@@ -418,7 +579,9 @@
       "wins": 38,
       "losses": 38,
       "matches": 76,
-      "pct": "50.0%"
+      "pct": "50.0%",
+      "seed": 32,
+      "pool": "R1P4"
     },
     {
       "name": "Mindset Premier 15 Red",
@@ -427,7 +590,9 @@
       "wins": 55,
       "losses": 21,
       "matches": 76,
-      "pct": "72.4%"
+      "pct": "72.4%",
+      "seed": 25,
+      "pool": "R1P5"
     },
     {
       "name": "Top Notch 15U ELITE",
@@ -436,7 +601,9 @@
       "wins": 33,
       "losses": 17,
       "matches": 50,
-      "pct": "66.0%"
+      "pct": "66.0%",
+      "seed": 46,
+      "pool": "R1P13"
     },
     {
       "name": "UEPA 15D",
@@ -445,7 +612,9 @@
       "wins": 17,
       "losses": 7,
       "matches": 24,
-      "pct": "70.8%"
+      "pct": "70.8%",
+      "seed": 8,
+      "pool": "R1P8"
     },
     {
       "name": "Premier Nebraska 15 Red",
@@ -454,7 +623,9 @@
       "wins": 29,
       "losses": 23,
       "matches": 52,
-      "pct": "55.8%"
+      "pct": "55.8%",
+      "seed": 60,
+      "pool": "R1P5"
     },
     {
       "name": "Epic United 15 Elite",
@@ -463,7 +634,9 @@
       "wins": 40,
       "losses": 27,
       "matches": 67,
-      "pct": "59.7%"
+      "pct": "59.7%",
+      "seed": 49,
+      "pool": "R1P16"
     },
     {
       "name": "MKE Sting 15 White",
@@ -472,7 +645,9 @@
       "wins": 54,
       "losses": 23,
       "matches": 77,
-      "pct": "70.1%"
+      "pct": "70.1%",
+      "seed": 61,
+      "pool": "R1P4"
     },
     {
       "name": "ATHENA VB 15-1 Gold National",
@@ -481,7 +656,9 @@
       "wins": 37,
       "losses": 16,
       "matches": 53,
-      "pct": "69.8%"
+      "pct": "69.8%",
+      "seed": 50,
+      "pool": "R1P15"
     },
     {
       "name": "Idaho ONE 15 Elite",
@@ -490,7 +667,9 @@
       "wins": 41,
       "losses": 26,
       "matches": 67,
-      "pct": "61.2%"
+      "pct": "61.2%",
+      "seed": 42,
+      "pool": "R1P9"
     },
     {
       "name": "Maunalani 15-Rise",
@@ -499,7 +678,9 @@
       "wins": 34,
       "losses": 12,
       "matches": 46,
-      "pct": "73.9%"
+      "pct": "73.9%",
+      "seed": 2,
+      "pool": "R1P2"
     },
     {
       "name": "Club V 15 Prodigy Steph",
@@ -508,7 +689,9 @@
       "wins": 16,
       "losses": 28,
       "matches": 44,
-      "pct": "36.4%"
+      "pct": "36.4%",
+      "seed": 18,
+      "pool": "R1P14"
     },
     {
       "name": "Altitude 15 Black",
@@ -517,7 +700,9 @@
       "wins": 50,
       "losses": 11,
       "matches": 61,
-      "pct": "82.0%"
+      "pct": "82.0%",
+      "seed": 83,
+      "pool": "R1P14"
     },
     {
       "name": "EXCEL 15 National Gold",
@@ -526,7 +711,9 @@
       "wins": 15,
       "losses": 6,
       "matches": 21,
-      "pct": "71.4%"
+      "pct": "71.4%",
+      "seed": 64,
+      "pool": "R1P1"
     },
     {
       "name": "Sunshine 15 Pacific",
@@ -535,7 +722,9 @@
       "wins": 34,
       "losses": 33,
       "matches": 67,
-      "pct": "50.7%"
+      "pct": "50.7%",
+      "seed": 3,
+      "pool": "R1P3"
     },
     {
       "name": "UNION 15 Green",
@@ -544,7 +733,9 @@
       "wins": 41,
       "losses": 24,
       "matches": 65,
-      "pct": "63.1%"
+      "pct": "63.1%",
+      "seed": 53,
+      "pool": "R1P12"
     },
     {
       "name": "TVC 15-Black",
@@ -553,7 +744,9 @@
       "wins": 35,
       "losses": 16,
       "matches": 51,
-      "pct": "68.6%"
+      "pct": "68.6%",
+      "seed": 43,
+      "pool": "R1P12"
     },
     {
       "name": "Madtown 152 National",
@@ -562,7 +755,9 @@
       "wins": 33,
       "losses": 21,
       "matches": 54,
-      "pct": "61.1%"
+      "pct": "61.1%",
+      "seed": 51,
+      "pool": "R1P14"
     },
     {
       "name": "PSVA 15-1",
@@ -571,7 +766,9 @@
       "wins": 21,
       "losses": 15,
       "matches": 36,
-      "pct": "58.3%"
+      "pct": "58.3%",
+      "seed": 52,
+      "pool": "R1P13"
     },
     {
       "name": "NYC Juniors 15 National",
@@ -580,7 +777,9 @@
       "wins": 24,
       "losses": 8,
       "matches": 32,
-      "pct": "75.0%"
+      "pct": "75.0%",
+      "seed": 62,
+      "pool": "R1P3"
     },
     {
       "name": "COAST 15-3 Charley",
@@ -589,7 +788,9 @@
       "wins": 22,
       "losses": 10,
       "matches": 32,
-      "pct": "68.8%"
+      "pct": "68.8%",
+      "seed": 29,
+      "pool": "R1P1"
     },
     {
       "name": "Elevation 15 Downs",
@@ -598,7 +799,9 @@
       "wins": 32,
       "losses": 22,
       "matches": 54,
-      "pct": "59.3%"
+      "pct": "59.3%",
+      "seed": 54,
+      "pool": "R1P11"
     },
     {
       "name": "MAVS KC 15 Premier",
@@ -607,7 +810,9 @@
       "wins": 28,
       "losses": 12,
       "matches": 40,
-      "pct": "70.0%"
+      "pct": "70.0%",
+      "seed": 65,
+      "pool": "R1P2"
     },
     {
       "name": "AVA 15 Elite",
@@ -616,7 +821,9 @@
       "wins": 13,
       "losses": 7,
       "matches": 20,
-      "pct": "65.0%"
+      "pct": "65.0%",
+      "seed": 79,
+      "pool": "R1P16"
     },
     {
       "name": "Alpha Omega 15 Elite",
@@ -625,7 +832,9 @@
       "wins": 29,
       "losses": 6,
       "matches": 35,
-      "pct": "82.9%"
+      "pct": "82.9%",
+      "seed": 77,
+      "pool": "R1P14"
     },
     {
       "name": "Tulsa Power 15-2",
@@ -634,7 +843,9 @@
       "wins": 32,
       "losses": 14,
       "matches": 46,
-      "pct": "69.6%"
+      "pct": "69.6%",
+      "seed": 66,
+      "pool": "R1P1"
     },
     {
       "name": "SA Juniors 15 National",
@@ -643,7 +854,9 @@
       "wins": 38,
       "losses": 22,
       "matches": 60,
-      "pct": "63.3%"
+      "pct": "63.3%",
+      "seed": 14,
+      "pool": "R1P14"
     },
     {
       "name": "IVC 15 Nationals",
@@ -652,7 +865,9 @@
       "wins": 17,
       "losses": 9,
       "matches": 26,
-      "pct": "65.4%"
+      "pct": "65.4%",
+      "seed": 86,
+      "pool": "R1P11"
     },
     {
       "name": "Rev 15-1 Fuego",
@@ -661,7 +876,9 @@
       "wins": 41,
       "losses": 30,
       "matches": 71,
-      "pct": "57.7%"
+      "pct": "57.7%",
+      "seed": 19,
+      "pool": "R1P15"
     },
     {
       "name": "New Age 15 Select",
@@ -670,7 +887,9 @@
       "wins": 43,
       "losses": 40,
       "matches": 83,
-      "pct": "51.8%"
+      "pct": "51.8%",
+      "seed": 27,
+      "pool": "R1P7"
     },
     {
       "name": "Red Storm 15 National White",
@@ -679,7 +898,9 @@
       "wins": 31,
       "losses": 18,
       "matches": 49,
-      "pct": "63.3%"
+      "pct": "63.3%",
+      "seed": 88,
+      "pool": "R1P9"
     },
     {
       "name": "TORCH 15-Katie",
@@ -688,7 +909,9 @@
       "wins": 21,
       "losses": 16,
       "matches": 37,
-      "pct": "56.8%"
+      "pct": "56.8%",
+      "seed": 69,
+      "pool": "R1P6"
     },
     {
       "name": "CoJrs 15Candace",
@@ -697,7 +920,9 @@
       "wins": 27,
       "losses": 15,
       "matches": 42,
-      "pct": "64.3%"
+      "pct": "64.3%",
+      "seed": 34,
+      "pool": "R1P1"
     },
     {
       "name": "Ultimate G15 Gold",
@@ -706,7 +931,9 @@
       "wins": 46,
       "losses": 30,
       "matches": 76,
-      "pct": "60.5%"
+      "pct": "60.5%",
+      "seed": 30,
+      "pool": "R1P2"
     },
     {
       "name": "NPJ Portland 15 National",
@@ -715,7 +942,9 @@
       "wins": 34,
       "losses": 28,
       "matches": 62,
-      "pct": "54.8%"
+      "pct": "54.8%",
+      "seed": 73,
+      "pool": "R1P10"
     },
     {
       "name": "TVC 15",
@@ -724,7 +953,9 @@
       "wins": 19,
       "losses": 15,
       "matches": 34,
-      "pct": "55.9%"
+      "pct": "55.9%",
+      "seed": 89,
+      "pool": "R1P8"
     },
     {
       "name": "Cape Coast 15 SATURN",
@@ -733,7 +964,9 @@
       "wins": 21,
       "losses": 25,
       "matches": 46,
-      "pct": "45.7%"
+      "pct": "45.7%",
+      "seed": 75,
+      "pool": "R1P12"
     },
     {
       "name": "TAV 15 Blue",
@@ -742,7 +975,9 @@
       "wins": 20,
       "losses": 20,
       "matches": 40,
-      "pct": "50.0%"
+      "pct": "50.0%",
+      "seed": 74,
+      "pool": "R1P9"
     },
     {
       "name": "WPVC 15 Armour Black",
@@ -751,7 +986,9 @@
       "wins": 35,
       "losses": 32,
       "matches": 67,
-      "pct": "52.2%"
+      "pct": "52.2%",
+      "seed": 68,
+      "pool": "R1P3"
     },
     {
       "name": "3DGE 152 Gold",
@@ -760,7 +997,9 @@
       "wins": 20,
       "losses": 15,
       "matches": 35,
-      "pct": "57.1%"
+      "pct": "57.1%",
+      "seed": 78,
+      "pool": "R1P13"
     },
     {
       "name": "Pipeline 15-Adidas",
@@ -769,7 +1008,9 @@
       "wins": 17,
       "losses": 19,
       "matches": 36,
-      "pct": "47.2%"
+      "pct": "47.2%",
+      "seed": 63,
+      "pool": "R1P2"
     },
     {
       "name": "Husky 15 National",
@@ -778,7 +1019,9 @@
       "wins": 24,
       "losses": 19,
       "matches": 43,
-      "pct": "55.8%"
+      "pct": "55.8%",
+      "seed": 84,
+      "pool": "R1P13"
     },
     {
       "name": "LIBERO 15 HUSKIES",
@@ -787,7 +1030,9 @@
       "wins": 49,
       "losses": 28,
       "matches": 77,
-      "pct": "63.6%"
+      "pct": "63.6%",
+      "seed": 85,
+      "pool": "R1P12"
     },
     {
       "name": "CHAVC 15 Black",
@@ -796,7 +1041,9 @@
       "wins": 24,
       "losses": 27,
       "matches": 51,
-      "pct": "47.1%"
+      "pct": "47.1%",
+      "seed": 44,
+      "pool": "R1P11"
     },
     {
       "name": "Revolution CBURG 15 White",
@@ -805,7 +1052,9 @@
       "wins": 16,
       "losses": 18,
       "matches": 34,
-      "pct": "47.1%"
+      "pct": "47.1%",
+      "seed": 80,
+      "pool": "R1P15"
     },
     {
       "name": "Mem Metro 15 Elite Blk",
@@ -814,7 +1063,9 @@
       "wins": 32,
       "losses": 31,
       "matches": 63,
-      "pct": "50.8%"
+      "pct": "50.8%",
+      "seed": 90,
+      "pool": "R1P7"
     },
     {
       "name": "VolleyFX 15 Chant",
@@ -823,7 +1074,9 @@
       "wins": 30,
       "losses": 16,
       "matches": 46,
-      "pct": "65.2%"
+      "pct": "65.2%",
+      "seed": 67,
+      "pool": "R1P4"
     },
     {
       "name": "MN Select 15-2",
@@ -832,7 +1085,9 @@
       "wins": 29,
       "losses": 31,
       "matches": 60,
-      "pct": "48.3%"
+      "pct": "48.3%",
+      "seed": 76,
+      "pool": "R1P11"
     },
     {
       "name": "SIVBC 15 Typhoon",
@@ -841,7 +1096,9 @@
       "wins": 23,
       "losses": 25,
       "matches": 48,
-      "pct": "47.9%"
+      "pct": "47.9%",
+      "seed": 21,
+      "pool": "R1P9"
     },
     {
       "name": "949 G15 Black",
@@ -850,7 +1107,9 @@
       "wins": 12,
       "losses": 13,
       "matches": 25,
-      "pct": "48.0%"
+      "pct": "48.0%",
+      "seed": 92,
+      "pool": "R1P5"
     },
     {
       "name": "MVA-Rise Academy 52",
@@ -859,7 +1118,9 @@
       "wins": 16,
       "losses": 26,
       "matches": 42,
-      "pct": "38.1%"
+      "pct": "38.1%",
+      "seed": 87,
+      "pool": "R1P10"
     },
     {
       "name": "Red Rock 15 Chi",
@@ -868,7 +1129,9 @@
       "wins": 22,
       "losses": 16,
       "matches": 38,
-      "pct": "57.9%"
+      "pct": "57.9%",
+      "seed": 70,
+      "pool": "R1P5"
     },
     {
       "name": "Elevation 15 Timberline R",
@@ -877,7 +1140,9 @@
       "wins": 15,
       "losses": 17,
       "matches": 32,
-      "pct": "46.9%"
+      "pct": "46.9%",
+      "seed": 81,
+      "pool": "R1P16"
     },
     {
       "name": "A4 Volley 15-Cassie",
@@ -886,7 +1151,9 @@
       "wins": 10,
       "losses": 18,
       "matches": 28,
-      "pct": "35.7%"
+      "pct": "35.7%",
+      "seed": 4,
+      "pool": "R1P4"
     },
     {
       "name": "208 U15 Elite",
@@ -895,7 +1162,9 @@
       "wins": 29,
       "losses": 24,
       "matches": 53,
-      "pct": "54.7%"
+      "pct": "54.7%",
+      "seed": 96,
+      "pool": "R1P1"
     },
     {
       "name": "Apex NW U15 Summit",
@@ -904,7 +1173,9 @@
       "wins": 15,
       "losses": 17,
       "matches": 32,
-      "pct": "46.9%"
+      "pct": "46.9%",
+      "seed": 94,
+      "pool": "R1P3"
     },
     {
       "name": "OMNI 15 National",
@@ -913,7 +1184,9 @@
       "wins": 16,
       "losses": 30,
       "matches": 46,
-      "pct": "34.8%"
+      "pct": "34.8%",
+      "seed": 82,
+      "pool": "R1P15"
     },
     {
       "name": "SVC Girls 15-1",
@@ -922,7 +1195,9 @@
       "wins": 31,
       "losses": 24,
       "matches": 55,
-      "pct": "56.4%"
+      "pct": "56.4%",
+      "seed": 93,
+      "pool": "R1P4"
     },
     {
       "name": "RVA 15U Gladden",
@@ -931,7 +1206,9 @@
       "wins": 23,
       "losses": 25,
       "matches": 48,
-      "pct": "47.9%"
+      "pct": "47.9%",
+      "seed": 91,
+      "pool": "R1P6"
     },
     {
       "name": "SSVBC 15-1",
@@ -940,7 +1217,9 @@
       "wins": 10,
       "losses": 16,
       "matches": 26,
-      "pct": "38.5%"
+      "pct": "38.5%",
+      "seed": 95,
+      "pool": "R1P2"
     }
   ],
   "players": {
