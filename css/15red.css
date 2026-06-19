@@ -2,3 +2,7 @@
 @media(max-width:480px){
   .team-banner-img{height:250px!important}
 }
+
+/* SCOUT VIDEO */
+body.em .scout-edit{display:flex!important}
+body.em .scout-link{display:none!important}
