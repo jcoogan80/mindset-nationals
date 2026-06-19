@@ -58,9 +58,18 @@
     el.addEventListener('touchcancel', function () { if (timer) { clearTimeout(timer); timer = null; } }, { passive: true });
   }
 
-  function buildItem(im, onClick) {
+  function buildItem(im, onClick, isNew) {
     var div = document.createElement('div');
     div.className = 'mphoto';
+
+    if (isNew) {
+      var badge = document.createElement('span');
+      badge.className = 'mphoto-badge';
+      badge.innerHTML = '<i class="ti ti-sparkles"></i> NEW';
+      div.appendChild(badge);
+      div.classList.add('mphoto-flash');
+    }
+
     var img = document.createElement('img');
     img.loading = 'lazy';
     img.alt = '';
@@ -146,9 +155,10 @@
 
         batch.forEach(function (im, bi) {
           var globalIdx = start + bi;
+          var isNew = !!(opts.newKeys && opts.newKeys.has(im.key));
           var el = buildItem(im, function () {
             if (opts.onOpen) opts.onOpen(globalIdx);
-          });
+          }, isNew);
           grid.appendChild(el);
           liveItems.push(el);
           animateIn(el);

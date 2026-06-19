@@ -320,19 +320,7 @@
   <!-- ROSTER -->
   <!-- PHOTOS -->
   <div class="sec" id="tab-photos">
-    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2></div>
-
-    <div id="gallery-drop-zone" style="text-align:center;margin-bottom:.9rem;padding:2rem 1rem 1.5rem;border:2px dashed #d0d0d0;border-radius:14px;background:#f7f7f7;transition:border-color .15s,background .15s;cursor:pointer">
-      <i class="ti ti-cloud-upload" style="font-size:2.2rem;color:#c0c0c0;display:block;margin-bottom:.6rem"></i>
-      <button id="gallery-upload-btn" style="font-size:.82rem;font-weight:600;padding:.45rem 1.1rem;border:none;border-radius:22px;background:var(--red);color:#fff;cursor:pointer;letter-spacing:.02em"><i class="ti ti-upload" style="margin-right:.35rem;vertical-align:-1px"></i>Add a Photo</button>
-      <div style="font-size:.72rem;color:var(--gray);margin-top:.5rem">or drag &amp; drop photos here</div>
-      <div id="gallery-status" style="font-size:.74rem;color:var(--gray);margin-top:.4rem;min-height:1.1em"></div>
-      <div id="gallery-progress" style="display:none;margin-top:.38rem;padding:0 .25rem">
-        <div style="height:5px;background:#e5e5e5;border-radius:99px;overflow:hidden">
-          <div id="gallery-progress-fill" style="height:100%;width:0%;background:var(--red);border-radius:99px;transition:width .1s linear"></div>
-        </div>
-      </div>
-    </div>
+    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2><button class="playall" id="playall-gallery"><i class="ti ti-player-play-filled"></i> Play All</button></div>
 
     <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif" multiple hidden>
 
@@ -347,9 +335,21 @@
     </div>
 
     <div class="gal-bar">
+      <button class="gal-add" id="gallery-add"><i class="ti ti-upload"></i> Add a Photo</button>
       <span class="gal-count" id="gallery-count">Loading photos…</span>
     </div>
-    <div class="gal-earlier" id="gallery-earlier"></div>
+    <div id="gallery-status" style="font-size:.74rem;color:var(--gray);min-height:1.1em;margin-bottom:.3rem"></div>
+    <div id="gallery-progress" style="display:none;margin-bottom:.6rem;padding:0 .25rem">
+      <div style="height:5px;background:#e5e5e5;border-radius:99px;overflow:hidden">
+        <div id="gallery-progress-fill" style="height:100%;width:0%;background:var(--red);border-radius:99px;transition:width .1s linear"></div>
+      </div>
+    </div>
+    <div class="gal-new-banner" id="gallery-new-banner">
+      <span class="gnb-icon"><i class="ti ti-sparkles"></i></span>
+      <span class="gnb-msg" id="gallery-new-msg">New photos added</span>
+      <button class="gal-new-btn" id="gallery-new-apply">View</button>
+      <button class="gal-new-dismiss" id="gallery-new-dismiss" aria-label="Dismiss"><i class="ti ti-x"></i></button>
+    </div>
     <div class="mgallery" id="gallery-grid"></div>
     <p id="gallery-empty" style="text-align:center;font-size:.8rem;color:var(--gray);margin:.5rem 0;display:none">No photos yet — be the first to add one!</p>
     <div class="gal-loader" id="gallery-loader"><span class="gal-spin"></span> Loading more…</div>
@@ -390,43 +390,13 @@
           xhr.send(file);
         });
       }
-      function renderGallery(images){
-        var empty=document.getElementById('gallery-empty');
-        var countEl=document.getElementById('gallery-count');
-        if(!images||!images.length){
-          document.getElementById('gallery-grid').innerHTML='';
-          empty.style.display='block';
-          if(countEl)countEl.innerHTML='';
-          return;
-        }
-        empty.style.display='none';
-        var urls=images.map(function(im){return im.url;});
-        window.GalleryScroll.init({
-          images:images,
-          grid:document.getElementById('gallery-grid'),
-          loader:document.getElementById('gallery-loader'),
-          sentinel:document.getElementById('gallery-sentinel'),
-          moreBtn:document.getElementById('gallery-more'),
-          endEl:document.getElementById('gallery-end'),
-          earlierEl:document.getElementById('gallery-earlier'),
-          countEl:countEl,
-          onOpen:function(idx){window.openLightbox(urls,idx);}
-        });
-      }
-
-      function loadGallery(){
-        fetch('/api/gallery-images?team='+TEAM)
-          .then(function(r){return r.json();})
-          .then(function(d){renderGallery(d.images);})
-          .catch(function(){status('Could not load photos.');});
-      }
 
       function doUpload(files){
         const {valid: imgs, invalid} = filterImageFiles(files);
         if(invalid.length) status(invalid.map(f=>f.name).join(', ')+' skipped — not a supported image type.');
         if(!imgs.length)return;
         if(imgs.length>10){status('Max 10 photos at a time — please split into smaller batches.');return;}
-        var btn=document.getElementById('gallery-upload-btn');
+        var btn=document.getElementById('gallery-add');
         btn.disabled=true;
         setProgress(0);
         function next(i){
@@ -434,7 +404,7 @@
             setProgress(1);
             status('Done — '+imgs.length+' photo'+(imgs.length>1?'s':'')+' added!');
             setTimeout(hideProgress,2000);
-            btn.disabled=false;loadGallery();return;
+            btn.disabled=false;GalleryLoader.loadAfterUpload();return;
           }
           var label=imgs.length>1?' ('+(i+1)+' of '+imgs.length+')':'';
           status('Uploading'+label+'…');
@@ -459,14 +429,9 @@
         if(files)doUpload(files);else document.getElementById('gallery-file').click();
       }
 
-      document.getElementById('gallery-upload-btn').addEventListener('click',function(){uploadOrPrompt(null);});
+      document.getElementById('gallery-add').addEventListener('click',function(){uploadOrPrompt(null);});
 
       document.getElementById('gallery-file').addEventListener('change',function(){doUpload(this.files);this.value='';});
-
-      const dropZone=document.getElementById('gallery-drop-zone');
-      ['dragenter','dragover'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.style.borderColor='var(--red)';dropZone.style.background='rgba(204,0,0,.04)';}));
-      dropZone.addEventListener('dragleave',e=>{if(!dropZone.contains(e.relatedTarget)){dropZone.style.borderColor='#d0d0d0';dropZone.style.background='#f7f7f7';}});
-      dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.style.borderColor='#d0d0d0';dropZone.style.background='#f7f7f7';uploadOrPrompt(e.dataTransfer.files);});
 
       document.getElementById('gallery-pw-submit').addEventListener('click',function(){
         var input=document.getElementById('gallery-pw-input');
@@ -493,7 +458,7 @@
 
       document.getElementById('gallery-pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('gallery-pw-submit').click();});
 
-      loadGallery();
+      document.addEventListener('DOMContentLoaded',function(){GalleryLoader.init(TEAM,status);GalleryLoader.load();});
     })();
     </script>
   </div>
@@ -1254,6 +1219,7 @@ document.addEventListener('DOMContentLoaded',()=>bindEditables());
 <script src="js/player-spotlight.js"></script>
 <script src="js/image-utils.js"></script>
 <script src="js/gallery-infinite-scroll.js"></script>
+<script src="js/gallery-loader.js"></script>
 <script src="js/photo-lightbox.js"></script>
 <script src="js/tabbar.js"></script>
 <script src="js/swipe.js"></script>

@@ -48,7 +48,7 @@ exports.handler = async (event) => {
   }
 
   const ext = EXT[contentType];
-  const key = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${slug(filename)}.${ext}`;
+  const key = `${9999999999999 - Date.now()}-${Math.random().toString(36).slice(2, 8)}-${slug(filename)}.${ext}`;
 
   try {
     const client = makeClient();

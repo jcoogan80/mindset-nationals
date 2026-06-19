@@ -14,11 +14,21 @@ exports.handler = async (event) => {
 
   try {
     const client = makeClient();
-    const out = await client.send(
-      new ListObjectsV2Command({ Bucket: cfg.bucket, MaxKeys: 1000 })
-    );
+    let allContents = [];
+    let continuationToken;
+    do {
+      const out = await client.send(
+        new ListObjectsV2Command({
+          Bucket: cfg.bucket,
+          MaxKeys: 1000,
+          ...(continuationToken ? { ContinuationToken: continuationToken } : {}),
+        })
+      );
+      allContents = allContents.concat(out.Contents || []);
+      continuationToken = out.IsTruncated ? out.NextContinuationToken : undefined;
+    } while (continuationToken);
 
-    const images = (out.Contents || [])
+    const images = allContents
       .filter((o) => o.Size > 0)
       .sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified))
       .map((o) => ({

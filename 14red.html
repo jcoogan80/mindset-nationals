@@ -536,19 +536,7 @@
   <!-- ROSTER -->
   <!-- PHOTOS -->
   <div class="sec" id="tab-photos">
-    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2></div>
-
-    <div id="gallery-drop-zone" style="text-align:center;margin-bottom:.9rem;padding:2rem 1rem 1.5rem;border:2px dashed #d0d0d0;border-radius:14px;background:#f7f7f7;transition:border-color .15s,background .15s;cursor:pointer">
-      <i class="ti ti-cloud-upload" style="font-size:2.2rem;color:#c0c0c0;display:block;margin-bottom:.6rem"></i>
-      <button id="gallery-upload-btn" style="font-size:.82rem;font-weight:600;padding:.45rem 1.1rem;border:none;border-radius:22px;background:var(--red);color:#fff;cursor:pointer;letter-spacing:.02em"><i class="ti ti-upload" style="margin-right:.35rem;vertical-align:-1px"></i>Add a Photo</button>
-      <div style="font-size:.72rem;color:var(--gray);margin-top:.5rem">or drag &amp; drop photos here</div>
-      <div id="gallery-status" style="font-size:.74rem;color:var(--gray);margin-top:.4rem;min-height:1.1em"></div>
-      <div id="gallery-progress" style="display:none;margin-top:.38rem;padding:0 .25rem">
-        <div style="height:5px;background:#e5e5e5;border-radius:99px;overflow:hidden">
-          <div id="gallery-progress-fill" style="height:100%;width:0%;background:var(--red);border-radius:99px;transition:width .1s linear"></div>
-        </div>
-      </div>
-    </div>
+    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2><button class="playall" id="playall-gallery"><i class="ti ti-player-play-filled"></i> Play All</button></div>
 
     <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif" multiple hidden>
 
@@ -563,9 +551,21 @@
     </div>
 
     <div class="gal-bar">
+      <button class="gal-add" id="gallery-add"><i class="ti ti-upload"></i> Add a Photo</button>
       <span class="gal-count" id="gallery-count">Loading photos…</span>
     </div>
-    <div class="gal-earlier" id="gallery-earlier"></div>
+    <div id="gallery-status" style="font-size:.74rem;color:var(--gray);min-height:1.1em;margin-bottom:.3rem"></div>
+    <div id="gallery-progress" style="display:none;margin-bottom:.6rem;padding:0 .25rem">
+      <div style="height:5px;background:#e5e5e5;border-radius:99px;overflow:hidden">
+        <div id="gallery-progress-fill" style="height:100%;width:0%;background:var(--red);border-radius:99px;transition:width .1s linear"></div>
+      </div>
+    </div>
+    <div class="gal-new-banner" id="gallery-new-banner">
+      <span class="gnb-icon"><i class="ti ti-sparkles"></i></span>
+      <span class="gnb-msg" id="gallery-new-msg">New photos added</span>
+      <button class="gal-new-btn" id="gallery-new-apply">View</button>
+      <button class="gal-new-dismiss" id="gallery-new-dismiss" aria-label="Dismiss"><i class="ti ti-x"></i></button>
+    </div>
     <div class="mgallery" id="gallery-grid"></div>
     <p id="gallery-empty" style="text-align:center;font-size:.8rem;color:var(--gray);margin:.5rem 0;display:none">No photos yet — be the first to add one!</p>
     <div class="gal-loader" id="gallery-loader"><span class="gal-spin"></span> Loading more…</div>
@@ -606,43 +606,13 @@
           xhr.send(file);
         });
       }
-      function renderGallery(images){
-        var empty=document.getElementById('gallery-empty');
-        var countEl=document.getElementById('gallery-count');
-        if(!images||!images.length){
-          document.getElementById('gallery-grid').innerHTML='';
-          empty.style.display='block';
-          if(countEl)countEl.innerHTML='';
-          return;
-        }
-        empty.style.display='none';
-        var urls=images.map(function(im){return im.url;});
-        window.GalleryScroll.init({
-          images:images,
-          grid:document.getElementById('gallery-grid'),
-          loader:document.getElementById('gallery-loader'),
-          sentinel:document.getElementById('gallery-sentinel'),
-          moreBtn:document.getElementById('gallery-more'),
-          endEl:document.getElementById('gallery-end'),
-          earlierEl:document.getElementById('gallery-earlier'),
-          countEl:countEl,
-          onOpen:function(idx){window.openLightbox(urls,idx);}
-        });
-      }
-
-      function loadGallery(){
-        fetch('/api/gallery-images?team='+TEAM)
-          .then(function(r){return r.json();})
-          .then(function(d){renderGallery(d.images);})
-          .catch(function(){status('Could not load photos.');});
-      }
 
       function doUpload(files){
         const {valid: imgs, invalid} = filterImageFiles(files);
         if(invalid.length) status(invalid.map(f=>f.name).join(', ')+' skipped — not a supported image type.');
         if(!imgs.length)return;
         if(imgs.length>10){status('Max 10 photos at a time — please split into smaller batches.');return;}
-        var btn=document.getElementById('gallery-upload-btn');
+        var btn=document.getElementById('gallery-add');
         btn.disabled=true;
         setProgress(0);
         function next(i){
@@ -650,7 +620,7 @@
             setProgress(1);
             status('Done — '+imgs.length+' photo'+(imgs.length>1?'s':'')+' added!');
             setTimeout(hideProgress,2000);
-            btn.disabled=false;loadGallery();return;
+            btn.disabled=false;GalleryLoader.loadAfterUpload();return;
           }
           var label=imgs.length>1?' ('+(i+1)+' of '+imgs.length+')':'';
           status('Uploading'+label+'…');
@@ -675,14 +645,9 @@
         if(files)doUpload(files);else document.getElementById('gallery-file').click();
       }
 
-      document.getElementById('gallery-upload-btn').addEventListener('click',function(){uploadOrPrompt(null);});
+      document.getElementById('gallery-add').addEventListener('click',function(){uploadOrPrompt(null);});
 
       document.getElementById('gallery-file').addEventListener('change',function(){doUpload(this.files);this.value='';});
-
-      const dropZone=document.getElementById('gallery-drop-zone');
-      ['dragenter','dragover'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.style.borderColor='var(--red)';dropZone.style.background='rgba(204,0,0,.04)';}));
-      dropZone.addEventListener('dragleave',e=>{if(!dropZone.contains(e.relatedTarget)){dropZone.style.borderColor='#d0d0d0';dropZone.style.background='#f7f7f7';}});
-      dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.style.borderColor='#d0d0d0';dropZone.style.background='#f7f7f7';uploadOrPrompt(e.dataTransfer.files);});
 
       document.getElementById('gallery-pw-submit').addEventListener('click',function(){
         var input=document.getElementById('gallery-pw-input');
@@ -709,51 +674,57 @@
 
       document.getElementById('gallery-pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('gallery-pw-submit').click();});
 
-      loadGallery();
+      document.addEventListener('DOMContentLoaded',function(){GalleryLoader.init(TEAM,status);GalleryLoader.load();});
     })();
     </script>
   </div>
 
   <!-- REELS -->
   <div class="sec" id="tab-reels">
-    <div class="sec-hd"><i class="ti ti-brand-youtube"></i><h2>Reels</h2></div>
-
-    <!-- TEAM HIGHLIGHT REEL -->
-    <div class="trwrap">
-      <div class="trhdr">
-        <span><i class="ti ti-player-play-filled" style="margin-right:.38rem"></i>TEAM HIGHLIGHT REEL</span>
-        <button class="tredit-btn" onclick="toggleTREdit()"><i class="ti ti-pencil"></i> Edit</button>
-      </div>
-      <div class="trdisplay">
-        <div class="trph" id="trph" onclick="document.body.classList.contains('em')&&toggleTREdit()">
-          <div class="trplaybtn"><i class="ti ti-player-play-filled"></i></div>
-          <span style="color:rgba(255,255,255,.52);font-size:.78rem">Add team highlight reel</span>
-          <span style="color:rgba(255,255,255,.28);font-size:.68rem">YouTube · Hudl · Vimeo</span>
-        </div>
-        <div class="triframe" id="triframe"><iframe id="triframe-el" allowfullscreen allow="autoplay;fullscreen"></iframe></div>
-      </div>
-      <div class="tredit-panel" id="tr-edit-panel">
-        <div style="font-size:.7rem;color:rgba(255,255,255,.38);margin-bottom:.38rem">PASTE VIDEO LINK</div>
-        <div style="display:flex;gap:.42rem;margin-bottom:.42rem">
-          <input class="di" id="tr-url-in" placeholder="https://www.youtube.com/watch?v=..." style="flex:1">
-          <button onclick="saveTR()" style="background:var(--red);color:#fff;border:none;border-radius:6px;padding:.35rem .7rem;font-size:.76rem;font-weight:600;cursor:pointer">Save</button>
-        </div>
-        <button onclick="clearTR()" style="font-size:.68rem;padding:.26rem .58rem;border:1px solid #444;border-radius:5px;background:transparent;color:#888;cursor:pointer"><i class="ti ti-trash"></i> Clear</button>
-      </div>
+    <div class="sec-hd">
+      <i class="ti ti-brand-youtube" style="color:var(--red)"></i>
+      <h2>Reels</h2>
+      <a class="playall" id="reel-channel" href="https://www.youtube.com/@Lily6_2030/videos" target="_blank" rel="noopener"><i class="ti ti-brand-youtube"></i> Channel</a>
     </div>
 
-    <div class="reels-grid-hd">
-      <span>All Videos</span>
-      <a class="reels-play-all" href="https://www.youtube.com/@Lily6_2030/videos" target="_blank" rel="noopener"><i class="ti ti-player-play"></i> Channel</a>
-    </div>
-    <div class="reels-grid" id="reels-grid">
-      <div class="reels-loading" style="position:static;color:var(--gray);padding:2rem 0">Loading videos&hellip;</div>
+    <div class="theater">
+      <div class="theater-main">
+        <div class="theater-stage" id="theater-stage">
+          <iframe id="theater-iframe" title="Reel player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="theater-poster" id="theater-poster">
+            <img id="theater-poster-img" src="" alt="">
+            <button class="theater-bigplay" id="theater-play" aria-label="Play video">
+              <i class="ti ti-player-play-filled"></i>
+            </button>
+          </div>
+          <button class="theater-fs" id="theater-fs" aria-label="Fullscreen">
+            <i class="ti ti-maximize"></i>
+          </button>
+        </div>
+        <div class="theater-meta">
+          <div class="theater-now">
+            <span class="theater-eq"><span></span><span></span><span></span></span> NOW PLAYING
+          </div>
+          <h3 class="theater-title" id="theater-title">Team Highlight Reel</h3>
+          <p class="theater-sub" id="theater-sub">Mindset 14 Red — 2026 Season</p>
+        </div>
+      </div>
+      <div class="theater-list">
+        <div class="theater-list-hd">
+          <span>All Clips</span>
+          <span class="theater-list-count" id="theater-count"></span>
+        </div>
+        <div class="theater-list-scroll" id="reel-list"></div>
+        <a class="theater-channel" href="https://www.youtube.com/@Lily6_2030/videos" target="_blank" rel="noopener">
+          <i class="ti ti-brand-youtube"></i> Browse the full channel on YouTube
+        </a>
+      </div>
     </div>
   </div>
 
 </div><!-- /wrap -->
 
-<!-- REEL MODAL -->
+<!-- PLAYER REEL MODAL -->
 <div class="moverlay" id="reel-modal" style="display:none">
   <div class="mbox">
     <div class="mhdr"><span id="reel-modal-title">Highlight Reel</span><button class="mclose" onclick="closeReel()"><i class="ti ti-x"></i></button></div>
@@ -770,22 +741,6 @@
         <input type="file" id="reel-file-in" accept="video/*" style="display:none" onchange="saveReelFile(this)">
       </div>
       <button onclick="clearReel()" id="reel-clear-btn" style="width:100%;margin-top:.5rem;font-size:.74rem;padding:.32rem;border:1px solid var(--lightgray);border-radius:6px;background:#fff;color:var(--gray);cursor:pointer;display:none"><i class="ti ti-trash"></i> Remove Reel</button>
-    </div>
-  </div>
-</div>
-
-<!-- YOUTUBE POPUP -->
-<div class="moverlay" id="yt-popup" style="display:none" onclick="closeYTPopup()">
-  <div class="yt-popup-box" onclick="event.stopPropagation()">
-    <div class="yt-popup-hdr">
-      <span id="yt-popup-title"></span>
-      <div class="yt-popup-actions">
-        <button onclick="document.getElementById('yt-popup-iframe').requestFullscreen()"><i class="ti ti-maximize"></i> Fullscreen</button>
-        <button onclick="closeYTPopup()"><i class="ti ti-x"></i></button>
-      </div>
-    </div>
-    <div class="reels-ratio" style="border-radius:0">
-      <iframe id="yt-popup-iframe" allowfullscreen allow="autoplay; fullscreen"></iframe>
     </div>
   </div>
 </div>
@@ -859,7 +814,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   if(location.hash) switchTab(location.hash.slice(1));
 });
 
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeYTPopup(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeReel(); });
 
 // ── GITHUB I/O ─────────────────────────────────────────────────
 async function loadData() {
@@ -954,7 +909,6 @@ function renderAll() {
   renderStandings();
   renderTeams();
   [1,2,3,4].forEach(d => { renderMatches(d); updateDayTab(d); });
-  if (D.hub.team_reel_url) applyTREmbed(D.hub.team_reel_url);
   renderPlayerData();
   renderFundraising();
   renderDonorThanks();
@@ -1397,12 +1351,6 @@ function updateReelUI(pid){
   else{ph.style.display='flex';ac.style.display='none';}
 }
 
-// ── TEAM REEL ──────────────────────────────────────────────────
-function toggleTREdit(){const p=document.getElementById('tr-edit-panel');const on=p.style.display!=='none';p.style.display=on?'none':'block';if(!on&&D.hub.team_reel_url)document.getElementById('tr-url-in').value=D.hub.team_reel_url;}
-function saveTR(){const url=document.getElementById('tr-url-in').value.trim();if(!url)return;D.hub.team_reel_url=url;applyTREmbed(url);saveData();toggleTREdit();toast('Team reel saved!');}
-function clearTR(){D.hub.team_reel_url='';document.getElementById('trph').style.display='flex';document.getElementById('triframe').style.display='none';document.getElementById('triframe-el').src='';saveData();toggleTREdit();}
-function applyTREmbed(url){const e=toEmbed(url);if(!e)return;document.getElementById('trph').style.display='none';document.getElementById('triframe').style.display='block';document.getElementById('triframe-el').src=e;}
-
 function toEmbed(url){
   if(!url) return null;
   let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
@@ -1456,47 +1404,96 @@ function disableEdit(){
 }
 
 // ── REELS ──────────────────────────────────────────────────────
-function loadReels(){
-  if(reelsLoaded) return;
+function initReels() {
+  if (reelsLoaded) return;
   reelsLoaded = true;
-  const videos = D.videos || [];
-  const items = videos.map(v => {
-    const m = v.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
-    return { videoId: m ? m[1] : '', title: v.title, thumbnail: v.thumbnail };
-  }).filter(v => v.videoId);
-  renderReelGrid(items);
-}
 
-function renderReelGrid(items){
-  const grid = document.getElementById('reels-grid');
-  if(!items || !items.length){
-    grid.innerHTML = '<p style="color:var(--gray);grid-column:1/-1;padding:1rem 0">No videos found.</p>';
-    return;
+  var VIDEOS = (D.videos || []).map(function(v) {
+    var m = v.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+    if (!m) return null;
+    var dashIdx = v.title.indexOf(' - ');
+    return {
+      id:    m[1],
+      title: dashIdx > -1 ? v.title.slice(0, dashIdx) : v.title,
+      sub:   dashIdx > -1 ? v.title.slice(dashIdx + 3) : '',
+      thumb: v.thumbnail
+    };
+  }).filter(Boolean);
+
+  var stage     = document.getElementById('theater-stage');
+  var iframe    = document.getElementById('theater-iframe');
+  var poster    = document.getElementById('theater-poster');
+  var posterImg = document.getElementById('theater-poster-img');
+  var bigPlay   = document.getElementById('theater-play');
+  var fsBtn     = document.getElementById('theater-fs');
+  var titleEl   = document.getElementById('theater-title');
+  var subEl     = document.getElementById('theater-sub');
+  var list      = document.getElementById('reel-list');
+  var countEl   = document.getElementById('theater-count');
+  if (!stage || !list) return;
+
+  var active = 0, playing = false;
+
+  function emb(v) {
+    return 'https://www.youtube.com/embed/' + v.id + '?autoplay=1&rel=0&modestbranding=1';
   }
-  grid.innerHTML = items.map(v => {
-    const safeTitle = v.title.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-    return `<div class="reel-tile" onclick="openYTPopup('${v.videoId}','${safeTitle}')">
-      <div class="reel-tile-thumb">
-        <img src="${v.thumbnail}" alt="" loading="lazy">
-        <div class="reel-tile-play"><i class="ti ti-player-play-filled"></i></div>
-      </div>
-      <div class="reel-tile-info">${v.title}</div>
-    </div>`;
-  }).join('');
-}
 
-function openYTPopup(videoId, title){
-  document.getElementById('yt-popup-title').textContent = title;
-  document.getElementById('yt-popup-iframe').src =
-    `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-  document.getElementById('yt-popup').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
+  function renderList() {
+    list.innerHTML = VIDEOS.map(function(v, i) {
+      var cls = 'reel-row' + (i === active ? ' active' : '');
+      return '<button class="' + cls + '" data-i="' + i + '">' +
+        '<span class="reel-row-thumb"><img loading="lazy" src="' + v.thumb + '" alt="">' +
+        '<span class="rr-play"><i class="ti ti-player-play-filled"></i></span>' +
+        (i === active ? '<span class="rr-eq"><span></span><span></span><span></span></span>' : '') +
+        '</span><span class="reel-row-info">' +
+        '<span class="reel-row-title">' + v.title + '</span>' +
+        '<span class="reel-row-sub">' + v.sub + '</span>' +
+        '</span></button>';
+    }).join('');
+  }
 
-function closeYTPopup(){
-  document.getElementById('yt-popup').style.display = 'none';
-  document.getElementById('yt-popup-iframe').src = '';
-  document.body.style.overflow = '';
+  function select(i, play) {
+    active = i;
+    var v = VIDEOS[i];
+    renderList();
+    if (titleEl)   titleEl.textContent   = v.title;
+    if (subEl)     subEl.textContent     = v.sub;
+    if (posterImg) posterImg.src         = v.thumb;
+    if (play) {
+      iframe.src = emb(v);
+      if (poster) poster.style.display = 'none';
+      stage.classList.add('playing');
+      playing = true;
+    } else if (!playing) {
+      if (poster) poster.style.display = '';
+      iframe.src = '';
+    } else {
+      iframe.src = emb(v);
+    }
+  }
+
+  if (countEl) countEl.textContent = VIDEOS.length + (VIDEOS.length === 1 ? ' video' : ' videos');
+  select(0, false);
+
+  list.addEventListener('click', function(e) {
+    var row = e.target.closest('.reel-row');
+    if (!row) return;
+    select(parseInt(row.getAttribute('data-i'), 10), true);
+    if (window.matchMedia('(max-width:640px)').matches) {
+      var top = stage.getBoundingClientRect().top + window.pageYOffset - 70;
+      window.scrollTo({ top: top < 0 ? 0 : top, behavior: 'smooth' });
+    }
+  });
+
+  if (bigPlay) bigPlay.addEventListener('click', function() { select(active, true); });
+  if (poster)  poster.addEventListener('click',  function() { select(active, true); });
+
+  if (fsBtn) fsBtn.addEventListener('click', function() {
+    var el = stage;
+    if (el.requestFullscreen)            el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (iframe.webkitEnterFullscreen) iframe.webkitEnterFullscreen();
+  });
 }
 
 // ── TABS ───────────────────────────────────────────────────────
@@ -1507,7 +1504,7 @@ function switchTab(name){
   document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
   btn.classList.add('active'); document.getElementById('tab-'+name).classList.add('on');
   if(name==='teams') renderTeams();
-  if(name==='reels') loadReels();
+  if(name==='reels') initReels();
 }
 function setupTabs(){
   document.querySelectorAll('.tab[data-tab]').forEach(t=>t.addEventListener('click',()=>{
@@ -1717,6 +1714,7 @@ function saveDonorThanks(){
 <script src="js/player-spotlight.js"></script>
 <script src="js/image-utils.js"></script>
 <script src="js/gallery-infinite-scroll.js"></script>
+<script src="js/gallery-loader.js"></script>
 <script src="js/photo-lightbox.js"></script>
 <script src="js/tabbar.js"></script>
 <script src="js/swipe.js"></script>
