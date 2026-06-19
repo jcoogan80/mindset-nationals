@@ -130,7 +130,7 @@
       "answers": {
         "q1": "Water Bottle",
         "q2": "Listen up",
-        "q3": "LetÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂs Go",
+        "q3": "LetÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂs Go",
         "q4": "A volleyball",
         "q5": "Complain about the ref",
         "q6": "Mine!",
@@ -178,7 +178,7 @@
       "answers": {
         "q1": "Positive attitude",
         "q2": "Guys we need to win!",
-        "q3": "LetÃÂ¢ÃÂÃÂs go mindset!",
+        "q3": "LetÃÂÃÂ¢ÃÂÃÂÃÂÃÂs go mindset!",
         "q4": "Volleyball",
         "q5": "Be good at volleyball",
         "q6": "Why is everyone wearing the wrong jersey",
@@ -189,9 +189,9 @@
         "q11": "Ai",
         "q12": "Sushi",
         "q13": "The mandalorian and grogu",
-        "q14": "Honey IÃÂ¢ÃÂÃÂm good",
+        "q14": "Honey IÃÂÃÂ¢ÃÂÃÂÃÂÃÂm good",
         "q15": "Micheal Jackson",
-        "q16": "DonÃÂ¢ÃÂÃÂt give up!",
+        "q16": "DonÃÂÃÂ¢ÃÂÃÂÃÂÃÂt give up!",
         "q17": "Amazing",
         "q18": "Emma"
       }
@@ -202,12 +202,12 @@
       "answers": {
         "q1": "Warm up shirt",
         "q2": "This is atrocious",
-        "q3": "My dad says Ã¢ÂÂoh EmmaÃ¢ÂÂ with a sigh",
+        "q3": "My dad says ÃÂ¢ÃÂÃÂoh EmmaÃÂ¢ÃÂÃÂ with a sigh",
         "q4": "Maybe some shoes",
         "q5": "Be better then me",
         "q6": "Hit at me or just Emily",
         "q7": "Sorry my finger slipped",
-        "q8": "Freeze dried mangos from EmilyÃ¢ÂÂs bento box",
+        "q8": "Freeze dried mangos from EmilyÃÂ¢ÃÂÃÂs bento box",
         "q9": "A toothbrush",
         "q10": "Look for food",
         "q11": "If your my mom walk 12 miles",
@@ -237,7 +237,7 @@
         "q11": "eat",
         "q12": "sushi",
         "q13": "the mandalorian movie",
-        "q14": "Honey iâm good",
+        "q14": "Honey iÃ¢ÂÂm good",
         "q15": "Michael Jackson",
         "q16": "ayo!",
         "q17": "goated",
@@ -266,6 +266,30 @@
         "q16": "come on",
         "q17": "Fun",
         "q18": "Emma"
+      }
+    },
+    {
+      "name": "Ali Beseda",
+      "timestamp": "2026-06-19T17:05:23.265Z",
+      "answers": {
+        "q1": "Chair/seat",
+        "q2": "Keep it up!",
+        "q3": "Let’s Go Mindset!",
+        "q4": "(Smelly) Knee Pads",
+        "q5": "Complain to refs",
+        "q6": "Mine",
+        "q7": "Bad toss",
+        "q8": "Beef sticks",
+        "q9": "Charger",
+        "q10": "Check in:)",
+        "q11": "Use bathroom",
+        "q12": "Chipotle",
+        "q13": "The Mandalorian and Grogu",
+        "q14": "All I Do is Win",
+        "q15": "Dwayne “The Rock” Johnson",
+        "q16": "? I’m excited",
+        "q17": "Strong",
+        "q18": "?"
       }
     }
   ],
