@@ -130,7 +130,7 @@
       "answers": {
         "q1": "Water Bottle",
         "q2": "Listen up",
-        "q3": "LetÃÂÃÂ¢ÃÂÃÂÃÂÃÂs Go",
+        "q3": "LetÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂs Go",
         "q4": "A volleyball",
         "q5": "Complain about the ref",
         "q6": "Mine!",
@@ -178,7 +178,7 @@
       "answers": {
         "q1": "Positive attitude",
         "q2": "Guys we need to win!",
-        "q3": "LetÃ¢ÂÂs go mindset!",
+        "q3": "LetÃÂ¢ÃÂÃÂs go mindset!",
         "q4": "Volleyball",
         "q5": "Be good at volleyball",
         "q6": "Why is everyone wearing the wrong jersey",
@@ -189,9 +189,9 @@
         "q11": "Ai",
         "q12": "Sushi",
         "q13": "The mandalorian and grogu",
-        "q14": "Honey IÃ¢ÂÂm good",
+        "q14": "Honey IÃÂ¢ÃÂÃÂm good",
         "q15": "Micheal Jackson",
-        "q16": "DonÃ¢ÂÂt give up!",
+        "q16": "DonÃÂ¢ÃÂÃÂt give up!",
         "q17": "Amazing",
         "q18": "Emma"
       }
@@ -202,12 +202,12 @@
       "answers": {
         "q1": "Warm up shirt",
         "q2": "This is atrocious",
-        "q3": "My dad says âoh Emmaâ with a sigh",
+        "q3": "My dad says Ã¢ÂÂoh EmmaÃ¢ÂÂ with a sigh",
         "q4": "Maybe some shoes",
         "q5": "Be better then me",
         "q6": "Hit at me or just Emily",
         "q7": "Sorry my finger slipped",
-        "q8": "Freeze dried mangos from Emilyâs bento box",
+        "q8": "Freeze dried mangos from EmilyÃ¢ÂÂs bento box",
         "q9": "A toothbrush",
         "q10": "Look for food",
         "q11": "If your my mom walk 12 miles",
@@ -237,11 +237,35 @@
         "q11": "eat",
         "q12": "sushi",
         "q13": "the mandalorian movie",
-        "q14": "Honey i’m good",
+        "q14": "Honey iâm good",
         "q15": "Michael Jackson",
         "q16": "ayo!",
         "q17": "goated",
         "q18": "EMMA 100%"
+      }
+    },
+    {
+      "name": "adam",
+      "timestamp": "2026-06-19T16:36:24.238Z",
+      "answers": {
+        "q1": "ball",
+        "q2": "good job",
+        "q3": "lets go",
+        "q4": "shoes",
+        "q5": "talk smack",
+        "q6": "mine",
+        "q7": "i couldnt see",
+        "q8": "bubs",
+        "q9": "toothbrush",
+        "q10": "check in",
+        "q11": "get coffee",
+        "q12": "sushi",
+        "q13": "spiderman",
+        "q14": "umbrella",
+        "q15": "harper murray",
+        "q16": "come on",
+        "q17": "Fun",
+        "q18": "Emma"
       }
     }
   ],
