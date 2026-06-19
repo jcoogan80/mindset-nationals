@@ -114,7 +114,8 @@
             ""
           ]
         ],
-        "result": "pending"
+        "result": "pending",
+        "scoutVideo": "https://www.youtube.com/live/OC3X7_IiHt0?si=bxz9tvbdoAhRunQ4"
       },
       {
         "scores": [
@@ -131,7 +132,8 @@
             ""
           ]
         ],
-        "result": "pending"
+        "result": "pending",
+        "scoutVideo": ""
       },
       {
         "scores": [
@@ -148,7 +150,8 @@
             ""
           ]
         ],
-        "result": "pending"
+        "result": "pending",
+        "scoutVideo": ""
       },
       {
         "scores": [
@@ -165,7 +168,8 @@
             ""
           ]
         ],
-        "result": "pending"
+        "result": "pending",
+        "scoutVideo": ""
       },
       {
         "scores": [
@@ -182,7 +186,8 @@
             ""
           ]
         ],
-        "result": "pending"
+        "result": "pending",
+        "scoutVideo": ""
       }
     ]
   },
