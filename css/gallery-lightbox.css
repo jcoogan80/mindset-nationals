@@ -1,7 +1,7 @@
 .playall{margin-left:auto;display:inline-flex;align-items:center;gap:.4rem;background:var(--red);color:#fff;border:none;border-radius:30px;padding:.44rem .92rem;font-size:.74rem;font-weight:600;font-family:var(--fb);cursor:pointer;transition:background .2s,transform .2s}
 .playall:hover{background:var(--darkred)}
 .playall:active{transform:scale(.96)}
-.playall i{font-size:.85rem}
+.playall i{font-size:.85rem;color:#fff}
 body.em .playall{display:none}
 .spot-play{position:fixed;top:1rem;left:1rem;z-index:6;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:background .2s}
 .spot-play:hover{background:var(--red);border-color:var(--red)}
