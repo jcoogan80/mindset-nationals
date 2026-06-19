@@ -137,6 +137,47 @@
   <div class="sec on" id="tab-schedule">
     <div class="sec-hd"><i class="ti ti-ball-volleyball"></i><h2>Schedule & Results</h2></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Edit mode on — add matches and unlock days</p>
+    <div class="card" style="border-left:4px solid #FFD700;margin-bottom:1.25rem">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--red);letter-spacing:1px">⭐ POOL 9 — MINDSET'S POOL</div>
+      <div style="font-size:.78rem;color:var(--gray);margin-bottom:.75rem">Round 1 Pool Play · 5 matches</div>
+      <table style="width:100%;font-size:.82rem;border-collapse:collapse">
+        <tr style="border-bottom:1px solid var(--lightgray)">
+          <th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">SEED</th>
+          <th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">TEAM</th>
+          <th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">REGION</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--lightgray)">
+          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#9</td>
+          <td style="padding:.4rem .25rem">PSVA 14-1</td>
+          <td style="padding:.4rem .25rem;color:var(--gray)">Florida</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--lightgray);background:#FFF8E1">
+          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#21</td>
+          <td style="padding:.4rem .25rem;font-weight:700">⭐ Mindset Premier 14 Red</td>
+          <td style="padding:.4rem .25rem;color:var(--gray)">Illinois</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--lightgray)">
+          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#42</td>
+          <td style="padding:.4rem .25rem">SNVF 14 BLIZZARD</td>
+          <td style="padding:.4rem .25rem;color:var(--gray)">Washington</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--lightgray)">
+          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#56</td>
+          <td style="padding:.4rem .25rem">DYNASTY 14 Gold</td>
+          <td style="padding:.4rem .25rem;color:var(--gray)">Kansas</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--lightgray)">
+          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#74</td>
+          <td style="padding:.4rem .25rem">UNION 14 Black</td>
+          <td style="padding:.4rem .25rem;color:var(--gray)">Puerto Rico</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#88</td>
+          <td style="padding:.4rem .25rem">CMASS Edge 14 Black</td>
+          <td style="padding:.4rem .25rem;color:var(--gray)">Massachusetts</td>
+        </tr>
+      </table>
+    </div>
     <div class="dtabs">
       <button class="dtab active" data-day="1">Day 1<span class="ds">Jun 25</span></button>
       <button class="dtab" data-day="2" id="dtab2">Day 2<span class="ds" id="ds2">Jun 26</span></button>
@@ -184,8 +225,8 @@
         <input class="fi" id="team-search" style="padding-left:1.8rem" placeholder="Search teams..." oninput="filterTeams()">
       </div>
       <select class="fi" id="team-sort" onchange="renderTeams()" style="width:auto">
-        <option value="rank">Sort: Rank</option><option value="name">Sort: Name</option>
-        <option value="state">Sort: State</option><option value="wins">Sort: Wins</option>
+        <option value="seed">Sort: Seed</option><option value="rank">Sort: Rank</option><option value="name">Sort: Name</option>
+        <option value="pool">Sort: Pool</option><option value="state">Sort: State</option><option value="wins">Sort: Wins</option>
       </select>
     </div>
     <div class="aform" id="add-team-form" style="margin-bottom:.75rem">
@@ -204,9 +245,9 @@
       <span><strong style="color:var(--black)">USAV National Rankings</strong> — rankings and records shown may not reflect all matches played</span>
     </div>
     <div style="overflow-x:auto">
-      <table class="st" style="min-width:460px">
-        <thead><tr><th style="width:38px">Rank</th><th>Team</th><th>Club</th><th style="width:36px">W</th><th style="width:36px">L</th><th style="width:30px"></th></tr></thead>
-        <tbody id="teams-body"><tr><td colspan="6" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr></tbody>
+      <table class="st" style="min-width:560px">
+        <thead><tr><th style="width:38px">Rank</th><th style="width:38px">Seed</th><th style="width:52px">Pool</th><th>Team</th><th>Club</th><th style="width:36px">W</th><th style="width:36px">L</th><th style="width:30px"></th></tr></thead>
+        <tbody id="teams-body"><tr><td colspan="8" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -1091,22 +1132,28 @@ function renderStandings() {
 
 // ── TEAMS ──────────────────────────────────────────────────────
 function renderTeams() {
-  const by=document.getElementById('team-sort')?.value||'rank';
+  const by=document.getElementById('team-sort')?.value||'seed';
   const arr=[...D.teams].sort((a,b)=>{
+    if(by==='seed') return (a.seed||9999)-(b.seed||9999);
     if(by==='rank') return (a.rank||9999)-(b.rank||9999);
     if(by==='name') return a.name.localeCompare(b.name);
+    if(by==='pool') return (a.pool||'').localeCompare(b.pool||'');
     if(by==='state') return (a.state||'').localeCompare(b.state||'');
     if(by==='wins') return b.wins-a.wins;
     return 0;
   });
   const tb=document.getElementById('teams-body'); if(!tb) return;
-  if(!arr.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr>';document.getElementById('teams-sum').style.display='none';return;}
+  if(!arr.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr>';document.getElementById('teams-sum').style.display='none';return;}
   tb.innerHTML='';
   arr.forEach((t,i)=>{
     const us=t.name.toLowerCase().includes('mindset');
+    const inPool=t.pool==='R1P9';
     const rb=t.rank?`<span class="rdot${t.rank<=3?' t3':''}">${t.rank}</span>`:'<span style="color:#ccc">—</span>';
+    const sb=t.seed?`<span style="font-weight:600;color:${inPool?'#b8860b':'var(--black)'}">#${t.seed}</span>`:'<span style="color:#ccc">—</span>';
+    const pb=t.pool?`<span style="font-size:.7rem;font-weight:600;color:${inPool?'#b8860b':'var(--gray)'}">${t.pool}</span>`:'<span style="color:#ccc">—</span>';
     const tr=document.createElement('tr'); tr.className='tr'+(us?' us':'');
-    tr.innerHTML=`<td>${rb}</td><td>${t.name}${us?'<span style="font-size:.6rem;background:var(--red);color:#fff;border-radius:8px;padding:.1rem .38rem;margin-left:.3rem">⭐</span>':''}</td>
+    if(inPool) tr.style.background='#FFF8E1';
+    tr.innerHTML=`<td>${rb}</td><td style="text-align:center">${sb}</td><td style="text-align:center">${pb}</td><td>${t.name}${us?'<span style="font-size:.6rem;background:var(--red);color:#fff;border-radius:8px;padding:.1rem .38rem;margin-left:.3rem">⭐</span>':''}</td>
       <td style="font-size:.72rem">${t.club||'—'}</td>
       <td style="text-align:center"><span class="wl w">${t.wins}</span></td>
       <td style="text-align:center"><span class="wl l">${t.losses}</span></td>
