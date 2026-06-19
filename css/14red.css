@@ -41,3 +41,13 @@ body.em .donor-save-btn{display:inline-block}
 .donor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:.42rem}
 .donor-chip{display:flex;align-items:center;gap:.42rem;background:var(--offwhite);border:1px solid var(--lightgray);border-radius:30px;padding:.42rem .72rem;font-size:.77rem;font-weight:600;color:var(--black);line-height:1.2}
 .donor-chip i{color:var(--red);font-size:.82rem;flex-shrink:0}
+/* POOL SCHEDULE */
+.psg{display:inline-flex;align-items:center;gap:.22rem;background:var(--offwhite);border:1px solid var(--lightgray);border-radius:6px;padding:.22rem .45rem}
+.psl{font-size:.63rem;font-weight:600;color:var(--gray);min-width:14px}
+.psc{font-size:.9rem;font-weight:700;min-width:22px;text-align:center;border-radius:4px;padding:0 .15rem;color:var(--black);outline:none}
+.psc:focus{background:#fff9f9;box-shadow:0 0 0 2px var(--red)}
+.psdash{color:var(--gray);font-size:.8rem;margin:0 .05rem}
+.pres-badge{font-size:.72rem;font-weight:700;padding:.2rem .55rem;border-radius:20px;white-space:nowrap;flex-shrink:0;letter-spacing:.3px}
+.pres-badge.win{background:#e8f5e9;color:#2a9d5c}
+.pres-badge.loss{background:#fdecea;color:#cc0000}
+.pres-badge.pending{background:var(--offwhite);color:var(--gray);border:1px solid var(--lightgray)}

@@ -137,46 +137,139 @@
   <div class="sec on" id="tab-schedule">
     <div class="sec-hd"><i class="ti ti-ball-volleyball"></i><h2>Schedule & Results</h2></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Edit mode on — add matches and unlock days</p>
-    <div class="card" style="border-left:4px solid #FFD700;margin-bottom:1.25rem">
+    <!-- ── POOL PLAY SCHEDULE ──────────────────────────────────── -->
+    <div class="sec-hd" style="margin-top:.15rem"><i class="ti ti-calendar-event" style="font-size:1.15rem;color:var(--red)"></i><h2>Pool Play Schedule</h2></div>
+    <div style="font-size:.78rem;color:var(--gray);margin-bottom:.75rem">Pool 9 · Best 2 of 3 to 25 (3rd set to 15) · All matches at Indiana Convention Center (ICC)</div>
+
+    <!-- Pool record banner -->
+    <div style="background:#fff;border:1px solid var(--lightgray);border-radius:10px;padding:.55rem 1rem;margin-bottom:.9rem;display:flex;align-items:center;gap:.55rem">
+      <i class="ti ti-trophy" style="color:#FFD700;font-size:1.1rem;flex-shrink:0"></i>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--red)">POOL RECORD</span>
+      <span id="pool-record" style="font-size:1.15rem;font-weight:700">0–0</span>
+      <span id="pool-pending-lbl" style="font-size:.72rem;color:var(--gray);margin-left:auto">5 pending</span>
+    </div>
+
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:var(--gray);letter-spacing:.5px;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem"><i class="ti ti-sun" style="font-size:.85rem"></i>WEDNESDAY · JUNE 25</div>
+
+    <div class="card pmc" id="pmc-0" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <div>
+          <div style="font-weight:700;font-size:.95rem">5:00 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 61 ICC</span></div>
+          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>SNVF 14 BLIZZARD</strong> <span style="color:var(--gray);font-size:.74rem">(WA) — Seed #42</span></div>
+        </div>
+        <span class="pres-badge pending" id="pbadge-0">Pending</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <div class="psg"><span class="psl">S1</span><span class="psc" data-pmatch="0" data-pset="0" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="0" data-pset="0" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S2</span><span class="psc" data-pmatch="0" data-pset="1" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="0" data-pset="1" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S3</span><span class="psc" data-pmatch="0" data-pset="2" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="0" data-pset="2" data-pside="them" contenteditable="false">—</span></div>
+        <select class="pres-sel fi" id="pres-0" data-pmatch="0" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
+      </div>
+    </div>
+
+    <div class="card pmc" id="pmc-1" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <div>
+          <div style="font-weight:700;font-size:.95rem">7:00 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 62 ICC</span></div>
+          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>CMASS Edge 14 Black</strong> <span style="color:var(--gray);font-size:.74rem">(MA) — Seed #88</span></div>
+        </div>
+        <span class="pres-badge pending" id="pbadge-1">Pending</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <div class="psg"><span class="psl">S1</span><span class="psc" data-pmatch="1" data-pset="0" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="1" data-pset="0" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S2</span><span class="psc" data-pmatch="1" data-pset="1" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="1" data-pset="1" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S3</span><span class="psc" data-pmatch="1" data-pset="2" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="1" data-pset="2" data-pside="them" contenteditable="false">—</span></div>
+        <select class="pres-sel fi" id="pres-1" data-pmatch="1" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
+      </div>
+    </div>
+
+    <div style="margin-top:.65rem"></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:var(--gray);letter-spacing:.5px;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem"><i class="ti ti-sun" style="font-size:.85rem"></i>THURSDAY · JUNE 26</div>
+
+    <div class="card pmc" id="pmc-2" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <div>
+          <div style="font-weight:700;font-size:.95rem">3:00 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 26 ICC</span></div>
+          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>UNION 14 Black</strong> <span style="color:var(--gray);font-size:.74rem">(PR) — Seed #74</span></div>
+        </div>
+        <span class="pres-badge pending" id="pbadge-2">Pending</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <div class="psg"><span class="psl">S1</span><span class="psc" data-pmatch="2" data-pset="0" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="2" data-pset="0" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S2</span><span class="psc" data-pmatch="2" data-pset="1" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="2" data-pset="1" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S3</span><span class="psc" data-pmatch="2" data-pset="2" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="2" data-pset="2" data-pside="them" contenteditable="false">—</span></div>
+        <select class="pres-sel fi" id="pres-2" data-pmatch="2" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
+      </div>
+    </div>
+
+    <div class="card pmc" id="pmc-3" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <div>
+          <div style="font-weight:700;font-size:.95rem">5:00 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 27 ICC</span></div>
+          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>DYNASTY 14 Gold</strong> <span style="color:var(--gray);font-size:.74rem">(KS) — Seed #56</span></div>
+        </div>
+        <span class="pres-badge pending" id="pbadge-3">Pending</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <div class="psg"><span class="psl">S1</span><span class="psc" data-pmatch="3" data-pset="0" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="3" data-pset="0" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S2</span><span class="psc" data-pmatch="3" data-pset="1" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="3" data-pset="1" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S3</span><span class="psc" data-pmatch="3" data-pset="2" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="3" data-pset="2" data-pside="them" contenteditable="false">—</span></div>
+        <select class="pres-sel fi" id="pres-3" data-pmatch="3" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
+      </div>
+    </div>
+
+    <div class="card pmc" id="pmc-4" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <div>
+          <div style="font-weight:700;font-size:.95rem">7:00 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 27 ICC</span></div>
+          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>PSVA 14-1</strong> <span style="color:var(--gray);font-size:.74rem">(FL) — Seed #9</span></div>
+        </div>
+        <span class="pres-badge pending" id="pbadge-4">Pending</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <div class="psg"><span class="psl">S1</span><span class="psc" data-pmatch="4" data-pset="0" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="4" data-pset="0" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S2</span><span class="psc" data-pmatch="4" data-pset="1" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="4" data-pset="1" data-pside="them" contenteditable="false">—</span></div><div class="psg"><span class="psl">S3</span><span class="psc" data-pmatch="4" data-pset="2" data-pside="us" contenteditable="false">—</span><span class="psdash">–</span><span class="psc" data-pmatch="4" data-pset="2" data-pside="them" contenteditable="false">—</span></div>
+        <select class="pres-sel fi" id="pres-4" data-pmatch="4" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
+      </div>
+    </div>
+
+    <!-- WHAT'S NEXT -->
+    <div class="card" style="border-left:4px solid #FFD700;margin-top:1rem">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--red)">📋 WHAT'S NEXT — FRIDAY JUNE 27</div>
+      <div style="font-size:.78rem;color:var(--gray);margin-top:.5rem;line-height:1.7">
+        Based on pool play finish:<br>
+        🥇 1st place → 2:00 PM Court 70 ICC (R2P9)<br>
+        🥈 2nd place → 3:00 PM Court 72 ICC (R2P11)<br>
+        🥉 3rd place → 2:00 PM Court 71 ICC (R2P10)<br>
+        4th place → 3:00 PM Court 11 ICC (R2G2P8)<br>
+        5th place → 4:00 PM Court 12 ICC (R2G2P7)<br>
+        6th place → 4:00 PM Court 10 ICC (R2G3P1)
+      </div>
+    </div>
+
+    <!-- Pool opponents card (moved below match schedule) -->
+    <div class="card" style="border-left:4px solid #FFD700;margin-top:1rem">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--red);letter-spacing:1px">⭐ POOL 9 — MINDSET'S POOL</div>
-      <div style="font-size:.78rem;color:var(--gray);margin-bottom:.75rem">Round 1 Pool Play · 5 matches</div>
+      <div style="font-size:.78rem;color:var(--gray);margin-bottom:.75rem">Round 1 Pool Play · 6 teams</div>
       <table style="width:100%;font-size:.82rem;border-collapse:collapse">
-        <tr style="border-bottom:1px solid var(--lightgray)">
-          <th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">SEED</th>
-          <th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">TEAM</th>
-          <th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">REGION</th>
-        </tr>
-        <tr style="border-bottom:1px solid var(--lightgray)">
-          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#9</td>
-          <td style="padding:.4rem .25rem">PSVA 14-1</td>
-          <td style="padding:.4rem .25rem;color:var(--gray)">Florida</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--lightgray);background:#FFF8E1">
-          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#21</td>
-          <td style="padding:.4rem .25rem;font-weight:700">⭐ Mindset Premier 14 Red</td>
-          <td style="padding:.4rem .25rem;color:var(--gray)">Illinois</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--lightgray)">
-          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#42</td>
-          <td style="padding:.4rem .25rem">SNVF 14 BLIZZARD</td>
-          <td style="padding:.4rem .25rem;color:var(--gray)">Washington</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--lightgray)">
-          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#56</td>
-          <td style="padding:.4rem .25rem">DYNASTY 14 Gold</td>
-          <td style="padding:.4rem .25rem;color:var(--gray)">Kansas</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--lightgray)">
-          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#74</td>
-          <td style="padding:.4rem .25rem">UNION 14 Black</td>
-          <td style="padding:.4rem .25rem;color:var(--gray)">Puerto Rico</td>
-        </tr>
-        <tr>
-          <td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#88</td>
-          <td style="padding:.4rem .25rem">CMASS Edge 14 Black</td>
-          <td style="padding:.4rem .25rem;color:var(--gray)">Massachusetts</td>
-        </tr>
+        <tr style="border-bottom:1px solid var(--lightgray)"><th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">SEED</th><th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">TEAM</th><th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">REGION</th></tr>
+        <tr style="border-bottom:1px solid var(--lightgray)"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#9</td><td style="padding:.4rem .25rem">PSVA 14-1</td><td style="padding:.4rem .25rem;color:var(--gray)">Florida</td></tr>
+        <tr style="border-bottom:1px solid var(--lightgray);background:#FFF8E1"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#21</td><td style="padding:.4rem .25rem;font-weight:700">⭐ Mindset Premier 14 Red</td><td style="padding:.4rem .25rem;color:var(--gray)">Illinois</td></tr>
+        <tr style="border-bottom:1px solid var(--lightgray)"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#42</td><td style="padding:.4rem .25rem">SNVF 14 BLIZZARD</td><td style="padding:.4rem .25rem;color:var(--gray)">Washington</td></tr>
+        <tr style="border-bottom:1px solid var(--lightgray)"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#56</td><td style="padding:.4rem .25rem">DYNASTY 14 Gold</td><td style="padding:.4rem .25rem;color:var(--gray)">Kansas</td></tr>
+        <tr style="border-bottom:1px solid var(--lightgray)"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#74</td><td style="padding:.4rem .25rem">UNION 14 Black</td><td style="padding:.4rem .25rem;color:var(--gray)">Puerto Rico</td></tr>
+        <tr><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#88</td><td style="padding:.4rem .25rem">CMASS Edge 14 Black</td><td style="padding:.4rem .25rem;color:var(--gray)">Massachusetts</td></tr>
       </table>
+    </div>
+
+    <!-- Pool 9 Standings -->
+    <div class="card" style="margin-top:1rem">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--red);margin-bottom:.6rem">📊 POOL 9 STANDINGS</div>
+      <table style="width:100%;font-size:.82rem;border-collapse:collapse">
+        <thead><tr style="border-bottom:2px solid var(--lightgray)">
+          <th style="text-align:left;padding:.35rem .25rem;color:var(--gray);font-size:.7rem;width:38px">SEED</th>
+          <th style="text-align:left;padding:.35rem .25rem;color:var(--gray);font-size:.7rem">TEAM</th>
+          <th style="text-align:center;padding:.35rem .25rem;color:var(--gray);font-size:.7rem;width:30px">W</th>
+          <th style="text-align:center;padding:.35rem .25rem;color:var(--gray);font-size:.7rem;width:30px">L</th>
+        </tr></thead>
+        <tbody id="pool9-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Divider before Day tabs -->
+    <div style="border-top:2px solid var(--lightgray);margin-top:1.75rem;padding-top:1.1rem">
+      <div class="sec-hd"><i class="ti ti-calendar" style="color:var(--red)"></i><h2>Day-by-Day Schedule</h2></div>
     </div>
     <div class="dtabs">
       <button class="dtab active" data-day="1">Day 1<span class="ds">Jun 25</span></button>
@@ -942,6 +1035,7 @@ function applyDefaults() {
   D.matches = D.matches || {1:[],2:[],3:[],4:[]};
   D.teams = D.teams || [];
   D.players = D.players || {};
+  if(!D.matches.pool) D.matches.pool=[0,1,2,3,4].map(()=>({scores:[['',''],['',''],['','']],result:'pending'}));
 }
 
 // ── RENDER ALL ─────────────────────────────────────────────────
@@ -953,6 +1047,8 @@ function renderAll() {
   renderPlayerData();
   renderFundraising();
   renderDonorThanks();
+  renderPoolSchedule();
+  bindPoolSchedule();
 }
 
 function renderEditables() {
@@ -1441,12 +1537,16 @@ function enableEdit(){
   const b=document.getElementById('edit-btn'); b.classList.add('on'); b.innerHTML='<i class="ti ti-lock-open"></i> Editing';
   [2,3,4].forEach(d=>{const ub=document.getElementById('ubtn'+d);if(ub)ub.disabled=false;});
   document.querySelectorAll('[data-key], [data-pf]').forEach(el => el.contentEditable = 'true');
+  document.querySelectorAll('.psc').forEach(el => el.contentEditable = 'true');
+  document.querySelectorAll('.pres-sel').forEach(el => { el.disabled=false; el.style.display=''; });
   toast('Edit mode on — changes save automatically');
 }
 function disableEdit(){
   editMode=false; document.body.classList.remove('em');
   const b=document.getElementById('edit-btn'); b.classList.remove('on'); b.innerHTML='<i class="ti ti-lock"></i> Edit';
   document.querySelectorAll('[data-key], [data-pf]').forEach(el => el.contentEditable = 'false');
+  document.querySelectorAll('.psc').forEach(el => el.contentEditable = 'false');
+  document.querySelectorAll('.pres-sel').forEach(el => { el.disabled=true; el.style.display='none'; });
   toast('Edit mode off');
 }
 
@@ -1765,6 +1865,98 @@ function saveDonorThanks(){
 <script src="js/photo-lightbox.js"></script>
 <script src="js/tabbar.js"></script>
 <script src="js/swipe.js"></script>
-<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+// ── POOL PLAY SCHEDULE ─────────────────────────────────────────
+const POOL9_TEAMS = [
+  {name:'PSVA 14-1', seed:9, region:'FL'},
+  {name:'Mindset Premier 14 Red', seed:21, region:'IL'},
+  {name:'SNVF 14 BLIZZARD', seed:42, region:'WA'},
+  {name:'DYNASTY 14 Gold', seed:56, region:'KS'},
+  {name:'UNION 14 Black', seed:74, region:'PR'},
+  {name:'CMASS Edge 14 Black', seed:88, region:'MA'},
+];
+
+function renderPoolSchedule() {
+  if(!D.matches.pool) D.matches.pool=[0,1,2,3,4].map(()=>({scores:[['',''],['',''],['','']],result:'pending'}));
+  const pm=D.matches.pool;
+  document.querySelectorAll('.psc').forEach(el=>{
+    const mi=+el.dataset.pmatch,si=+el.dataset.pset,side=el.dataset.pside;
+    const arr=pm[mi]&&pm[mi].scores&&pm[mi].scores[si];
+    const val=arr?arr[side==='us'?0:1]:'';
+    el.textContent=(val!==''&&val!==undefined&&val!==null)?val:'—';
+  });
+  for(let i=0;i<5;i++){
+    const sel=document.getElementById('pres-'+i);
+    const badge=document.getElementById('pbadge-'+i);
+    const res=(pm[i]&&pm[i].result)||'pending';
+    if(sel) sel.value=res;
+    if(badge){badge.textContent=res==='W'?'W':res==='L'?'L':'Pending';badge.className='pres-badge '+(res==='W'?'win':res==='L'?'loss':'pending');}
+  }
+  updatePoolRecord();
+  renderPool9Standings();
+}
+
+function updatePoolRecord(){
+  const pm=D.matches.pool||[];
+  let w=0,l=0,pend=0;
+  pm.forEach(m=>{if(m.result==='W')w++;else if(m.result==='L')l++;else pend++;});
+  const rec=document.getElementById('pool-record');
+  const plab=document.getElementById('pool-pending-lbl');
+  if(rec) rec.textContent=w+'–'+l;
+  if(plab) plab.textContent=pend>0?pend+' pending':(w+l===5?'Complete!':'');
+}
+
+function renderPool9Standings(){
+  const tb=document.getElementById('pool9-tbody'); if(!tb) return;
+  const pm=D.matches.pool||[];
+  let mw=0,ml=0;
+  pm.forEach(m=>{if(m.result==='W')mw++;else if(m.result==='L')ml++;});
+  const rows=POOL9_TEAMS.map((t,i)=>{
+    const isMindset=t.seed===21;
+    const w=isMindset?mw:+(D.hub['p9w_'+i]||0);
+    const l=isMindset?ml:+(D.hub['p9l_'+i]||0);
+    return {t,i,w,l,isMindset};
+  }).sort((a,b)=>b.w-a.w||a.l-b.l);
+  tb.innerHTML=rows.map(({t,i,w,l,isMindset})=>
+    `<tr style="border-bottom:1px solid var(--lightgray)${isMindset?';background:#FFF8E1':''}">
+      <td style="padding:.35rem .25rem;color:var(--red);font-weight:700;font-size:.8rem">#${t.seed}</td>
+      <td style="padding:.35rem .25rem;font-size:.82rem;font-weight:${isMindset?700:400}">${isMindset?'⭐ ':''}${t.name}</td>
+      <td style="text-align:center;padding:.35rem .25rem">${isMindset?`<span class="wl w">${w}</span>`:`<span class="wl w e" data-key="p9w_${i}" contenteditable="false">${w}</span>`}</td>
+      <td style="text-align:center;padding:.35rem .25rem">${isMindset?`<span class="wl l">${l}</span>`:`<span class="wl l e" data-key="p9l_${i}" contenteditable="false">${l}</span>`}</td>
+    </tr>`
+  ).join('');
+  bindEditables(tb);
+}
+
+function bindPoolSchedule(){
+  document.querySelectorAll('.psc').forEach(el=>{
+    if(el._peb) return; el._peb=true;
+    el.addEventListener('blur',()=>{
+      if(!editMode) return;
+      const mi=+el.dataset.pmatch,si=+el.dataset.pset,side=el.dataset.pside;
+      const v=el.textContent.trim().replace(/[^0-9]/g,'');
+      if(!D.matches.pool[mi]) return;
+      D.matches.pool[mi].scores[si][side==='us'?0:1]=v;
+      el.textContent=v||'—';
+      saveData();
+    });
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();el.blur();}});
+    el.addEventListener('focus',()=>{if(el.textContent==='—') el.textContent='';});
+  });
+  document.querySelectorAll('.pres-sel').forEach(sel=>{
+    if(sel._peb) return; sel._peb=true;
+    sel.addEventListener('change',()=>{
+      if(!editMode) return;
+      const mi=+sel.dataset.pmatch;
+      D.matches.pool[mi].result=sel.value;
+      const badge=document.getElementById('pbadge-'+mi);
+      if(badge){badge.textContent=sel.value==='W'?'W':sel.value==='L'?'L':'Pending';badge.className='pres-badge '+(sel.value==='W'?'win':sel.value==='L'?'loss':'pending');}
+      updatePoolRecord();
+      renderPool9Standings();
+      saveData();
+    });
+  });
+}
+</script>
 </body>
 </html>
