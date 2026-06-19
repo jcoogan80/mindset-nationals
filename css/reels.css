@@ -196,10 +196,8 @@
 .theater-list-scroll {
   display: flex;
   flex-direction: column;
-  gap: .25rem;
-  padding: .45rem;
-  overflow-y: auto;
-  max-height: 56vh;
+  gap: .65rem;
+  padding: .65rem;
 }
 
 /* Desktop/tablet: horizontal scroll filmstrip */
