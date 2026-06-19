@@ -1019,7 +1019,7 @@ function setPhoto(pid,url,fullUrl){
   let img=w.querySelector('img');
   if(!img){img=document.createElement('img');img.alt=pid;const ph=w.querySelector('.pph');if(ph)ph.remove();w.insertBefore(img,w.firstChild);}
   img.src=url; img.style.cssText='width:100%;height:100%;object-fit:cover;display:block';
-  if(fullUrl){img.dataset.full=fullUrl;img.onerror=()=>{img.onerror=null;img.src=fullUrl;};}
+  if(fullUrl){img.srcset=`${url} 1x, ${fullUrl} 2x`;img.onerror=()=>{img.onerror=null;img.src=fullUrl;};}
 }
 
 // ── REELS ──────────────────────────────────────────────────────
