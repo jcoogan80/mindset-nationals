@@ -1288,6 +1288,8 @@ function enableEdit(){
   document.querySelectorAll('[data-key], [data-pf]').forEach(el => el.contentEditable = 'true');
   document.querySelectorAll('.psc').forEach(el => el.contentEditable = 'true');
   document.querySelectorAll('.pres-sel').forEach(el => { el.disabled=false; el.style.display=''; });
+  document.querySelectorAll('.scout-edit').forEach(el => el.style.display='flex');
+  document.querySelectorAll('.scout-link').forEach(el => el.style.display='none');
   toast('Edit mode on — changes save automatically');
 }
 function disableEdit(){
@@ -1296,6 +1298,8 @@ function disableEdit(){
   document.querySelectorAll('[data-key], [data-pf]').forEach(el => el.contentEditable = 'false');
   document.querySelectorAll('.psc').forEach(el => el.contentEditable = 'false');
   document.querySelectorAll('.pres-sel').forEach(el => { el.disabled=true; el.style.display='none'; });
+  document.querySelectorAll('.scout-edit').forEach(el => el.style.display='none');
+  renderPoolSchedule();
   toast('Edit mode off');
 }
 
