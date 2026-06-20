@@ -793,15 +793,17 @@
           }
           var label=imgs.length>1?' ('+(i+1)+' of '+imgs.length+')':'';
           status('Uploading'+label+'…');
-          maybeResize(imgs[i]).then(function(f){
-            return fetch('/api/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:f.name,contentType:f.type,team:TEAM,password:pw})})
+          var original=imgs[i];
+          makeThumb(original).then(function(thumb){
+            return fetch('/api/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:original.name,contentType:original.type,team:TEAM,password:pw})})
               .then(function(r){
                 if(r.status===401){authed=false;sessionStorage.removeItem('gallery_authed');sessionStorage.removeItem('gallery_pw');status('Session expired — please try again.');hideProgress();btn.disabled=false;return Promise.reject('auth');}
                 if(!r.ok)return r.json().then(function(e){return Promise.reject(e.error||'Upload failed');});
                 return r.json();
               })
               .then(function(d){
-                return xhrPut(d.uploadUrl,f,function(pct){setProgress((i+pct)/imgs.length);});
+                return xhrPut(d.imageUploadUrl,original,function(pct){setProgress((i+pct*0.6)/imgs.length);})
+                  .then(function(){return xhrPut(d.thumbUploadUrl,thumb,function(pct){setProgress((i+0.6+pct*0.4)/imgs.length);});});
               })
               .then(function(){next(i+1);});
           }).catch(function(err){if(err!=='auth')status('Error: '+err);hideProgress();btn.disabled=false;});
@@ -990,9 +992,11 @@ async function loadData() {
   if (DEMO) { applyDefaults(); return; }
   loading(true);
   try {
-    const r = await fetch('14red-data.json?t=' + Date.now());
+    const r = await fetch(API + '?t=' + Date.now(), {headers:{'Accept':'application/vnd.github.v3+json'}});
     if (!r.ok) throw new Error(r.status);
-    D = await r.json();
+    const j = await r.json();
+    fileSHA = j.sha;
+    D = JSON.parse(atob(j.content.replace(/\n/g,'')));
     dataLoadedFromGitHub = true;
   } catch(e) {
     toast('Could not load data — check GitHub config'); applyDefaults();

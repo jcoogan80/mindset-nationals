@@ -29,14 +29,20 @@ exports.handler = async (event) => {
     } while (continuationToken);
 
     const images = allContents
-      .filter((o) => o.Size > 0)
+      .filter((o) => o.Size > 0 && !o.Key.startsWith("thumbnails/"))
       .sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified))
-      .map((o) => ({
-        key: o.Key,
-        url: `${cfg.publicBaseUrl}/${o.Key}`,
-        uploaded: o.LastModified,
-        size: o.Size,
-      }));
+      .map((o) => {
+        const isNew = o.Key.startsWith("images/");
+        const baseKey = isNew ? o.Key.slice("images/".length) : o.Key;
+        const fullUrl = `${cfg.publicBaseUrl}/${o.Key}`;
+        return {
+          key: o.Key,
+          url: fullUrl,
+          thumbnailUrl: isNew ? `${cfg.publicBaseUrl}/thumbnails/${baseKey}` : fullUrl,
+          uploaded: o.LastModified,
+          size: o.Size,
+        };
+      });
 
     return {
       statusCode: 200,

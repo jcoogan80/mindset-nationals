@@ -9,8 +9,6 @@
 (function () {
   var allImages = [];
   var pendingImages = null;
-  var pollTimer = null;
-  var POLL_MS = 2 * 60 * 1000;
   var _team, _onStatus, _seenStoreKey, _seenKeys;
 
   function loadSeenKeys() {
@@ -89,37 +87,12 @@
     pendingImages = null;
   }
 
-  function startPolling() {
-    if (pollTimer) clearInterval(pollTimer);
-    pollTimer = setInterval(function () {
-      fetch('/api/gallery-images?team=' + _team + '&_t=' + Date.now())
-        .then(function (r) { return r.json(); })
-        .then(function (d) {
-          var fresh = d.images || [];
-          if (fresh.length !== allImages.length) {
-            pendingImages = fresh;
-            var diff = fresh.length - allImages.length;
-            var banner = document.getElementById('gallery-new-banner');
-            var msg = document.getElementById('gallery-new-msg');
-            if (banner && msg) {
-              msg.innerHTML = diff > 0
-                ? '<b>' + diff + '</b> new photo' + (diff !== 1 ? 's' : '') + ' added'
-                : 'Gallery updated';
-              banner.classList.add('on');
-            }
-          }
-        })
-        .catch(function () {});
-    }, POLL_MS);
-  }
-
-  function load(suppressNew) {
+function load(suppressNew) {
     hideBanner();
     fetch('/api/gallery-images?team=' + _team)
       .then(function (r) { return r.json(); })
       .then(function (d) {
         renderGallery(d.images || [], suppressNew);
-        startPolling();
       })
       .catch(function () { if (_onStatus) _onStatus('Could not load photos.'); });
   }
@@ -136,7 +109,6 @@
         applyBtn.addEventListener('click', function () {
           if (pendingImages) {
             renderGallery(pendingImages);
-            startPolling();
           }
           hideBanner();
         });

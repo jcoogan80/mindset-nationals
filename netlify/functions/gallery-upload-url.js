@@ -48,21 +48,23 @@ exports.handler = async (event) => {
   }
 
   const ext = EXT[contentType];
-  const key = `${9999999999999 - Date.now()}-${Math.random().toString(36).slice(2, 8)}-${slug(filename)}.${ext}`;
+  const baseKey = `${9999999999999 - Date.now()}-${Math.random().toString(36).slice(2, 8)}-${slug(filename)}.${ext}`;
+  const imageKey = `images/${baseKey}`;
+  const thumbKey = `thumbnails/${baseKey}`;
 
   try {
     const client = makeClient();
-    const command = new PutObjectCommand({
-      Bucket: cfg.bucket,
-      Key: key,
-      ContentType: contentType,
-    });
-    const uploadUrl = await getSignedUrl(client, command, { expiresIn: 300 });
+    const [imageUploadUrl, thumbUploadUrl] = await Promise.all([
+      getSignedUrl(client, new PutObjectCommand({ Bucket: cfg.bucket, Key: imageKey, ContentType: contentType }), { expiresIn: 300 }),
+      getSignedUrl(client, new PutObjectCommand({ Bucket: cfg.bucket, Key: thumbKey, ContentType: "image/jpeg" }), { expiresIn: 300 }),
+    ]);
 
     return json(200, {
-      uploadUrl,
-      key,
-      publicUrl: `${cfg.publicBaseUrl}/${key}`,
+      imageUploadUrl,
+      thumbUploadUrl,
+      key: baseKey,
+      imageUrl: `${cfg.publicBaseUrl}/${imageKey}`,
+      thumbUrl: `${cfg.publicBaseUrl}/${thumbKey}`,
     });
   } catch (err) {
     return json(500, { error: "Could not create upload URL", detail: String(err.message || err) });

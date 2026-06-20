@@ -73,7 +73,7 @@
     var img = document.createElement('img');
     img.loading = 'lazy';
     img.alt = '';
-    img.src = im.url;
+    img.src = im.thumbnailUrl || im.url;
 
     var dlBtn = document.createElement('span');
     dlBtn.className = 'mphoto-dl';
