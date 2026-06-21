@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="css/gallery-lightbox.css">
 <link rel="stylesheet" href="css/reels.css">
 <link rel="stylesheet" href="css/gallery-masonry.css">
+<link rel="stylesheet" href="css/gallery-reactions.css">
 </head>
 <body>
 
@@ -511,6 +512,7 @@
         <button class="mfilter" data-f="video"><i class="ti ti-player-play"></i> Videos <span class="mfc" data-c="video"></span></button>
       </div>
       <button class="playall" id="playall-gallery"><i class="ti ti-player-play-filled"></i> Play All</button>
+      <button class="gal-refresh" id="gallery-refresh" title="Refresh"><i class="ti ti-refresh"></i></button>
       <button class="gal-add" id="gallery-add"><i class="ti ti-upload"></i> Add Photo / Video</button>
     </div>
     <div id="gallery-status" style="font-size:.74rem;color:var(--gray);min-height:1.1em;margin-bottom:.3rem"></div>
@@ -537,6 +539,7 @@
     <script>
     (function(){
       var TEAM='15red';
+      window._GALLERY_TEAM = TEAM;
 var authed=sessionStorage.getItem('gallery_authed')==='1';
       var pw=sessionStorage.getItem('gallery_pw')||'';
       var pendingFiles=null;
@@ -1419,6 +1422,7 @@ document.addEventListener('DOMContentLoaded',()=>bindEditables());
 <script src="js/modern-scroll.js"></script>
 <script src="js/player-spotlight.js"></script>
 <script src="js/image-utils.js"></script>
+<script src="js/gallery-reactions.js"></script>
 <script src="js/gallery-infinite-scroll.js"></script>
 <script src="js/gallery-loader.js"></script>
 <script src="js/photo-lightbox.js"></script>

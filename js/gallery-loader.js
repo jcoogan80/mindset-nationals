@@ -55,6 +55,8 @@
 
     window.GalleryScroll.init({
       images: images,
+      team: _team,
+      reactionMap: window.GalleryReactions ? window.GalleryReactions.getMap() : {},
       grid: document.getElementById('gallery-grid'),
       loader: document.getElementById('gallery-loader'),
       sentinel: document.getElementById('gallery-sentinel'),
@@ -69,11 +71,11 @@
         if (im.type === 'video') {
           window.openVideoPlayer(im.url);
         } else {
-          var photoUrls = allImages
-            .filter(function(m) { return m.type !== 'video'; })
-            .map(function(m) { return m.url; });
+          var photos = allImages.filter(function(m) { return m.type !== 'video'; });
+          var photoUrls = photos.map(function(m) { return m.url; });
+          var photoKeys = photos.map(function(m) { return m.key; });
           var photoIdx = photoUrls.indexOf(im.url);
-          window.openLightbox(photoUrls, Math.max(0, photoIdx));
+          window.openLightbox(photoUrls, Math.max(0, photoIdx), false, photoKeys);
         }
       }
     });
@@ -109,7 +111,11 @@ function load(suppressNew, bustCache) {
     fetch(url)
       .then(function (r) { return r.json(); })
       .then(function (d) {
-        renderGallery(d.images || [], suppressNew);
+        var images = d.images || [];
+        renderGallery(images, suppressNew);
+        if (window.GalleryReactions && images.length) {
+          window.GalleryReactions.fetch(_team, images.map(function (im) { return im.key; }));
+        }
       })
       .catch(function () { if (_onStatus) _onStatus('Could not load photos.'); });
   }
@@ -148,6 +154,13 @@ function load(suppressNew, bustCache) {
           if (photoUrls.length) {
             window.openLightbox(photoUrls, 0, true);
           }
+        });
+      }
+
+      var refreshBtn = document.getElementById('gallery-refresh');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', function () {
+          window.GalleryLoader.load();
         });
       }
     },
