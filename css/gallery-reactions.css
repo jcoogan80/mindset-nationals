@@ -90,3 +90,75 @@
   font-weight: 700;
   opacity: .9;
 }
+
+/* reaction picker bubble */
+.rxn-picker {
+  position: fixed;
+  display: none;
+  align-items: center;
+  gap: .3rem;
+  background: #fff;
+  border-radius: 99px;
+  padding: .45rem .6rem;
+  box-shadow: 0 8px 28px -4px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.1);
+  z-index: 500;
+  transform-origin: bottom center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.rxn-picker--open,
+.rxn-picker--closing {
+  display: flex;
+}
+
+.rxn-picker--open {
+  animation: rxn-picker-in 100ms ease-out forwards;
+}
+
+.rxn-picker--closing {
+  animation: rxn-picker-out 80ms ease-in forwards;
+}
+
+@keyframes rxn-picker-in {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes rxn-picker-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.85); }
+}
+
+.rxn-picker-btn {
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rxn-picker-btn:active { transform: scale(1.2); }
+
+.rxn-picker-btn--mine {
+  border-color: var(--red);
+  background: rgba(204, 0, 0, .08);
+}
+
+@keyframes rxn-picker-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+.rxn-picker-btn--popping {
+  animation: rxn-picker-pop 200ms ease-out forwards;
+}

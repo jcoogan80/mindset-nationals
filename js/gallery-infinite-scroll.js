@@ -60,6 +60,92 @@
     el.addEventListener('touchcancel', function () { if (timer) { clearTimeout(timer); timer = null; } }, { passive: true });
   }
 
+  var _picker = null; // { el, cleanup }
+
+  function closePicker(animate) {
+    if (!_picker) return;
+    var p = _picker;
+    _picker = null;
+    p.cleanup();
+    if (animate) {
+      p.el.classList.remove('rxn-picker--open');
+      p.el.classList.add('rxn-picker--closing');
+      p.el.addEventListener('animationend', function () {
+        p.el.classList.remove('rxn-picker--closing');
+      }, { once: true });
+    } else {
+      p.el.classList.remove('rxn-picker--open');
+      p.el.classList.remove('rxn-picker--closing');
+    }
+  }
+
+  function showReactionPicker(tileEl, imageKey, team) {
+    if (!window.GalleryReactions) return;
+    closePicker(false);
+
+    var el = document.getElementById('rxn-picker-singleton');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'rxn-picker-singleton';
+      el.className = 'rxn-picker';
+      el.setAttribute('aria-label', 'React to photo');
+      ['heart', 'thumbsup', 'laughing'].forEach(function (type) {
+        var btn = document.createElement('button');
+        btn.className = 'rxn-picker-btn';
+        btn.setAttribute('data-r', type);
+        btn.textContent = REACTION_EMOJIS[type];
+        el.appendChild(btn);
+      });
+      document.body.appendChild(el);
+    }
+
+    var mine = (window.GalleryReactions.getMap()[imageKey] || {}).mine || null;
+    el.querySelectorAll('.rxn-picker-btn').forEach(function (btn) {
+      btn.classList.toggle('rxn-picker-btn--mine', btn.getAttribute('data-r') === mine);
+      btn.classList.remove('rxn-picker-btn--popping');
+    });
+
+    // Measure off-screen to get true dimensions before positioning
+    el.style.cssText = 'display:flex;visibility:hidden;position:fixed;top:-999px;left:-999px';
+    var pw = el.offsetWidth;
+    var ph = el.offsetHeight;
+    el.style.cssText = '';
+
+    var rect = tileEl.getBoundingClientRect();
+    var left = rect.left + rect.width / 2 - pw / 2;
+    left = Math.max(12, Math.min(left, window.innerWidth - pw - 12));
+    var top = rect.top - ph - 8;
+    if (top < 8) top = rect.bottom + 8;
+    el.style.left = left + 'px';
+    el.style.top = top + 'px';
+
+    el.classList.add('rxn-picker--open');
+
+    function onBtnTap(e) {
+      var btn = e.target.closest('.rxn-picker-btn[data-r]');
+      if (!btn) return;
+      e.stopPropagation();
+      btn.classList.add('rxn-picker-btn--popping');
+      window.GalleryReactions.post(team, imageKey, btn.getAttribute('data-r'));
+      closePicker(true);
+    }
+
+    function onOutside(e) {
+      if (!el.contains(e.target)) closePicker(false);
+    }
+
+    el.addEventListener('touchend', onBtnTap);
+    document.addEventListener('touchstart', onOutside, { capture: true });
+
+    _picker = {
+      el: el,
+      cleanup: function () {
+        el.removeEventListener('touchend', onBtnTap);
+        document.removeEventListener('touchstart', onOutside, { capture: true });
+      }
+    };
+  }
+
   var REACTION_EMOJIS = { heart: '❤️', thumbsup: '👍', laughing: '😂' };
   var REACTION_TYPES = ['heart', 'thumbsup', 'laughing'];
 
@@ -180,7 +266,10 @@
     img.addEventListener('load', function () { div.classList.add('loaded'); });
     if (img.complete && img.naturalWidth) div.classList.add('loaded');
     div.addEventListener('click', onClick);
-    addLongPress(div, function () { downloadImage(im.url); });
+    addLongPress(div, isVideo
+      ? function () { downloadImage(im.url); }
+      : function () { showReactionPicker(div, im.key, team || ''); }
+    );
     return div;
   }
 
