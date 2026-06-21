@@ -17,6 +17,11 @@ bucket_name = "mindset-14red-photos"
 binding = "R2_15RED"
 bucket_name = "mindset-15red-photos"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "mindset-reactions"
+database_id = "094bc40a-c91d-4f6b-ba32-9e414a41144b"
+
 # Secrets — set via: wrangler secret put <NAME>
 # GALLERY_PASSWORD
 # R2_ACCOUNT_ID

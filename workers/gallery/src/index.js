@@ -161,6 +161,66 @@ async function handleUploadUrl(request, env) {
   }
 }
 
+async function handleGetReactions(request, env) {
+  const url = new URL(request.url);
+  const team = url.searchParams.get("team");
+  const keysParam = url.searchParams.get("keys");
+  const deviceId = url.searchParams.get("deviceId");
+
+  if (!team || !keysParam || !deviceId) {
+    return json(400, { error: "Missing team, keys, or deviceId" });
+  }
+
+  const keys = keysParam.split(",").filter(Boolean);
+  if (!keys.length) return json(200, { reactions: {} });
+
+  const placeholders = keys.map(() => "?").join(",");
+
+  const [countRows, mineRows] = await Promise.all([
+    env.DB.prepare(
+      `SELECT image_key, reaction, COUNT(*) as cnt FROM reactions WHERE team = ? AND image_key IN (${placeholders}) GROUP BY image_key, reaction`
+    ).bind(team, ...keys).all(),
+    env.DB.prepare(
+      `SELECT image_key, reaction FROM reactions WHERE team = ? AND device_id = ? AND image_key IN (${placeholders})`
+    ).bind(team, deviceId, ...keys).all(),
+  ]);
+
+  const result = {};
+  keys.forEach((k) => {
+    result[k] = { counts: { heart: 0, thumbsup: 0, laughing: 0 }, mine: null };
+  });
+
+  (countRows.results || []).forEach((row) => {
+    if (result[row.image_key]) result[row.image_key].counts[row.reaction] = row.cnt;
+  });
+
+  (mineRows.results || []).forEach((row) => {
+    if (result[row.image_key]) result[row.image_key].mine = row.reaction;
+  });
+
+  return json(200, { reactions: result }, { "Cache-Control": "no-store" });
+}
+
+async function handlePostReaction(request, env) {
+  let payload;
+  try { payload = await request.json(); }
+  catch { return json(400, { error: "Invalid JSON" }); }
+
+  const { team, imageKey, deviceId, reaction } = payload || {};
+  if (!team || !imageKey || !deviceId || !reaction) {
+    return json(400, { error: "Missing team, imageKey, deviceId, or reaction" });
+  }
+  if (!["heart", "thumbsup", "laughing"].includes(reaction)) {
+    return json(400, { error: "Invalid reaction type" });
+  }
+
+  await env.DB.prepare(
+    `INSERT OR REPLACE INTO reactions (image_key, device_id, team, reaction) VALUES (?, ?, ?, ?)`
+  ).bind(imageKey, deviceId, team, reaction).run();
+
+  return json(200, { ok: true });
+}
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
@@ -177,6 +237,12 @@ export default {
     }
     if (pathname === "/validate-password" && request.method === "POST") {
       return handleValidatePassword(request, env);
+    }
+    if (pathname === "/reactions" && request.method === "GET") {
+      return handleGetReactions(request, env);
+    }
+    if (pathname === "/reactions" && request.method === "POST") {
+      return handlePostReaction(request, env);
     }
 
     return json(404, { error: "Not found" });
