@@ -60,7 +60,48 @@
     el.addEventListener('touchcancel', function () { if (timer) { clearTimeout(timer); timer = null; } }, { passive: true });
   }
 
-  function buildItem(im, onClick, isNew) {
+  var REACTION_EMOJIS = { heart: '❤️', thumbsup: '👍', laughing: '😂' };
+  var REACTION_TYPES = ['heart', 'thumbsup', 'laughing'];
+
+  function renderStrip(el, data) {
+    el.innerHTML = '';
+    if (!data) { el.style.display = 'none'; return; }
+    var hasAny = false;
+    REACTION_TYPES.forEach(function (type) {
+      if ((data.counts[type] || 0) > 0) {
+        hasAny = true;
+        var btn = document.createElement('button');
+        btn.className = 'mtile-rxn' + (data.mine === type ? ' mtile-rxn--mine' : '');
+        btn.setAttribute('data-r', type);
+        btn.textContent = REACTION_EMOJIS[type];
+        el.appendChild(btn);
+      }
+    });
+    el.style.display = hasAny ? '' : 'none';
+  }
+
+  function buildReactionStrip(imageKey, initialData, team) {
+    var el = document.createElement('div');
+    el.className = 'mtile-reactions';
+    renderStrip(el, initialData || null);
+
+    el.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var btn = e.target.closest('[data-r]');
+      if (!btn || !window.GalleryReactions) return;
+      window.GalleryReactions.post(team, imageKey, btn.getAttribute('data-r'));
+    });
+
+    if (window.GalleryReactions) {
+      window.GalleryReactions.onUpdate(imageKey, function (data) {
+        renderStrip(el, data);
+      });
+    }
+
+    return el;
+  }
+
+  function buildItem(im, onClick, isNew, reactionMap, team) {
     var div = document.createElement('div');
     var isVideo = im.type === 'video';
     div.className = isVideo ? 'mtile mtile--video' : 'mtile';
@@ -132,6 +173,9 @@
     }
 
     div.appendChild(ov);
+
+    var strip = buildReactionStrip(im.key, reactionMap ? (reactionMap[im.key] || null) : null, team || '');
+    div.appendChild(strip);
 
     img.addEventListener('load', function () { div.classList.add('loaded'); });
     if (img.complete && img.naturalWidth) div.classList.add('loaded');
@@ -233,7 +277,7 @@
           var isNew = !!(opts.newKeys && opts.newKeys.has(im.key));
           var el = buildItem(im, function () {
             if (opts.onOpen) opts.onOpen(im);
-          }, isNew);
+          }, isNew, opts.reactionMap, opts.team);
           grid.appendChild(el);
           liveItems.push(el);
         });
