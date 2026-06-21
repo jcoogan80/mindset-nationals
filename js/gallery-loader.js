@@ -148,11 +148,11 @@ function load(suppressNew, bustCache) {
       var playBtn = document.getElementById('playall-gallery');
       if (playBtn) {
         playBtn.addEventListener('click', function () {
-          var photoUrls = allImages
-            .filter(function(im) { return im.type !== 'video'; })
-            .map(function(im) { return im.url; });
+          var photos = allImages.filter(function(im) { return im.type !== 'video'; });
+          var photoUrls = photos.map(function(im) { return im.url; });
+          var photoKeys = photos.map(function(im) { return im.key; });
           if (photoUrls.length) {
-            window.openLightbox(photoUrls, 0, true);
+            window.openLightbox(photoUrls, 0, true, photoKeys);
           }
         });
       }

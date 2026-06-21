@@ -170,6 +170,12 @@ async function handleGetReactions(request, env) {
   if (!team || !keysParam || !deviceId) {
     return json(400, { error: "Missing team, keys, or deviceId" });
   }
+  if (!['14red', '15red'].includes(team)) {
+    return json(400, { error: 'Invalid team' });
+  }
+  if (keysParam.length > 10000 || deviceId.length > 200) {
+    return json(400, { error: 'Request too large' });
+  }
 
   const keys = keysParam.split(",").filter(Boolean);
   if (!keys.length) return json(200, { reactions: {} });
@@ -209,6 +215,12 @@ async function handlePostReaction(request, env) {
   const { team, imageKey, deviceId, reaction } = payload || {};
   if (!team || !imageKey || !deviceId || !reaction) {
     return json(400, { error: "Missing team, imageKey, deviceId, or reaction" });
+  }
+  if (!['14red', '15red'].includes(team)) {
+    return json(400, { error: 'Invalid team' });
+  }
+  if (imageKey.length > 500 || deviceId.length > 200) {
+    return json(400, { error: 'Request too large' });
   }
   if (!["heart", "thumbsup", "laughing"].includes(reaction)) {
     return json(400, { error: "Invalid reaction type" });
