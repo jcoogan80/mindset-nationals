@@ -7,8 +7,14 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/avif"];
-const EXT = { "image/jpeg": "jpg", "image/png": "png", "image/gif": "gif", "image/webp": "webp", "image/avif": "avif" };
+const ALLOWED_TYPES = [
+  "image/jpeg", "image/png", "image/gif", "image/webp", "image/avif",
+  "video/mp4", "video/quicktime", "video/webm",
+];
+const EXT = {
+  "image/jpeg": "jpg", "image/png": "png", "image/gif": "gif", "image/webp": "webp", "image/avif": "avif",
+  "video/mp4": "mp4", "video/quicktime": "mov", "video/webm": "webm",
+};
 
 const TEAMS = {
   "14red": { bucketVar: "R2_BUCKET_14RED", urlVar: "R2_PUBLIC_BASE_URL_14RED" },
@@ -76,15 +82,20 @@ async function handleGalleryImages(request, env) {
       .filter((o) => o.size > 0 && !o.key.startsWith("thumbnails/"))
       .sort((a, b) => new Date(b.uploaded) - new Date(a.uploaded))
       .map((o) => {
-        const isNew = o.key.startsWith("images/");
-        const baseKey = isNew ? o.key.slice("images/".length) : o.key;
+        const isImageKey = o.key.startsWith("images/");
+        const isVideoKey = o.key.startsWith("videos/");
+        const baseKey = isImageKey ? o.key.slice("images/".length)
+                      : isVideoKey ? o.key.slice("videos/".length)
+                      : o.key;
+        const thumbBaseKey = isVideoKey ? baseKey.replace(/\.[^.]+$/, ".jpg") : baseKey;
         const fullUrl = `${publicBaseUrl}/${o.key}`;
         return {
           key: o.key,
           url: fullUrl,
-          thumbnailUrl: isNew ? `${publicBaseUrl}/thumbnails/${baseKey}` : fullUrl,
+          thumbnailUrl: (isImageKey || isVideoKey) ? `${publicBaseUrl}/thumbnails/${thumbBaseKey}` : fullUrl,
           uploaded: o.uploaded,
           size: o.size,
+          type: isVideoKey ? "video" : "image",
         };
       });
 
@@ -110,14 +121,14 @@ async function handleUploadUrl(request, env) {
   try { payload = await request.json(); }
   catch { return json(400, { error: "Invalid JSON body" }); }
 
-  const { filename, contentType, team, password } = payload;
+  const { filename, contentType, team, password, type = "image" } = payload;
 
   if (!password || password !== env.GALLERY_PASSWORD) {
     return json(401, { error: "Invalid password" });
   }
 
   if (!contentType || !ALLOWED_TYPES.includes(contentType)) {
-    return json(400, { error: "Only image uploads are allowed (jpg, png, gif, webp, avif)." });
+    return json(400, { error: "Only image or video uploads are allowed." });
   }
 
   let cfg;
@@ -126,13 +137,15 @@ async function handleUploadUrl(request, env) {
 
   const ext = EXT[contentType];
   const baseKey = `${9999999999999 - Date.now()}-${Math.random().toString(36).slice(2, 8)}-${slug(filename)}.${ext}`;
-  const imageKey = `images/${baseKey}`;
-  const thumbKey = `thumbnails/${baseKey}`;
+  const isVideo = type === "video";
+  const fileKey = isVideo ? `videos/${baseKey}` : `images/${baseKey}`;
+  const thumbBaseKey = isVideo ? baseKey.replace(/\.[^.]+$/, ".jpg") : baseKey;
+  const thumbKey = `thumbnails/${thumbBaseKey}`;
 
   try {
     const client = makeClient(env);
     const [imageUploadUrl, thumbUploadUrl] = await Promise.all([
-      getSignedUrl(client, new PutObjectCommand({ Bucket: cfg.bucket, Key: imageKey, ContentType: contentType }), { expiresIn: 300 }),
+      getSignedUrl(client, new PutObjectCommand({ Bucket: cfg.bucket, Key: fileKey, ContentType: contentType }), { expiresIn: 300 }),
       getSignedUrl(client, new PutObjectCommand({ Bucket: cfg.bucket, Key: thumbKey, ContentType: "image/jpeg" }), { expiresIn: 300 }),
     ]);
 
@@ -140,7 +153,7 @@ async function handleUploadUrl(request, env) {
       imageUploadUrl,
       thumbUploadUrl,
       key: baseKey,
-      imageUrl: `${cfg.publicBaseUrl}/${imageKey}`,
+      imageUrl: `${cfg.publicBaseUrl}/${fileKey}`,
       thumbUrl: `${cfg.publicBaseUrl}/${thumbKey}`,
     });
   } catch (err) {

@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/modern-scroll.css">
 <link rel="stylesheet" href="css/player-spotlight.css">
 <link rel="stylesheet" href="css/gallery-lightbox.css">
+<link rel="stylesheet" href="css/reels.css">
 <link rel="stylesheet" href="css/gallery-masonry.css">
 </head>
 <body>
@@ -147,7 +148,7 @@
     <button class="tab" data-tab="players"><i class="ti ti-id-badge"></i> Players</button>
     <button class="tab" data-tab="hotel"><i class="ti ti-bed"></i> Hotel</button>
     <button class="tab" data-tab="venue"><i class="ti ti-parking"></i> Venue</button>
-    <button class="tab" data-tab="photos"><i class="ti ti-camera"></i> Photos</button>
+    <button class="tab" data-tab="photos"><i class="ti ti-camera"></i> Media</button>
       <button class="tab" onclick="window.location='fun.html'"><i class="ti ti-device-gamepad-2"></i> Game Time 🎮</button>
     </div>
   </div>
@@ -489,9 +490,9 @@
   <!-- ROSTER -->
   <!-- PHOTOS -->
   <div class="sec" id="tab-photos">
-    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2><button class="playall" id="playall-gallery"><i class="ti ti-player-play-filled"></i> Play All</button></div>
+    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2><div id="m-stats"></div></div>
 
-    <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif" multiple hidden>
+    <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,video/mp4,video/quicktime,video/webm,.mov" multiple hidden>
 
     <div id="gallery-pw-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:900;align-items:center;justify-content:center">
       <div style="background:#fff;border-radius:14px;padding:1.5rem 1.4rem;width:min(90vw,340px);text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.28)">
@@ -504,8 +505,13 @@
     </div>
 
     <div class="gal-bar">
-      <button class="gal-add" id="gallery-add"><i class="ti ti-upload"></i> Add a Photo</button>
-      <span class="gal-count" id="gallery-count">Loading photos…</span>
+      <div id="m-filters">
+        <button class="mfilter on" data-f="all"><i class="ti ti-layout-grid"></i> All <span class="mfc" data-c="all"></span></button>
+        <button class="mfilter" data-f="image"><i class="ti ti-photo"></i> Photos <span class="mfc" data-c="image"></span></button>
+        <button class="mfilter" data-f="video"><i class="ti ti-player-play"></i> Videos <span class="mfc" data-c="video"></span></button>
+      </div>
+      <button class="playall" id="playall-gallery"><i class="ti ti-player-play-filled"></i> Play All</button>
+      <button class="gal-add" id="gallery-add"><i class="ti ti-upload"></i> Add Photo / Video</button>
     </div>
     <div id="gallery-status" style="font-size:.74rem;color:var(--gray);min-height:1.1em;margin-bottom:.3rem"></div>
     <div id="gallery-progress" style="display:none;margin-bottom:.6rem;padding:0 .25rem">
@@ -519,7 +525,7 @@
       <button class="gal-new-btn" id="gallery-new-apply">View</button>
       <button class="gal-new-dismiss" id="gallery-new-dismiss" aria-label="Dismiss"><i class="ti ti-x"></i></button>
     </div>
-    <div class="mgallery" id="gallery-grid"></div>
+    <div class="mgrid" id="gallery-grid"></div>
     <p id="gallery-empty" style="text-align:center;font-size:.8rem;color:var(--gray);margin:.5rem 0;display:none">No photos yet — be the first to add one!</p>
     <div class="gal-loader" id="gallery-loader"><span class="gal-spin"></span> Loading more…</div>
     <div class="gal-sentinel" id="gallery-sentinel"></div>
@@ -561,25 +567,31 @@ var authed=sessionStorage.getItem('gallery_authed')==='1';
       }
 
       function doUpload(files){
-        const {valid: imgs, invalid} = filterImageFiles(files);
-        if(invalid.length) status(invalid.map(f=>f.name).join(', ')+' skipped — not a supported image type.');
+        const {valid: imgs, invalid} = filterMediaFiles(files);
+        if(invalid.length){
+          var msgs=invalid.map(function(f){return f.name+(f.reason?' ('+f.reason+')':'');});
+          status(msgs.join(', ')+' skipped.');
+        }
         if(!imgs.length)return;
-        if(imgs.length>10){status('Max 10 photos at a time — please split into smaller batches.');return;}
+        if(imgs.length>10){status('Max 10 files at a time — please split into smaller batches.');return;}
         var btn=document.getElementById('gallery-add');
         btn.disabled=true;
         setProgress(0);
+        var uploadedItems=[];
         function next(i){
           if(i>=imgs.length){
             setProgress(1);
-            status('Done — '+imgs.length+' photo'+(imgs.length>1?'s':'')+' added!');
+            status('Done — '+imgs.length+' file'+(imgs.length>1?'s':'')+' added!');
             setTimeout(hideProgress,2000);
-            btn.disabled=false;GalleryLoader.loadAfterUpload();return;
+            btn.disabled=false;GalleryLoader.loadAfterUpload(uploadedItems);return;
           }
           var label=imgs.length>1?' ('+(i+1)+' of '+imgs.length+')':'';
           status('Uploading'+label+'…');
           var original=imgs[i];
-          makeThumb(original).then(function(thumb){
-            return fetch('https://mindset-gallery.wenga-eric.workers.dev/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:original.name,contentType:original.type,team:TEAM,password:pw})})
+          var isVideo=original.type.startsWith('video/');
+          var thumbPromise=isVideo?makeVideoThumb(original):makeThumb(original);
+          thumbPromise.then(function(thumb){
+            return fetch('https://mindset-gallery.wenga-eric.workers.dev/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:original.name,contentType:original.type,team:TEAM,password:pw,type:isVideo?'video':'image'})})
               .then(function(r){
                 if(r.status===401){authed=false;sessionStorage.removeItem('gallery_authed');sessionStorage.removeItem('gallery_pw');status('Session expired — please try again.');hideProgress();btn.disabled=false;return Promise.reject('auth');}
                 if(!r.ok)return r.json().then(function(e){return Promise.reject(e.error||'Upload failed');});
@@ -587,7 +599,8 @@ var authed=sessionStorage.getItem('gallery_authed')==='1';
               })
               .then(function(d){
                 return xhrPut(d.imageUploadUrl,original,function(pct){setProgress((i+pct*0.6)/imgs.length);})
-                  .then(function(){return xhrPut(d.thumbUploadUrl,thumb,function(pct){setProgress((i+0.6+pct*0.4)/imgs.length);});});
+                  .then(function(){return xhrPut(d.thumbUploadUrl,thumb,function(pct){setProgress((i+0.6+pct*0.4)/imgs.length);});})
+                  .then(function(){uploadedItems.push({key:(isVideo?'videos/':'images/')+d.key,url:d.imageUrl,thumbnailUrl:d.thumbUrl,type:isVideo?'video':'image',uploaded:new Date().toISOString(),size:original.size});});
               })
               .then(function(){next(i+1);});
           }).catch(function(err){if(err!=='auth')status('Error: '+err);hideProgress();btn.disabled=false;});
@@ -1409,6 +1422,7 @@ document.addEventListener('DOMContentLoaded',()=>bindEditables());
 <script src="js/gallery-infinite-scroll.js"></script>
 <script src="js/gallery-loader.js"></script>
 <script src="js/photo-lightbox.js"></script>
+<script src="js/video-player.js"></script>
 <script src="js/tabbar.js"></script>
 <script src="js/swipe.js"></script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');

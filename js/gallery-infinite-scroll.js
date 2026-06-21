@@ -3,14 +3,16 @@
  *
  * opts:
  *   images    [{url, ...}]   full sorted image array
- *   grid      Element        .mgallery container
+ *   grid      Element        .mgrid container
  *   loader    Element        .gal-loader spinner row
  *   sentinel  Element        .gal-sentinel IntersectionObserver target
  *   moreBtn   Element        .gal-more fallback button
  *   endEl     Element        .gal-end "all caught up" message
  *   earlierEl Element        .gal-earlier "N earlier photos" indicator (optional)
  *   countEl   Element        .gal-count photo count text
- *   onOpen    Function(idx)  called when a photo is clicked
+ *   filterEl  Element        #m-filters container (optional)
+ *   newKeys   Set            keys of new/unseen photos
+ *   onOpen    Function(im)   called when a photo/video is clicked
  */
 (function () {
   var PAGE_SIZE = 20;
@@ -40,9 +42,9 @@
       startY = e.touches[0].clientY;
       timer = setTimeout(function () {
         timer = null;
-        el.classList.add('mphoto-pressing');
+        el.classList.add('mtile-pressing');
         el.addEventListener('animationend', function h() {
-          el.classList.remove('mphoto-pressing');
+          el.classList.remove('mtile-pressing');
           el.removeEventListener('animationend', h);
         });
         callback();
@@ -60,8 +62,10 @@
 
   function buildItem(im, onClick, isNew) {
     var div = document.createElement('div');
-    div.className = 'mphoto';
+    var isVideo = im.type === 'video';
+    div.className = isVideo ? 'mtile mtile--video' : 'mtile';
 
+    // NEW sparkle badge — top-right
     if (isNew) {
       var badge = document.createElement('span');
       badge.className = 'mphoto-badge';
@@ -70,32 +74,65 @@
       div.classList.add('mphoto-flash');
     }
 
+    // VIDEO type badge — top-left
+    if (isVideo) {
+      var vbadge = document.createElement('span');
+      vbadge.className = 'mbadge';
+      vbadge.innerHTML = '<i class="ti ti-video"></i> VIDEO';
+      div.appendChild(vbadge);
+    }
+
+    // gradient overlay (fades in on hover)
+    var grad = document.createElement('div');
+    grad.className = 'mtile-grad';
+    div.appendChild(grad);
+
     var img = document.createElement('img');
     img.loading = 'lazy';
     img.alt = '';
     img.src = im.thumbnailUrl || im.url;
-
-    var dlBtn = document.createElement('span');
-    dlBtn.className = 'mphoto-dl';
-    dlBtn.setAttribute('title', 'Download');
-    dlBtn.innerHTML = '<i class="ti ti-download"></i>';
-    dlBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      downloadImage(im.url);
-    });
-
-    var expBtn = document.createElement('span');
-    expBtn.className = 'mphoto-exp';
-    expBtn.setAttribute('title', 'View full size');
-    expBtn.innerHTML = '<i class="ti ti-arrows-maximize"></i>';
-
-    var ov = document.createElement('div');
-    ov.className = 'mphoto-ov';
-    ov.appendChild(dlBtn);
-    ov.appendChild(expBtn);
-
     div.appendChild(img);
+
+    // centered play icon — always visible on video cards
+    if (isVideo) {
+      var playOv = document.createElement('div');
+      playOv.className = 'mplay';
+      playOv.innerHTML = '<span><i class="ti ti-player-play-filled"></i></span>';
+      div.appendChild(playOv);
+    }
+
+    // action buttons overlay — slides up on hover
+    var ov = document.createElement('div');
+    ov.className = 'mtile-ov';
+
+    if (isVideo) {
+      var playBtn = document.createElement('button');
+      playBtn.setAttribute('title', 'Play');
+      playBtn.innerHTML = '<i class="ti ti-player-play-filled"></i>';
+      playBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        onClick();
+      });
+      ov.appendChild(playBtn);
+    } else {
+      var dlBtn = document.createElement('button');
+      dlBtn.setAttribute('title', 'Download');
+      dlBtn.innerHTML = '<i class="ti ti-download"></i>';
+      dlBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        downloadImage(im.url);
+      });
+
+      var expBtn = document.createElement('button');
+      expBtn.setAttribute('title', 'View full size');
+      expBtn.innerHTML = '<i class="ti ti-arrows-maximize"></i>';
+
+      ov.appendChild(dlBtn);
+      ov.appendChild(expBtn);
+    }
+
     div.appendChild(ov);
+
     img.addEventListener('load', function () { div.classList.add('loaded'); });
     if (img.complete && img.naturalWidth) div.classList.add('loaded');
     div.addEventListener('click', onClick);
@@ -103,24 +140,16 @@
     return div;
   }
 
-  function animateIn(el) {
-    // double rAF: first ensures the element is in the DOM, second fires after paint
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { el.classList.add('in'); });
-    });
-  }
-
-  // release bitmap memory for old photos while preserving masonry layout height
+  // release bitmap memory for old photos while preserving masonry column heights
   function ghostItems(items, ghostedCount, earlierEl) {
     items.forEach(function (el) {
       var img = el.querySelector('img');
       if (img) {
-        // freeze natural dimensions so masonry column heights stay stable
         var h = img.offsetHeight;
         if (h > 0) { img.style.height = h + 'px'; img.style.width = '100%'; }
         img.src = '';
       }
-      el.classList.add('mphoto-ghost');
+      el.classList.add('mtile-ghost');
     });
     if (earlierEl) {
       earlierEl.textContent = '↑ ' + ghostedCount + ' earlier photo' + (ghostedCount !== 1 ? 's' : '');
@@ -130,43 +159,88 @@
 
   window.GalleryScroll = {
     init: function (opts) {
-      var images = opts.images || [];
-      var total = images.length;
+      var allImages = opts.images || [];
+      var images = allImages; // current (possibly filtered) set
+      var filter = 'all';
       var grid = opts.grid;
-      var liveItems = []; // parallel array of DOM elements for live photos
-      var ghosted = 0;    // count of ghosted photos (not clickable)
+      var liveItems = [];
+      var ghosted = 0;
       var page = 0;
+      var io = null;
 
       grid.innerHTML = '';
 
-      // update count display
       if (opts.countEl) {
-        opts.countEl.innerHTML = total
-          ? '<b>' + total + '</b> photo' + (total !== 1 ? 's' : '')
+        opts.countEl.innerHTML = allImages.length
+          ? '<b>' + allImages.length + '</b> photo' + (allImages.length !== 1 ? 's' : '')
           : '';
       }
 
-      if (!total) return;
+      // compute counts for filter pills + stats boxes
+      var counts = { all: allImages.length, image: 0, video: 0 };
+      allImages.forEach(function (im) {
+        if (im.type === 'video') counts.video++;
+        else counts.image++;
+      });
+
+      // populate count pills and wire filter buttons
+      if (opts.filterEl) {
+        opts.filterEl.querySelectorAll('[data-c]').forEach(function (el) {
+          var n = counts[el.dataset.c];
+          if (n != null) el.textContent = n;
+        });
+        opts.filterEl.querySelectorAll('.mfilter').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            if (filter === btn.dataset.f) return;
+            filter = btn.dataset.f;
+            opts.filterEl.querySelectorAll('.mfilter').forEach(function (b) {
+              b.classList.toggle('on', b === btn);
+            });
+            resetAndRender();
+          });
+        });
+      }
+
+      // populate stats boxes (Photos / Videos count cards)
+      if (opts.statsEl) {
+        opts.statsEl.innerHTML =
+          mstat(counts.image, 'Photos', 'ti-photo') +
+          mstat(counts.video, 'Videos', 'ti-player-play');
+      }
+
+      function mstat(n, label, icon) {
+        return '<div class="mstat"><div class="mstat-val"><i class="ti ' + icon + '"></i><span>' + n + '</span></div><div class="mstat-lbl">' + label + '</div></div>';
+      }
+
+      // wire moreBtn once (renderBatch reads page/images from closure)
+      if (opts.moreBtn) {
+        opts.moreBtn.addEventListener('click', function () {
+          var more = renderBatch();
+          if (!more) {
+            opts.moreBtn.style.display = 'none';
+            if (opts.endEl) opts.endEl.style.display = '';
+          }
+        });
+      }
 
       function renderBatch() {
+        var total = images.length;
         var start = page * PAGE_SIZE;
         var batch = images.slice(start, start + PAGE_SIZE);
         if (!batch.length) return false;
 
-        batch.forEach(function (im, bi) {
-          var globalIdx = start + bi;
+        batch.forEach(function (im) {
           var isNew = !!(opts.newKeys && opts.newKeys.has(im.key));
           var el = buildItem(im, function () {
-            if (opts.onOpen) opts.onOpen(globalIdx);
+            if (opts.onOpen) opts.onOpen(im);
           }, isNew);
           grid.appendChild(el);
           liveItems.push(el);
-          animateIn(el);
         });
 
         page++;
 
-        // recycle oldest batch if we've exceeded MAX_LIVE
+        // recycle oldest batch when we've exceeded MAX_LIVE
         if (liveItems.length > MAX_LIVE) {
           var excess = liveItems.length - MAX_LIVE;
           var toGhost = liveItems.splice(0, excess);
@@ -177,43 +251,56 @@
         return (page * PAGE_SIZE) < total;
       }
 
-      // render first batch
-      var hasMore = renderBatch();
+      function setupScroll() {
+        if (!images.length) return;
 
-      if (!hasMore) {
-        if (opts.endEl && total > 0) opts.endEl.style.display = '';
-        if (opts.loader) opts.loader.classList.remove('on');
-        return;
-      }
+        var hasMore = renderBatch();
 
-      // IntersectionObserver auto-load
-      if ('IntersectionObserver' in window && opts.sentinel) {
-        var io = new IntersectionObserver(function (entries) {
-          if (!entries[0].isIntersecting) return;
-          if (opts.loader) opts.loader.classList.add('on');
-          var more = renderBatch();
+        if (!hasMore) {
+          if (opts.endEl) opts.endEl.style.display = '';
           if (opts.loader) opts.loader.classList.remove('on');
-          if (!more) {
-            io.disconnect();
-            if (opts.sentinel) opts.sentinel.style.visibility = 'hidden';
-            if (opts.moreBtn) opts.moreBtn.style.display = 'none';
-            if (opts.endEl) opts.endEl.style.display = '';
-          }
-        }, { rootMargin: '300px' });
-        io.observe(opts.sentinel);
+          return;
+        }
+
+        if ('IntersectionObserver' in window && opts.sentinel) {
+          io = new IntersectionObserver(function (entries) {
+            if (!entries[0].isIntersecting) return;
+            if (opts.loader) opts.loader.classList.add('on');
+            var more = renderBatch();
+            if (opts.loader) opts.loader.classList.remove('on');
+            if (!more) {
+              io.disconnect();
+              io = null;
+              if (opts.sentinel) opts.sentinel.style.visibility = 'hidden';
+              if (opts.moreBtn) opts.moreBtn.style.display = 'none';
+              if (opts.endEl) opts.endEl.style.display = '';
+            }
+          }, { rootMargin: '300px' });
+          io.observe(opts.sentinel);
+        }
+
+        if (opts.moreBtn) opts.moreBtn.style.display = '';
       }
 
-      // fallback manual load-more button
-      if (opts.moreBtn) {
-        opts.moreBtn.style.display = '';
-        opts.moreBtn.addEventListener('click', function () {
-          var more = renderBatch();
-          if (!more) {
-            opts.moreBtn.style.display = 'none';
-            if (opts.endEl) opts.endEl.style.display = '';
-          }
-        });
+      function resetAndRender() {
+        images = filter === 'all'
+          ? allImages
+          : allImages.filter(function (im) { return (im.type || 'image') === filter; });
+        page = 0;
+        liveItems = [];
+        ghosted = 0;
+        grid.innerHTML = '';
+        if (io) { io.disconnect(); io = null; }
+        if (opts.endEl) opts.endEl.style.display = 'none';
+        if (opts.moreBtn) opts.moreBtn.style.display = 'none';
+        if (opts.loader) opts.loader.classList.remove('on');
+        if (opts.sentinel) opts.sentinel.style.visibility = '';
+        if (opts.earlierEl) opts.earlierEl.classList.remove('on');
+        setupScroll();
       }
+
+      if (!allImages.length) return;
+      setupScroll();
     }
   };
 })();

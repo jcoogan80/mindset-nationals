@@ -49,6 +49,10 @@
       });
     }
 
+    var imageOnlyUrls = images
+      .filter(function(im) { return im.type !== 'video'; })
+      .map(function(im) { return im.url; });
+
     window.GalleryScroll.init({
       images: images,
       grid: document.getElementById('gallery-grid'),
@@ -56,10 +60,21 @@
       sentinel: document.getElementById('gallery-sentinel'),
       moreBtn: document.getElementById('gallery-more'),
       endEl: document.getElementById('gallery-end'),
+      filterEl: document.getElementById('m-filters'),
+      statsEl: document.getElementById('m-stats'),
       newKeys: newKeys,
       countEl: null,
-      onOpen: function (idx) {
-        window.openLightbox(allImages.map(function (im) { return im.url; }), idx);
+      onOpen: function (im) {
+        if (!im) return;
+        if (im.type === 'video') {
+          window.openVideoPlayer(im.url);
+        } else {
+          var photoUrls = allImages
+            .filter(function(m) { return m.type !== 'video'; })
+            .map(function(m) { return m.url; });
+          var photoIdx = photoUrls.indexOf(im.url);
+          window.openLightbox(photoUrls, Math.max(0, photoIdx));
+        }
       }
     });
 
@@ -87,9 +102,11 @@
     pendingImages = null;
   }
 
-function load(suppressNew) {
+function load(suppressNew, bustCache) {
     hideBanner();
-    fetch('https://mindset-gallery.wenga-eric.workers.dev/gallery-images?team=' + _team)
+    var url = 'https://mindset-gallery.wenga-eric.workers.dev/gallery-images?team=' + _team;
+    if (bustCache) url += '&_t=' + Date.now();
+    fetch(url)
       .then(function (r) { return r.json(); })
       .then(function (d) {
         renderGallery(d.images || [], suppressNew);
@@ -125,13 +142,25 @@ function load(suppressNew) {
       var playBtn = document.getElementById('playall-gallery');
       if (playBtn) {
         playBtn.addEventListener('click', function () {
-          if (allImages.length) {
-            window.openLightbox(allImages.map(function (im) { return im.url; }), 0, true);
+          var photoUrls = allImages
+            .filter(function(im) { return im.type !== 'video'; })
+            .map(function(im) { return im.url; });
+          if (photoUrls.length) {
+            window.openLightbox(photoUrls, 0, true);
           }
         });
       }
     },
     load: function () { load(false); },
-    loadAfterUpload: function () { load(true); }
+    loadAfterUpload: function (uploadedItems) {
+      // Optimistic update: show uploaded items immediately using data from the upload response
+      if (uploadedItems && uploadedItems.length) {
+        var existingUrls = new Set(allImages.map(function (im) { return im.url; }));
+        var fresh = uploadedItems.filter(function (im) { return !existingUrls.has(im.url); });
+        if (fresh.length) renderGallery(fresh.concat(allImages), true);
+      }
+      // Background re-fetch for server truth (cache-busted so we don't get stale list)
+      load(true, true);
+    }
   };
 })();
