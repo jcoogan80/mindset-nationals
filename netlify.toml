@@ -16,17 +16,3 @@
   [headers.values]
     Cache-Control = "no-store"
 
-[[redirects]]
-  from = "/api/gallery-images"
-  to = "/.netlify/functions/gallery-images"
-  status = 200
-
-[[redirects]]
-  from = "/api/gallery-upload-url"
-  to = "/.netlify/functions/gallery-upload-url"
-  status = 200
-
-[[redirects]]
-  from = "/api/validate-password"
-  to = "/.netlify/functions/validate-password"
-  status = 200

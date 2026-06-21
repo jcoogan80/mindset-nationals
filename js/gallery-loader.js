@@ -89,7 +89,7 @@
 
 function load(suppressNew) {
     hideBanner();
-    fetch('/api/gallery-images?team=' + _team)
+    fetch('https://mindset-gallery.wenga-eric.workers.dev/gallery-images?team=' + _team)
       .then(function (r) { return r.json(); })
       .then(function (d) {
         renderGallery(d.images || [], suppressNew);

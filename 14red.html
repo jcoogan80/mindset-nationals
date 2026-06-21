@@ -747,7 +747,7 @@
     <script>
     (function(){
       var TEAM='14red';
-      var authed=sessionStorage.getItem('gallery_authed')==='1';
+var authed=sessionStorage.getItem('gallery_authed')==='1';
       var pw=sessionStorage.getItem('gallery_pw')||'';
       var pendingFiles=null;
 
@@ -795,7 +795,7 @@
           status('Uploading'+label+'…');
           var original=imgs[i];
           makeThumb(original).then(function(thumb){
-            return fetch('/api/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:original.name,contentType:original.type,team:TEAM,password:pw})})
+            return fetch('https://mindset-gallery.wenga-eric.workers.dev/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:original.name,contentType:original.type,team:TEAM,password:pw})})
               .then(function(r){
                 if(r.status===401){authed=false;sessionStorage.removeItem('gallery_authed');sessionStorage.removeItem('gallery_pw');status('Session expired — please try again.');hideProgress();btn.disabled=false;return Promise.reject('auth');}
                 if(!r.ok)return r.json().then(function(e){return Promise.reject(e.error||'Upload failed');});
@@ -826,7 +826,7 @@
         var candidate=input.value;
         if(!candidate){errEl.textContent='Please enter the password.';return;}
         this.disabled=true;errEl.textContent='';
-        fetch('/api/validate-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:candidate})})
+        fetch('https://mindset-gallery.wenga-eric.workers.dev/validate-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:candidate})})
           .then(function(r){return r.json();})
           .then(function(d){
             if(d.valid){
@@ -835,7 +835,7 @@
               sessionStorage.setItem('gallery_pw',candidate);
               document.getElementById('gallery-pw-modal').style.display='none';
               input.value='';
-              const toUpload=pendingFiles;pendingFiles=null;
+              var toUpload=pendingFiles;pendingFiles=null;
               if(toUpload)doUpload(toUpload);else document.getElementById('gallery-file').click();
             } else {errEl.textContent='Incorrect password. Try again.';}
             document.getElementById('gallery-pw-submit').disabled=false;

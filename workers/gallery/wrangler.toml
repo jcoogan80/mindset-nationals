@@ -1,0 +1,24 @@
+name = "mindset-gallery"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+R2_BUCKET_14RED = "mindset-14red-photos"
+R2_PUBLIC_BASE_URL_14RED = "https://pub-9ae97c09f5034162a2cce5a75750f2a0.r2.dev"
+R2_BUCKET_15RED = "mindset-15red-photos"
+R2_PUBLIC_BASE_URL_15RED = "https://pub-c1a0b78c43fa458c82a5c09ea605951f.r2.dev"
+
+[[r2_buckets]]
+binding = "R2_14RED"
+bucket_name = "mindset-14red-photos"
+
+[[r2_buckets]]
+binding = "R2_15RED"
+bucket_name = "mindset-15red-photos"
+
+# Secrets — set via: wrangler secret put <NAME>
+# GALLERY_PASSWORD
+# R2_ACCOUNT_ID
+# R2_ACCESS_KEY_ID
+# R2_SECRET_ACCESS_KEY
