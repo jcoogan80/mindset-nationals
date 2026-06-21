@@ -135,6 +135,11 @@
     onUpdate: function (key, callback) {
       if (!_callbacks[key]) _callbacks[key] = [];
       _callbacks[key].push(callback);
+      return function () {
+        if (_callbacks[key]) {
+          _callbacks[key] = _callbacks[key].filter(function (fn) { return fn !== callback; });
+        }
+      };
     }
   };
 })();

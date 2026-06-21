@@ -179,9 +179,10 @@
     });
 
     if (window.GalleryReactions) {
-      window.GalleryReactions.onUpdate(imageKey, function (data) {
+      var unsub = window.GalleryReactions.onUpdate(imageKey, function (data) {
         renderStrip(el, data);
       });
+      el._rxnUnsub = unsub;
     }
 
     return el;
@@ -416,6 +417,9 @@
       }
 
       function resetAndRender() {
+        grid.querySelectorAll('.mtile-reactions').forEach(function (strip) {
+          if (strip._rxnUnsub) strip._rxnUnsub();
+        });
         images = filter === 'all'
           ? allImages
           : allImages.filter(function (im) { return (im.type || 'image') === filter; });

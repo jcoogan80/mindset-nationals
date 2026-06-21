@@ -22,7 +22,7 @@
       var rxnBtn=e.target.closest('.lbx-rxn-btn');
       if(rxnBtn&&curKeys&&window.GalleryReactions&&window._GALLERY_TEAM){
         var key=curKeys[idx];
-        if(key)window.GalleryReactions.post(window._GALLERY_TEAM,key,rxnBtn.getAttribute('data-r')).then(renderReactions);
+        if(key)window.GalleryReactions.post(window._GALLERY_TEAM,key,rxnBtn.getAttribute('data-r')).then(renderReactions).catch(renderReactions);
         return;
       }
       if(e.target===lbx||e.target.classList.contains('lbx-stage'))close();

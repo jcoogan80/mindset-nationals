@@ -173,7 +173,7 @@ async function handleGetReactions(request, env) {
   if (!['14red', '15red'].includes(team)) {
     return json(400, { error: 'Invalid team' });
   }
-  if (keysParam.length > 10000 || deviceId.length > 200) {
+  if (keysParam.length > 100000 || deviceId.length > 200) {
     return json(400, { error: 'Request too large' });
   }
 
