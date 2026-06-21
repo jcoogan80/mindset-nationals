@@ -1,0 +1,31 @@
+/* ===== GALLERY REACTIONS ===== */
+
+/* tile reaction strip — bottom-left of each card */
+.mtile-reactions {
+  position: absolute;
+  bottom: 7px;
+  left: 7px;
+  display: flex;
+  gap: 3px;
+  z-index: 6;
+}
+
+.mtile-rxn {
+  background: rgba(0, 0, 0, .5);
+  border: none;
+  border-radius: 99px;
+  padding: 3px 6px;
+  font-size: .82rem;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: transform .12s;
+}
+
+.mtile-rxn:hover { transform: scale(1.2); }
+
+.mtile-rxn--mine {
+  background: rgba(255, 255, 255, .85);
+  box-shadow: 0 0 0 2px var(--red);
+}
