@@ -1,0 +1,15 @@
+{
+  "name": "mindset-gallery-worker",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3",
+    "@aws-sdk/s3-request-presigner": "^3"
+  },
+  "devDependencies": {
+    "wrangler": "^3"
+  }
+}

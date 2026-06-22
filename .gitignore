@@ -4,5 +4,6 @@
 .env
 
 /node_modules
-
+workers/gallery/node_modules/
+/docs/superpowers/*
 *.DS_Store

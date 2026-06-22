@@ -1,0 +1,164 @@
+/* ===== GALLERY REACTIONS ===== */
+
+/* tile reaction strip — bottom-left of each card */
+.mtile-reactions {
+  position: absolute;
+  bottom: 7px;
+  left: 7px;
+  display: flex;
+  gap: 3px;
+  z-index: 6;
+}
+
+.mtile-rxn {
+  background: rgba(0, 0, 0, .5);
+  border: none;
+  border-radius: 99px;
+  padding: 3px 6px;
+  font-size: .82rem;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: transform .12s;
+}
+
+.mtile-rxn:hover { transform: scale(1.2); }
+
+.mtile-rxn--mine {
+  background: rgba(255, 255, 255, .85);
+  box-shadow: 0 0 0 2px var(--red);
+}
+
+/* refresh button */
+.gal-refresh {
+  appearance: none;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: .95rem;
+  color: #666;
+  transition: color .15s, border-color .15s;
+  flex-shrink: 0;
+}
+.gal-refresh:hover { color: var(--red); border-color: var(--red); }
+
+/* lightbox reaction bar */
+.lbx-reactions {
+  position: fixed;
+  bottom: 3.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: .45rem;
+  z-index: 6;
+}
+
+.lbx-rxn-btn {
+  background: rgba(255, 255, 255, .12);
+  border: 1.5px solid rgba(255, 255, 255, .22);
+  border-radius: 99px;
+  color: #fff;
+  font-size: .9rem;
+  padding: .38rem .75rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .28rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background .15s, border-color .15s;
+  white-space: nowrap;
+}
+
+.lbx-rxn-btn:hover { background: rgba(255, 255, 255, .22); }
+
+.lbx-rxn-btn--mine {
+  background: rgba(204, 0, 0, .65);
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px rgba(204, 0, 0, .35);
+}
+
+.lbx-rxn-btn span {
+  font-size: .75rem;
+  font-weight: 700;
+  opacity: .9;
+}
+
+/* reaction picker bubble */
+.rxn-picker {
+  position: fixed;
+  display: none;
+  align-items: center;
+  gap: .3rem;
+  background: #fff;
+  border-radius: 99px;
+  padding: .45rem .6rem;
+  box-shadow: 0 8px 28px -4px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.1);
+  z-index: 500;
+  transform-origin: bottom center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.rxn-picker--open,
+.rxn-picker--closing {
+  display: flex;
+}
+
+.rxn-picker--open {
+  animation: rxn-picker-in 100ms ease-out forwards;
+}
+
+.rxn-picker--closing {
+  animation: rxn-picker-out 80ms ease-in forwards;
+}
+
+@keyframes rxn-picker-in {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes rxn-picker-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.85); }
+}
+
+.rxn-picker-btn {
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rxn-picker-btn:active { transform: scale(1.2); }
+
+.rxn-picker-btn--mine {
+  border-color: var(--red);
+  background: rgba(204, 0, 0, .08);
+}
+
+@keyframes rxn-picker-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+.rxn-picker-btn--popping {
+  animation: rxn-picker-pop 200ms ease-out forwards;
+}
