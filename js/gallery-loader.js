@@ -81,11 +81,7 @@
     // stamp all as seen after rendering
     markAllSeen(images);
 
-    if (newKeys.size > 0) {
-      showBanner(newKeys.size);
-    } else {
-      hideBanner();
-    }
+    hideBanner();
   }
 
   function showBanner(count) {
@@ -152,6 +148,7 @@ function load(suppressNew, bustCache) {
       }
     },
     load: function () { load(false); },
+    refresh: function () { load(false, true); },
     loadAfterUpload: function (uploadedItems) {
       // Optimistic update: show uploaded items immediately using data from the upload response
       if (uploadedItems && uploadedItems.length) {

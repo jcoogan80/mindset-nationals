@@ -42,6 +42,10 @@
   gap: .2rem;
   box-shadow: 0 1px 3px rgba(0,0,0,.04);
 }
+@media(max-width:640px){
+  #m-filters { display: flex; width: 100%; }
+  .mfilter { flex: 1; justify-content: center; }
+}
 
 .mfilter {
   appearance: none;
@@ -76,18 +80,24 @@
 
 /* ---- grid ---- */
 .mgrid {
-  column-count: 4;
-  column-gap: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
   margin-top: .55rem;
 }
-@media(max-width:960px){ .mgrid { column-count: 3; } }
-@media(max-width:640px){ .mgrid { column-count: 2; column-gap: 9px; } }
+@media(max-width:640px){ .mgrid { gap: 9px; } }
+
+.mcol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media(max-width:640px){ .mcol { gap: 9px; } }
 
 /* ---- card ---- */
 .mtile {
   position: relative;
-  break-inside: avoid;
-  margin-bottom: 12px;
   border-radius: 11px;
   overflow: hidden;
   cursor: pointer;
@@ -97,7 +107,6 @@
   animation: mfadeup .55s cubic-bezier(.2,.7,.2,1) forwards;
   -webkit-tap-highlight-color: transparent;
 }
-@media(max-width:640px){ .mtile { margin-bottom: 9px; } }
 
 @keyframes mfadeup {
   from { opacity: 0; transform: translateY(10px); }
@@ -288,12 +297,6 @@
 }
 .mphoto-badge i { font-size: .72rem; }
 
-.mphoto-flash { animation: mflash 2.4s cubic-bezier(.2,0,.1,1); }
-@keyframes mflash {
-  0%, 55% { box-shadow: 0 0 0 3px var(--red), 0 8px 22px -10px rgba(204,0,0,.6); }
-  100%     { box-shadow: 0 1px 3px rgba(0,0,0,.07); }
-}
-
 /* control bar */
 .gal-bar {
   display: flex;
@@ -302,6 +305,28 @@
   flex-wrap: wrap;
   margin-bottom: .9rem;
 }
+
+.gal-refresh {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  padding: 0;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 1.5px solid var(--lightgray, #e8e8e8);
+  background: #fff;
+  color: var(--gray, #888);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: border-color .15s, color .15s, transform .3s;
+  flex-shrink: 0;
+}
+.gal-refresh:hover { border-color: var(--red); color: var(--red); }
+.gal-refresh.spinning i { animation: gspin .6s linear infinite; }
+@media(max-width:640px){ .gal-refresh { width: 44px; height: 44px; min-width: 44px; } }
 
 .gal-add {
   display: inline-flex;

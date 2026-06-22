@@ -71,7 +71,6 @@
       badge.className = 'mphoto-badge';
       badge.innerHTML = '<i class="ti ti-sparkles"></i> NEW';
       div.appendChild(badge);
-      div.classList.add('mphoto-flash');
     }
 
     // VIDEO type badge — top-left
@@ -163,12 +162,26 @@
       var images = allImages; // current (possibly filtered) set
       var filter = 'all';
       var grid = opts.grid;
+      var cols = [];
+      var colIdx = 0;
       var liveItems = [];
       var ghosted = 0;
       var page = 0;
       var io = null;
 
-      grid.innerHTML = '';
+      function initCols() {
+        grid.innerHTML = '';
+        cols = [];
+        var n = window.innerWidth >= 960 ? 4 : window.innerWidth >= 640 ? 3 : 2;
+        for (var i = 0; i < n; i++) {
+          var col = document.createElement('div');
+          col.className = 'mcol';
+          grid.appendChild(col);
+          cols.push(col);
+        }
+      }
+
+      initCols();
 
       if (opts.countEl) {
         opts.countEl.innerHTML = allImages.length
@@ -229,14 +242,20 @@
         var batch = images.slice(start, start + PAGE_SIZE);
         if (!batch.length) return false;
 
-        batch.forEach(function (im) {
+        var colFrags = cols.map(function () { return document.createDocumentFragment(); });
+        batch.forEach(function (im, bi) {
           var isNew = !!(opts.newKeys && opts.newKeys.has(im.key));
           var el = buildItem(im, function () {
             if (opts.onOpen) opts.onOpen(im);
           }, isNew);
-          grid.appendChild(el);
+          // stagger one visual row at a time
+          var delay = Math.floor(bi / cols.length) * 50;
+          if (delay) el.style.animationDelay = delay + 'ms';
+          colFrags[colIdx % cols.length].appendChild(el);
           liveItems.push(el);
+          colIdx++;
         });
+        cols.forEach(function (col, i) { col.appendChild(colFrags[i]); });
 
         page++;
 
@@ -289,7 +308,8 @@
         page = 0;
         liveItems = [];
         ghosted = 0;
-        grid.innerHTML = '';
+        colIdx = 0;
+        initCols();
         if (io) { io.disconnect(); io = null; }
         if (opts.endEl) opts.endEl.style.display = 'none';
         if (opts.moreBtn) opts.moreBtn.style.display = 'none';
