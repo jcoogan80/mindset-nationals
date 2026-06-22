@@ -491,7 +491,7 @@
   <!-- ROSTER -->
   <!-- PHOTOS -->
   <div class="sec" id="tab-photos">
-    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Photos</h2><div id="m-stats"></div></div>
+    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Media</h2><div id="m-stats"></div></div>
 
     <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,video/mp4,video/quicktime,video/webm,.mov" multiple hidden>
 
@@ -594,39 +594,44 @@ var authed=sessionStorage.getItem('gallery_authed')==='1';
           toast('Skipped: '+msgs.join(', '));
         }
         if(!imgs.length)return;
-        if(imgs.length>10){toast('Max 10 files at once — split into smaller batches.');return;}
         var btn=document.getElementById('gallery-add');
         btn.disabled=true;
         setProgress(0);
-        var uploadedItems=[];
-        function next(i){
-          if(i>=imgs.length){
-            setProgress(1);
-            status('Done — '+imgs.length+' file'+(imgs.length>1?'s':'')+' added!');
-            setTimeout(hideProgress,2000);
-            btn.disabled=false;GalleryLoader.loadAfterUpload(uploadedItems);return;
-          }
-          var label=imgs.length>1?' ('+(i+1)+' of '+imgs.length+')':'';
-          status('Uploading'+label+'…');
-          var original=imgs[i];
-          var isVideo=original.type.startsWith('video/');
-          var thumbPromise=isVideo?makeVideoThumb(original):makeThumb(original);
-          thumbPromise.then(function(thumb){
-            return fetch('https://mindset-gallery.wenga-eric.workers.dev/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:original.name,contentType:original.type,team:TEAM,password:pw,type:isVideo?'video':'image'})}).catch(function(){return Promise.reject('worker-net');})
+        var totalBytes=imgs.reduce(function(s,f){return s+f.size;},0);
+        var fileProgress=new Array(imgs.length).fill(0);
+        function updateProgress(){
+          var loaded=fileProgress.reduce(function(s,pct,i){return s+pct*imgs[i].size;},0);
+          setProgress(totalBytes>0?loaded/totalBytes:0);
+        }
+        status('Preparing '+imgs.length+' file'+(imgs.length>1?'s':'')+'...');
+        Promise.all(imgs.map(function(f){
+          return f.type.startsWith('video/')?makeVideoThumb(f):makeThumb(f);
+        }))
+        .then(function(thumbs){
+          status('Uploading '+imgs.length+' file'+(imgs.length>1?'s':'')+'...');
+          return Promise.all(imgs.map(function(original,i){
+            var isVideo=original.type.startsWith('video/');
+            return fetch('https://mindset-gallery.wenga-eric.workers.dev/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:original.name,contentType:original.type,team:TEAM,password:pw,type:isVideo?'video':'image',batchCount:imgs.length})})
+              .catch(function(){return Promise.reject('worker-net');})
               .then(function(r){
                 if(r.status===401){authed=false;sessionStorage.removeItem('gallery_authed');sessionStorage.removeItem('gallery_pw');toast('Session expired — re-enter the gallery password.');hideProgress();btn.disabled=false;return Promise.reject('auth');}
                 if(!r.ok)return r.json().then(function(e){return Promise.reject(e.error||'Upload failed');});
                 return r.json();
               })
               .then(function(d){
-                return xhrPut(d.imageUploadUrl,original,function(pct){setProgress((i+pct*0.6)/imgs.length);})
-                  .then(function(){return xhrPut(d.thumbUploadUrl,thumb,function(pct){setProgress((i+0.6+pct*0.4)/imgs.length);});})
-                  .then(function(){uploadedItems.push({key:(isVideo?'videos/':'images/')+d.key,url:d.imageUrl,thumbnailUrl:d.thumbUrl,type:isVideo?'video':'image',uploaded:new Date().toISOString(),size:original.size});});
-              })
-              .then(function(){next(i+1);});
-          }).catch(function(err){if(err!=='auth')toast(uploadErrMsg(err));hideProgress();btn.disabled=false;});
-        }
-        next(0);
+                return xhrPut(d.imageUploadUrl,original,function(pct){fileProgress[i]=pct*0.8;updateProgress();})
+                  .then(function(){return xhrPut(d.thumbUploadUrl,thumbs[i],function(pct){fileProgress[i]=0.8+pct*0.2;updateProgress();});})
+                  .then(function(){fileProgress[i]=1;updateProgress();return{key:(isVideo?'videos/':'images/')+d.key,url:d.imageUrl,thumbnailUrl:d.thumbUrl,type:isVideo?'video':'image',uploaded:new Date().toISOString(),size:original.size};});
+              });
+          }));
+        })
+        .then(function(uploadedItems){
+          setProgress(1);
+          status('Done — '+imgs.length+' file'+(imgs.length>1?'s':'')+' added!');
+          setTimeout(hideProgress,2000);
+          btn.disabled=false;GalleryLoader.loadAfterUpload(uploadedItems.filter(Boolean));
+        })
+        .catch(function(err){if(err!=='auth')toast(uploadErrMsg(err));hideProgress();btn.disabled=false;});
       }
 
       function uploadOrPrompt(files){

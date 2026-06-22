@@ -121,7 +121,12 @@ async function handleUploadUrl(request, env) {
   try { payload = await request.json(); }
   catch { return json(400, { error: "Invalid JSON body" }); }
 
-  const { filename, contentType, team, password, type = "image" } = payload;
+  const maxUploads = parseInt(env.MAX_UPLOADS, 10) || 40;
+  const { filename, contentType, team, password, type = "image", batchCount } = payload;
+
+  if (batchCount && batchCount > maxUploads) {
+    return json(400, { error: `Too many files — max ${maxUploads} at once.` });
+  }
 
   if (!password || password !== env.GALLERY_PASSWORD) {
     return json(401, { error: "Invalid password" });

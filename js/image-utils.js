@@ -3,7 +3,7 @@
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'];
 const ACCEPTED_VIDEO_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
 const ACCEPTED_MEDIA_TYPES = [...ACCEPTED_IMAGE_TYPES, ...ACCEPTED_VIDEO_TYPES];
-const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
+const MAX_VIDEO_SIZE = 200 * 1024 * 1024; // 200MB
 
 // iOS Camera Roll often omits f.type — infer from extension as fallback
 const EXT_TO_MIME = {
@@ -27,7 +27,7 @@ function filterMediaFiles(files) {
     if (!ACCEPTED_MEDIA_TYPES.includes(type)) {
       invalid.push(Object.assign(f, { reason: 'unsupported type' }));
     } else if (ACCEPTED_VIDEO_TYPES.includes(type) && f.size > MAX_VIDEO_SIZE) {
-      invalid.push(Object.assign(f, { reason: 'video too large (max 100 MB)' }));
+      invalid.push(Object.assign(f, { reason: 'video too large (max 200 MB)' }));
     } else {
       // On iOS, f.type is often "". Wrap in a new File so downstream code
       // (xhrPut Content-Type, worker contentType param) sees the correct MIME type.

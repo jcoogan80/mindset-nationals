@@ -379,7 +379,7 @@
           var isNew = !!(opts.newKeys && opts.newKeys.has(im.key));
           var el = buildItem(im, function () {
             if (opts.onOpen) opts.onOpen(im);
-          }, isNew);
+          }, isNew, opts.reactionMap, opts.team);
           // stagger one visual row at a time
           var delay = Math.floor(bi / cols.length) * 50;
           if (delay) el.style.animationDelay = delay + 'ms';
