@@ -134,14 +134,14 @@
       if (!el.contains(e.target)) closePicker(false);
     }
 
-    el.addEventListener('touchend', onBtnTap);
-    document.addEventListener('touchstart', onOutside, { capture: true });
+    el.addEventListener('click', onBtnTap);
+    document.addEventListener('pointerdown', onOutside, { capture: true });
 
     _picker = {
       el: el,
       cleanup: function () {
-        el.removeEventListener('touchend', onBtnTap);
-        document.removeEventListener('touchstart', onOutside, { capture: true });
+        el.removeEventListener('click', onBtnTap);
+        document.removeEventListener('pointerdown', onOutside, { capture: true });
       }
     };
   }
@@ -253,6 +253,7 @@
       var expBtn = document.createElement('button');
       expBtn.setAttribute('title', 'View full size');
       expBtn.innerHTML = '<i class="ti ti-arrows-maximize"></i>';
+      expBtn.addEventListener('click', function (e) { e.stopPropagation(); onClick(); });
 
       ov.appendChild(dlBtn);
       ov.appendChild(expBtn);
@@ -265,11 +266,8 @@
 
     img.addEventListener('load', function () { div.classList.add('loaded'); });
     if (img.complete && img.naturalWidth) div.classList.add('loaded');
-    div.addEventListener('click', onClick);
-    addLongPress(div, isVideo
-      ? function () { downloadImage(im.url); }
-      : function () { showReactionPicker(div, im.key, team || ''); }
-    );
+    div.addEventListener('click', function () { showReactionPicker(div, im.key, team || ''); });
+    addLongPress(div, function () { downloadImage(im.url); });
     return div;
   }
 
