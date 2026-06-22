@@ -1,7 +1,8 @@
 /* Mindset VBC — Nationals Hub service worker */
 /* IMPORTANT: bump this version string on every deploy to bust the cache for installed users */
 const DEV = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
-const CACHE = '1782071427';
+
+const CACHE = '1782093917';
 const CORE = [
   '/',
   '/14red',
