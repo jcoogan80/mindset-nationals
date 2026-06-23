@@ -8,7 +8,6 @@
  */
 (function () {
   var allImages = [];
-  var pendingImages = null;
   var _team, _onStatus, _seenStoreKey, _seenKeys;
 
   function loadSeenKeys() {
@@ -82,26 +81,9 @@
 
     // stamp all as seen after rendering
     markAllSeen(images);
-
-    hideBanner();
   }
 
-  function showBanner(count) {
-    var banner = document.getElementById('gallery-new-banner');
-    var msg = document.getElementById('gallery-new-msg');
-    if (!banner) return;
-    msg.innerHTML = '<b>' + count + '</b> new photo' + (count !== 1 ? 's' : '') + ' since your last visit';
-    banner.classList.add('on');
-  }
-
-  function hideBanner() {
-    var banner = document.getElementById('gallery-new-banner');
-    if (banner) banner.classList.remove('on');
-    pendingImages = null;
-  }
-
-function load(suppressNew, bustCache) {
-    hideBanner();
+  function load(suppressNew, bustCache) {
     var url = 'https://mindset-gallery.wenga-eric.workers.dev/gallery-images?team=' + _team;
     if (bustCache) url += '&_t=' + Date.now();
     fetch(url)
@@ -123,24 +105,6 @@ function load(suppressNew, bustCache) {
       _seenStoreKey = 'gallery_seen_' + team;
       loadSeenKeys();
 
-      var applyBtn = document.getElementById('gallery-new-apply');
-      if (applyBtn) {
-        applyBtn.addEventListener('click', function () {
-          if (pendingImages) {
-            renderGallery(pendingImages);
-          }
-          hideBanner();
-        });
-      }
-
-      var dismissBtn = document.getElementById('gallery-new-dismiss');
-      if (dismissBtn) {
-        dismissBtn.addEventListener('click', function () {
-          markAllSeen(pendingImages || allImages);
-          hideBanner();
-        });
-      }
-
       var playBtn = document.getElementById('playall-gallery');
       if (playBtn) {
         playBtn.addEventListener('click', function () {
@@ -153,14 +117,8 @@ function load(suppressNew, bustCache) {
         });
       }
 
-      var refreshBtn = document.getElementById('gallery-refresh');
-      if (refreshBtn) {
-        refreshBtn.addEventListener('click', function () {
-          window.GalleryLoader.load();
-        });
-      }
     },
-    load: function () { load(false); },
+    load: function () { load(true); },
     refresh: function () { load(false, true); },
     loadAfterUpload: function (uploadedItems) {
       // Optimistic update: show uploaded items immediately using data from the upload response

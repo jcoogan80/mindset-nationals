@@ -225,6 +225,10 @@
       var playOv = document.createElement('div');
       playOv.className = 'mplay';
       playOv.innerHTML = '<span><i class="ti ti-player-play-filled"></i></span>';
+      playOv.addEventListener('click', function (e) {
+        e.stopPropagation();
+        onClick();
+      });
       div.appendChild(playOv);
     }
 
