@@ -704,19 +704,7 @@
   <!-- ROSTER -->
   <!-- PHOTOS -->
   <div class="sec" id="tab-photos">
-    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Media</h2><div id="m-stats"></div></div>
-
-    <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,video/mp4,video/quicktime,video/webm,.mov" multiple hidden>
-
-    <div id="gallery-pw-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:900;align-items:center;justify-content:center">
-      <div style="background:#fff;border-radius:14px;padding:1.5rem 1.4rem;width:min(90vw,340px);text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.28)">
-        <p style="font-size:.88rem;font-weight:600;margin:0 0 .75rem;color:var(--black)">Enter the team password to upload</p>
-        <input type="password" id="gallery-pw-input" placeholder="Password" style="width:100%;box-sizing:border-box;padding:.5rem .7rem;border:1.5px solid #ddd;border-radius:8px;font-size:.9rem;margin-bottom:.55rem;outline:none">
-        <button id="gallery-pw-submit" style="width:100%;padding:.5rem;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer">Unlock</button>
-        <p id="gallery-pw-error" style="font-size:.76rem;color:var(--red);margin:.4rem 0 0;min-height:1em"></p>
-        <button onclick="document.getElementById('gallery-pw-modal').style.display='none'" style="margin-top:.5rem;background:none;border:none;font-size:.76rem;color:var(--gray);cursor:pointer">Cancel</button>
-      </div>
-    </div>
+    <div class="sec-hd"><i class="ti ti-camera"></i><h2>Tournament Media</h2></div>
 
     <div class="gal-bar">
       <div id="m-filters">
@@ -724,166 +712,39 @@
         <button class="mfilter" data-f="image"><i class="ti ti-photo"></i> Photos <span class="mfc" data-c="image"></span></button>
         <button class="mfilter" data-f="video"><i class="ti ti-player-play"></i> Videos <span class="mfc" data-c="video"></span></button>
       </div>
-      <button class="playall" id="playall-gallery"><i class="ti ti-player-play-filled"></i> Play All</button>
-      <button class="gal-refresh" id="gallery-refresh" title="Refresh"><i class="ti ti-refresh"></i></button>
-      <button class="gal-add" id="gallery-add"><i class="ti ti-upload"></i> Add Photo / Video</button>
+      <button class="gal-refresh" id="m-refresh" title="Refresh" aria-label="Refresh"><i class="ti ti-refresh"></i></button>
+      <button class="gal-add" id="m-add"><i class="ti ti-upload"></i> Add Photo / Video</button>
     </div>
-    <div id="gallery-status" style="font-size:.74rem;color:var(--gray);min-height:1.1em;margin-bottom:.3rem"></div>
-    <div id="gallery-progress" style="display:none;margin-bottom:.6rem;padding:0 .25rem">
-      <div style="height:5px;background:#e5e5e5;border-radius:99px;overflow:hidden">
-        <div id="gallery-progress-fill" style="height:100%;width:0%;background:var(--red);border-radius:99px;transition:width .1s linear"></div>
-      </div>
+
+    <div id="m-skeleton" class="mgrid" aria-hidden="true">
+      <div class="mskel" style="grid-row-end:span 14"></div><div class="mskel" style="grid-row-end:span 10"></div>
+      <div class="mskel" style="grid-row-end:span 17"></div><div class="mskel" style="grid-row-end:span 12"></div>
+      <div class="mskel" style="grid-row-end:span 11"></div><div class="mskel" style="grid-row-end:span 15"></div>
+      <div class="mskel" style="grid-row-end:span 13"></div><div class="mskel" style="grid-row-end:span 9"></div>
     </div>
-<div class="mgrid" id="gallery-grid"></div>
-    <p id="gallery-empty" style="text-align:center;font-size:.8rem;color:var(--gray);margin:.5rem 0;display:none">No photos yet — be the first to add one!</p>
-    <div class="gal-loader" id="gallery-loader"><span class="gal-spin"></span> Loading more…</div>
-    <div class="gal-sentinel" id="gallery-sentinel"></div>
-    <div style="text-align:center">
-      <button class="gal-more" id="gallery-more" style="display:none"><i class="ti ti-chevron-down"></i> Load more photos</button>
+
+    <div id="m-grid" class="mgrid" style="display:none"></div>
+
+    <div id="m-empty" style="display:none;text-align:center;padding:3rem 1rem;color:#888">
+      <i class="ti ti-camera-off" style="font-size:2.4rem;color:#c9c6c1;display:block;margin-bottom:.6rem"></i>
+      <div id="m-empty-h" style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;color:#555">No media here yet</div>
+      <p style="font-size:.84rem;margin:.3rem 0 1rem">Be the first to add a photo or video from the tournament.</p>
+      <button id="m-empty-add" class="gal-add" style="margin:0 auto"><i class="ti ti-upload"></i> Add the first one</button>
     </div>
-    <div class="gal-end" id="gallery-end" style="display:none">— you're all caught up —</div>
 
-    <script>
-    (function(){
-      var TEAM='14red';
-      window._GALLERY_TEAM = TEAM;
-var authed=sessionStorage.getItem('gallery_authed')==='1';
-      var pw=sessionStorage.getItem('gallery_pw')||'';
-      var pendingFiles=null;
+    <div id="m-error" style="display:none;text-align:center;padding:3rem 1rem;color:#888">
+      <i class="ti ti-wifi-off" style="font-size:2.2rem;color:#c9c6c1;display:block;margin-bottom:.5rem"></i>
+      <div style="font-size:.9rem;margin-bottom:.8rem">Couldn't load the gallery.</div>
+      <button id="m-retry" class="gal-add" style="margin:0 auto"><i class="ti ti-refresh"></i> Try again</button>
+    </div>
 
-      function status(msg){document.getElementById('gallery-status').textContent=msg;}
-      function setProgress(pct){
-        var wrap=document.getElementById('gallery-progress');
-        var fill=document.getElementById('gallery-progress-fill');
-        wrap.style.display='block';
-        fill.style.width=Math.round(pct*100)+'%';
-      }
-      function hideProgress(){
-        var wrap=document.getElementById('gallery-progress');
-        var fill=document.getElementById('gallery-progress-fill');
-        wrap.style.display='none';
-        fill.style.width='0%';
-      }
-      function xhrPut(url,file,onProgress){
-        return new Promise(function(resolve,reject){
-          var host='';try{host=new URL(url).hostname;}catch(e){}
-          var xhr=new XMLHttpRequest();
-          xhr.open('PUT',url);
-          xhr.setRequestHeader('Content-Type',file.type);
-          xhr.upload.onprogress=function(e){if(e.lengthComputable)onProgress(e.loaded/e.total);};
-          xhr.onload=function(){if(xhr.status>=200&&xhr.status<300)resolve();else reject('storage-err:'+xhr.status+':'+host);};
-          xhr.onerror=function(){reject('net-err:'+xhr.status+':'+host);};
-          xhr.send(file);
-        });
-      }
+    <div id="m-sentinel" style="height:4px"></div>
+    <div id="m-spin" style="display:none;justify-content:center;align-items:center;gap:.5rem;padding:1.4rem;color:#aaa;font-size:.78rem">
+      <span style="width:18px;height:18px;border-radius:50%;border:2.5px solid #ddd;border-top-color:var(--red);display:inline-block;animation:mspin .8s linear infinite"></span> Loading more…
+    </div>
+    <div id="m-end" style="display:none;text-align:center;margin-top:1.6rem;font-size:.74rem;letter-spacing:1px;color:#aaa;text-transform:uppercase">— you're all caught up —</div>
 
-      function uploadErrMsg(err){
-        var s=String(err||'');
-        if(s.indexOf('net-err:')===0){
-          var p=s.split(':');var status=p[1];var host=p[2]||'storage';
-          var detail=status&&status!=='0'?' (HTTP '+status+')':'';
-          return 'Upload failed — could not reach '+host+detail+'. Status 0 usually means a CORS preflight was blocked — add an AllowedOrigins rule to the R2 bucket for this origin.';
-        }
-        if(s.indexOf('storage-err:')===0){
-          var p2=s.split(':');var code=p2[1];var host2=p2[2]||'storage';
-          if(code==='403')return 'Upload failed — '+host2+' returned 403. The presigned URL may have expired, or the Content-Type header doesn\'t match what was signed. Try again.';
-          return 'Upload failed — '+host2+' returned HTTP '+code+'. Try again.';
-        }
-        if(s==='worker-net')return 'Upload failed — could not reach mindset-gallery.workers.dev. Check your internet connection.';
-        if(s.indexOf('Only image or video')!==-1)return 'Unsupported file type — use JPG, PNG, GIF, WebP, MP4, or MOV.';
-        if(s.indexOf('Could not create upload URL')!==-1)return 'Upload failed — server error generating upload URL. Try again.';
-        return 'Upload failed — '+(s||'unknown error')+'.';
-      }
-      function doUpload(files){
-        const {valid: imgs, invalid} = filterMediaFiles(files);
-        if(invalid.length){
-          var msgs=invalid.map(function(f){return f.name+(f.reason?' ('+f.reason+')':'');});
-          toast('Skipped: '+msgs.join(', '));
-        }
-        if(!imgs.length)return;
-        var btn=document.getElementById('gallery-add');
-        btn.disabled=true;
-        setProgress(0);
-        var totalBytes=imgs.reduce(function(s,f){return s+f.size;},0);
-        var fileProgress=new Array(imgs.length).fill(0);
-        function updateProgress(){
-          var loaded=fileProgress.reduce(function(s,pct,i){return s+pct*imgs[i].size;},0);
-          setProgress(totalBytes>0?loaded/totalBytes:0);
-        }
-        status('Preparing '+imgs.length+' file'+(imgs.length>1?'s':'')+'...');
-        Promise.all(imgs.map(function(f){
-          return f.type.startsWith('video/')?makeVideoThumb(f):makeThumb(f);
-        }))
-        .then(function(thumbs){
-          status('Uploading '+imgs.length+' file'+(imgs.length>1?'s':'')+'...');
-          return Promise.all(imgs.map(function(original,i){
-            var isVideo=original.type.startsWith('video/');
-            return fetch('https://mindset-gallery.wenga-eric.workers.dev/gallery-upload-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:original.name,contentType:original.type,team:TEAM,password:pw,type:isVideo?'video':'image',batchCount:imgs.length})})
-              .catch(function(){return Promise.reject('worker-net');})
-              .then(function(r){
-                if(r.status===401){authed=false;sessionStorage.removeItem('gallery_authed');sessionStorage.removeItem('gallery_pw');toast('Session expired — re-enter the gallery password.');hideProgress();btn.disabled=false;return Promise.reject('auth');}
-                if(!r.ok)return r.json().then(function(e){return Promise.reject(e.error||'Upload failed');});
-                return r.json();
-              })
-              .then(function(d){
-                return xhrPut(d.imageUploadUrl,original,function(pct){fileProgress[i]=pct*0.8;updateProgress();})
-                  .then(function(){return xhrPut(d.thumbUploadUrl,thumbs[i],function(pct){fileProgress[i]=0.8+pct*0.2;updateProgress();});})
-                  .then(function(){fileProgress[i]=1;updateProgress();return{key:(isVideo?'videos/':'images/')+d.key,url:d.imageUrl,thumbnailUrl:d.thumbUrl,type:isVideo?'video':'image',uploaded:new Date().toISOString(),size:original.size};});
-              });
-          }));
-        })
-        .then(function(uploadedItems){
-          setProgress(1);
-          status('Done — '+imgs.length+' file'+(imgs.length>1?'s':'')+' added!');
-          setTimeout(hideProgress,2000);
-          btn.disabled=false;GalleryLoader.loadAfterUpload(uploadedItems.filter(Boolean));
-        })
-        .catch(function(err){if(err!=='auth')toast(uploadErrMsg(err));hideProgress();btn.disabled=false;});
-      }
-
-      function uploadOrPrompt(files){
-        if(!authed){pendingFiles=files||null;document.getElementById('gallery-pw-modal').style.display='flex';document.getElementById('gallery-pw-input').focus();return;}
-        if(files)doUpload(files);else document.getElementById('gallery-file').click();
-      }
-
-      document.getElementById('gallery-add').addEventListener('click',function(){uploadOrPrompt(null);});
-      document.getElementById('gallery-refresh').addEventListener('click',function(){
-        var btn=this,icon=btn.querySelector('i');
-        btn.classList.add('spinning');btn.disabled=true;
-        GalleryLoader.refresh();
-        setTimeout(function(){btn.classList.remove('spinning');btn.disabled=false;},1200);
-      });
-
-      document.getElementById('gallery-file').addEventListener('change',function(){doUpload(this.files);this.value='';});
-
-      document.getElementById('gallery-pw-submit').addEventListener('click',function(){
-        var input=document.getElementById('gallery-pw-input');
-        var errEl=document.getElementById('gallery-pw-error');
-        var candidate=input.value;
-        if(!candidate){errEl.textContent='Please enter the password.';return;}
-        this.disabled=true;errEl.textContent='';
-        fetch('https://mindset-gallery.wenga-eric.workers.dev/validate-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:candidate})})
-          .then(function(r){return r.json();})
-          .then(function(d){
-            if(d.valid){
-              authed=true;pw=candidate;
-              sessionStorage.setItem('gallery_authed','1');
-              sessionStorage.setItem('gallery_pw',candidate);
-              document.getElementById('gallery-pw-modal').style.display='none';
-              input.value='';
-              var toUpload=pendingFiles;pendingFiles=null;
-              if(toUpload)doUpload(toUpload);else document.getElementById('gallery-file').click();
-            } else {errEl.textContent='Incorrect password. Try again.';}
-            document.getElementById('gallery-pw-submit').disabled=false;
-          })
-          .catch(function(){errEl.textContent='Error checking password.';document.getElementById('gallery-pw-submit').disabled=false;});
-      });
-
-      document.getElementById('gallery-pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('gallery-pw-submit').click();});
-
-      document.addEventListener('DOMContentLoaded',function(){GalleryLoader.init(TEAM,status);GalleryLoader.load();});
-    })();
-    </script>
+    <script>window._GALLERY_TEAM='14red';</script>
   </div>
 
   <!-- REELS -->
@@ -928,6 +789,61 @@ var authed=sessionStorage.getItem('gallery_authed')==='1';
       </div>
     </div>
   </div>
+
+<!-- gallery fixed overlays -->
+<button class="mfab" id="m-fab" aria-label="Add photo or video"><i class="ti ti-plus"></i></button>
+
+<div class="mlb" id="m-lb" aria-hidden="true">
+  <div class="mlb-top">
+    <span class="mlb-count" id="m-lb-count">1 / 1</span>
+    <span class="mlb-date" id="m-lb-date"></span>
+    <span style="flex:1"></span>
+    <button class="mlb-ibtn" id="m-lb-close" title="Close" aria-label="Close"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="mlb-stage" id="m-lb-stage">
+    <button class="mlb-nav mlb-prev" id="m-lb-prev" aria-label="Previous"><i class="ti ti-chevron-left"></i></button>
+    <div class="mlb-media" id="m-lb-media"></div>
+    <button class="mlb-nav mlb-next" id="m-lb-next" aria-label="Next"><i class="ti ti-chevron-right"></i></button>
+  </div>
+  <div class="mlb-bar">
+    <div class="mlb-rxns" id="m-lb-rxns">
+      <button class="mlb-rxn" data-r="heart">❤️ <span class="c" data-rc="heart">0</span></button>
+      <button class="mlb-rxn" data-r="thumbsup">👍 <span class="c" data-rc="thumbsup">0</span></button>
+      <button class="mlb-rxn" data-r="laughing">😂 <span class="c" data-rc="laughing">0</span></button>
+    </div>
+    <button class="mlb-save" id="m-lb-save"><i class="ti ti-download"></i> <span id="m-lb-save-l">Download</span></button>
+  </div>
+</div>
+
+<div class="mpicker" id="m-picker" aria-label="React">
+  <button data-r="heart">❤️<span class="mpk-c"></span></button>
+  <button data-r="thumbsup">👍<span class="mpk-c"></span></button>
+  <button data-r="laughing">😂<span class="mpk-c"></span></button>
+</div>
+
+<div class="mmodal" id="m-pw">
+  <div class="mmodal-box">
+    <i class="ti ti-lock" style="font-size:1.7rem;color:var(--red);display:block;margin-bottom:.4rem"></i>
+    <h3>Team Upload</h3>
+    <p>Enter the team password to add photos and videos to the shared gallery.</p>
+    <input type="password" class="mpw-in" id="m-pw-in" placeholder="Password" autocomplete="off">
+    <button class="gal-add" id="m-pw-go" style="width:100%;justify-content:center">Unlock</button>
+    <div id="m-pw-err" style="font-size:.76rem;color:var(--red);min-height:1em;margin-top:.45rem"></div>
+    <button id="m-pw-cancel" style="margin-top:.4rem;background:none;border:none;font-size:.76rem;color:#999;cursor:pointer">Cancel</button>
+  </div>
+</div>
+
+<div class="mdrag" id="m-drag">
+  <div class="mdrag-inner">
+    <i class="ti ti-photo-up" style="font-size:2.2rem;color:var(--red);display:block;margin-bottom:.4rem"></i>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px">Drop to upload</div>
+    <div style="font-size:.78rem;color:#888;margin-top:.2rem">Photos &amp; videos · up to 10 at a time</div>
+  </div>
+</div>
+
+<div class="mprog" id="m-prog"></div>
+<div class="mtoast" id="m-toast"></div>
+<input type="file" id="m-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,video/mp4,video/quicktime,video/webm,.mov" multiple style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px">
 
 </div><!-- /wrap -->
 
@@ -1940,9 +1856,7 @@ function saveDonorThanks(){
 <script src="js/modern-scroll.js"></script>
 <script src="js/player-spotlight.js"></script>
 <script src="js/image-utils.js"></script>
-<script src="js/gallery-reactions.js"></script>
-<script src="js/gallery-infinite-scroll.js"></script>
-<script src="js/gallery-loader.js"></script>
+<script src="js/gallery.js"></script>
 <script src="js/photo-lightbox.js"></script>
 <script src="js/video-player.js"></script>
 <script src="js/tabbar.js"></script>

@@ -35,3 +35,31 @@ body:not(.em) .gslot.has:hover img{transform:scale(1.07)}
 .dtabs{overflow-x:auto;scrollbar-width:none}
 .dtabs::-webkit-scrollbar{display:none}
 @media(prefers-reduced-motion:no-preference){.dpanel.on{animation:secfade .35s var(--ease-out)}}
+
+/* ===== NEW GALLERY LIGHTBOX (.mlb) ===== */
+.mlb{position:fixed;inset:0;z-index:1000;background:rgba(9,9,11,.97);display:none;flex-direction:column;touch-action:none}
+.mlb.on{display:flex;animation:mlbin .25s ease}
+.mlb-top{display:flex;align-items:center;gap:.6rem;padding:calc(.7rem + env(safe-area-inset-top)) 1rem .6rem;color:#fff;z-index:5;flex-shrink:0}
+.mlb-count{font-family:var(--fd);font-size:1.05rem;letter-spacing:1.5px;color:#fff}
+.mlb-date{font-size:.72rem;color:rgba(255,255,255,.55)}
+.mlb-ibtn{width:42px;height:42px;border-radius:11px;border:none;background:rgba(255,255,255,.1);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:background .15s;-webkit-tap-highlight-color:transparent}
+.mlb-ibtn:hover{background:rgba(255,255,255,.2)}
+.mlb-stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0;padding:0 .5rem}
+.mlb-media{position:relative;max-width:96vw;max-height:100%;display:flex;align-items:center;justify-content:center}
+.mlb-media img{max-width:96vw;max-height:72vh;object-fit:contain;border-radius:5px;animation:mpop .28s ease;box-shadow:0 24px 60px -20px rgba(0,0,0,.7)}
+.mlb-media video{max-width:96vw;max-height:72vh;border-radius:5px;background:#000;animation:mpop .28s ease;box-shadow:0 24px 60px -20px rgba(0,0,0,.7)}
+.mlb-bigheart{position:absolute;left:50%;top:50%;font-size:5.5rem;pointer-events:none;z-index:10;opacity:0;filter:drop-shadow(0 4px 14px rgba(0,0,0,.4))}
+.mlb-bigheart.go{animation:mbigheart .9s ease-out}
+.mlb-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:none;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.45rem;z-index:6;transition:background .15s}
+.mlb-nav:hover{background:rgba(255,255,255,.24)}
+.mlb-prev{left:.6rem}.mlb-next{right:.6rem}
+.mlb-spin{position:absolute;width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;animation:mspin .8s linear infinite}
+@media(max-width:640px){.mlb-nav{display:none}}
+.mlb-bar{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1rem calc(.9rem + env(safe-area-inset-bottom));flex-wrap:wrap}
+.mlb-rxns{display:flex;gap:.4rem}
+.mlb-rxn{height:46px;padding:0 .85rem;border-radius:23px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.09);color:#fff;display:inline-flex;align-items:center;gap:.38rem;font-size:1.25rem;line-height:1;cursor:pointer;transition:transform .12s,background .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
+.mlb-rxn .c{font-size:.8rem;font-weight:700;opacity:.85;min-width:.6em}
+.mlb-rxn:active{transform:scale(.92)}
+.mlb-rxn--mine{background:var(--red);border-color:var(--red)}
+.mlb-save{height:46px;padding:0 1.15rem;border-radius:23px;border:none;background:#fff;color:#111;font-weight:700;display:inline-flex;align-items:center;gap:.42rem;cursor:pointer;font-size:.92rem;transition:transform .12s;-webkit-tap-highlight-color:transparent;font-family:var(--fb)}
+.mlb-save:active{transform:scale(.94)}

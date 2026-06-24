@@ -2,7 +2,7 @@
 /* IMPORTANT: bump this version string on every deploy to bust the cache for installed users */
 const DEV = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
 
-const CACHE = '1782185049';
+const CACHE = '1782259923';
 const CORE = [
   '/',
   '/14red',
