@@ -100,15 +100,15 @@
 
   function react(key, type) {
     var cur = rxnFor(key);
-    if (cur.mine === type) return;
-    var next = { counts: Object.assign({}, cur.counts), mine: type };
+    var removing = cur.mine === type;
+    var next = { counts: Object.assign({}, cur.counts), mine: removing ? null : type };
     if (cur.mine) next.counts[cur.mine] = Math.max(0, (next.counts[cur.mine] || 0) - 1);
-    next.counts[type] = (next.counts[type] || 0) + 1;
+    if (!removing) next.counts[type] = (next.counts[type] || 0) + 1;
     rxnMap[key] = next; emitRxn(key);
     fetch(WORKER + '/reactions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ team: TEAM, imageKey: key, deviceId: device, reaction: type })
+      body: JSON.stringify({ team: TEAM, imageKey: key, deviceId: device, reaction: removing ? null : type })
     }).then(function (r) { if (!r.ok) throw 0; })
       .catch(function () { rxnMap[key] = cur; emitRxn(key); mtoast('Could not save reaction'); });
   }
@@ -124,7 +124,10 @@
         var b = document.createElement('button');
         b.className = 'mrxn' + (data.mine === type ? ' mrxn--mine' : '');
         b.innerHTML = RXN[type] + '<span class="mrxn-c">' + n + '</span>';
-        b.addEventListener('click', function (e) { e.stopPropagation(); openPicker(el, item.key); });
+        b.addEventListener('click', (function (t) { return function (e) {
+          e.stopPropagation();
+          if (rxnFor(item.key).mine === t) react(item.key, t); else openPicker(el, item.key);
+        }; })(type));
         el.appendChild(b);
       });
       var add = document.createElement('button');
@@ -453,62 +456,53 @@
 
   function setProg(p) { $id('m-prog').style.width = Math.round(p * 100) + '%'; }
 
-  function doUpload(fileList) {
+  async function doUpload(fileList) {
     if (uploading) return;
-    var res = filterFiles(fileList);
-    var valid = res.valid, invalid = res.invalid;
+    const { valid, invalid } = filterFiles(fileList);
     if (invalid.length) mtoast(invalid.length + ' file' + (invalid.length > 1 ? 's' : '') + ' skipped (unsupported)');
     if (!valid.length) return;
     if (valid.length > 10) { mtoast('Max 10 files at a time — please split into batches.'); return; }
     uploading = true; setProg(0.02);
-    var uploaded = [];
-    function next(i) {
-      if (i >= valid.length) {
-        setProg(1);
-        uploaded.reverse().forEach(function (it) { items.unshift(it); });
-        renderStats(); render();
-        fetchReactions(uploaded.map(function (u) { return u.key; }));
-        mtoast(valid.length + ' added — newest first ✓');
-        setTimeout(function () { setProg(0); $id('m-prog').style.width = '0'; }, 700);
-        uploading = false; return;
-      }
-      var file = valid[i], isVid = file.type.indexOf('video/') === 0;
-      mtoast('Uploading' + (valid.length > 1 ? ' (' + (i + 1) + '/' + valid.length + ')' : '') + '…');
-      (isVid ? makeVideoThumb(file) : makeThumb(file))
-        .then(function (thumb) {
-          return fetch(WORKER + '/gallery-upload-url', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ filename: file.name, contentType: file.type, team: TEAM, password: pw, type: isVid ? 'video' : 'image' })
-          }).then(function (r) {
-            if (r.status === 401) {
-              authed = false;
-              sessionStorage.removeItem('gallery_authed');
-              sessionStorage.removeItem('gallery_pw');
-              return Promise.reject('Session expired — tap Add again.');
-            }
-            if (!r.ok) return r.json().then(function (e) { return Promise.reject(e.error || 'Upload failed'); });
-            return r.json();
-          }).then(function (d) {
-            return xhrPut(d.imageUploadUrl, file, function (p) { setProg((i + p * 0.6) / valid.length); })
-              .then(function () { return xhrPut(d.thumbUploadUrl, thumb, function (p) { setProg((i + 0.6 + p * 0.4) / valid.length); }); })
-              .then(function () {
-                uploaded.push({
-                  key: (isVid ? 'videos/' : 'images/') + d.key,
-                  url: d.imageUrl, thumbnailUrl: d.thumbUrl,
-                  type: isVid ? 'video' : 'image',
-                  uploaded: new Date().toISOString(), size: file.size
-                });
-              });
-          });
-        })
-        .then(function () { next(i + 1); })
-        .catch(function (err) {
-          mtoast(typeof err === 'string' ? err : 'Upload error');
-          setProg(0); $id('m-prog').style.width = '0'; uploading = false;
+    const uploaded = [];
+    try {
+      for (let i = 0; i < valid.length; i++) {
+        const file = valid[i];
+        const isVid = file.type.startsWith('video/');
+        mtoast('Uploading' + (valid.length > 1 ? ' (' + (i + 1) + '/' + valid.length + ')' : '') + '…');
+        const thumb = await (isVid ? makeVideoThumb(file) : makeThumb(file));
+        const r = await fetch(WORKER + '/gallery-upload-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: file.name, contentType: file.type, team: TEAM, password: pw, type: isVid ? 'video' : 'image' })
         });
+        if (r.status === 401) {
+          authed = false;
+          sessionStorage.removeItem('gallery_authed');
+          sessionStorage.removeItem('gallery_pw');
+          throw 'Session expired — tap Add again.';
+        }
+        if (!r.ok) { const e = await r.json(); throw e.error || 'Upload failed'; }
+        const d = await r.json();
+        await xhrPut(d.imageUploadUrl, file, p => setProg((i + p * 0.6) / valid.length));
+        await xhrPut(d.thumbUploadUrl, thumb, p => setProg((i + 0.6 + p * 0.4) / valid.length));
+        uploaded.push({
+          key: (isVid ? 'videos/' : 'images/') + d.key,
+          url: d.imageUrl, thumbnailUrl: d.thumbUrl,
+          type: isVid ? 'video' : 'image',
+          uploaded: new Date().toISOString(), size: file.size
+        });
+      }
+      setProg(1);
+      uploaded.reverse().forEach(it => items.unshift(it));
+      renderStats(); render();
+      fetchReactions(uploaded.map(u => u.key));
+      mtoast(valid.length + ' added — newest first ✓');
+      setTimeout(() => { setProg(0); $id('m-prog').style.width = '0'; }, 700);
+      uploading = false;
+    } catch (err) {
+      mtoast(typeof err === 'string' ? err : 'Upload error');
+      setProg(0); $id('m-prog').style.width = '0'; uploading = false;
     }
-    next(0);
   }
 
   function xhrPut(url, file, onProg) {
