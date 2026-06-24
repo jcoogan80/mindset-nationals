@@ -1,27 +1,35 @@
 /* ===== VIDEO PLAYER =====
  * window.openVideoPlayer(url)  — opens a modal <video> player
  */
-(function () {
-  var modal, videoEl;
+(() => {
+  let modal;
+  let videoEl;
 
-  function injectStyles() {
-    var s = document.createElement('style');
+  const injectStyles = () => {
+    const s = document.createElement('style');
     s.textContent = [
       '#vp-modal{display:none;position:fixed;inset:0;z-index:10000;}',
       '.vp-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.88);cursor:pointer;}',
       '.vp-container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);',
-        'display:flex;flex-direction:column;align-items:center;}',
+      'display:flex;flex-direction:column;align-items:center;}',
       '#vp-video{max-width:90vw;max-height:82vh;outline:none;border-radius:4px;',
-        'background:#000;display:block;}',
+      'background:#000;display:block;}',
       '.vp-close{position:absolute;top:-2.6rem;right:0;background:none;border:none;',
-        'color:#fff;font-size:1.6rem;cursor:pointer;line-height:1;padding:.25rem .4rem;',
-        'opacity:.8;transition:opacity .15s;}',
+      'color:#fff;font-size:1.6rem;cursor:pointer;line-height:1;padding:.25rem .4rem;',
+      'opacity:.8;transition:opacity .15s;}',
       '.vp-close:hover{opacity:1;}',
     ].join('');
     document.head.appendChild(s);
-  }
+  };
 
-  function ensureModal() {
+  const closePlayer = () => {
+    if (!modal) return;
+    videoEl.pause();
+    videoEl.src = '';
+    modal.style.display = 'none';
+  };
+
+  const ensureModal = () => {
     if (modal) return;
     injectStyles();
 
@@ -36,26 +44,17 @@
     document.body.appendChild(modal);
 
     videoEl = modal.querySelector('#vp-video');
-
     modal.querySelector('.vp-backdrop').addEventListener('click', closePlayer);
     modal.querySelector('.vp-close').addEventListener('click', closePlayer);
-
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.style.display !== 'none') closePlayer();
     });
-  }
+  };
 
-  function closePlayer() {
-    if (!modal) return;
-    videoEl.pause();
-    videoEl.src = '';
-    modal.style.display = 'none';
-  }
-
-  window.openVideoPlayer = function (url) {
+  window.openVideoPlayer = (url) => {
     ensureModal();
     videoEl.src = url;
     modal.style.display = 'block';
-    videoEl.play().catch(function () {});
+    videoEl.play().catch(() => {});
   };
 })();

@@ -378,3 +378,60 @@ body.em .hotel-tel .e{pointer-events:auto}
 .route-map{position:relative;height:200px;background:var(--offwhite)}
 .route-map iframe{width:100%;height:100%;border:0;display:block}
 .route-btn{display:flex;margin:.75rem .9rem .9rem}
+
+/* ═══ EXTRACTED FROM hub.js GENERATED MARKUP (was inline) ═══ */
+/* shared helpers */
+.ctr{text-align:center}
+.dash{color:#ccc}
+.hidden-input{display:none}
+.ig-handle{flex:1}
+.pphoto{width:100%;height:100%;object-fit:cover;display:block}
+
+/* load-error banner + disabled edit button */
+.load-error-banner{background:#c0392b;color:#fff;text-align:center;padding:.7rem 1rem;font-size:.85rem;font-weight:bold;position:sticky;top:0;z-index:9999}
+.load-error-banner.soft{background:#b7791f}
+#edit-btn.disabled{opacity:.4;cursor:not-allowed}
+
+/* day panel: add-match header + notes card */
+.aform-hd{font-size:.71rem;font-weight:600;margin-bottom:.48rem}
+.aform-hd i{color:var(--red);margin-right:3px}
+.card-notes{margin-top:.45rem}
+.notes-hd{font-size:.74rem;font-weight:600;display:block;margin-bottom:.2rem}
+.notes-hd i{color:var(--red);margin-right:3px}
+.notes-body{min-height:1.4rem}
+
+/* teams table */
+.teams-empty{text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem}
+.seed-num{font-weight:600;color:var(--black)}
+.seed-num.in-pool{color:#b8860b}
+.pool-tag{font-size:.7rem;font-weight:600;color:var(--gray)}
+.pool-tag.in-pool{color:#b8860b}
+.in-pool-row{background:#FFF8E1}
+.club-cell{font-size:.72rem}
+.us-badge{font-size:.6rem;background:var(--red);color:#fff;border-radius:8px;padding:.1rem .38rem;margin-left:.3rem}
+
+/* player card: reel help + reel-active row + staff role */
+.reel-help{margin-bottom:.4rem}
+.reel-help summary{font-size:.68rem;color:var(--red);cursor:pointer;list-style:none;display:flex;align-items:center;gap:.25rem}
+.reel-help-body{font-size:.68rem;color:var(--gray);line-height:1.6;margin-top:.35rem;padding:.5rem;background:var(--offwhite);border-radius:7px}
+.reel-help-body strong{color:var(--black)}
+.ract{display:none}
+.ract-row{display:flex;align-items:center;gap:.42rem}
+.ract-ic{width:28px;height:28px;border-radius:5px;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ract-ic i{color:#fff;font-size:.78rem;margin-left:2px}
+.ract-meta{flex:1;min-width:0}
+.ract-title{font-size:.68rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ract-sub{font-size:.61rem;color:var(--gray)}
+.ract-play{font-size:.62rem;padding:.17rem .38rem;border:1px solid var(--red);border-radius:5px;background:var(--red);color:#fff;cursor:pointer}
+.prole{font-size:.6rem;font-weight:600;letter-spacing:.8px;color:var(--red);text-transform:uppercase;margin-bottom:.18rem}
+
+/* countdown "game time" */
+.cd-gametime{font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:#fff;letter-spacing:1px}
+
+/* pool-play standings table */
+.pool-row{border-bottom:1px solid var(--lightgray)}
+.pool-row.mindset{background:#FFF8E1}
+.pool-seed{padding:.35rem .25rem;color:var(--red);font-weight:700;font-size:.8rem}
+.pool-team{padding:.35rem .25rem;font-size:.82rem;font-weight:400}
+.pool-team.mindset{font-weight:700}
+.pool-wl{text-align:center;padding:.35rem .25rem}
