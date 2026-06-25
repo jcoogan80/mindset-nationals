@@ -5,7 +5,7 @@
     "hotel_phone": "(317) 856-9100",
     "hotel_rate": "$__ / night",
     "hotel_deadline": "Add cutoff date",
-    "hotel_notes": "Hilton Garden Inn Indianapolis Airport ÃÂÃÂ· 8910 Hatfield Drive, Indianapolis IN 46241",
+    "hotel_notes": "Hilton Garden Inn Indianapolis Airport ÃÂÃÂÃÂÃÂ· 8910 Hatfield Drive, Indianapolis IN 46241",
     "hotel_drive": "~15 min to Convention Center",
     "overall_w": "0",
     "overall_l": "0",
@@ -16,13 +16,13 @@
     "venue2_name": "Gainbridge Fieldhouse",
     "venue2_addr": "125 S Pennsylvania St, Indianapolis, IN 46204",
     "park1_name": "Pan Am Plaza Garage",
-    "park1_info": "201 S Capitol Ave Â· skywalk-connected Â· closest to the ICC halls. ~$15â25/day.",
+    "park1_info": "201 S Capitol Ave ÃÂ· skywalk-connected ÃÂ· closest to the ICC halls. ~$15Ã¢ÂÂ25/day.",
     "park2_name": "Circle Centre Mall Garages",
-    "park2_info": "Maryland St & Washington St entrances Â· skywalk to the ICC Â· plenty of spaces.",
+    "park2_info": "Maryland St & Washington St entrances ÃÂ· skywalk to the ICC ÃÂ· plenty of spaces.",
     "park3_name": "Capitol Commons Garage",
-    "park3_info": "10 N Capitol Ave Â· underground Â· ~2 blocks north, walkable.",
+    "park3_info": "10 N Capitol Ave ÃÂ· underground ÃÂ· ~2 blocks north, walkable.",
     "park4_name": "White River State Park Garage",
-    "park4_info": "801 W Washington St Â· larger lot, usually cheaper Â· ~10 min walk west.",
+    "park4_info": "801 W Washington St ÃÂ· larger lot, usually cheaper ÃÂ· ~10 min walk west.",
     "rideshare_info": "Uber/Lyft drop-off on Georgia St; pickup at the south entrance. Metered street parking via the ParkIndy app (free Sundays).",
     "theme_days": "Add USAV theme day schedule here",
     "noodles_location": "Add Noodles & Company location here",
@@ -31,13 +31,13 @@
     "coaches": "Head Coach: Jake Achettu - Asst Coach: Elmina Alic - Owner: Randy Satovitz",
     "photo_album": "Paste your Google Photos, iCloud, or Dropbox link here",
     "team_reel_url": "",
-    "overall_record": "0W ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ 0L",
-    "overall_sets": "0 ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ 0",
+    "overall_record": "0W ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ 0L",
+    "overall_sets": "0 ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ 0",
     "overall_round": "Pool Play",
     "day1_notes": "Pool play notes, court assignments, team updates...",
     "day2_notes": "Bracket seeding, venue updates...",
-    "day3_notes": "Schedule based on pool play results â check back after Day 2!",
-    "day4_notes": "Championship Sunday â schedule TBD based on Day 3 results",
+    "day3_notes": "Schedule based on pool play results Ã¢ÂÂ check back after Day 2!",
+    "day4_notes": "Championship Sunday Ã¢ÂÂ schedule TBD based on Day 3 results",
     "day2_locked": true,
     "day3_locked": true,
     "day4_locked": true
@@ -46,14 +46,14 @@
     "1": [
       {
         "opponent": "540 VB 15 Elite (#38)",
-        "time_court": "1:30 PM Â· Court 23 ICC",
+        "time_court": "1:30 PM ÃÂ· Court 23 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
       },
       {
         "opponent": "949 G15 Black (#92)",
-        "time_court": "3:30 PM Â· Court 38 ICC",
+        "time_court": "3:30 PM ÃÂ· Court 38 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
@@ -62,21 +62,21 @@
     "2": [
       {
         "opponent": "Red Rock 15 Chi (#70)",
-        "time_court": "4:00 PM Â· Court 14 ICC",
+        "time_court": "4:00 PM ÃÂ· Court 14 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
       },
       {
         "opponent": "Premier Nebraska 15 Red (#60)",
-        "time_court": "6:00 PM Â· Court 14 ICC",
+        "time_court": "6:00 PM ÃÂ· Court 14 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
       },
       {
         "opponent": "GP 15 National (#5)",
-        "time_court": "8:00 PM Â· Court 13 ICC",
+        "time_court": "8:00 PM ÃÂ· Court 13 ICC",
         "score_us": "",
         "score_them": "",
         "result": "upcoming"
@@ -107,7 +107,7 @@
         "scores": [
           [
             "",
-            ""
+            "2521"
           ],
           [
             "",
@@ -1275,7 +1275,7 @@
     "15-nicole-t": {
       "photo_url": "images/players/15-nicole-t.jpg",
       "num": "5",
-      "height": "ÃÂ¢ÃÂÃÂ",
+      "height": "ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ",
       "position": "Outside Hitter"
     },
     "15-victoria-g": {
