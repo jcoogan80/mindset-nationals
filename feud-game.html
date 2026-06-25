@@ -530,6 +530,50 @@
     }
     #btn-double-continue:hover { box-shadow: 0 6px 36px rgba(255,180,0,.75); }
 
+    /* ══ TIEBREAKER TRANSITION SCREEN ══ */
+    #state-tiebreaker {
+      background: radial-gradient(ellipse at 50% 40%, #1a0028 0%, #0a0015 55%, #000 100%);
+      z-index: 9999;
+      justify-content: flex-start;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+    #tiebreaker-content {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      width: 100%; max-width: 700px; margin: auto;
+      animation: doubleIn .65s cubic-bezier(.2, 1.35, .5, 1) both;
+      padding-bottom: 2rem;
+    }
+    #tiebreaker-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      line-height: .92; text-align: center; color: #e53935;
+      animation: tiebreakerGlow 1s ease-in-out infinite alternate;
+    }
+    @keyframes tiebreakerGlow {
+      from { text-shadow: 0 0 30px rgba(229,57,53,.7), 0 0 60px rgba(200,30,30,.4); }
+      to   { text-shadow: 0 0 70px rgba(229,57,53,1), 0 0 110px rgba(200,30,30,.7), 0 0 150px rgba(150,0,0,.4); }
+    }
+    #tiebreaker-subtitle {
+      font-size: clamp(.9rem, 2vw, 1.2rem); font-weight: 700;
+      color: #fff; letter-spacing: .5px; text-align: center;
+    }
+    #tiebreaker-scores {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: rgba(255,255,255,.75); letter-spacing: 2px;
+      text-align: center; margin-top: 4px;
+    }
+    #btn-tiebreaker-continue {
+      background: linear-gradient(135deg, #e53935, #b71c1c);
+      color: #fff; font-size: 1.5rem;
+      padding: .85rem 3rem; border-radius: 12px;
+      margin-top: 12px; margin-bottom: 2rem;
+      box-shadow: 0 4px 24px rgba(229,57,53,.45);
+      position: relative; z-index: 10000;
+    }
+    #btn-tiebreaker-continue:hover { box-shadow: 0 6px 36px rgba(229,57,53,.75); }
+
     /* ── HOST ANSWER KEY ── */
     #host-key-toggle {
       position: fixed; bottom: 12px; left: 12px; z-index: 10000;
@@ -717,6 +761,20 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
+     STATE: TIEBREAKER TRANSITION
+══════════════════════════════════════════════════════════ -->
+<div id="state-tiebreaker" class="state hidden">
+  <div id="tiebreaker-content">
+    <div class="double-lightning">⚡</div>
+    <div id="tiebreaker-headline">TIE<br>BREAKER!</div>
+    <div class="double-lightning">⚡</div>
+    <div id="tiebreaker-subtitle">One final question decides it all!</div>
+    <div id="tiebreaker-scores"></div>
+    <button id="btn-tiebreaker-continue">LET'S GO →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
      STATE 4 — FINAL
 ══════════════════════════════════════════════════════════ -->
 <div id="state-final" class="state hidden">
@@ -857,7 +915,7 @@
   /* ────────────────────────────────────────────────────────────
      STATE MACHINE
   ──────────────────────────────────────────────────────────── */
-  const ALL_STATES = ['state-title','state-setup','state-game','state-double','state-final'];
+  const ALL_STATES = ['state-title','state-setup','state-game','state-double','state-tiebreaker','state-final'];
   function goToState(id) {
     ALL_STATES.forEach(s => document.getElementById(s).classList.toggle('hidden', s !== id));
   }
@@ -1019,6 +1077,10 @@
     renderBoard();
     updateRoundPtsDisplay();
     updateHostKey();
+
+    // "SEE RESULTS →" on final regular round and tiebreaker; "NEXT ROUND ➡" otherwise
+    document.getElementById('btn-next').textContent =
+      currentRound >= 2 ? 'SEE RESULTS →' : 'NEXT ROUND ➡';
   }
 
   /* ────────────────────────────────────────────────────────────
@@ -1153,10 +1215,18 @@
   ──────────────────────────────────────────────────────────── */
   function nextRound() {
     const nextIdx = currentRound + 1;
-    if (nextIdx >= questions.length) {
+    if (currentRound === 2) {
+      // After round 3 (index 2): check for tie
+      if (scores.t1 === scores.t2) {
+        showTiebreakerScreen(nextIdx);
+      } else {
+        showFinal();
+      }
+    } else if (currentRound >= 3) {
+      // After tiebreaker (index 3+): always go to final
       showFinal();
     } else if (nextIdx === 2) {
-      // Transition to double points before starting round 3
+      // After round 2 (index 1): show double points screen
       showDoublePointsScreen(nextIdx);
     } else {
       startRound(nextIdx);
@@ -1173,6 +1243,21 @@
     btn.onclick = null;
     btn.onclick = () => {
       console.log('Continue button clicked');
+      goToState('state-game');
+      startRound(nextIdx);
+    };
+  }
+
+  function showTiebreakerScreen(nextIdx) {
+    document.getElementById('tiebreaker-scores').textContent =
+      `${team1name}: ${scores.t1}  ·  ${team2name}: ${scores.t2}`;
+    goToState('state-tiebreaker');
+    document.getElementById('state-tiebreaker').scrollTop = 0;
+    playDoubleFanfare();
+    const btn = document.getElementById('btn-tiebreaker-continue');
+    btn.onclick = null;
+    btn.onclick = () => {
+      console.log('Tiebreaker continue clicked — starting round', nextIdx + 1);
       goToState('state-game');
       startRound(nextIdx);
     };
@@ -1202,8 +1287,10 @@
   }
 
   function updateRoundInfo() {
-    document.getElementById('round-label').textContent =
-      `ROUND ${currentRound + 1} OF ${questions.length}`;
+    const label = currentRound === 3
+      ? 'TIEBREAKER'
+      : `ROUND ${currentRound + 1} OF 3`;
+    document.getElementById('round-label').textContent = label;
     const badge = document.getElementById('double-badge');
     if (badge) badge.classList.toggle('hidden', getMultiplier() === 1);
     updateRoundPtsDisplay();
