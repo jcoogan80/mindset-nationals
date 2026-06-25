@@ -355,7 +355,7 @@
         "q9": "Shampoo",
         "q10": "Unpack",
         "q11": "Walk",
-        "q12": "Açaí Bowl",
+        "q12": "AÃ§aÃ­ Bowl",
         "q13": "McFarland",
         "q14": "Taylor Swift",
         "q15": "Karch Kiraly",
@@ -454,17 +454,17 @@
             "revealed": false
           },
           {
-            "text": "ball",
+            "text": "Warm up shirt",
             "points": 15,
             "revealed": false
           },
           {
-            "text": "charger",
+            "text": "ball",
             "points": 10,
             "revealed": false
           },
           {
-            "text": "Snacks",
+            "text": "charger",
             "points": 5,
             "revealed": false
           }
@@ -476,12 +476,12 @@
         "question": "Name something coaches always say during a timeout",
         "answers": [
           {
-            "text": "Get it together!",
+            "text": "lets go",
             "points": 25,
             "revealed": false
           },
           {
-            "text": "lets go",
+            "text": "Lock in, stay focused",
             "points": 20,
             "revealed": false
           },
@@ -491,12 +491,12 @@
             "revealed": false
           },
           {
-            "text": "good job",
+            "text": "This is atrocious",
             "points": 10,
             "revealed": false
           },
           {
-            "text": "Lock in, stay focused",
+            "text": "Get it together!",
             "points": 5,
             "revealed": false
           }
@@ -508,22 +508,22 @@
         "question": "Name something parents yell from the stands",
         "answers": [
           {
-            "text": "GO MINDSET",
+            "text": "Let's go mindset!",
             "points": 25,
             "revealed": false
           },
           {
-            "text": "lets go",
+            "text": "swing",
             "points": 20,
             "revealed": false
           },
           {
-            "text": "swing",
+            "text": "come on",
             "points": 15,
             "revealed": false
           },
           {
-            "text": "Good job",
+            "text": "My dad says \"oh Emma\" with a sigh",
             "points": 10,
             "revealed": false
           },
@@ -572,12 +572,12 @@
         "question": "Name the most annoying thing an opponent's team does",
         "answers": [
           {
-            "text": "cheer/scream at the top of their lungs",
+            "text": "Complain about the ref",
             "points": 25,
             "revealed": false
           },
           {
-            "text": "Complain about the ref",
+            "text": "cheer/scream at the top of their lungs",
             "points": 20,
             "revealed": false
           },
@@ -641,12 +641,12 @@
             "revealed": false
           },
           {
-            "text": "The light was in my eye",
+            "text": "I hit it on the wrong part of my hand",
             "points": 20,
             "revealed": false
           },
           {
-            "text": "I hit it on the wrong part of my hand",
+            "text": "The light was in my eye",
             "points": 15,
             "revealed": false
           },
@@ -683,12 +683,12 @@
             "revealed": false
           },
           {
-            "text": "Dried mangoes",
+            "text": "Chips",
             "points": 10,
             "revealed": false
           },
           {
-            "text": "bubs",
+            "text": "Dried mangoes",
             "points": 5,
             "revealed": false
           }
@@ -737,22 +737,22 @@
             "revealed": false
           },
           {
-            "text": "get coffee",
+            "text": "complain about the other teams parents",
             "points": 20,
             "revealed": false
           },
           {
-            "text": "Provide unsolicited advice",
+            "text": "get coffee",
             "points": 15,
             "revealed": false
           },
           {
-            "text": "Ai",
+            "text": "eat",
             "points": 10,
             "revealed": false
           },
           {
-            "text": "complain about the other teams parents",
+            "text": "Provide unsolicited advice",
             "points": 5,
             "revealed": false
           }
@@ -769,22 +769,22 @@
             "revealed": false
           },
           {
-            "text": "Sushi",
+            "text": "7brew",
             "points": 20,
             "revealed": false
           },
           {
-            "text": "7brew",
+            "text": "Sushi",
             "points": 15,
             "revealed": false
           },
           {
-            "text": "AÃÂÃÂÃÂÃÂ§aÃÂÃÂÃÂÃÂ­ Bowl",
+            "text": "acai bowl",
             "points": 10,
             "revealed": false
           },
           {
-            "text": "CulverÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂs",
+            "text": "Culver's",
             "points": 5,
             "revealed": false
           }
@@ -806,17 +806,17 @@
             "revealed": false
           },
           {
-            "text": "Honey iÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂm good",
+            "text": "Honey I'm good",
             "points": 15,
             "revealed": false
           },
           {
-            "text": "Baby",
+            "text": "Last friday night",
             "points": 10,
             "revealed": false
           },
           {
-            "text": "Eye of the tiger",
+            "text": "Baby",
             "points": 5,
             "revealed": false
           }
@@ -860,12 +860,12 @@
         "question": "Name something Coach Billy always says",
         "answers": [
           {
-            "text": "?",
+            "text": "Focus",
             "points": 25,
             "revealed": false
           },
           {
-            "text": "Play our game",
+            "text": "?",
             "points": 20,
             "revealed": false
           },
@@ -892,27 +892,27 @@
         "question": "Name one word that describes this Mindset team",
         "answers": [
           {
-            "text": "Strong",
+            "text": "Goat",
             "points": 25,
             "revealed": false
           },
           {
-            "text": "Amazing",
+            "text": "Strong",
             "points": 20,
             "revealed": false
           },
           {
-            "text": "Goat",
+            "text": "Unstoppable",
             "points": 15,
             "revealed": false
           },
           {
-            "text": "Crazy",
+            "text": "Amazing",
             "points": 10,
             "revealed": false
           },
           {
-            "text": "Fun",
+            "text": "Crazy",
             "points": 5,
             "revealed": false
           }
@@ -939,13 +939,8 @@
             "revealed": false
           },
           {
-            "text": "Mom!!",
+            "text": "Sarah Stetler",
             "points": 10,
-            "revealed": false
-          },
-          {
-            "text": "Reese",
-            "points": 5,
             "revealed": false
           }
         ],
