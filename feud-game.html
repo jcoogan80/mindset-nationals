@@ -148,6 +148,86 @@
 
 
     /* ══════════════════════════════════════════════════════════
+       STATE: QUESTION SELECTOR
+    ══════════════════════════════════════════════════════════ */
+    #state-selector {
+      overflow-y: auto; justify-content: flex-start;
+      padding: 2rem 1rem 3rem;
+    }
+    #selector-content {
+      width: 100%; max-width: 660px;
+      display: flex; flex-direction: column; align-items: center; gap: 1.1rem;
+    }
+    #selector-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 6vw, 3rem); color: #FFD700;
+      letter-spacing: 3px; text-align: center; line-height: 1;
+    }
+    #selector-sub {
+      font-size: .88rem; color: rgba(255,255,255,.6);
+      text-align: center; line-height: 1.6;
+    }
+    #selector-sub strong { color: #FFD700; }
+    #selector-input-row {
+      display: flex; align-items: center; gap: .9rem; flex-wrap: wrap;
+      background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,215,0,.25);
+      border-radius: 12px; padding: .75rem 1.2rem; width: 100%;
+    }
+    #selector-input-label {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem;
+      color: #FFD700; letter-spacing: 1px; white-space: nowrap;
+    }
+    #selector-num {
+      width: 78px; padding: .45rem .6rem; font-size: 1.3rem; font-weight: 700;
+      background: rgba(255,255,255,.1); border: 2px solid rgba(255,215,0,.4);
+      border-radius: 8px; color: #fff; outline: none; text-align: center;
+      font-family: 'DM Sans', sans-serif; transition: border-color .2s;
+    }
+    #selector-num:focus { border-color: #FFD700; }
+    #selector-range-hint {
+      font-size: .78rem; color: rgba(255,255,255,.35); margin-left: auto;
+    }
+    #selector-preview { width: 100%; display: flex; flex-direction: column; gap: .45rem; }
+    .prev-row {
+      display: flex; gap: .7rem; align-items: flex-start;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 9px; padding: .55rem .9rem;
+    }
+    .prev-lbl {
+      font-family: 'Bebas Neue', sans-serif; font-size: .9rem;
+      letter-spacing: 1px; white-space: nowrap; min-width: 92px; padding-top: .05rem;
+    }
+    .prev-lbl.r1, .prev-lbl.r2 { color: #FFD700; }
+    .prev-lbl.r3  { color: #FF8C00; }
+    .prev-lbl.rtb { color: #e53935; }
+    .prev-q {
+      font-size: .83rem; color: rgba(255,255,255,.78);
+      line-height: 1.4; font-style: italic;
+    }
+    #played-section { width: 100%; }
+    #played-hdr {
+      font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px;
+      color: rgba(255,255,255,.32); margin-bottom: .45rem;
+    }
+    #played-list { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .played-chip {
+      font-size: .74rem; color: rgba(255,255,255,.38);
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px; padding: .22rem .55rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    #selector-err {
+      font-size: .82rem; color: #ff6b6b; text-align: center; min-height: 1.1rem;
+    }
+    #btn-selector-play {
+      background: linear-gradient(135deg, #e53935, #b71c1c); color: #fff;
+      font-size: 1.65rem; padding: .85rem 3rem; border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(229,57,53,.5); width: 100%; margin-top: .3rem;
+    }
+    #btn-selector-play:hover { box-shadow: 0 6px 30px rgba(229,57,53,.75); }
+
+
+    /* ══════════════════════════════════════════════════════════
        STATE 3 — GAME PLAY
     ══════════════════════════════════════════════════════════ */
     #state-game {
@@ -750,6 +830,45 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
+     STATE: QUESTION SELECTOR
+══════════════════════════════════════════════════════════ -->
+<div id="state-selector" class="state hidden">
+  <div id="selector-content">
+    <div id="selector-title">SELECT YOUR QUESTIONS</div>
+    <div id="selector-sub"></div>
+    <div id="selector-input-row">
+      <label id="selector-input-label" for="selector-num">START AT QUESTION #</label>
+      <input id="selector-num" type="number" min="1" value="1" />
+      <span id="selector-range-hint"></span>
+    </div>
+    <div id="selector-preview">
+      <div class="prev-row">
+        <span class="prev-lbl r1">ROUND 1</span>
+        <span class="prev-q" id="prev-r1"></span>
+      </div>
+      <div class="prev-row">
+        <span class="prev-lbl r2">ROUND 2</span>
+        <span class="prev-q" id="prev-r2"></span>
+      </div>
+      <div class="prev-row">
+        <span class="prev-lbl r3">⚡ ROUND 3</span>
+        <span class="prev-q" id="prev-r3"></span>
+      </div>
+      <div class="prev-row">
+        <span class="prev-lbl rtb">TIEBREAKER</span>
+        <span class="prev-q" id="prev-tb"></span>
+      </div>
+    </div>
+    <div id="played-section">
+      <div id="played-hdr">PLAYED THIS SESSION</div>
+      <div id="played-list"></div>
+    </div>
+    <div id="selector-err"></div>
+    <button id="btn-selector-play">LET'S PLAY →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
      STATE 3 — GAME
 ══════════════════════════════════════════════════════════ -->
 <div id="state-game" class="state hidden">
@@ -1075,7 +1194,7 @@
   /* ────────────────────────────────────────────────────────────
      STATE MACHINE
   ──────────────────────────────────────────────────────────── */
-  const ALL_STATES = ['state-title','state-setup','state-game','state-double','state-tiebreaker','state-final'];
+  const ALL_STATES = ['state-title','state-selector','state-setup','state-game','state-double','state-tiebreaker','state-final'];
   function goToState(id) {
     ALL_STATES.forEach(s => document.getElementById(s).classList.toggle('hidden', s !== id));
   }
@@ -1083,7 +1202,9 @@
   /* ────────────────────────────────────────────────────────────
      GAME STATE
   ──────────────────────────────────────────────────────────── */
-  let questions    = [];
+  let allQuestions = [];   // all questions loaded from data
+  let startIndex   = 0;   // 0-based index of first question for current game
+  let questions    = [];  // 4-question slice for current game
   let currentRound = 0;
   let strikes      = 0;
   let roundPoints  = 0;
@@ -1109,10 +1230,9 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       const gd = data.gameData || data;
-      questions = (gd.questions || []).filter(q => q.active !== false);
-      if (!questions.length) throw new Error('No active questions in gameData');
-      revealedState = questions.map(q => q.answers.map(() => false));
-      el.innerHTML = `✅ ${questions.length} questions loaded!`;
+      allQuestions = (gd.questions || []).filter(q => q.active !== false);
+      if (!allQuestions.length) throw new Error('No active questions in gameData');
+      el.innerHTML = `✅ ${allQuestions.length} questions loaded!`;
     } catch(err) {
       console.warn('Using demo data:', err.message);
       el.innerHTML = '⚠️ Using demo data';
@@ -1122,7 +1242,7 @@
   }
 
   function useDemoData() {
-    questions = [
+    allQuestions = [
       {
         id:'q1', question:'Name something you always forget to pack for a volleyball tournament',
         answers:[
@@ -1143,9 +1263,15 @@
           {text:'Knee Pads',points:25},{text:'Water Bottle',points:20},
           {text:'Hair Ties',points:15},{text:'Spandex',points:10},{text:'Phone',points:5}
         ], active:true
+      },
+      {
+        id:'q4', question:"Name a reason a player might get subbed out",
+        answers:[
+          {text:'Injury',points:25},{text:'Not Passing',points:20},
+          {text:'Bad Attitude',points:15},{text:'Tired',points:10},{text:'Talking Back',points:5}
+        ], active:true
       }
     ];
-    revealedState = questions.map(q => q.answers.map(() => false));
   }
 
   /* ────────────────────────────────────────────────────────────
@@ -1634,14 +1760,92 @@
   }
 
   /* ────────────────────────────────────────────────────────────
+     SESSION TRACKING
+  ──────────────────────────────────────────────────────────── */
+  const PLAYED_KEY = 'feud_played_ranges';
+
+  function getPlayedRanges() {
+    try { return JSON.parse(sessionStorage.getItem(PLAYED_KEY) || '[]'); }
+    catch(e) { return []; }
+  }
+
+  function markRangePlayed(idx) {
+    const played = getPlayedRanges();
+    if (!played.includes(idx)) {
+      played.push(idx);
+      sessionStorage.setItem(PLAYED_KEY, JSON.stringify(played));
+    }
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     QUESTION SELECTOR
+  ──────────────────────────────────────────────────────────── */
+  function selectorTrunc(text, max) {
+    return text.length > max ? text.slice(0, max - 1) + '…' : text;
+  }
+
+  function updateSelectorPreview() {
+    const total    = allQuestions.length;
+    const maxIdx   = Math.max(0, total - 4);
+    const raw      = parseInt(document.getElementById('selector-num').value, 10);
+    const idx      = Math.max(0, Math.min(isNaN(raw) ? 0 : raw - 1, maxIdx));
+    const ids      = ['prev-r1','prev-r2','prev-r3','prev-tb'];
+    ids.forEach((elId, i) => {
+      const q = allQuestions[idx + i];
+      document.getElementById(elId).textContent =
+        q ? `Q${idx + i + 1}: ${selectorTrunc(q.question, 82)}` : '—';
+    });
+  }
+
+  function renderPlayedChips() {
+    const list   = document.getElementById('played-list');
+    const played = getPlayedRanges();
+    if (!played.length) {
+      list.innerHTML = '<span style="font-size:.77rem;color:rgba(255,255,255,.26)">None yet this session</span>';
+      return;
+    }
+    list.innerHTML = played
+      .sort((a, b) => a - b)
+      .map(i => `<div class="played-chip">Q${i+1}–Q${i+3} &nbsp;✓ Played</div>`)
+      .join('');
+  }
+
+  function showSelector() {
+    const total  = allQuestions.length;
+    const maxNum = Math.max(1, total - 3); // 1-indexed max start
+
+    document.getElementById('selector-sub').innerHTML =
+      `Each game uses 3 rounds + 1 tiebreaker if needed.<br>` +
+      `You have <strong>${total}</strong> questions available — choose where to start.`;
+
+    const numInput = document.getElementById('selector-num');
+    numInput.min = 1;
+    numInput.max = maxNum;
+    document.getElementById('selector-range-hint').textContent = `(1 – ${maxNum})`;
+
+    // Default: first unplayed range
+    const played = getPlayedRanges();
+    let def = 0;
+    for (let i = 0; i <= total - 4; i++) {
+      if (!played.includes(i)) { def = i; break; }
+    }
+    numInput.value = def + 1;
+
+    document.getElementById('selector-err').textContent = '';
+    updateSelectorPreview();
+    renderPlayedChips();
+    goToState('state-selector');
+    document.getElementById('state-selector').scrollTop = 0;
+  }
+
+  /* ────────────────────────────────────────────────────────────
      WIRE UP BUTTONS
   ──────────────────────────────────────────────────────────── */
   document.getElementById('btn-start').disabled = true;
 
   document.getElementById('btn-start').addEventListener('click', () => {
     ensureAudio();
-    goToState('state-setup');
-    document.getElementById('input-team1').focus();
+    showSelector();
   });
 
   document.getElementById('btn-play').addEventListener('click', () => {
@@ -1649,7 +1853,9 @@
     team1name = document.getElementById('input-team1').value.trim() || 'Team 1';
     team2name = document.getElementById('input-team2').value.trim() || 'Team 2';
     scores = { t1: 0, t2: 0 };
+    questions = allQuestions.slice(startIndex, startIndex + 4);
     revealedState = questions.map(q => q.answers.map(() => false));
+    markRangePlayed(startIndex);
     updateTeamLabels();
     updateScoreDisplay();
     goToState('state-game');
@@ -1662,7 +1868,26 @@
   document.getElementById('btn-next').addEventListener('click',         () => { ensureAudio(); nextRound(); });
   document.getElementById('btn-award-t1').addEventListener('click',     () => { ensureAudio(); awardPoints('t1'); });
   document.getElementById('btn-award-t2').addEventListener('click',     () => { ensureAudio(); awardPoints('t2'); });
-  document.getElementById('btn-again').addEventListener('click',        () => { window.location.reload(); });
+  document.getElementById('btn-again').addEventListener('click',        () => { showSelector(); });
+
+  document.getElementById('selector-num').addEventListener('input',  updateSelectorPreview);
+  document.getElementById('selector-num').addEventListener('change', updateSelectorPreview);
+
+  document.getElementById('btn-selector-play').addEventListener('click', () => {
+    ensureAudio();
+    const total  = allQuestions.length;
+    const maxNum = Math.max(1, total - 3);
+    const raw    = parseInt(document.getElementById('selector-num').value, 10);
+    if (isNaN(raw) || raw < 1 || raw > maxNum) {
+      document.getElementById('selector-err').textContent =
+        `Please enter a number between 1 and ${maxNum}.`;
+      return;
+    }
+    startIndex = raw - 1; // convert to 0-based
+    document.getElementById('selector-err').textContent = '';
+    goToState('state-setup');
+    document.getElementById('input-team1').focus();
+  });
 
   ['input-team1','input-team2'].forEach(id => {
     document.getElementById(id).addEventListener('keydown', e => {
