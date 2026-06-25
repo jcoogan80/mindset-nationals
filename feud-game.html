@@ -339,7 +339,7 @@
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
       pointer-events: none; opacity: 0;
-      transition: opacity .25s;
+      transition: opacity .5s;
       background: rgba(0,0,0,.6);
     }
     #steal-overlay.show { opacity: 1; }
@@ -873,6 +873,7 @@
   let team2name    = 'Team 2';
   let revealedState= [];   // [round][answerIdx] = boolean
   let activeTeam   = null; // 't1' or 't2'
+  let stealTimeout = null; // auto-hide timer for steal overlay
 
   // Rounds 1-2 (index 0-1): normal points. Round 3+ (index 2+): double points.
   function getMultiplier() { return currentRound >= 2 ? 2 : 1; }
@@ -1010,6 +1011,7 @@
     btn.classList.remove('steal-mode');
     btn.textContent = '✕ STRIKE';
 
+    if (stealTimeout) { clearTimeout(stealTimeout); stealTimeout = null; }
     document.getElementById('steal-overlay').classList.remove('show');
 
     document.getElementById('question-text').textContent = questions[currentRound].question;
@@ -1078,7 +1080,14 @@
         btn.textContent = '🔥 STEAL!';
         btn.classList.add('steal-mode');
         btn.disabled = true;
-        document.getElementById('steal-overlay').classList.add('show');
+        const stealOverlay = document.getElementById('steal-overlay');
+        stealOverlay.classList.add('show');
+        // Auto-hide steal overlay after 5 seconds
+        if (stealTimeout) clearTimeout(stealTimeout);
+        stealTimeout = setTimeout(() => {
+          stealOverlay.classList.remove('show');
+          stealTimeout = null;
+        }, 5000);
       }, 1600);
     }
   }
@@ -1117,6 +1126,7 @@
     updateScoreDisplay();
     updateRoundPtsDisplay();
     playRoundWin();
+    if (stealTimeout) { clearTimeout(stealTimeout); stealTimeout = null; }
     document.getElementById('steal-overlay').classList.remove('show');
   }
 
