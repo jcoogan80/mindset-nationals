@@ -529,6 +529,45 @@
     }
     #btn-double-continue:hover { box-shadow: 0 6px 36px rgba(255,180,0,.75); }
 
+    /* ── HOST ANSWER KEY ── */
+    #host-key-toggle {
+      position: fixed; bottom: 12px; left: 12px; z-index: 10000;
+      background: rgba(0,0,0,.52); color: rgba(255,255,255,.7);
+      border: 1px solid rgba(255,255,255,.18); border-radius: 6px;
+      font-family: 'DM Sans', sans-serif; font-size: .68rem;
+      letter-spacing: .4px; padding: .28rem .6rem;
+      cursor: pointer; opacity: .45; transition: opacity .2s;
+    }
+    #host-key-toggle:hover { opacity: .85 !important; }
+    #host-key-panel {
+      position: fixed; bottom: 42px; left: 12px; z-index: 10000;
+      background: rgba(0,0,0,.75); border: 1px solid rgba(255,255,255,.14);
+      border-radius: 8px; padding: .6rem .8rem; width: 230px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px;
+      color: rgba(255,255,255,.82); line-height: 1.5;
+      display: none; box-shadow: 0 4px 18px rgba(0,0,0,.6);
+    }
+    #host-key-panel.open { display: block; }
+    #host-key-label {
+      font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+      color: rgba(255,255,255,.35); margin-bottom: .3rem;
+    }
+    #host-key-q {
+      font-size: 11px; color: rgba(255,255,255,.48);
+      margin-bottom: .45rem; font-style: italic; line-height: 1.35;
+    }
+    .hk-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: .4rem; padding: .12rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: 13px;
+    }
+    .hk-row:last-child { border-bottom: none; }
+    .hk-num { color: rgba(255,215,0,.5); font-size: 11px; min-width: 14px; }
+    .hk-ans { flex: 1; }
+    .hk-pts { color: #FFD700; font-weight: 700; font-size: 12px; white-space: nowrap; }
+    .hk-revealed { text-decoration: line-through; opacity: .4; }
+
     /* Confetti */
     #confetti-container {
       position: absolute; inset: 0; pointer-events: none; overflow: hidden;
@@ -651,6 +690,14 @@
       <button id="btn-reveal-all"  class="ctrl-btn">🔓 REVEAL ALL</button>
       <button id="btn-next"        class="ctrl-btn">NEXT ROUND ➡</button>
     </div>
+  </div>
+
+  <!-- HOST ANSWER KEY — fixed bottom-left, small/dim, host-only -->
+  <button id="host-key-toggle" onclick="toggleHostKey()" title="Toggle host answer key (H)">👁 Answers</button>
+  <div id="host-key-panel">
+    <div id="host-key-label">HOST ANSWER KEY</div>
+    <div id="host-key-q"></div>
+    <div id="host-key-rows"></div>
   </div>
 </div>
 
@@ -968,6 +1015,7 @@
     document.getElementById('question-text').textContent = questions[currentRound].question;
     renderBoard();
     updateRoundPtsDisplay();
+    updateHostKey();
   }
 
   /* ────────────────────────────────────────────────────────────
@@ -985,6 +1033,7 @@
     if (row) row.classList.add('revealed');
 
     playReveal();
+    updateHostKey();
     if (allRevealed()) setTimeout(playRoundWin, 300);
   }
 
@@ -1238,12 +1287,37 @@
     }
 
     switch (e.key.toLowerCase()) {
-      case 's': addStrike();  break;
-      case 'r': revealAll();  break;
-      case 'n': nextRound();  break;
+      case 's': addStrike();    break;
+      case 'r': revealAll();    break;
+      case 'n': nextRound();    break;
+      case 'h': toggleHostKey(); break;
       case ' ': e.preventDefault(); revealNext(); break;
     }
   });
+
+  /* ────────────────────────────────────────────────────────────
+     HOST ANSWER KEY
+  ──────────────────────────────────────────────────────────── */
+  function toggleHostKey() {
+    document.getElementById('host-key-panel').classList.toggle('open');
+  }
+
+  function updateHostKey() {
+    const q = questions[currentRound];
+    if (!q) return;
+    const mult = getMultiplier();
+    document.getElementById('host-key-q').textContent = q.question;
+    document.getElementById('host-key-rows').innerHTML = q.answers.map((a, i) => {
+      const revealed = revealedState[currentRound] && revealedState[currentRound][i];
+      return `<div class="hk-row">` +
+        `<span class="hk-num">${i + 1}</span>` +
+        `<span class="hk-ans${revealed ? ' hk-revealed' : ''}">${escHtml(a.text)}</span>` +
+        `<span class="hk-pts${revealed ? ' hk-revealed' : ''}">${a.points * mult}</span>` +
+        `</div>`;
+    }).join('');
+  }
+
+  window.toggleHostKey = toggleHostKey;
 
   /* ────────────────────────────────────────────────────────────
      GAME LOCK
