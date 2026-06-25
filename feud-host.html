@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Host Answer Key · Mindset Family Feud</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #0a0e2e;
+  --bg2:    #0d1f5c;
+  --gold:   #FFD700;
+  --orange: #FF8C00;
+  --red:    #e53935;
+  --white:  #fff;
+  --muted:  rgba(255,255,255,.5);
+  --card:   rgba(255,255,255,.06);
+  --border: rgba(255,255,255,.12);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%);
+  background-attachment: fixed;
+  color: var(--white);
+  min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+
+/* ─────────────────────────────────────
+   AUTH GATE
+───────────────────────────────────── */
+#auth-gate {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem 1.5rem;
+}
+.auth-icon  { font-size: 3.2rem; margin-bottom: .8rem; }
+.auth-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem; color: var(--gold);
+  letter-spacing: 3px; text-align: center;
+  margin-bottom: .25rem;
+}
+.auth-sub {
+  font-size: .85rem; color: var(--muted);
+  text-align: center; margin-bottom: 2rem;
+}
+.auth-form {
+  width: 100%; max-width: 300px;
+  display: flex; flex-direction: column; gap: .8rem;
+}
+#pw-in {
+  width: 100%; padding: .9rem 1rem;
+  font-family: 'DM Sans', sans-serif; font-size: 1.1rem;
+  background: rgba(255,255,255,.09);
+  border: 2px solid rgba(255,215,0,.3); border-radius: 10px;
+  color: var(--white); outline: none;
+  text-align: center; letter-spacing: 2px;
+  transition: border-color .2s;
+}
+#pw-in:focus { border-color: var(--gold); }
+#pw-in::placeholder { color: rgba(255,255,255,.3); letter-spacing: 0; }
+#auth-btn {
+  width: 100%; padding: .9rem;
+  background: var(--gold); color: #0d1b4b;
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+  letter-spacing: 2px; border: none; border-radius: 10px;
+  cursor: pointer; transition: opacity .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+#auth-btn:active { opacity: .82; }
+.auth-err {
+  font-size: .82rem; color: #ff6b6b;
+  text-align: center; min-height: 1.2rem;
+  display: none;
+}
+.auth-err.show { display: block; }
+
+/* ─────────────────────────────────────
+   MAIN
+───────────────────────────────────── */
+#main { display: none; }
+
+/* ─────────────────────────────────────
+   STICKY NAV HEADER
+───────────────────────────────────── */
+#sticky-hdr {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(8,11,36,.97);
+  border-bottom: 2px solid rgba(255,215,0,.3);
+  padding: .55rem .85rem;
+  display: flex; align-items: center; gap: .6rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.nav-arrow {
+  background: rgba(255,215,0,.1);
+  border: 1.5px solid rgba(255,215,0,.3);
+  color: var(--gold); border-radius: 8px;
+  font-size: 1.05rem; padding: .42rem .8rem;
+  cursor: pointer; flex-shrink: 0; line-height: 1;
+  transition: background .15s;
+  -webkit-tap-highlight-color: transparent;
+  font-family: 'DM Sans', sans-serif;
+}
+.nav-arrow:active:not(:disabled) { background: rgba(255,215,0,.25); }
+.nav-arrow:disabled { opacity: .28; cursor: not-allowed; }
+#nav-center { flex: 1; text-align: center; overflow: hidden; }
+#nav-round {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem; color: var(--gold);
+  letter-spacing: 2px; line-height: 1;
+}
+#nav-q-short {
+  font-size: .7rem; color: var(--muted);
+  white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; margin-top: .1rem;
+  letter-spacing: .3px;
+}
+
+/* ─────────────────────────────────────
+   ROUNDS LIST
+───────────────────────────────────── */
+#rounds-wrap {
+  padding: .65rem .7rem 4rem;
+}
+
+/* ─────────────────────────────────────
+   ROUND CARD
+───────────────────────────────────── */
+.r-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: .65rem;
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+  scroll-margin-top: 68px;
+}
+.r-card.current {
+  border-color: rgba(255,215,0,.55);
+  box-shadow: 0 0 18px rgba(255,215,0,.08);
+}
+
+/* Card header — tap target */
+.r-hdr {
+  display: flex; align-items: center; gap: .7rem;
+  padding: .85rem 1rem; min-height: 62px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.r-hdr:active { background: rgba(255,255,255,.04); }
+
+.r-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; color: var(--gold); line-height: 1;
+  min-width: 3rem; flex-shrink: 0;
+}
+.r-card.current .r-num {
+  text-shadow: 0 0 12px rgba(255,215,0,.65);
+}
+.r-q-short {
+  flex: 1; font-size: .88rem; font-weight: 600;
+  color: rgba(255,255,255,.78); line-height: 1.35;
+}
+.r-chev {
+  color: var(--muted); font-size: .85rem; flex-shrink: 0;
+  transition: transform .25s;
+}
+.r-card.open .r-chev { transform: rotate(180deg); }
+
+/* Card body — collapses */
+.r-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .32s cubic-bezier(.4,0,.2,1);
+}
+.r-card.open .r-body { max-height: 600px; }
+
+.r-inner { padding: .2rem 1rem 1rem; }
+
+/* Double points badge */
+.double-badge {
+  background: rgba(255,140,0,.13);
+  border: 1px solid rgba(255,140,0,.4);
+  border-radius: 7px; padding: .42rem .75rem;
+  font-size: .78rem; color: var(--orange);
+  letter-spacing: .5px; margin-bottom: .75rem;
+  text-align: center; font-weight: 700;
+}
+
+/* ─────────────────────────────────────
+   ANSWER ROWS
+───────────────────────────────────── */
+.a-row {
+  display: flex; align-items: baseline;
+  gap: 0; padding: .5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.a-row:last-child { border-bottom: none; }
+
+.a-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem; color: rgba(255,215,0,.5);
+  min-width: 2rem; flex-shrink: 0;
+  padding-top: .1rem;
+}
+.a-text {
+  font-size: 1.15rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .6px;
+  line-height: 1.25; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+  max-width: 58vw;
+}
+.a-dots {
+  flex: 1; align-self: flex-end;
+  border-bottom: 2px dotted rgba(255,255,255,.2);
+  margin: 0 .45rem .3rem;
+  min-width: 12px;
+}
+.a-pts {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.55rem; line-height: 1;
+  color: var(--gold); flex-shrink: 0;
+  min-width: 2.8rem; text-align: right;
+}
+.a-pts.dbl { color: var(--orange); }
+
+/* ─────────────────────────────────────
+   LOADING / ERROR
+───────────────────────────────────── */
+.state-msg {
+  text-align: center; padding: 3rem 1rem;
+  color: var(--muted); font-size: .9rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ─── AUTH GATE ─── -->
+<div id="auth-gate">
+  <div class="auth-icon">🔒</div>
+  <div class="auth-title">HOST ANSWER KEY</div>
+  <div class="auth-sub">Mindset Family Feud · For host use only</div>
+  <div class="auth-form">
+    <input id="pw-in" type="password" placeholder="Enter password" autocomplete="off" />
+    <button id="auth-btn">UNLOCK →</button>
+    <div class="auth-err" id="auth-err">Incorrect password</div>
+  </div>
+</div>
+
+<!-- ─── MAIN ─── -->
+<div id="main">
+
+  <!-- Sticky nav -->
+  <div id="sticky-hdr">
+    <button class="nav-arrow" id="nav-prev" disabled>◀</button>
+    <div id="nav-center">
+      <div id="nav-round">ROUND 1</div>
+      <div id="nav-q-short"></div>
+    </div>
+    <button class="nav-arrow" id="nav-next">▶</button>
+  </div>
+
+  <!-- Rounds -->
+  <div id="rounds-wrap">
+    <div class="state-msg" id="loading-msg">Loading game data…</div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const PASSWORD = 'Pr3m!er26';
+  let rounds = [];
+  let focusedIdx = 0;
+
+  /* ─── AUTH ─── */
+  function tryUnlock() {
+    if (document.getElementById('pw-in').value === PASSWORD) {
+      document.getElementById('auth-gate').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+      loadData();
+    } else {
+      const e = document.getElementById('auth-err');
+      e.classList.add('show');
+      document.getElementById('pw-in').value = '';
+      document.getElementById('pw-in').focus();
+      setTimeout(() => e.classList.remove('show'), 3000);
+    }
+  }
+  document.getElementById('auth-btn').addEventListener('click', tryUnlock);
+  document.getElementById('pw-in').addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryUnlock();
+  });
+
+  /* ─── DATA ─── */
+  async function loadData() {
+    try {
+      const res = await fetch('/feud-data.json?t=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const gd = data.gameData || {};
+      rounds = (gd.questions || []).filter(q => q.active !== false);
+      if (!rounds.length) throw new Error('No active rounds found in game data — save game data in the admin first.');
+    } catch (err) {
+      document.getElementById('loading-msg').innerHTML =
+        '⚠️ ' + esc(err.message);
+      return;
+    }
+    renderAll();
+  }
+
+  /* ─── RENDER ─── */
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function truncQ(q, max) {
+    max = max || 64;
+    return q.length > max ? q.slice(0, max - 1) + '…' : q;
+  }
+
+  function renderAll() {
+    const wrap = document.getElementById('rounds-wrap');
+    wrap.innerHTML = rounds.map((r, i) => buildCard(r, i)).join('');
+
+    // Nav buttons
+    document.getElementById('nav-prev').addEventListener('click', () => navTo(focusedIdx - 1));
+    document.getElementById('nav-next').addEventListener('click', () => navTo(focusedIdx + 1));
+
+    // Intersection Observer — update sticky header as user scrolls
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          const idx = parseInt(en.target.dataset.idx, 10);
+          if (!isNaN(idx)) setFocused(idx, false);
+        }
+      });
+    }, { rootMargin: '-10% 0px -60% 0px', threshold: 0 });
+
+    document.querySelectorAll('.r-card').forEach(c => io.observe(c));
+
+    // Open first card
+    openCard(0);
+    setFocused(0, false);
+  }
+
+  function buildCard(r, i) {
+    const isDouble  = i >= 2;
+    const mult      = isDouble ? 2 : 1;
+    const doubleBadge = isDouble
+      ? `<div class="double-badge">⚡ DOUBLE POINTS — all values ×2 &nbsp;( 50 · 40 · 30 · 20 · 10 )</div>`
+      : '';
+
+    const ansRows = r.answers.map((a, ai) => {
+      const pts = (a.points || 0) * mult;
+      return `<div class="a-row">
+        <span class="a-num">#${ai + 1}</span>
+        <span class="a-text">${esc(a.text.toUpperCase())}</span>
+        <span class="a-dots"></span>
+        <span class="a-pts${isDouble ? ' dbl' : ''}">${pts}</span>
+      </div>`;
+    }).join('');
+
+    return `<div class="r-card" id="rc-${i}" data-idx="${i}">
+      <div class="r-hdr" onclick="toggleCard(${i})">
+        <span class="r-num">R${i + 1}</span>
+        <span class="r-q-short">${esc(truncQ(r.question))}</span>
+        <span class="r-chev">▼</span>
+      </div>
+      <div class="r-body">
+        <div class="r-inner">
+          ${doubleBadge}
+          ${ansRows}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  /* ─── CARD TOGGLE ─── */
+  window.toggleCard = function (idx) {
+    const card = document.getElementById('rc-' + idx);
+    if (card) card.classList.toggle('open');
+  };
+
+  function openCard(idx) {
+    const card = document.getElementById('rc-' + idx);
+    if (card) card.classList.add('open');
+  }
+
+  /* ─── NAVIGATION ─── */
+  function navTo(idx) {
+    if (idx < 0 || idx >= rounds.length) return;
+    setFocused(idx, false);
+    const card = document.getElementById('rc-' + idx);
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      openCard(idx);
+    }
+  }
+
+  function setFocused(idx, scroll) {
+    focusedIdx = idx;
+
+    // Sticky header
+    document.getElementById('nav-round').textContent = 'ROUND ' + (idx + 1);
+    document.getElementById('nav-q-short').textContent =
+      rounds[idx] ? truncQ(rounds[idx].question, 55) : '';
+    document.getElementById('nav-prev').disabled = idx <= 0;
+    document.getElementById('nav-next').disabled = idx >= rounds.length - 1;
+
+    // Highlight active card
+    document.querySelectorAll('.r-card').forEach((c, i) => {
+      c.classList.toggle('current', i === idx);
+    });
+
+    if (scroll) navTo(idx);
+  }
+
+})();
+</script>
+</body>
+</html>
