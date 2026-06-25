@@ -114,6 +114,32 @@ body{font-family:var(--fb);background:var(--black);color:var(--white);min-height
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.15);border-top-color:var(--white);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* INLINE EDIT */
+.edit-inp{background:rgba(255,255,255,.08);border:1px solid rgba(204,0,0,.6);border-radius:6px;color:var(--white);font-family:var(--fb);font-size:.82rem;padding:.3rem .6rem;outline:none;min-width:140px;max-width:240px}
+.edit-inp:focus{border-color:var(--red)}
+.edit-row-acts{display:inline-flex;gap:.3rem;margin-left:.4rem;vertical-align:middle}
+.btn-sv{background:#16a34a;color:#fff;border:none;border-radius:5px;padding:.22rem .6rem;font-size:.72rem;font-weight:600;cursor:pointer}
+.btn-sv:hover{opacity:.85}
+.btn-cv{background:rgba(255,255,255,.1);color:var(--white);border:none;border-radius:5px;padding:.22rem .6rem;font-size:.72rem;font-weight:600;cursor:pointer}
+.btn-cv:hover{background:rgba(255,255,255,.18)}
+
+/* RESPONDENT TRACKER */
+.resp-card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:.6rem;overflow:hidden}
+.resp-hdr{display:flex;align-items:center;gap:.75rem;padding:.7rem 1.1rem;cursor:pointer;user-select:none;transition:background .15s}
+.resp-hdr:hover{background:rgba(255,255,255,.04)}
+.resp-n{font-weight:600;font-size:.88rem;flex:1}
+.resp-chevron{font-size:.85rem;color:rgba(255,255,255,.35);transition:transform .2s}
+.resp-chevron.open{transform:rotate(180deg)}
+.resp-bdy{padding:.6rem 1.1rem;border-top:1px solid var(--border);display:none}
+.resp-bdy.open{display:block}
+.resp-row{display:flex;align-items:center;gap:.6rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.8rem;min-height:2rem;flex-wrap:wrap}
+.resp-row:last-child{border-bottom:none}
+.resp-qlbl{color:rgba(255,255,255,.4);font-family:var(--fd);min-width:2.8rem;font-size:.75rem;flex-shrink:0}
+.resp-atxt{flex:1;color:var(--white)}
+.resp-atxt.empty{color:rgba(255,255,255,.25);font-style:italic}
+.btn-edit-sm{background:none;border:1px solid rgba(255,255,255,.15);border-radius:5px;color:rgba(255,255,255,.45);font-size:.7rem;padding:.18rem .45rem;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.btn-edit-sm:hover{border-color:var(--red);color:var(--white)}
+
 @media(max-width:640px){
   body{padding:1.5rem .75rem 3rem}
   .page-header{flex-direction:column;align-items:flex-start}
@@ -171,7 +197,15 @@ body{font-family:var(--fb);background:var(--black);color:var(--white);min-height
     </div>
   </div>
 
-  <!-- SECTION 3: SAVE -->
+  <!-- SECTION 3: RESPONSE TRACKER -->
+  <div class="section" id="tracker-section">
+    <div class="section-title"><i class="ti ti-users"></i> RESPONSE TRACKER</div>
+    <div id="tracker-content">
+      <div class="state-msg"><span class="spinner"></span> Loading…</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: SAVE -->
   <div class="save-section">
     <div class="section-title" style="justify-content:center;margin-bottom:.5rem"><i class="ti ti-device-floppy"></i> SAVE GAME DATA</div>
     <p>Compiles all included questions — top 5 answers with fixed point values (25/20/15/10/5) — and saves to feud-data.json on GitHub.</p>
@@ -251,6 +285,8 @@ async function loadData() {
   document.getElementById('summary-content').innerHTML =
     `<div class="state-msg"><span class="spinner"></span> Fetching data…</div>`;
   document.getElementById('questions-content').innerHTML =
+    `<div class="state-msg"><span class="spinner"></span> Fetching data…</div>`;
+  document.getElementById('tracker-content').innerHTML =
     `<div class="state-msg"><span class="spinner"></span> Fetching data…</div>`;
 
   try {
@@ -355,6 +391,7 @@ function renderQuestions() {
   }
   el.innerHTML = QUESTIONS.map((q, i) => renderQuestionCard(q, i)).join('');
   attachQuestionEvents();
+  renderResponseTracker();
 }
 
 function renderQuestionCard(q, i) {
@@ -369,10 +406,11 @@ function renderQuestionCard(q, i) {
     tableRows = answers.map((ans, idx) => `
       <tr data-qid="${q.id}" data-idx="${idx}">
         <td class="ans-rank">${idx+1}</td>
-        <td class="ans-text">${esc(ans.text)}</td>
+        <td class="ans-text" id="anstxt-${q.id}-${idx}">${esc(ans.text)}</td>
         <td><span class="ans-count">${ans.count}</span></td>
         <td style="font-family:var(--fd);font-size:.95rem;color:#FFD700;padding-left:.5rem">${idx < FIXED_PTS.length ? FIXED_PTS[idx] : '—'}</td>
         <td><input type="checkbox" class="merge-cb" data-qid="${q.id}" data-idx="${idx}" title="Select to merge"></td>
+        <td><button class="btn btn-ghost btn-sm edit-ans-btn" data-qid="${q.id}" data-idx="${idx}" style="padding:.2rem .5rem;font-size:.72rem">✏️</button></td>
       </tr>`).join('');
   }
 
@@ -410,6 +448,7 @@ function renderQuestionCard(q, i) {
               <th>Count</th>
               <th>Pts</th>
               <th><i class="ti ti-git-merge" title="Merge"></i></th>
+              <th>✏️</th>
             </tr>
           </thead>
           <tbody id="ansbody-${q.id}">${tableRows}</tbody>
@@ -438,6 +477,214 @@ function attachQuestionEvents() {
       mergeAnswers(this.dataset.qid);
     });
   });
+
+  // Edit answer buttons
+  document.querySelectorAll('.edit-ans-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      startAnswerEdit(this.dataset.qid, parseInt(this.dataset.idx));
+    });
+  });
+}
+
+/* ───────── INLINE ANSWER EDIT (Q&A TABLE) ───────── */
+function startAnswerEdit(qid, idx) {
+  const ans = qState[qid] && qState[qid][idx];
+  if (!ans) return;
+  const cell = document.getElementById(`anstxt-${qid}-${idx}`);
+  if (!cell) return;
+  const oldText = ans.text;
+
+  cell.innerHTML = `<input class="edit-inp" id="einp-${qid}-${idx}" value="${esc(oldText)}" autocomplete="off">` +
+    `<span class="edit-row-acts">` +
+    `<button class="btn-sv" data-qid="${qid}" data-idx="${idx}" data-action="save">Save</button>` +
+    `<button class="btn-cv" data-qid="${qid}" data-idx="${idx}" data-action="cancel">Cancel</button>` +
+    `</span>`;
+
+  const inp = document.getElementById(`einp-${qid}-${idx}`);
+  if (inp) {
+    inp.focus(); inp.select();
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') commitAnswerEdit(qid, idx);
+      if (e.key === 'Escape') cancelAnswerEdit(qid, idx);
+    });
+  }
+
+  // Attach save/cancel buttons
+  cell.querySelectorAll('button[data-action]').forEach(b => {
+    b.addEventListener('click', () => {
+      if (b.dataset.action === 'save') commitAnswerEdit(qid, idx);
+      else cancelAnswerEdit(qid, idx);
+    });
+  });
+}
+
+function cancelAnswerEdit(qid, idx) {
+  const ans = qState[qid] && qState[qid][idx];
+  const cell = document.getElementById(`anstxt-${qid}-${idx}`);
+  if (cell && ans) cell.innerHTML = esc(ans.text);
+}
+
+async function commitAnswerEdit(qid, idx) {
+  const inp = document.getElementById(`einp-${qid}-${idx}`);
+  if (!inp) return;
+  const newText = inp.value.trim();
+  const ans = qState[qid] && qState[qid][idx];
+  if (!ans) return;
+  const oldText = ans.text;
+
+  if (!newText) { alert('Answer cannot be empty.'); inp.focus(); return; }
+  if (newText === oldText) { cancelAnswerEdit(qid, idx); return; }
+
+  // Update all responses that had this exact answer
+  (feudData.responses || []).forEach(r => {
+    if (r.answers && r.answers[qid] && r.answers[qid].trim() === oldText) {
+      r.answers[qid] = newText;
+    }
+  });
+
+  // Rebuild state for this question
+  qState[qid] = tallyAnswers(feudData.responses, qid);
+
+  // Re-render question card and tracker
+  rerenderQuestionCard(qid);
+  renderResponseTracker();
+
+  await saveResponsesOnly();
+}
+
+/* ───────── SAVE RESPONSES ONLY ───────── */
+async function saveResponsesOnly() {
+  const saveStatus = document.getElementById('save-status');
+  if (saveStatus) { saveStatus.textContent = '⏳ Saving…'; saveStatus.className = 'save-status'; }
+  try {
+    const payload = {
+      responses: feudData.responses || [],
+      gameData: feudData.gameData || { questions:[], teams:{team1:{name:'',score:0},team2:{name:'',score:0}}, currentRound:0 }
+    };
+    const res = await fetch('/.netlify/functions/save', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ data: payload, sha: fileSHA, user: GITHUB_USER, repo: GITHUB_REPO, file: FILE })
+    });
+    if (!res.ok) throw new Error(`${res.status}: ${await res.text()}`);
+    const result = await res.json();
+    if (result && result.sha) fileSHA = result.sha;
+    else if (result && result.content && result.content.sha) fileSHA = result.content.sha;
+    if (saveStatus) {
+      saveStatus.textContent = '✓ Saved'; saveStatus.className = 'save-status ok';
+      setTimeout(() => { saveStatus.textContent = ''; saveStatus.className = 'save-status'; }, 3000);
+    }
+  } catch(err) {
+    if (saveStatus) { saveStatus.textContent = `✗ ${err.message}`; saveStatus.className = 'save-status err'; }
+  }
+}
+
+/* ───────── RESPONDENT TRACKER ───────── */
+function renderResponseTracker() {
+  const el = document.getElementById('tracker-content');
+  if (!el) return;
+  const responses = feudData.responses || [];
+  if (responses.length === 0) {
+    el.innerHTML = '<div class="state-msg">No responses yet.</div>';
+    return;
+  }
+  el.innerHTML = responses.map((r, ridx) => {
+    const name = r.name || `Respondent ${ridx+1}`;
+    const answers = r.answers || {};
+    const rows = QUESTIONS.map((q, qi) => {
+      const ans = answers[q.id] || '';
+      return `<div class="resp-row">` +
+        `<span class="resp-qlbl">Q${qi+1}</span>` +
+        `<span class="resp-atxt${ans ? '' : ' empty'}" id="rta-${ridx}-${q.id}">${ans ? esc(ans) : 'no answer'}</span>` +
+        `<button class="btn-edit-sm" data-ridx="${ridx}" data-qid="${q.id}">✏️ Edit</button>` +
+        `</div>`;
+    }).join('');
+    return `<div class="resp-card">` +
+      `<div class="resp-hdr" onclick="toggleRespCard(${ridx})">` +
+      `<span class="resp-n">${esc(name)}</span>` +
+      `<i class="ti ti-chevron-down resp-chevron" id="resp-chv-${ridx}"></i>` +
+      `</div>` +
+      `<div class="resp-bdy" id="resp-bdy-${ridx}">${rows}</div>` +
+      `</div>`;
+  }).join('');
+
+  // Attach edit button listeners
+  el.querySelectorAll('.btn-edit-sm').forEach(btn => {
+    btn.addEventListener('click', () => startRespAnswerEdit(parseInt(btn.dataset.ridx), btn.dataset.qid));
+  });
+}
+
+function toggleRespCard(ridx) {
+  const bdy = document.getElementById(`resp-bdy-${ridx}`);
+  const chv = document.getElementById(`resp-chv-${ridx}`);
+  if (!bdy) return;
+  bdy.classList.toggle('open');
+  if (chv) chv.classList.toggle('open');
+}
+
+function startRespAnswerEdit(ridx, qid) {
+  const r = (feudData.responses || [])[ridx];
+  if (!r) return;
+  const el = document.getElementById(`rta-${ridx}-${qid}`);
+  if (!el) return;
+  const oldText = (r.answers && r.answers[qid]) || '';
+
+  el.outerHTML = `<input class="edit-inp" id="rte-${ridx}-${qid}" value="${esc(oldText)}" data-ridx="${ridx}" data-qid="${qid}" autocomplete="off" style="min-width:160px">` +
+    `<span class="edit-row-acts">` +
+    `<button class="btn-sv" id="rsv-${ridx}-${qid}">Save</button>` +
+    `<button class="btn-cv" id="rcv-${ridx}-${qid}">Cancel</button>` +
+    `</span>`;
+
+  const inp = document.getElementById(`rte-${ridx}-${qid}`);
+  if (inp) {
+    inp.focus(); inp.select();
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') commitRespAnswerEdit(ridx, qid);
+      if (e.key === 'Escape') cancelRespAnswerEdit(ridx, qid);
+    });
+  }
+  const svBtn = document.getElementById(`rsv-${ridx}-${qid}`);
+  const cvBtn = document.getElementById(`rcv-${ridx}-${qid}`);
+  if (svBtn) svBtn.addEventListener('click', () => commitRespAnswerEdit(ridx, qid));
+  if (cvBtn) cvBtn.addEventListener('click', () => cancelRespAnswerEdit(ridx, qid));
+}
+
+function cancelRespAnswerEdit(ridx, qid) {
+  // Find the parent resp-row and re-render
+  const inp = document.getElementById(`rte-${ridx}-${qid}`);
+  if (!inp) return;
+  const r = (feudData.responses || [])[ridx];
+  const oldText = (r && r.answers && r.answers[qid]) || '';
+  const row = inp.closest('.resp-row');
+  if (!row) return;
+  // Replace inp + sibling span with the original span + edit button
+  const qIdx = QUESTIONS.findIndex(q => q.id === qid);
+  row.innerHTML =
+    `<span class="resp-qlbl">Q${qIdx+1}</span>` +
+    `<span class="resp-atxt${oldText ? '' : ' empty'}" id="rta-${ridx}-${qid}">${oldText ? esc(oldText) : 'no answer'}</span>` +
+    `<button class="btn-edit-sm" data-ridx="${ridx}" data-qid="${qid}">✏️ Edit</button>`;
+  row.querySelector('.btn-edit-sm').addEventListener('click', () => startRespAnswerEdit(ridx, qid));
+}
+
+async function commitRespAnswerEdit(ridx, qid) {
+  const inp = document.getElementById(`rte-${ridx}-${qid}`);
+  if (!inp) return;
+  const newText = inp.value.trim();
+  const r = (feudData.responses || [])[ridx];
+  if (!r) return;
+  if (!newText) { alert('Answer cannot be empty.'); inp.focus(); return; }
+
+  if (!r.answers) r.answers = {};
+  r.answers[qid] = newText;
+
+  // Rebuild tally for this question
+  qState[qid] = tallyAnswers(feudData.responses, qid);
+  rerenderQuestionCard(qid);
+
+  // Update the tracker row
+  cancelRespAnswerEdit(ridx, qid);
+
+  await saveResponsesOnly();
 }
 
 /* ───────── MERGE ANSWERS ───────── */
