@@ -22,7 +22,7 @@ function resolveType(f) {
 function filterMediaFiles(files) {
   const arr = Array.from(files);
   const valid = [], invalid = [];
-  arr.forEach(function(f) {
+  arr.forEach((f) => {
     const type = resolveType(f);
     if (!ACCEPTED_MEDIA_TYPES.includes(type)) {
       invalid.push(Object.assign(f, { reason: 'unsupported type' }));
@@ -80,12 +80,13 @@ async function maybeResize(file) {
 window.maybeResize = maybeResize;
 
 function grayPlaceholder(name) {
-  var canvas = document.createElement('canvas');
+  const canvas = document.createElement('canvas');
   canvas.width = 2; canvas.height = 2;
-  canvas.getContext('2d').fillStyle = '#888';
-  canvas.getContext('2d').fillRect(0, 0, 2, 2);
-  return new Promise(function(resolve) {
-    canvas.toBlob(function(blob) {
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#888';
+  ctx.fillRect(0, 0, 2, 2);
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
       resolve(new File([blob || new Blob()], name, { type: 'image/jpeg' }));
     }, 'image/jpeg', 0.85);
   });
@@ -129,58 +130,56 @@ async function makeThumb(file) {
 window.makeThumb = makeThumb;
 
 function makeVideoThumb(file) {
-  return new Promise(function(resolve) {
-    var video = document.createElement('video');
-    var objectUrl = URL.createObjectURL(file);
-    var done = false;
-    var fallbackTimer = null;
+  return new Promise((resolve) => {
+    const video = document.createElement('video');
+    const objectUrl = URL.createObjectURL(file);
+    let done = false;
+    let fallbackTimer = null;
 
-    function cleanup() {
+    const cleanup = () => {
       if (fallbackTimer) { clearTimeout(fallbackTimer); fallbackTimer = null; }
       URL.revokeObjectURL(objectUrl);
-    }
+    };
 
-    function captureFrame() {
+    const captureFrame = () => {
       if (done) return;
       done = true;
       cleanup();
-      var MAX = 1600;
-      var w = video.videoWidth || 640;
-      var h = video.videoHeight || 360;
-      var scale = (w > MAX || h > MAX) ? MAX / Math.max(w, h) : 1;
-      var canvas = document.createElement('canvas');
+      const MAX = 1600;
+      const w = video.videoWidth || 640;
+      const h = video.videoHeight || 360;
+      const scale = (w > MAX || h > MAX) ? MAX / Math.max(w, h) : 1;
+      const canvas = document.createElement('canvas');
       canvas.width = Math.round(w * scale);
       canvas.height = Math.round(h * scale);
-      var ctx = canvas.getContext('2d');
-      try { ctx.drawImage(video, 0, 0, canvas.width, canvas.height); } catch (e) {}
-      canvas.toBlob(function(blob) {
+      const ctx = canvas.getContext('2d');
+      try { ctx.drawImage(video, 0, 0, canvas.width, canvas.height); } catch (e) { /* ignore */ }
+      canvas.toBlob((blob) => {
         resolve(new File([blob || new Blob()], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
       }, 'image/jpeg', 0.85);
-    }
+    };
 
-    function useFallback() {
+    const useFallback = () => {
       if (done) return;
       done = true;
       cleanup();
       grayPlaceholder(file.name.replace(/\.[^.]+$/, '.jpg')).then(resolve);
-    }
+    };
 
     video.muted = true;
     video.playsInline = true;
     video.preload = 'metadata';
     video.src = objectUrl;
 
-    video.onloadedmetadata = function() {
+    video.onloadedmetadata = () => {
       video.currentTime = Math.min(1, video.duration * 0.1);
       // iOS Safari sometimes never fires onseeked — bail after 8s
       fallbackTimer = setTimeout(useFallback, 8000);
     };
 
     video.onseeked = captureFrame;
-
     // onerror resolves with fallback rather than rejecting so upload still proceeds
     video.onerror = useFallback;
-
     video.load();
   });
 }
