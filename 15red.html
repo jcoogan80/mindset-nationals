@@ -106,7 +106,7 @@
     <input type="password" class="lock-in" id="lock-pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
     <button class="lock-btn" onclick="checkPw()">Unlock</button>
     <div class="lock-err" id="lock-err">Incorrect password</div>
-    <button onclick="document.getElementById('lock-overlay').style.display='none'" style="margin-top:.7rem;font-size:.76rem;color:var(--gray);background:none;border:none;cursor:pointer">Cancel</button>
+    <button class="x-mt-7_fs-76_c-gray_bg-none_bd-none_cur-pointer" onclick="document.getElementById('lock-overlay').style.display='none'">Cancel</button>
   </div>
 </div>
 
@@ -144,7 +144,7 @@
     <div class="tredit-panel" id="tr-edit-panel">
       <div style="font-size:.7rem;color:rgba(255,255,255,.38);margin-bottom:.38rem">PASTE VIDEO LINK</div>
       <div style="display:flex;gap:.42rem;margin-bottom:.42rem">
-        <input class="di" id="tr-url-in" placeholder="https://www.youtube.com/watch?v=..." style="flex:1">
+        <input class="di x-flex-1" id="tr-url-in" placeholder="https://www.youtube.com/watch?v=...">
         <button onclick="saveTR()" style="background:var(--red);color:#fff;border:none;border-radius:6px;padding:.35rem .7rem;font-size:.76rem;font-weight:600;cursor:pointer">Save</button>
       </div>
       <button onclick="clearTR()" style="font-size:.68rem;padding:.26rem .58rem;border:1px solid #444;border-radius:5px;background:transparent;color:#888;cursor:pointer"><i class="ti ti-trash"></i> Clear</button>
@@ -170,24 +170,24 @@
     <div class="sec-hd"><i class="ti ti-ball-volleyball"></i><h2>Schedule & Results</h2></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Edit mode on — add matches and unlock days</p>
     <!-- ── POOL PLAY SCHEDULE ──────────────────────────────────────────── -->
-    <div class="sec-hd" style="margin-top:.15rem"><i class="ti ti-calendar-event" style="font-size:1.15rem;color:var(--red)"></i><h2>Pool Play Schedule</h2></div>
-    <div style="font-size:.78rem;color:var(--gray);margin-bottom:.75rem">Pool 5 · Best 2 of 3 to 25 (3rd set to 15) · All matches at Indiana Convention Center (ICC)</div>
+    <div class="sec-hd x-mt-15-2"><i class="ti ti-calendar-event x-fs-115_c-red"></i><h2>Pool Play Schedule</h2></div>
+    <div class="x-fs-78_c-gray_mb-75">Pool 5 · Best 2 of 3 to 25 (3rd set to 15) · All matches at Indiana Convention Center (ICC)</div>
 
     <!-- Pool record banner -->
     <div style="background:#fff;border:1px solid var(--lightgray);border-radius:10px;padding:.55rem 1rem;margin-bottom:.9rem;display:flex;align-items:center;gap:.55rem">
-      <i class="ti ti-trophy" style="color:#FFD700;font-size:1.1rem;flex-shrink:0"></i>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--red)">POOL RECORD</span>
-      <span id="pool-record" style="font-size:1.15rem;font-weight:700">0–0</span>
-      <span id="pool-pending-lbl" style="font-size:.72rem;color:var(--gray);margin-left:auto">5 pending</span>
+      <i class="ti ti-trophy x-c-FFD700_fs-11_fsh-0"></i>
+      <span class="x-ff-Bebas-Neuesa_fs-95_c-red">POOL RECORD</span>
+      <span class="x-fs-115_fw-700" id="pool-record">0–0</span>
+      <span class="x-fs-72_c-gray_ml-auto" id="pool-pending-lbl">5 pending</span>
     </div>
 
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:var(--gray);letter-spacing:.5px;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem"><i class="ti ti-sun" style="font-size:.85rem"></i>THURSDAY · JUNE 25</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:var(--gray);letter-spacing:.5px;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem"><i class="ti ti-sun x-fs-85"></i>THURSDAY · JUNE 25</div>
 
-    <div class="card pmc" id="pmc-0" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+    <div class="card pmc x-bl-4-solid-red_mb-65" id="pmc-0">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
         <div>
-          <div style="font-weight:700;font-size:.95rem">1:30 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 23 ICC</span></div>
-          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>540 VB 15 Elite</strong> <span style="color:var(--gray);font-size:.74rem">(VA) — Seed #38</span></div>
+          <div class="x-fw-700_fs-95">1:30 PM <span class="x-fw-400_c-gray_fs-77">· Court 23 ICC</span></div>
+          <div class="x-fs-86_mt-12">vs. <strong>540 VB 15 Elite</strong> <span class="x-c-gray_fs-74">(VA) — Seed #38</span></div>
         </div>
         <span class="pres-badge pending" id="pbadge-0">Pending</span>
       </div>
@@ -198,17 +198,17 @@
       <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
         <a class="scout-link" id="scout-link-0" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">&#127916; Watch Opponent Film &#8594;</a>
         <div class="scout-edit" id="scout-edit-0" style="display:none;gap:.3rem;align-items:center">
-          <input class="fi" id="scout-url-0" type="text" placeholder="Paste YouTube URL here..." style="font-size:.75rem;padding:.22rem .5rem;min-width:180px">
-          <button onclick="saveScoutVideo(0)" class="abtn" style="font-size:.72rem;padding:.22rem .55rem;white-space:nowrap">Save</button>
+          <input class="fi x-fs-75_p-22-5_minw-180" id="scout-url-0" type="text" placeholder="Paste YouTube URL here...">
+          <button onclick="saveScoutVideo(0)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
         </div>
       </div>
     </div>
 
-    <div class="card pmc" id="pmc-1" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+    <div class="card pmc x-bl-4-solid-red_mb-65" id="pmc-1">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
         <div>
-          <div style="font-weight:700;font-size:.95rem">3:30 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 38 ICC</span></div>
-          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>949 G15 Black</strong> <span style="color:var(--gray);font-size:.74rem">(CA) — Seed #92</span></div>
+          <div class="x-fw-700_fs-95">3:30 PM <span class="x-fw-400_c-gray_fs-77">· Court 38 ICC</span></div>
+          <div class="x-fs-86_mt-12">vs. <strong>949 G15 Black</strong> <span class="x-c-gray_fs-74">(CA) — Seed #92</span></div>
         </div>
         <span class="pres-badge pending" id="pbadge-1">Pending</span>
       </div>
@@ -219,20 +219,20 @@
       <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
         <a class="scout-link" id="scout-link-1" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">&#127916; Watch Opponent Film &#8594;</a>
         <div class="scout-edit" id="scout-edit-1" style="display:none;gap:.3rem;align-items:center">
-          <input class="fi" id="scout-url-1" type="text" placeholder="Paste YouTube URL here..." style="font-size:.75rem;padding:.22rem .5rem;min-width:180px">
-          <button onclick="saveScoutVideo(1)" class="abtn" style="font-size:.72rem;padding:.22rem .55rem;white-space:nowrap">Save</button>
+          <input class="fi x-fs-75_p-22-5_minw-180" id="scout-url-1" type="text" placeholder="Paste YouTube URL here...">
+          <button onclick="saveScoutVideo(1)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
         </div>
       </div>
     </div>
 
-    <div style="margin-top:.65rem"></div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:var(--gray);letter-spacing:.5px;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem"><i class="ti ti-sun" style="font-size:.85rem"></i>FRIDAY · JUNE 26</div>
+    <div class="x-mt-65"></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:var(--gray);letter-spacing:.5px;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem"><i class="ti ti-sun x-fs-85"></i>FRIDAY · JUNE 26</div>
 
-    <div class="card pmc" id="pmc-2" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+    <div class="card pmc x-bl-4-solid-red_mb-65" id="pmc-2">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
         <div>
-          <div style="font-weight:700;font-size:.95rem">4:00 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 14 ICC</span></div>
-          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>Red Rock 15 Chi</strong> <span style="color:var(--gray);font-size:.74rem">(NC) — Seed #70</span></div>
+          <div class="x-fw-700_fs-95">4:00 PM <span class="x-fw-400_c-gray_fs-77">· Court 14 ICC</span></div>
+          <div class="x-fs-86_mt-12">vs. <strong>Red Rock 15 Chi</strong> <span class="x-c-gray_fs-74">(NC) — Seed #70</span></div>
         </div>
         <span class="pres-badge pending" id="pbadge-2">Pending</span>
       </div>
@@ -243,17 +243,17 @@
       <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
         <a class="scout-link" id="scout-link-2" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">&#127916; Watch Opponent Film &#8594;</a>
         <div class="scout-edit" id="scout-edit-2" style="display:none;gap:.3rem;align-items:center">
-          <input class="fi" id="scout-url-2" type="text" placeholder="Paste YouTube URL here..." style="font-size:.75rem;padding:.22rem .5rem;min-width:180px">
-          <button onclick="saveScoutVideo(2)" class="abtn" style="font-size:.72rem;padding:.22rem .55rem;white-space:nowrap">Save</button>
+          <input class="fi x-fs-75_p-22-5_minw-180" id="scout-url-2" type="text" placeholder="Paste YouTube URL here...">
+          <button onclick="saveScoutVideo(2)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
         </div>
       </div>
     </div>
 
-    <div class="card pmc" id="pmc-3" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+    <div class="card pmc x-bl-4-solid-red_mb-65" id="pmc-3">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
         <div>
-          <div style="font-weight:700;font-size:.95rem">6:00 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 14 ICC</span></div>
-          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>Premier Nebraska 15 Red</strong> <span style="color:var(--gray);font-size:.74rem">(NE) — Seed #60</span></div>
+          <div class="x-fw-700_fs-95">6:00 PM <span class="x-fw-400_c-gray_fs-77">· Court 14 ICC</span></div>
+          <div class="x-fs-86_mt-12">vs. <strong>Premier Nebraska 15 Red</strong> <span class="x-c-gray_fs-74">(NE) — Seed #60</span></div>
         </div>
         <span class="pres-badge pending" id="pbadge-3">Pending</span>
       </div>
@@ -264,17 +264,17 @@
       <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
         <a class="scout-link" id="scout-link-3" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">&#127916; Watch Opponent Film &#8594;</a>
         <div class="scout-edit" id="scout-edit-3" style="display:none;gap:.3rem;align-items:center">
-          <input class="fi" id="scout-url-3" type="text" placeholder="Paste YouTube URL here..." style="font-size:.75rem;padding:.22rem .5rem;min-width:180px">
-          <button onclick="saveScoutVideo(3)" class="abtn" style="font-size:.72rem;padding:.22rem .55rem;white-space:nowrap">Save</button>
+          <input class="fi x-fs-75_p-22-5_minw-180" id="scout-url-3" type="text" placeholder="Paste YouTube URL here...">
+          <button onclick="saveScoutVideo(3)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
         </div>
       </div>
     </div>
 
-    <div class="card pmc" id="pmc-4" style="border-left:4px solid var(--red);margin-bottom:.65rem">
+    <div class="card pmc x-bl-4-solid-red_mb-65" id="pmc-4">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
         <div>
-          <div style="font-weight:700;font-size:.95rem">8:00 PM <span style="font-weight:400;color:var(--gray);font-size:.77rem">· Court 13 ICC</span></div>
-          <div style="font-size:.86rem;margin-top:.12rem">vs. <strong>GP 15 National</strong> <span style="color:var(--gray);font-size:.74rem">(FL) — Seed #5</span></div>
+          <div class="x-fw-700_fs-95">8:00 PM <span class="x-fw-400_c-gray_fs-77">· Court 13 ICC</span></div>
+          <div class="x-fs-86_mt-12">vs. <strong>GP 15 National</strong> <span class="x-c-gray_fs-74">(FL) — Seed #5</span></div>
         </div>
         <span class="pres-badge pending" id="pbadge-4">Pending</span>
       </div>
@@ -285,16 +285,16 @@
       <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
         <a class="scout-link" id="scout-link-4" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">&#127916; Watch Opponent Film &#8594;</a>
         <div class="scout-edit" id="scout-edit-4" style="display:none;gap:.3rem;align-items:center">
-          <input class="fi" id="scout-url-4" type="text" placeholder="Paste YouTube URL here..." style="font-size:.75rem;padding:.22rem .5rem;min-width:180px">
-          <button onclick="saveScoutVideo(4)" class="abtn" style="font-size:.72rem;padding:.22rem .55rem;white-space:nowrap">Save</button>
+          <input class="fi x-fs-75_p-22-5_minw-180" id="scout-url-4" type="text" placeholder="Paste YouTube URL here...">
+          <button onclick="saveScoutVideo(4)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
         </div>
       </div>
     </div>
 
     <!-- WHAT'S NEXT -->
-    <div class="card" style="border-left:4px solid #FFD700;margin-top:1rem">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--red)">📋 WHAT'S NEXT — SATURDAY JUNE 27</div>
-      <div style="font-size:.78rem;color:var(--gray);margin-top:.5rem;line-height:1.7">
+    <div class="card x-bl-4-solid-FFD7_mt-1">
+      <div class="x-ff-Bebas-Neuesa_fs-11_c-red">📋 WHAT'S NEXT — SATURDAY JUNE 27</div>
+      <div class="x-fs-78_c-gray_mt-5_lh-17">
         Based on pool play finish:<br>
         🥇 1st place → 6/27 2:00 PM Court 41 ICC<br>
         🥈 2nd place → 6/27 3:00 PM Court 39 ICC<br>
@@ -306,37 +306,37 @@
     </div>
 
     <!-- Pool 5 opponents card -->
-    <div class="card" style="border-left:4px solid #FFD700;margin-top:1rem">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--red);letter-spacing:1px">⭐ POOL 5 — MINDSET'S POOL</div>
-      <div style="font-size:.78rem;color:var(--gray);margin-bottom:.75rem">Round 1 Pool Play · 6 teams</div>
-      <table style="width:100%;font-size:.82rem;border-collapse:collapse">
-        <tr style="border-bottom:1px solid var(--lightgray)"><th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">SEED</th><th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">TEAM</th><th style="text-align:left;padding:.4rem .25rem;color:var(--gray);font-size:.7rem">REGION</th></tr>
-        <tr style="border-bottom:1px solid var(--lightgray)"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#5</td><td style="padding:.4rem .25rem">GP 15 National</td><td style="padding:.4rem .25rem;color:var(--gray)">Florida</td></tr>
-        <tr style="border-bottom:1px solid var(--lightgray);background:#FFF8E1"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#25</td><td style="padding:.4rem .25rem;font-weight:700">⭐ Mindset Premier 15 Red</td><td style="padding:.4rem .25rem;color:var(--gray)">Illinois</td></tr>
-        <tr style="border-bottom:1px solid var(--lightgray)"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#38</td><td style="padding:.4rem .25rem">540 VB 15 Elite</td><td style="padding:.4rem .25rem;color:var(--gray)">Virginia</td></tr>
-        <tr style="border-bottom:1px solid var(--lightgray)"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#60</td><td style="padding:.4rem .25rem">Premier Nebraska 15 Red</td><td style="padding:.4rem .25rem;color:var(--gray)">Nebraska</td></tr>
-        <tr style="border-bottom:1px solid var(--lightgray)"><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#70</td><td style="padding:.4rem .25rem">Red Rock 15 Chi</td><td style="padding:.4rem .25rem;color:var(--gray)">North Carolina</td></tr>
-        <tr><td style="padding:.4rem .25rem;color:var(--red);font-weight:700">#92</td><td style="padding:.4rem .25rem">949 G15 Black</td><td style="padding:.4rem .25rem;color:var(--gray)">California</td></tr>
+    <div class="card x-bl-4-solid-FFD7_mt-1">
+      <div class="x-ff-Bebas-Neuesa_fs-13_c-red_ls-1">⭐ POOL 5 — MINDSET'S POOL</div>
+      <div class="x-fs-78_c-gray_mb-75">Round 1 Pool Play · 6 teams</div>
+      <table class="x-w-100_fs-82_bordercollapse-collapse">
+        <tr class="x-bb-1-solid-ligh"><th class="x-ta-left_p-4-25_c-gray_fs-7">SEED</th><th class="x-ta-left_p-4-25_c-gray_fs-7">TEAM</th><th class="x-ta-left_p-4-25_c-gray_fs-7">REGION</th></tr>
+        <tr class="x-bb-1-solid-ligh"><td class="x-p-4-25_c-red_fw-700">#5</td><td class="x-p-4-25">GP 15 National</td><td class="x-p-4-25_c-gray">Florida</td></tr>
+        <tr class="x-bb-1-solid-ligh_bg-FFF8E1"><td class="x-p-4-25_c-red_fw-700">#25</td><td class="x-p-4-25_fw-700">⭐ Mindset Premier 15 Red</td><td class="x-p-4-25_c-gray">Illinois</td></tr>
+        <tr class="x-bb-1-solid-ligh"><td class="x-p-4-25_c-red_fw-700">#38</td><td class="x-p-4-25">540 VB 15 Elite</td><td class="x-p-4-25_c-gray">Virginia</td></tr>
+        <tr class="x-bb-1-solid-ligh"><td class="x-p-4-25_c-red_fw-700">#60</td><td class="x-p-4-25">Premier Nebraska 15 Red</td><td class="x-p-4-25_c-gray">Nebraska</td></tr>
+        <tr class="x-bb-1-solid-ligh"><td class="x-p-4-25_c-red_fw-700">#70</td><td class="x-p-4-25">Red Rock 15 Chi</td><td class="x-p-4-25_c-gray">North Carolina</td></tr>
+        <tr><td class="x-p-4-25_c-red_fw-700">#92</td><td class="x-p-4-25">949 G15 Black</td><td class="x-p-4-25_c-gray">California</td></tr>
       </table>
     </div>
 
     <!-- Pool 5 Standings -->
-    <div class="card" style="margin-top:1rem">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--red);margin-bottom:.6rem">📊 POOL 5 STANDINGS</div>
-      <table style="width:100%;font-size:.82rem;border-collapse:collapse">
-        <thead><tr style="border-bottom:2px solid var(--lightgray)">
-          <th style="text-align:left;padding:.35rem .25rem;color:var(--gray);font-size:.7rem;width:38px">SEED</th>
-          <th style="text-align:left;padding:.35rem .25rem;color:var(--gray);font-size:.7rem">TEAM</th>
-          <th style="text-align:center;padding:.35rem .25rem;color:var(--gray);font-size:.7rem;width:30px">W</th>
-          <th style="text-align:center;padding:.35rem .25rem;color:var(--gray);font-size:.7rem;width:30px">L</th>
+    <div class="card x-mt-1">
+      <div class="x-ff-Bebas-Neuesa_fs-11_c-red_mb-6">📊 POOL 5 STANDINGS</div>
+      <table class="x-w-100_fs-82_bordercollapse-collapse">
+        <thead><tr class="x-bb-2-solid-ligh">
+          <th class="x-ta-left_p-35-25_c-gray_fs-7_w-38">SEED</th>
+          <th class="x-ta-left_p-35-25_c-gray_fs-7">TEAM</th>
+          <th class="x-ta-center_p-35-25_c-gray_fs-7_w-30">W</th>
+          <th class="x-ta-center_p-35-25_c-gray_fs-7_w-30">L</th>
         </tr></thead>
         <tbody id="pool-standings-tbody"></tbody>
       </table>
     </div>
 
     <!-- Divider before Day tabs -->
-    <div style="border-top:2px solid var(--lightgray);margin-top:1.75rem;padding-top:1.1rem">
-      <div class="sec-hd"><i class="ti ti-calendar" style="color:var(--red)"></i><h2>Day-by-Day Schedule</h2></div>
+    <div class="x-bt-2-solid-ligh_mt-175_pt-11">
+      <div class="sec-hd"><i class="ti ti-calendar x-c-red"></i><h2>Day-by-Day Schedule</h2></div>
     </div>
     <div class="dtabs">
       <button class="dtab active" data-day="1">Day 1<span class="ds">Jun 25</span></button>
@@ -380,34 +380,34 @@
     <div class="sec-hd"><i class="ti ti-tournament"></i><h2>Teams in the Field</h2></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Add teams and edit any cell inline</p>
     <div style="display:flex;gap:.42rem;flex-wrap:wrap;align-items:center;margin-bottom:.75rem">
-      <div style="position:relative;flex:1;min-width:145px">
-        <i class="ti ti-search" style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);color:var(--gray);font-size:.85rem;pointer-events:none"></i>
-        <input class="fi" id="team-search" style="padding-left:1.8rem" placeholder="Search teams..." oninput="filterTeams()">
+      <div class="x-pos-relative_flex-1_minw-145">
+        <i class="ti ti-search x-pos-absolute_left-5_top-50_transform-translateY-5_c-gray_f"></i>
+        <input class="fi x-pl-18" id="team-search" placeholder="Search teams..." oninput="filterTeams()">
       </div>
-      <select class="fi" id="team-sort" onchange="renderTeams()" style="width:auto">
+      <select class="fi x-w-auto" id="team-sort" onchange="renderTeams()">
         <option value="seed">Sort: Seed</option><option value="rank">Sort: Rank</option><option value="name">Sort: Name</option>
         <option value="pool">Sort: Pool</option><option value="state">Sort: State</option><option value="wins">Sort: Wins</option>
       </select>
     </div>
-    <div class="aform" id="add-team-form" style="margin-bottom:.75rem">
-      <div style="font-size:.72rem;font-weight:600;margin-bottom:.5rem"><i class="ti ti-plus" style="color:var(--red);margin-right:3px"></i>Add a Team</div>
+    <div class="aform x-mb-75" id="add-team-form">
+      <div class="x-fs-72_fw-600_mb-5"><i class="ti ti-plus x-c-red_mr-3"></i>Add a Team</div>
       <div class="fg2"><div><label class="fl">Team Name</label><input class="fi" id="tn" placeholder="Chicago Elite 14 Red"></div><div><label class="fl">State</label><input class="fi" id="ts" placeholder="IL" maxlength="3"></div></div>
-      <div class="fg3" style="grid-template-columns:1fr 1fr 1fr 1fr"><div><label class="fl">Rank</label><input class="fi" id="tr" type="number" placeholder="#"></div><div><label class="fl">Wins</label><input class="fi" id="tw" type="number" placeholder="0"></div><div><label class="fl">Losses</label><input class="fi" id="tl" type="number" placeholder="0"></div><div><label class="fl">Club</label><input class="fi" id="td" placeholder="Club Name"></div></div>
+      <div class="fg3 x-gtc-1fr-1fr-1fr"><div><label class="fl">Rank</label><input class="fi" id="tr" type="number" placeholder="#"></div><div><label class="fl">Wins</label><input class="fi" id="tw" type="number" placeholder="0"></div><div><label class="fl">Losses</label><input class="fi" id="tl" type="number" placeholder="0"></div><div><label class="fl">Club</label><input class="fi" id="td" placeholder="Club Name"></div></div>
       <button class="abtn" onclick="addTeam()"><i class="ti ti-check"></i> Add Team</button>
     </div>
     <div id=teams-sum style="display:none;gap:.45rem;margin-bottom:.75rem">
       <div class="ds-box"><div class="dsn gr" id="tcount">0</div><div class="dsl">Teams</div></div>
       <div class="ds-box"><div class="dsn gr" id="scount">0</div><div class="dsl">States</div></div>
-      <div class="ds-box"><div class="dsn" id="mrank" style="color:var(--red)">—</div><div class="dsl">Our Rank</div></div>
+      <div class="ds-box"><div class="dsn x-c-red" id="mrank">—</div><div class="dsl">Our Rank</div></div>
     </div>
     <div style="font-size:.75rem;color:var(--gray);margin-bottom:.6rem;display:flex;align-items:center;gap:.35rem">
-      <i class="ti ti-info-circle" style="color:var(--red);font-size:.9rem;flex-shrink:0"></i>
-      <span><strong style="color:var(--black)">USAV National Rankings</strong> — rankings and records shown may not reflect all matches played</span>
+      <i class="ti ti-info-circle x-c-red_fs-9_fsh-0"></i>
+      <span><strong class="x-c-black">USAV National Rankings</strong> — rankings and records shown may not reflect all matches played</span>
     </div>
-    <div style="overflow-x:auto">
-      <table class="st" style="min-width:560px">
-        <thead><tr><th style="width:38px">Rank</th><th style="width:38px">Seed</th><th style="width:52px">Pool</th><th>Team</th><th>Club</th><th style="width:36px">W</th><th style="width:36px">L</th><th style="width:30px"></th></tr></thead>
-        <tbody id="teams-body"><tr><td colspan="8" style="text-align:center;color:var(--gray);font-size:.77rem;padding:1.3rem">No teams added yet</td></tr></tbody>
+    <div class="x-overflowx-auto">
+      <table class="st x-minw-560">
+        <thead><tr><th class="x-w-38">Rank</th><th class="x-w-38">Seed</th><th class="x-w-52">Pool</th><th>Team</th><th>Club</th><th class="x-w-36">W</th><th class="x-w-36">L</th><th class="x-w-30"></th></tr></thead>
+        <tbody id="teams-body"><tr><td class="x-ta-center_c-gray_fs-77_p-13" colspan="8">No teams added yet</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -417,8 +417,8 @@
     <div class="sec-hd"><i class="ti ti-id-badge"></i><h2>Player Profiles</h2><button class="playall" id="playall-players"><i class="ti ti-player-play-filled"></i> Play All</button></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Tap photo to upload · click any field to edit · add highlight reel link</p>
     <div class="pgrid" id="pgrid"></div>
-    <div class="card" style="margin-top:.65rem"><div class="ct"><i class="ti ti-shirt" style="color:var(--red);vertical-align:-2px;margin-right:3px"></i>New Uniforms 🔥</div><img src="images/new-uniforms.png" alt="New Uniforms" style="width:100%;border-radius:6px;margin:.5rem 0 .35rem;display:block"><div class="cs">White jersey with Chicago skyline design · Mindset logo · Red &amp; black colorway</div></div>
-    <div class="sec-hd" style="margin-top:1.5rem"><i class="ti ti-whistle" style="font-size:1.15rem;color:var(--red)"></i><h2>Coaching Staff</h2></div>
+    <div class="card x-mt-65"><div class="ct"><i class="ti ti-shirt x-c-red_va-2_mr-3"></i>New Uniforms 🔥</div><img src="images/new-uniforms.png" alt="New Uniforms" style="width:100%;border-radius:6px;margin:.5rem 0 .35rem;display:block"><div class="cs">White jersey with Chicago skyline design · Mindset logo · Red &amp; black colorway</div></div>
+    <div class="sec-hd x-mt-15"><i class="ti ti-whistle x-fs-115_c-red"></i><h2>Coaching Staff</h2></div>
     <div class="pgrid" id="staff-grid"></div>
   </div>
 
@@ -456,7 +456,7 @@
       </div>
       <a class="hbtn hbtn-primary route-btn" href="https://www.google.com/maps/dir/?api=1&origin=Hilton+Garden+Inn+Indianapolis+Airport,+8910+Hatfield+Dr,+Indianapolis,+IN+46241&destination=Indiana+Convention+Center,+100+S+Capitol+Ave,+Indianapolis,+IN+46225&travelmode=driving" target="_blank" rel="noopener"><i class="ti ti-navigation"></i> Open Directions to Venue</a>
     </div>
-    <div class="card" style="margin-top:.65rem"><div class="ct">Hotel Notes</div><div class="cs e" data-key="hotel_notes" style="min-height:1.8rem">Add breakfast info, pool hours, team dinner plans, shuttle details...</div></div>
+    <div class="card x-mt-65"><div class="ct">Hotel Notes</div><div class="cs e x-minh-18" data-key="hotel_notes">Add breakfast info, pool hours, team dinner plans, shuttle details...</div></div>
   </div>
 
   <!-- VENUE -->
@@ -467,34 +467,34 @@
       <div class="fhdr"><i class="ti ti-ticket"></i><span class="ft">Spectator Tickets</span><span class="fd">TEAM CODE</span></div>
       <div class="fbody">
         <div class="frow"><i class="ti ti-info-circle"></i><div class="frt">All-event spectator passes are purchased online. <strong>Enter our team code at checkout</strong> so your tickets are tied to Mindset 15 Red.</div></div>
-        <div style="background:var(--offwhite);border:1px solid var(--lightgray);border-radius:10px;padding:.7rem .85rem;margin:.65rem 0 .2rem">
-          <div style="font-size:.6rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);margin-bottom:.4rem">Step 1 · Copy our team code</div>
+        <div class="x-bg-offwhite_bd-1-solid-ligh_rad-10_p-7-85_m-65-0-2">
+          <div class="x-fs-6_fw-700_ls-8_tt-uppercase_c-gray_mb-4">Step 1 · Copy our team code</div>
           <div style="display:flex;align-items:center;gap:.55rem;flex-wrap:wrap">
-            <span class="chip" onclick="copyTxt('g15MDSET1GL')" style="font-size:1.05rem;padding:.32rem 1rem">g15MDSET1GL</span>
-            <span style="font-size:.7rem;color:var(--gray)"><i class="ti ti-click" style="vertical-align:-2px"></i> tap to copy</span>
+            <span class="chip x-fs-105_p-32-1" onclick="copyTxt('g15MDSET1GL')">g15MDSET1GL</span>
+            <span class="x-fs-7_c-gray"><i class="ti ti-click x-va-2"></i> tap to copy</span>
           </div>
-          <div style="font-size:.6rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);margin:.75rem 0 .4rem">Step 2 · Buy &amp; paste the code at checkout</div>
-          <a class="hbtn hbtn-primary" style="width:100%" href="https://usavolleyball.ticketspice.com/2026-gjnc-14-17" target="_blank" rel="noopener"><i class="ti ti-ticket"></i> Buy Spectator Tickets</a>
+          <div class="x-fs-6_fw-700_ls-8_tt-uppercase_c-gray_m-75-0-4">Step 2 · Buy &amp; paste the code at checkout</div>
+          <a class="hbtn hbtn-primary x-w-100" href="https://usavolleyball.ticketspice.com/2026-gjnc-14-17" target="_blank" rel="noopener"><i class="ti ti-ticket"></i> Buy Spectator Tickets</a>
         </div>
       </div>
     </div>
     <div class="card">
-      <div class="ct"><i class="ti ti-building" style="color:var(--red);vertical-align:-2px;margin-right:3px"></i>Venues</div>
+      <div class="ct"><i class="ti ti-building x-c-red_va-2_mr-3"></i>Venues</div>
       <div class="pki"><div class="pkico"><i class="ti ti-building-community"></i></div><div><div class="ct e" data-key="venue1_name">Indiana Convention Center</div><div class="cs e" data-key="venue1_addr">100 S Capitol Ave, Indianapolis, IN 46225</div></div></div>
       <div class="pki"><div class="pkico"><i class="ti ti-building-stadium"></i></div><div><div class="ct e" data-key="venue2_name">Gainbridge Fieldhouse</div><div class="cs e" data-key="venue2_addr">125 S Pennsylvania St, Indianapolis, IN 46204</div></div></div>
-      <a class="hbtn hbtn-primary route-btn" style="margin-top:.65rem" href="https://www.google.com/maps/dir/?api=1&amp;destination=Indiana+Convention+Center,+100+S+Capitol+Ave,+Indianapolis,+IN+46225" target="_blank" rel="noopener"><i class="ti ti-navigation"></i> Directions to Convention Center</a>
+      <a class="hbtn hbtn-primary route-btn x-mt-65" href="https://www.google.com/maps/dir/?api=1&amp;destination=Indiana+Convention+Center,+100+S+Capitol+Ave,+Indianapolis,+IN+46225" target="_blank" rel="noopener"><i class="ti ti-navigation"></i> Directions to Convention Center</a>
     </div>
     <div class="card">
-      <div class="ct"><i class="ti ti-car" style="color:var(--red);vertical-align:-2px;margin-right:3px"></i>Parking Near the Convention Center</div>
-      <p style="font-size:.76rem;color:var(--gray);margin:.35rem 0 .55rem;line-height:1.5">Downtown garages fill fast on tournament weekends — arrive early or pre-book on <strong>SpotHero</strong> / <strong>ParkWhiz</strong>. Many connect to the Convention Center via the enclosed skywalk.</p>
+      <div class="ct"><i class="ti ti-car x-c-red_va-2_mr-3"></i>Parking Near the Convention Center</div>
+      <p class="x-fs-76_c-gray_m-35-0-55_lh-15">Downtown garages fill fast on tournament weekends — arrive early or pre-book on <strong>SpotHero</strong> / <strong>ParkWhiz</strong>. Many connect to the Convention Center via the enclosed skywalk.</p>
       <div class="pki"><div class="pkico"><i class="ti ti-square-letter-p"></i></div><div><div class="ct e" data-key="park1_name">Pan Am Plaza Garage</div><div class="cs e" data-key="park1_info">201 S Capitol Ave · skywalk-connected · closest to the ICC halls. ~$15–25/day.</div></div></div>
       <div class="pki"><div class="pkico"><i class="ti ti-square-letter-p"></i></div><div><div class="ct e" data-key="park2_name">Circle Centre Mall Garages</div><div class="cs e" data-key="park2_info">Maryland St &amp; Washington St entrances · skywalk to the ICC · plenty of spaces.</div></div></div>
       <div class="pki"><div class="pkico"><i class="ti ti-square-letter-p"></i></div><div><div class="ct e" data-key="park3_name">Capitol Commons Garage</div><div class="cs e" data-key="park3_info">10 N Capitol Ave · underground · ~2 blocks north, walkable.</div></div></div>
       <div class="pki"><div class="pkico"><i class="ti ti-square-letter-p"></i></div><div><div class="ct e" data-key="park4_name">White River State Park Garage</div><div class="cs e" data-key="park4_info">801 W Washington St · larger lot, usually cheaper · ~10 min walk west.</div></div></div>
       <div class="pki"><div class="pkico"><i class="ti ti-car"></i></div><div><div class="ct">Rideshare &amp; Street</div><div class="cs e" data-key="rideshare_info">Uber/Lyft drop-off on Georgia St; pickup at the south entrance. Metered street parking via the ParkIndy app (free Sundays).</div></div></div>
-      <a class="hbtn hbtn-ghost route-btn" style="margin-top:.5rem" href="https://www.google.com/maps/search/parking+near+Indiana+Convention+Center" target="_blank" rel="noopener"><i class="ti ti-map-search"></i> See all parking on the map</a>
+      <a class="hbtn hbtn-ghost route-btn x-mt-5" href="https://www.google.com/maps/search/parking+near+Indiana+Convention+Center" target="_blank" rel="noopener"><i class="ti ti-map-search"></i> See all parking on the map</a>
     </div>
-    <div class="card"><div class="ct"><i class="ti ti-shirt" style="color:var(--red);vertical-align:-2px;margin-right:3px"></i>Theme Days</div><div class="cs e" data-key="theme_days">Add USAV theme day schedule here</div></div>
+    <div class="card"><div class="ct"><i class="ti ti-shirt x-c-red_va-2_mr-3"></i>Theme Days</div><div class="cs e" data-key="theme_days">Add USAV theme day schedule here</div></div>
   </div>
 
   <!-- FUNDRAISING -->
@@ -515,28 +515,28 @@
     </div>
 
     <div id="m-skeleton" class="mgrid" aria-hidden="true">
-      <div class="mskel" style="grid-row-end:span 14"></div><div class="mskel" style="grid-row-end:span 10"></div>
-      <div class="mskel" style="grid-row-end:span 17"></div><div class="mskel" style="grid-row-end:span 12"></div>
-      <div class="mskel" style="grid-row-end:span 11"></div><div class="mskel" style="grid-row-end:span 15"></div>
-      <div class="mskel" style="grid-row-end:span 13"></div><div class="mskel" style="grid-row-end:span 9"></div>
+      <div class="mskel x-gridrowend-span-14"></div><div class="mskel x-gridrowend-span-10"></div>
+      <div class="mskel x-gridrowend-span-17"></div><div class="mskel x-gridrowend-span-12"></div>
+      <div class="mskel x-gridrowend-span-11"></div><div class="mskel x-gridrowend-span-15"></div>
+      <div class="mskel x-gridrowend-span-13"></div><div class="mskel x-gridrowend-span-9"></div>
     </div>
 
     <div id="m-grid" class="mgrid" style="display:none"></div>
 
     <div id="m-empty" style="display:none;text-align:center;padding:3rem 1rem;color:#888">
       <i class="ti ti-camera-off" style="font-size:2.4rem;color:#c9c6c1;display:block;margin-bottom:.6rem"></i>
-      <div id="m-empty-h" style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;color:#555">No media here yet</div>
-      <p style="font-size:.84rem;margin:.3rem 0 1rem">Be the first to add a photo or video from the tournament.</p>
-      <button id="m-empty-add" class="gal-add" style="margin:0 auto"><i class="ti ti-upload"></i> Add the first one</button>
+      <div class="x-ff-Bebas-Neuesa_fs-15_ls-1_c-555" id="m-empty-h">No media here yet</div>
+      <p class="x-fs-84_m-3-0-1">Be the first to add a photo or video from the tournament.</p>
+      <button id="m-empty-add" class="gal-add x-m-0-auto"><i class="ti ti-upload"></i> Add the first one</button>
     </div>
 
     <div id="m-error" style="display:none;text-align:center;padding:3rem 1rem;color:#888">
       <i class="ti ti-wifi-off" style="font-size:2.2rem;color:#c9c6c1;display:block;margin-bottom:.5rem"></i>
-      <div style="font-size:.9rem;margin-bottom:.8rem">Couldn't load the gallery.</div>
-      <button id="m-retry" class="gal-add" style="margin:0 auto"><i class="ti ti-refresh"></i> Try again</button>
+      <div class="x-fs-9_mb-8">Couldn't load the gallery.</div>
+      <button id="m-retry" class="gal-add x-m-0-auto"><i class="ti ti-refresh"></i> Try again</button>
     </div>
 
-    <div id="m-sentinel" style="height:4px"></div>
+    <div class="x-h-4" id="m-sentinel"></div>
     <div id="m-spin" style="display:none;justify-content:center;align-items:center;gap:.5rem;padding:1.4rem;color:#aaa;font-size:.78rem">
       <span style="width:18px;height:18px;border-radius:50%;border:2.5px solid #ddd;border-top-color:var(--red);display:inline-block;animation:mspin .8s linear infinite"></span> Loading more…
     </div>
@@ -551,7 +551,7 @@
   <div class="mlb-top">
     <span class="mlb-count" id="m-lb-count">1 / 1</span>
     <span class="mlb-date" id="m-lb-date"></span>
-    <span style="flex:1"></span>
+    <span class="x-flex-1"></span>
     <button class="mlb-ibtn" id="m-lb-close" title="Close" aria-label="Close"><i class="ti ti-x"></i></button>
   </div>
   <div class="mlb-stage" id="m-lb-stage">
@@ -581,23 +581,23 @@
     <h3>Team Upload</h3>
     <p>Enter the team password to add photos and videos to the shared gallery.</p>
     <input type="password" class="mpw-in" id="m-pw-in" placeholder="Password" autocomplete="off">
-    <button class="gal-add" id="m-pw-go" style="width:100%;justify-content:center">Unlock</button>
-    <div id="m-pw-err" style="font-size:.76rem;color:var(--red);min-height:1em;margin-top:.45rem"></div>
-    <button id="m-pw-cancel" style="margin-top:.4rem;background:none;border:none;font-size:.76rem;color:#999;cursor:pointer">Cancel</button>
+    <button class="gal-add x-w-100_jc-center" id="m-pw-go">Unlock</button>
+    <div class="x-fs-76_c-red_minh-1em_mt-45" id="m-pw-err"></div>
+    <button class="x-mt-4_bg-none_bd-none_fs-76_c-999_cur-pointer" id="m-pw-cancel">Cancel</button>
   </div>
 </div>
 
 <div class="mdrag" id="m-drag">
   <div class="mdrag-inner">
     <i class="ti ti-photo-up" style="font-size:2.2rem;color:var(--red);display:block;margin-bottom:.4rem"></i>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px">Drop to upload</div>
-    <div style="font-size:.78rem;color:#888;margin-top:.2rem">Photos &amp; videos · up to 10 at a time</div>
+    <div class="x-ff-Bebas-Neuesa_fs-14_ls-1">Drop to upload</div>
+    <div class="x-fs-78_c-888_mt-2">Photos &amp; videos · up to 10 at a time</div>
   </div>
 </div>
 
 <div class="mprog" id="m-prog"></div>
 <div class="mtoast" id="m-toast"></div>
-<input type="file" id="m-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,video/mp4,video/quicktime,video/webm,.mov" multiple style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px">
+<input class="x-pos-absolute_w-1_h-1_op-0_pointerevents-none_left-9999" type="file" id="m-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,video/mp4,video/quicktime,video/webm,.mov" multiple>
 
 </div><!-- /wrap -->
 
@@ -607,14 +607,14 @@
     <div class="mhdr"><span id="reel-modal-title">Highlight Reel</span><button class="mclose" onclick="closeReel()"><i class="ti ti-x"></i></button></div>
     <div class="mbody">
       <div class="mvw" id="reel-vw" style="display:none"><iframe id="reel-iframe" allowfullscreen allow="autoplay;fullscreen"></iframe></div>
-      <div style="margin-bottom:.42rem">
+      <div class="x-mb-42">
         <label class="fl" style="display:block;margin-bottom:.25rem">Paste video link (YouTube, Hudl, Vimeo)</label>
-        <div style="display:flex;gap:.42rem"><input class="fi" id="reel-url-in" placeholder="https://..." style="flex:1"><button onclick="saveReelUrl()" class="abtn"><i class="ti ti-check"></i> Save</button></div>
+        <div style="display:flex;gap:.42rem"><input class="fi x-flex-1" id="reel-url-in" placeholder="https://..."><button onclick="saveReelUrl()" class="abtn"><i class="ti ti-check"></i> Save</button></div>
       </div>
-      <div style="font-size:.68rem;color:var(--gray);text-align:center;margin:.42rem 0">— or —</div>
-      <div style="background:var(--offwhite);border:1.5px dashed var(--lightgray);border-radius:8px;padding:.62rem;text-align:center;cursor:pointer;position:relative" onclick="document.getElementById('reel-file-in').click()">
+      <div class="x-fs-68_c-gray_ta-center_m-42-0">— or —</div>
+      <div class="x-bg-offwhite_bd-15-dashed-li_rad-8_p-62_ta-center_cur-point" onclick="document.getElementById('reel-file-in').click()">
         <i class="ti ti-upload" style="font-size:1.05rem;color:var(--lightgray);display:block;margin-bottom:.22rem"></i>
-        <span style="font-size:.72rem;color:var(--gray)">Upload video file from device (session only)</span>
+        <span class="x-fs-72_c-gray">Upload video file from device (session only)</span>
         <input type="file" id="reel-file-in" accept="video/*" style="display:none" onchange="saveReelFile(this)">
       </div>
       <button onclick="clearReel()" id="reel-clear-btn" style="width:100%;margin-top:.5rem;font-size:.74rem;padding:.32rem;border:1px solid var(--lightgray);border-radius:6px;background:#fff;color:var(--gray);cursor:pointer;display:none"><i class="ti ti-trash"></i> Remove Reel</button>
@@ -623,8 +623,8 @@
 </div>
 
 <div style="text-align:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap">
-  <a href="/consent" style="color:rgba(255,255,255,0.45);text-decoration:none;font-size:.78rem;font-family:'DM Sans',sans-serif;letter-spacing:.4px;transition:color .15s" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Parent Consent Form</a>
-  <a href="https://mindsetvolleyballclub.com/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.45);text-decoration:none;font-size:.78rem;font-family:'DM Sans',sans-serif;letter-spacing:.4px;transition:color .15s" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">MindsetVolleyballClub.com</a>
+  <a class="x-c-rgba25525525_tdec-none_fs-78_ff-DM-Sanssans-_ls-4_transi" href="/consent" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Parent Consent Form</a>
+  <a class="x-c-rgba25525525_tdec-none_fs-78_ff-DM-Sanssans-_ls-4_transi" href="https://mindsetvolleyballclub.com/" target="_blank" rel="noopener" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">MindsetVolleyballClub.com</a>
 </div>
 <script src="js/config-15red.js"></script>
 <script src="js/modern-scroll.js"></script>
