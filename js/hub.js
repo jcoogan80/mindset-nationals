@@ -35,6 +35,10 @@ const pageLoadTime = Date.now();
 let activeReelPid = null;
 const playerReels = {};
 
+// ── Batch-save dirty tracking ──────────────────────────────────────
+const dirtyKeys = new Set();
+let saveBtn = null;
+
 // ── Plugin extension points ────────────────────────────────────────
 const renderHooks = [];
 const bootHooks   = [];
@@ -58,6 +62,42 @@ const Hub = {
 };
 window.Hub = Hub;
 
+// ── Batch-save helpers ─────────────────────────────────────────────
+function markDirty(key) {
+  dirtyKeys.add(key || '_');
+  updateDirtyUI();
+}
+
+function clearDirty() {
+  dirtyKeys.clear();
+  updateDirtyUI();
+}
+
+function updateDirtyUI() {
+  if (!saveBtn) return;
+  const n = dirtyKeys.size;
+  if (n > 0 && editMode) {
+    saveBtn.textContent = `💾 Save Changes (${n} unsaved)`;
+    saveBtn.style.display = 'block';
+  } else {
+    saveBtn.style.display = 'none';
+  }
+}
+
+function initSaveBtn() {
+  saveBtn = document.createElement('button');
+  saveBtn.id = 'batch-save-btn';
+  saveBtn.style.cssText = [
+    'position:fixed', 'bottom:1.2rem', 'left:50%', 'transform:translateX(-50%)',
+    'background:var(--red)', 'color:#fff', 'border:none', 'border-radius:12px',
+    'padding:.75rem 1.75rem', "font-family:'Bebas Neue',sans-serif", 'font-size:1.15rem',
+    'letter-spacing:1.5px', 'cursor:pointer', 'z-index:9999', 'display:none',
+    'box-shadow:0 4px 18px rgba(204,0,0,.45)', 'white-space:nowrap',
+  ].join(';');
+  saveBtn.addEventListener('click', () => { saveData(); });
+  document.body.appendChild(saveBtn);
+}
+
 // ── Boot ───────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   if (DEMO) document.getElementById('cfg-banner').style.display = 'block';
@@ -66,6 +106,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   countdown();
   fetchWeather();
   setInterval(fetchWeather, 30 * 60 * 1000);
+  initSaveBtn();
 
   await loadData();
 
@@ -406,7 +447,7 @@ function renderStandings() {
       if (!editMode) return;
       const v = el.textContent.trim().replace(/[^0-9]/g, '') || '0';
       el.textContent = v;
-      if (D.hub[el.dataset.key] !== v) { D.hub[el.dataset.key] = v; saveData(); }
+      if (D.hub[el.dataset.key] !== v) { D.hub[el.dataset.key] = v; markDirty(el.dataset.key); }
       renderStandings();
     });
     el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
@@ -776,10 +817,12 @@ function enableEdit() {
   document.querySelectorAll('.pres-sel').forEach((el) => { el.disabled = false; el.style.display = ''; });
   document.querySelectorAll('.scout-edit').forEach((el) => { el.style.display = 'flex'; });
   document.querySelectorAll('.scout-link').forEach((el) => { el.style.display = 'none'; });
-  toast('Edit mode on — changes save automatically');
+  updateDirtyUI();
+  toast('Edit mode on — tap Save Changes when done');
 }
 
 function disableEdit() {
+  if (dirtyKeys.size > 0) saveData();
   editMode = false;
   document.body.classList.remove('em');
   const b = document.getElementById('edit-btn');
@@ -789,6 +832,7 @@ function disableEdit() {
   document.querySelectorAll('.psc').forEach((el) => { el.disabled = true; });
   document.querySelectorAll('.pres-sel').forEach((el) => { el.disabled = true; el.style.display = 'none'; });
   document.querySelectorAll('.scout-edit').forEach((el) => { el.style.display = 'none'; });
+  updateDirtyUI();
   renderPoolSchedule();
   toast('Edit mode off');
 }
@@ -851,6 +895,7 @@ function toast(msg) {
 }
 
 function flashSaved() {
+  clearDirty();
   const s = document.getElementById('saved');
   s.classList.add('on');
   clearTimeout(window._st);
@@ -996,7 +1041,7 @@ function bindPoolSchedule() {
       const v = el.value.replace(/[^0-9]/g, '');
       if (el.value !== v) el.value = v; // strip any non-digits in place
       D.matches.pool[mi].scores[si][side === 'us' ? 0 : 1] = v;
-      saveData();
+      markDirty(`pool_${mi}_${si}_${side}`);
     };
     el.addEventListener('input', commit);
     el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
@@ -1013,7 +1058,7 @@ function bindPoolSchedule() {
       updatePoolRecord();
       renderPoolStandings();
       renderStandings();
-      saveData();
+      markDirty(`pool_result_${mi}`);
     });
   });
 }
