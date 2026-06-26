@@ -42,7 +42,9 @@
     "day3_locked": true,
     "day4_locked": true,
     "st_name1": "SNFV Seattle",
-    "st_w1": "2"
+    "st_w1": "2",
+    "st_w0": "1",
+    "st_l0": "0"
   },
   "matches": {
     "1": [
