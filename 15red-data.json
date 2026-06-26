@@ -48,7 +48,8 @@
     "st_sw0": "3",
     "st_sw1": "4",
     "st_sl0": "2",
-    "st_sl1": "2"
+    "st_sl1": "2",
+    "st_name2": "CMASS"
   },
   "matches": {
     "1": [
