@@ -309,7 +309,7 @@ body.em .tredit-btn{display:block}
 
   /* Tap targets: 44px minimum */
   .edit-btn{min-height:44px;padding:.5rem .8rem}
-  button:not(.spot-dot){min-height:44px}
+  button:not(.spot-dot):not(.reel-row){min-height:44px}
 }
 
 /* ── STANDINGS REDESIGN ───────────────────────────────────────── */
