@@ -376,17 +376,41 @@ function updateDayTab(d) {
 function renderStandings() {
   const tb = document.getElementById('stand-body');
   if (!tb) return;
-  const rows = [CFG.teamName, 'Team 2', 'Team 3', 'Team 4'];
-  tb.innerHTML = rows.map((name, i) => `
-    <tr class="${i === 0 ? 'hl' : ''}">
-      <td><span class="st-rank">${i + 1}</span></td>
-      <td class="st-team">${i === 0 ? `<strong>${name}</strong>` : `<span class="e" data-key="st_name${i}">${D.hub[`st_name${i}`] || name}</span>`}</td>
-      <td class="st-w"><span class="e" data-key="st_w${i}">${D.hub[`st_w${i}`] || 0}</span></td>
-      <td class="st-l"><span class="e" data-key="st_l${i}">${D.hub[`st_l${i}`] || 0}</span></td>
-      <td class="st-sets"><span class="e" data-key="st_sw${i}">${D.hub[`st_sw${i}`] || 0}</span></td>
-      <td class="st-sets"><span class="e" data-key="st_sl${i}">${D.hub[`st_sl${i}`] || 0}</span></td>
+  const { prefix, teams, mindsetSeed } = CFG.pool;
+  const pm = D.matches.pool || [];
+  let mw = 0, ml = 0;
+  pm.forEach((m) => { if (m.result === 'W') mw++; else if (m.result === 'L') ml++; });
+  const rows = teams.map((t, i) => {
+    const isMindset = t.seed === mindsetSeed;
+    const w  = isMindset ? mw : +(D.hub[`${prefix}w_${i}`]  || 0);
+    const l  = isMindset ? ml : +(D.hub[`${prefix}l_${i}`]  || 0);
+    const sw = +(D.hub[`${prefix}sw_${i}`] || 0);
+    const sl = +(D.hub[`${prefix}sl_${i}`] || 0);
+    return { t, i, w, l, sw, sl, isMindset };
+  }).sort((a, b) => b.w - a.w || a.l - b.l);
+  tb.innerHTML = rows.map(({ t, i, w, l, sw, sl, isMindset }, rank) => `
+    <tr class="${isMindset ? 'hl' : ''}">
+      <td><span class="st-rank">${rank + 1}</span></td>
+      <td style="color:var(--red);font-weight:700;font-size:.8rem;white-space:nowrap">#${t.seed}</td>
+      <td class="st-team">${isMindset ? `<strong>⭐ ${t.name}</strong>` : t.name}</td>
+      <td class="st-w">${isMindset ? `<span class="wl w">${w}</span>` : `<span class="wl w e" data-key="${prefix}w_${i}" contenteditable="false">${w}</span>`}</td>
+      <td class="st-l">${isMindset ? `<span class="wl l">${l}</span>` : `<span class="wl l e" data-key="${prefix}l_${i}" contenteditable="false">${l}</span>`}</td>
+      <td class="st-sets"><span class="e" data-key="${prefix}sw_${i}" contenteditable="false">${sw}</span></td>
+      <td class="st-sets"><span class="e" data-key="${prefix}sl_${i}" contenteditable="false">${sl}</span></td>
     </tr>`).join('');
-  bindEditables(tb);
+  if (editMode) tb.querySelectorAll('[data-key]').forEach((el) => { el.contentEditable = 'true'; });
+  tb.querySelectorAll('[data-key]').forEach((el) => {
+    if (el._eb) return;
+    el._eb = true;
+    el.addEventListener('blur', () => {
+      if (!editMode) return;
+      const v = el.textContent.trim().replace(/[^0-9]/g, '') || '0';
+      el.textContent = v;
+      if (D.hub[el.dataset.key] !== v) { D.hub[el.dataset.key] = v; saveData(); }
+      renderStandings();
+    });
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
+  });
 }
 
 // ── Teams ──────────────────────────────────────────────────────────
@@ -988,6 +1012,7 @@ function bindPoolSchedule() {
       if (badge) { badge.textContent = sel.value === 'W' ? 'W' : sel.value === 'L' ? 'L' : 'Pending'; badge.className = 'pres-badge ' + (sel.value === 'W' ? 'win' : sel.value === 'L' ? 'loss' : 'pending'); }
       updatePoolRecord();
       renderPoolStandings();
+      renderStandings();
       saveData();
     });
   });
