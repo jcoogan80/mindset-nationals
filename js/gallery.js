@@ -41,6 +41,23 @@
     return d;
   }
 
+  /* ---------- persistent auth cookie ---------- */
+  // Browsers cap persistent cookies at ~400 days; we refresh the expiry on each
+  // visit (see boot) so the upload-enabled state effectively never lapses for
+  // anyone who keeps using the page.
+  const COOKIE_MAX_AGE = 34560000; // ~400 days, in seconds
+  function setCookie(name, value) {
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax${secure}`;
+  }
+  function getCookie(name) {
+    const m = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  function delCookie(name) {
+    document.cookie = `${name}=; path=/; max-age=0; SameSite=Lax`;
+  }
+
   /* ---------- data ---------- */
   function fetchList(bust) {
     $id('m-error').style.display = 'none';
@@ -506,8 +523,8 @@
         if (d.valid) {
           authed = true;
           pw = cand;
-          sessionStorage.setItem('gallery_authed', '1');
-          sessionStorage.setItem('gallery_pw', cand);
+          setCookie('gallery_authed', '1');
+          setCookie('gallery_pw', cand);
           $id('m-pw').classList.remove('on');
           inp.value = '';
           const f = pendingFiles;
@@ -542,6 +559,9 @@
         });
         if (r.status === 401) {
           authed = false;
+          pw = '';
+          delCookie('gallery_authed');
+          delCookie('gallery_pw');
           sessionStorage.removeItem('gallery_authed');
           sessionStorage.removeItem('gallery_pw');
           throw 'Session expired — tap Add again.';
@@ -741,8 +761,11 @@
   /* ---------- boot ---------- */
   function boot() {
     TEAM = window._GALLERY_TEAM || '14red';
-    authed = sessionStorage.getItem('gallery_authed') === '1';
-    pw = sessionStorage.getItem('gallery_pw') || '';
+    // Persistent cookie first; fall back to a legacy sessionStorage login so an
+    // already-authed session isn't dropped after this change ships.
+    pw = getCookie('gallery_pw') || sessionStorage.getItem('gallery_pw') || '';
+    authed = getCookie('gallery_authed') === '1' || (sessionStorage.getItem('gallery_authed') === '1' && !!pw);
+    if (authed && pw) { setCookie('gallery_authed', '1'); setCookie('gallery_pw', pw); } // roll expiry forward
     device = getDevice();
     const _visitKey = `gallery_last_${TEAM}`;
     lastVisit = parseInt(localStorage.getItem(_visitKey)) || 0;
