@@ -99,13 +99,14 @@ async function loadData() {
   if (DEMO) { applyDefaults(); return; }
   loading(true);
   try {
-    const r = await fetch(`${API}?t=${Date.now()}`, { headers: { Accept: 'application/vnd.github.v3+json' } });
+    // Read the data file straight from the deployed site (relative path) — fast,
+    // and avoids the GitHub Contents API rate limit. Saves still go through GitHub:
+    // saveData fetches the file SHA on demand when it's missing.
+    const r = await fetch(`${CFG.dataFile}?t=${Date.now()}`, { cache: 'no-store' });
     if (!r.ok) throw new Error(r.status);
-    const j = await r.json();
-    fileSHA = j.sha;
-    D = JSON.parse(atob(j.content.replace(/\n/g, '')));
+    D = await r.json();
     dataLoadedFromGitHub = true;
-    // Cache the last good copy so a future failed/throttled read can still render.
+    // Cache the last good copy so a future failed read can still render.
     try { localStorage.setItem(CACHE_KEY, JSON.stringify(D)); } catch (e) { /* quota — ignore */ }
   } catch (e) {
     // Editing stays disabled in both fallback paths: with no valid fileSHA a save
@@ -114,10 +115,10 @@ async function loadData() {
     try { cached = JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e2) { /* ignore */ }
     if (cached) {
       D = cached;
-      toast('Showing last saved data — couldn’t reach GitHub');
-      showLoadBanner('⚠️ Offline or rate-limited — showing last saved data. Editing is disabled until reload.', 'load-error-banner soft');
+      toast('Showing last saved data — couldn’t load the latest');
+      showLoadBanner('⚠️ Offline — showing last saved data. Editing is disabled until reload.', 'load-error-banner soft');
     } else {
-      toast('Could not load data — check GitHub config');
+      toast('Could not load data — check your connection');
       applyDefaults();
       showLoadBanner('⚠️ Failed to load saved data — editing is disabled. Refresh to try again.', 'load-error-banner');
     }
@@ -747,7 +748,7 @@ function enableEdit() {
   b.innerHTML = '<i class="ti ti-lock-open"></i> Editing';
   [2, 3, 4].forEach((d) => { const ub = document.getElementById(`ubtn${d}`); if (ub) ub.disabled = false; });
   document.querySelectorAll('[data-key], [data-pf]').forEach((el) => { el.contentEditable = 'true'; });
-  document.querySelectorAll('.psc').forEach((el) => { el.contentEditable = 'true'; });
+  document.querySelectorAll('.psc').forEach((el) => { el.disabled = false; });
   document.querySelectorAll('.pres-sel').forEach((el) => { el.disabled = false; el.style.display = ''; });
   document.querySelectorAll('.scout-edit').forEach((el) => { el.style.display = 'flex'; });
   document.querySelectorAll('.scout-link').forEach((el) => { el.style.display = 'none'; });
@@ -761,7 +762,7 @@ function disableEdit() {
   b.classList.remove('on');
   b.innerHTML = '<i class="ti ti-lock"></i> Edit';
   document.querySelectorAll('[data-key], [data-pf]').forEach((el) => { el.contentEditable = 'false'; });
-  document.querySelectorAll('.psc').forEach((el) => { el.contentEditable = 'false'; });
+  document.querySelectorAll('.psc').forEach((el) => { el.disabled = true; });
   document.querySelectorAll('.pres-sel').forEach((el) => { el.disabled = true; el.style.display = 'none'; });
   document.querySelectorAll('.scout-edit').forEach((el) => { el.style.display = 'none'; });
   renderPoolSchedule();
@@ -906,7 +907,7 @@ function renderPoolSchedule() {
     const mi = +el.dataset.pmatch, si = +el.dataset.pset, side = el.dataset.pside;
     const arr = pm[mi]?.scores?.[si];
     const val = arr ? arr[side === 'us' ? 0 : 1] : '';
-    el.textContent = (val !== '' && val !== undefined && val !== null) ? val : '—';
+    el.value = (val !== '' && val !== undefined && val !== null) ? val : ''; // empty → '—' placeholder
   });
   for (let i = 0; i < 5; i++) {
     const sel = document.getElementById(`pres-${i}`);
@@ -963,17 +964,18 @@ function bindPoolSchedule() {
   document.querySelectorAll('.psc').forEach((el) => {
     if (el._peb) return;
     el._peb = true;
-    el.addEventListener('blur', () => {
+    // Each input writes ONLY its own side's index — never the other team's cell.
+    const commit = () => {
       if (!editMode) return;
       const mi = +el.dataset.pmatch, si = +el.dataset.pset, side = el.dataset.pside;
-      const v = el.textContent.trim().replace(/[^0-9]/g, '');
       if (!D.matches.pool[mi]) return;
+      const v = el.value.replace(/[^0-9]/g, '');
+      if (el.value !== v) el.value = v; // strip any non-digits in place
       D.matches.pool[mi].scores[si][side === 'us' ? 0 : 1] = v;
-      el.textContent = v || '—';
       saveData();
-    });
+    };
+    el.addEventListener('input', commit);
     el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
-    el.addEventListener('focus', () => { if (el.textContent === '—') el.textContent = ''; });
   });
   document.querySelectorAll('.pres-sel').forEach((sel) => {
     if (sel._peb) return;

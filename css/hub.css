@@ -436,6 +436,20 @@ body.em .hotel-tel .e{pointer-events:auto}
 .pool-team.mindset{font-weight:700}
 .pool-wl{text-align:center;padding:.35rem .25rem}
 
+/* POOL SCHEDULE (shared; score cells are numeric <input>s) */
+.psg{display:inline-flex;align-items:center;gap:.22rem;background:var(--offwhite);border:1px solid var(--lightgray);border-radius:6px;padding:.22rem .45rem}
+.psl{font-size:.63rem;font-weight:600;color:var(--gray);min-width:14px}
+.psc{font:inherit;font-size:.9rem;font-weight:700;width:2.4ch;min-width:22px;text-align:center;border:0;border-radius:4px;padding:0 .15rem;color:var(--black);background:transparent;outline:none;-moz-appearance:textfield}
+.psc::-webkit-outer-spin-button,.psc::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.psc:focus{background:#fff9f9;box-shadow:0 0 0 2px var(--red)}
+.psc:disabled{color:var(--black);-webkit-text-fill-color:var(--black);opacity:1;cursor:default}
+.psc::placeholder{color:var(--gray);opacity:1;font-weight:700}
+.psdash{color:var(--gray);font-size:.8rem;margin:0 .05rem}
+.pres-badge{font-size:.72rem;font-weight:700;padding:.2rem .55rem;border-radius:20px;white-space:nowrap;flex-shrink:0;letter-spacing:.3px}
+.pres-badge.win{background:#e8f5e9;color:#2a9d5c}
+.pres-badge.loss{background:#fdecea;color:#cc0000}
+.pres-badge.pending{background:var(--offwhite);color:var(--gray);border:1px solid var(--lightgray)}
+
 /* >>> x-utils (extracted repeated inline styles — do not hand-edit) >>> */
 .x-va-2_mr-4_c-red{vertical-align:-2px;margin-right:4px;color:var(--red)}
 .x-p-4-25_c-red_fw-700{padding:.4rem .25rem;color:var(--red);font-weight:700}
