@@ -75,7 +75,7 @@
     "p9sw_4": "3",
     "p9sw_0": "3",
     "p9sl_0": "3",
-    "p9w_4": "1",
+    "p9w_4": "2",
     "p9l_4": "1",
     "p9sl_4": "2",
     "p9w_0": "1",
@@ -169,15 +169,15 @@
             "15"
           ],
           [
-            "",
-            ""
+            "22",
+            "25"
           ],
           [
-            "",
-            ""
+            "13",
+            "15"
           ]
         ],
-        "result": "pending",
+        "result": "L",
         "scoutVideo": "https://www.youtube.com/live/1Kh1ZoCx8wg?si=gVbm2Wyc75esxQPX"
       },
       {
