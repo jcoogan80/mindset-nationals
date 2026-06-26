@@ -104,7 +104,7 @@
         "result": "upcoming"
       },
       {
-        "opponent": "GP 15 National (#5)",
+        "opponent": "SC Elite 15 Blue-Jake (#6)",
         "time_court": "8:00 PM ÃÂÃÂ· Court 13 ICC",
         "score_us": "",
         "score_them": "",
@@ -241,14 +241,14 @@
       "pool": "R1P6"
     },
     {
-      "name": "GP 15 National",
-      "club": "Game Point",
-      "rank": 92,
-      "wins": 66,
-      "losses": 11,
-      "matches": 77,
-      "pct": "85.7%",
-      "seed": 5,
+      "name": "SC Elite 15 Blue-Jake",
+      "club": "SC Elite",
+      "rank": null,
+      "wins": 0,
+      "losses": 0,
+      "matches": 0,
+      "pct": "",
+      "seed": 6,
       "pool": "R1P5"
     },
     {

@@ -14,7 +14,7 @@ window.HUB_CONFIG = Object.freeze({
     prefix: 'p5',
     mindsetSeed: 25,
     teams: [
-      { name: 'GP 15 National',          seed: 5,  region: 'FL' },
+      { name: 'SC Elite 15 Blue-Jake',    seed: 6,  region: 'SC' },
       { name: 'Mindset Premier 15 Red',  seed: 25, region: 'IL' },
       { name: '540 VB 15 Elite',         seed: 38, region: 'VA' },
       { name: 'Premier Nebraska 15 Red', seed: 60, region: 'NE' },
