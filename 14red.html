@@ -149,6 +149,67 @@
   <div class="sec on" id="tab-schedule">
     <div class="sec-hd"><i class="ti ti-ball-volleyball"></i><h2>Schedule & Results</h2></div>
     <p class="ehint"><i class="ti ti-pencil"></i> Edit mode on — add matches and unlock days</p>
+
+    <!-- ── ROUND 2 SCHEDULE ──────────────────────────────────── -->
+    <div>
+      <div class="sec-hd"><i class="ti ti-tournament" style="font-size:1.15rem;color:var(--red)"></i><h2>Round 2 — Day 3</h2></div>
+      <div style="font-size:.78rem;color:var(--gray);margin-bottom:.5rem">R2P10 · Saturday June 27 · Indiana Convention Center (ICC)</div>
+    </div>
+
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:var(--gray);letter-spacing:.5px;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem"><i class="ti ti-sun x-fs-85"></i>SATURDAY · JUNE 27</div>
+
+    <div class="card pmc x-bl-4-solid-red_mb-65" id="r2mc-0">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <div>
+          <div class="x-fw-700_fs-95">2:00 PM <span class="x-fw-400_c-gray_fs-77">· Court 71 ICC</span></div>
+          <div class="x-fs-86_mt-12">vs. <strong>SVC 14 National</strong> <span class="x-c-gray_fs-74">— Seed #22</span></div>
+        </div>
+        <span class="pres-badge pending" id="r2badge-0">Pending</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <div class="psg"><span class="psl">S1</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="0" data-pside="us" placeholder="—" disabled aria-label="Set 1 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="0" data-pside="them" placeholder="—" disabled aria-label="Set 1 opponent score"></div><div class="psg"><span class="psl">S2</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="1" data-pside="us" placeholder="—" disabled aria-label="Set 2 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="1" data-pside="them" placeholder="—" disabled aria-label="Set 2 opponent score"></div><div class="psg"><span class="psl">S3</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="2" data-pside="us" placeholder="—" disabled aria-label="Set 3 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="2" data-pside="them" placeholder="—" disabled aria-label="Set 3 opponent score"></div>
+        <select class="r2pres-sel fi" id="r2res-0" data-r2match="0" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
+      </div>
+      <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
+        <a class="r2scout-link" id="r2scout-link-0" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">🎬 Watch Opponent Film →</a>
+        <div class="r2scout-edit" id="r2scout-edit-0" style="display:none;gap:.3rem;align-items:center">
+          <input class="fi x-fs-75_p-22-5_minw-180" id="r2scout-url-0" type="text" placeholder="Paste YouTube URL here...">
+          <button onclick="saveScoutVideoR2(0)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card pmc x-bl-4-solid-red_mb-65" id="r2mc-1">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <div>
+          <div class="x-fw-700_fs-95">3:00 PM <span class="x-fw-400_c-gray_fs-77">· Court 71 ICC</span></div>
+          <div class="x-fs-86_mt-12">vs. <strong>BAVA 14 Waves</strong> <span class="x-c-gray_fs-74">— Seed #53</span></div>
+        </div>
+        <span class="pres-badge pending" id="r2badge-1">Pending</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <div class="psg"><span class="psl">S1</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="0" data-pside="us" placeholder="—" disabled aria-label="Set 1 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="0" data-pside="them" placeholder="—" disabled aria-label="Set 1 opponent score"></div><div class="psg"><span class="psl">S2</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="1" data-pside="us" placeholder="—" disabled aria-label="Set 2 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="1" data-pside="them" placeholder="—" disabled aria-label="Set 2 opponent score"></div><div class="psg"><span class="psl">S3</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="2" data-pside="us" placeholder="—" disabled aria-label="Set 3 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="2" data-pside="them" placeholder="—" disabled aria-label="Set 3 opponent score"></div>
+        <select class="r2pres-sel fi" id="r2res-1" data-r2match="1" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
+      </div>
+      <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
+        <a class="r2scout-link" id="r2scout-link-1" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">🎬 Watch Opponent Film →</a>
+        <div class="r2scout-edit" id="r2scout-edit-1" style="display:none;gap:.3rem;align-items:center">
+          <input class="fi x-fs-75_p-22-5_minw-180" id="r2scout-url-1" type="text" placeholder="Paste YouTube URL here...">
+          <button onclick="saveScoutVideoR2(1)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border-left:4px solid #FFD700;margin-top:1rem">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--red)">📋 WHAT'S NEXT — SATURDAY JUNE 27 EVENING</div>
+      <div style="font-size:.78rem;color:var(--gray);margin-top:.5rem;line-height:1.7">
+        Based on R2P10 finish:<br>
+        🥇 1st place → 6:00 PM Court 58 ICC<br>
+        🥈 2nd place → 6:00 PM Court 57 ICC<br>
+        🥉 3rd place → 6:00 PM Court 15 ICC
+      </div>
+    </div>
+
     <!-- ── POOL PLAY SCHEDULE ──────────────────────────────────── -->
     <div class="sec-hd x-mt-15-2"><i class="ti ti-calendar-event x-fs-115_c-red"></i><h2>Pool Play Schedule</h2></div>
     <div class="x-fs-78_c-gray_mb-75">Pool 9 · Best 2 of 3 to 25 (3rd set to 15) · All matches at Indiana Convention Center (ICC)</div>
@@ -312,66 +373,6 @@
         </tr></thead>
         <tbody id="pool-standings-tbody"></tbody>
       </table>
-    </div>
-
-    <!-- ── ROUND 2 SCHEDULE ──────────────────────────────────── -->
-    <div style="margin-top:2rem">
-      <div class="sec-hd"><i class="ti ti-tournament" style="font-size:1.15rem;color:var(--red)"></i><h2>Round 2 — Day 3</h2></div>
-      <div style="font-size:.78rem;color:var(--gray);margin-bottom:.5rem">R2P10 · Saturday June 27 · Indiana Convention Center (ICC)</div>
-    </div>
-
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:var(--gray);letter-spacing:.5px;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem"><i class="ti ti-sun x-fs-85"></i>SATURDAY · JUNE 27</div>
-
-    <div class="card pmc x-bl-4-solid-red_mb-65" id="r2mc-0">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
-        <div>
-          <div class="x-fw-700_fs-95">2:00 PM <span class="x-fw-400_c-gray_fs-77">· Court 71 ICC</span></div>
-          <div class="x-fs-86_mt-12">vs. <strong>SVC 14 National</strong> <span class="x-c-gray_fs-74">— Seed #22</span></div>
-        </div>
-        <span class="pres-badge pending" id="r2badge-0">Pending</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
-        <div class="psg"><span class="psl">S1</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="0" data-pside="us" placeholder="—" disabled aria-label="Set 1 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="0" data-pside="them" placeholder="—" disabled aria-label="Set 1 opponent score"></div><div class="psg"><span class="psl">S2</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="1" data-pside="us" placeholder="—" disabled aria-label="Set 2 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="1" data-pside="them" placeholder="—" disabled aria-label="Set 2 opponent score"></div><div class="psg"><span class="psl">S3</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="2" data-pside="us" placeholder="—" disabled aria-label="Set 3 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="0" data-pset="2" data-pside="them" placeholder="—" disabled aria-label="Set 3 opponent score"></div>
-        <select class="r2pres-sel fi" id="r2res-0" data-r2match="0" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
-      </div>
-      <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
-        <a class="r2scout-link" id="r2scout-link-0" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">&#127916; Watch Opponent Film &#8594;</a>
-        <div class="r2scout-edit" id="r2scout-edit-0" style="display:none;gap:.3rem;align-items:center">
-          <input class="fi x-fs-75_p-22-5_minw-180" id="r2scout-url-0" type="text" placeholder="Paste YouTube URL here...">
-          <button onclick="saveScoutVideoR2(0)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="card pmc x-bl-4-solid-red_mb-65" id="r2mc-1">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
-        <div>
-          <div class="x-fw-700_fs-95">3:00 PM <span class="x-fw-400_c-gray_fs-77">· Court 71 ICC</span></div>
-          <div class="x-fs-86_mt-12">vs. <strong>BAVA 14 Waves</strong> <span class="x-c-gray_fs-74">— Seed #53</span></div>
-        </div>
-        <span class="pres-badge pending" id="r2badge-1">Pending</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
-        <div class="psg"><span class="psl">S1</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="0" data-pside="us" placeholder="—" disabled aria-label="Set 1 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="0" data-pside="them" placeholder="—" disabled aria-label="Set 1 opponent score"></div><div class="psg"><span class="psl">S2</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="1" data-pside="us" placeholder="—" disabled aria-label="Set 2 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="1" data-pside="them" placeholder="—" disabled aria-label="Set 2 opponent score"></div><div class="psg"><span class="psl">S3</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="2" data-pside="us" placeholder="—" disabled aria-label="Set 3 our score"><span class="psdash">–</span><input class="r2psc" type="text" inputmode="numeric" maxlength="2" data-r2match="1" data-pset="2" data-pside="them" placeholder="—" disabled aria-label="Set 3 opponent score"></div>
-        <select class="r2pres-sel fi" id="r2res-1" data-r2match="1" disabled style="width:auto;font-size:.78rem;padding:.25rem .5rem;margin-left:auto;display:none"><option value="pending">Pending</option><option value="W">W — Win</option><option value="L">L — Loss</option></select>
-      </div>
-      <div style="margin-top:.38rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">
-        <a class="r2scout-link" id="r2scout-link-1" href="" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);display:none;text-decoration:none">&#127916; Watch Opponent Film &#8594;</a>
-        <div class="r2scout-edit" id="r2scout-edit-1" style="display:none;gap:.3rem;align-items:center">
-          <input class="fi x-fs-75_p-22-5_minw-180" id="r2scout-url-1" type="text" placeholder="Paste YouTube URL here...">
-          <button onclick="saveScoutVideoR2(1)" class="abtn x-fs-72_p-22-55_ws-nowrap">Save</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="border-left:4px solid #FFD700;margin-top:1rem">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--red)">📋 WHAT'S NEXT — SATURDAY JUNE 27 EVENING</div>
-      <div style="font-size:.78rem;color:var(--gray);margin-top:.5rem;line-height:1.7">
-        Based on R2P10 finish:<br>
-        🥇 1st place → 6:00 PM Court 58 ICC<br>
-        🥈 2nd place → 6:00 PM Court 57 ICC<br>
-        🥉 3rd place → 6:00 PM Court 15 ICC
-      </div>
     </div>
 
     <!-- Divider before Day tabs -->
