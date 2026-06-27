@@ -220,6 +220,102 @@
     Hub.toast('Donor recognition saved!');
   }
 
-  Hub.onRender(() => { renderFundraising(); renderDonorThanks(); });
-  Hub.expose({ addFundEntry, deleteFundEntry, saveDonorThanks });
+  Hub.onRender(() => { renderFundraising(); renderDonorThanks(); renderRound2Schedule(); });
+  Hub.expose({ addFundEntry, deleteFundEntry, saveDonorThanks, saveScoutVideoR2 });
+
+  // ── Round 2 Schedule ─────────────────────────────────────────────
+  function getR2() {
+    if (!Hub.data.matches) Hub.data.matches = {};
+    if (!Hub.data.matches.round2) {
+      Hub.data.matches.round2 = [
+        { scores: [['', ''], ['', ''], ['', '']], result: 'pending', scoutVideo: '' },
+        { scores: [['', ''], ['', ''], ['', '']], result: 'pending', scoutVideo: '' },
+      ];
+    }
+    return Hub.data.matches.round2;
+  }
+
+  function renderRound2Schedule() {
+    const r2 = getR2();
+    document.querySelectorAll('.r2psc').forEach((el) => {
+      const mi = +el.dataset.r2match, si = +el.dataset.pset, side = el.dataset.pside;
+      const arr = r2[mi]?.scores?.[si];
+      const v = arr ? arr[side === 'us' ? 0 : 1] : '';
+      el.value = (v !== '' && v !== undefined && v !== null) ? v : '';
+    });
+    for (let i = 0; i < 2; i++) {
+      const sel = $(`r2res-${i}`);
+      const badge = $(`r2badge-${i}`);
+      const res = r2[i]?.result || 'pending';
+      if (sel) sel.value = res;
+      if (badge) { badge.textContent = res === 'W' ? 'W' : res === 'L' ? 'L' : 'Pending'; badge.className = 'pres-badge ' + (res === 'W' ? 'win' : res === 'L' ? 'loss' : 'pending'); }
+      const sl = $(`r2scout-link-${i}`);
+      const su = $(`r2scout-url-${i}`);
+      const url = r2[i]?.scoutVideo || '';
+      if (sl) { sl.href = url; sl.style.display = (url && !Hub.editMode) ? 'inline' : 'none'; }
+      if (su) su.value = url;
+    }
+  }
+
+  function bindRound2Schedule() {
+    document.querySelectorAll('.r2psc').forEach((el) => {
+      if (el._r2eb) return;
+      el._r2eb = true;
+      const commit = () => {
+        if (!Hub.editMode) return;
+        const mi = +el.dataset.r2match, si = +el.dataset.pset, side = el.dataset.pside;
+        const r2 = getR2();
+        if (!r2[mi]) return;
+        const v = el.value.replace(/[^0-9]/g, '');
+        if (el.value !== v) el.value = v;
+        r2[mi].scores[si][side === 'us' ? 0 : 1] = v;
+        Hub.save();
+      };
+      el.addEventListener('input', commit);
+      el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
+    });
+    document.querySelectorAll('.r2pres-sel').forEach((sel) => {
+      if (sel._r2eb) return;
+      sel._r2eb = true;
+      sel.addEventListener('change', () => {
+        if (!Hub.editMode) return;
+        const mi = +sel.dataset.r2match;
+        const r2 = getR2();
+        r2[mi].result = sel.value;
+        const badge = $(`r2badge-${mi}`);
+        if (badge) { badge.textContent = sel.value === 'W' ? 'W' : sel.value === 'L' ? 'L' : 'Pending'; badge.className = 'pres-badge ' + (sel.value === 'W' ? 'win' : sel.value === 'L' ? 'loss' : 'pending'); }
+        Hub.save();
+      });
+    });
+  }
+
+  function updateR2EditState() {
+    const em = Hub.editMode;
+    document.querySelectorAll('.r2psc').forEach((el) => { el.disabled = !em; });
+    document.querySelectorAll('.r2pres-sel').forEach((el) => { el.disabled = !em; el.style.display = em ? '' : 'none'; });
+    document.querySelectorAll('.r2scout-edit').forEach((el) => { el.style.display = em ? 'flex' : 'none'; });
+    document.querySelectorAll('.r2scout-link').forEach((el) => { if (em) el.style.display = 'none'; });
+    if (!em) renderRound2Schedule();
+  }
+
+  function saveScoutVideoR2(mi) {
+    const inp = $(`r2scout-url-${mi}`);
+    if (!inp) return;
+    const url = inp.value.trim();
+    const r2 = getR2();
+    if (!r2[mi]) return;
+    r2[mi].scoutVideo = url;
+    const sl = $(`r2scout-link-${mi}`);
+    if (sl) { sl.href = url; sl.style.display = url ? 'inline' : 'none'; }
+    Hub.save();
+    Hub.toast('Scout video saved');
+  }
+
+  Hub.onBoot(() => {
+    renderRound2Schedule();
+    bindRound2Schedule();
+    // Mirror edit-mode state onto r2 inputs whenever body.em class toggles
+    new MutationObserver(() => updateR2EditState())
+      .observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  });
 })();

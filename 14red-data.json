@@ -36,10 +36,10 @@
     "overall_round": "Pool Play",
     "day1_notes": "Pool play notes, court assignments, team updates...",
     "day2_notes": "Bracket seeding, venue updates...",
-    "day3_notes": "Schedule based on pool play results ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ check back after Day 2!",
+    "day3_notes": "R2P10 matches at Court 71 ICC. 2:00 PM vs SVC 14 National (#22) · 3:00 PM vs BAVA 14 Waves (#53)",
     "day4_notes": "Championship Sunday ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ schedule TBD based on Day 3 results",
     "day2_locked": true,
-    "day3_locked": true,
+    "day3_locked": false,
     "day4_locked": true,
     "st_w0": "0",
     "st_name1": "Gryffindor",
@@ -123,7 +123,22 @@
         "result": "upcoming"
       }
     ],
-    "3": [],
+    "3": [
+      {
+        "opponent": "SVC 14 National (#22)",
+        "time_court": "2:00 PM · Court 71 ICC",
+        "score_us": "",
+        "score_them": "",
+        "result": "upcoming"
+      },
+      {
+        "opponent": "BAVA 14 Waves (#53)",
+        "time_court": "3:00 PM · Court 71 ICC",
+        "score_us": "",
+        "score_them": "",
+        "result": "upcoming"
+      }
+    ],
     "4": [],
     "pool": [
       {
@@ -215,6 +230,44 @@
         ],
         "result": "W",
         "scoutVideo": "https://www.youtube.com/live/CT9bPbNiQxs?si=lGHP5MpPMUB4eWDU"
+      }
+    ],
+    "round2": [
+      {
+        "scores": [
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ]
+        ],
+        "result": "pending",
+        "scoutVideo": ""
+      },
+      {
+        "scores": [
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ],
+          [
+            "",
+            ""
+          ]
+        ],
+        "result": "pending",
+        "scoutVideo": ""
       }
     ]
   },
