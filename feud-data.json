@@ -355,7 +355,7 @@
         "q9": "Shampoo",
         "q10": "Unpack",
         "q11": "Walk",
-        "q12": "AÃ§aÃ­ Bowl",
+        "q12": "AÃÂ§aÃÂ­ Bowl",
         "q13": "McFarland",
         "q14": "Taylor Swift",
         "q15": "Karch Kiraly",
@@ -434,6 +434,30 @@
         "q16": "Sounds good",
         "q17": "Unique",
         "q18": "Katrin"
+      }
+    },
+    {
+      "name": "lily jedlink",
+      "timestamp": "2026-06-27T17:58:28.366Z",
+      "answers": {
+        "q1": "my ball",
+        "q2": "lock in",
+        "q3": "let’s go mindset",
+        "q4": "a shoe",
+        "q5": "yell",
+        "q6": "you’re off",
+        "q7": "i tripped",
+        "q8": "starbucks",
+        "q9": "chargers",
+        "q10": "lay down",
+        "q11": "eat",
+        "q12": "food",
+        "q13": "idk",
+        "q14": "umbrella",
+        "q15": "john cena",
+        "q16": "be aggressive",
+        "q17": "winners",
+        "q18": "katrin"
       }
     }
   ],
