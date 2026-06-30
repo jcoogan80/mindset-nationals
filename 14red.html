@@ -138,6 +138,7 @@
       <button class="tab" data-tab="venue"><i class="ti ti-parking"></i> Venue</button>
       <button class="tab" data-tab="fundraising"><i class="ti ti-heart"></i> Fundraising</button>
       <button class="tab" data-tab="offcourt"><i class="ti ti-confetti"></i> 🎉 Off-Court</button>
+      <button class="tab" data-tab="meals"><i class="ti ti-tools-kitchen-2"></i> 🍽️ Meals</button>
       <button class="tab" data-tab="photos"><i class="ti ti-camera"></i> Media</button>
       <button class="tab" data-tab="reels"><i class="ti ti-brand-youtube"></i> Reels</button>
       <button class="tab" onclick="window.location='fun.html'"><i class="ti ti-device-gamepad-2"></i> Game Time 🎮</button>
@@ -736,6 +737,49 @@
     </div>
   </div>
 
+  <!-- MEALS -->
+  <div class="sec" id="tab-meals">
+    <div class="sec-hd"><i class="ti ti-tools-kitchen-2" style="font-size:1.15rem;color:var(--red)"></i><h2>Meal Planner</h2></div>
+    <p style="font-size:.82rem;color:var(--gray);margin-bottom:1rem">Order meals as a team! Select your items, submit your order, and balances are tracked automatically.</p>
+
+    <!-- Balance Summary -->
+    <div class="meals-summary">
+      <div class="meals-metric"><div class="meals-metric-val" id="meals-total-spent">$0.00</div><div class="meals-metric-lbl">Total Spent</div></div>
+      <div class="meals-metric meals-metric-red"><div class="meals-metric-val" id="meals-outstanding">$0.00</div><div class="meals-metric-lbl">Outstanding</div></div>
+      <div class="meals-metric"><div class="meals-metric-val" id="meals-families-ordered">0</div><div class="meals-metric-lbl">Families Ordered</div></div>
+    </div>
+
+    <!-- Active Meals -->
+    <div class="sec-hd" style="margin-top:1.25rem"><i class="ti ti-calendar-event" style="font-size:1.15rem;color:var(--red)"></i><h2>Active Meals</h2></div>
+    <div id="meals-events-list"></div>
+
+    <!-- Create Meal Event (edit mode only) -->
+    <div id="meals-create-form" style="display:none;margin-top:1.5rem">
+      <div class="sec-hd"><i class="ti ti-plus" style="font-size:1.15rem;color:var(--red)"></i><h2>Create Meal Event</h2></div>
+      <div class="card" style="border-left:3px solid var(--red)">
+        <div style="display:grid;gap:.65rem">
+          <div><label class="fl">Meal Name</label><input class="fi" id="meal-new-name" placeholder="e.g. Chipotle Dinner — Thursday Night"></div>
+          <div><label class="fl">Restaurant Name</label><input class="fi" id="meal-new-restaurant" placeholder="e.g. Chipotle"></div>
+          <div><label class="fl">Order Deadline</label><input class="fi" id="meal-new-deadline" type="datetime-local"></div>
+          <div><label class="fl">Menu Link (optional)</label><input class="fi" id="meal-new-menulink" placeholder="https://..."></div>
+          <div>
+            <label class="fl">Menu Items</label>
+            <div id="meal-new-items"></div>
+            <button class="abtn" style="margin-top:.5rem;font-size:.76rem;display:inline-flex;align-items:center;gap:.3rem" onclick="mealAddItem()"><i class="ti ti-plus"></i> Add Item</button>
+          </div>
+          <button class="abtn" style="width:100%;display:flex;justify-content:center;align-items:center;gap:.35rem;padding:.6rem;font-size:.85rem" onclick="mealCreateEvent()"><i class="ti ti-check"></i> Create Meal Event</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Balance Tracker -->
+    <div style="margin-top:1.75rem">
+      <div class="sec-hd"><i class="ti ti-scale" style="font-size:1.15rem;color:var(--red)"></i><h2>Balance Tracker</h2></div>
+      <div id="meals-balance-table"></div>
+      <p style="font-size:.74rem;color:var(--gray);margin-top:.65rem;text-align:center">Settle up with one Venmo at the end of the trip!</p>
+    </div>
+  </div>
+
   <!-- FAMILY FEUD -->
   <div class="sec" id="tab-feud">
     <div class="sec-hd"><i class="ti ti-target x-fs-115_c-red"></i><h2>Family Feud Game Night</h2></div>
@@ -925,6 +969,22 @@
 <div class="mprog" id="m-prog"></div>
 <div class="mtoast" id="m-toast"></div>
 <input class="x-pos-absolute_w-1_h-1_op-0_pointerevents-none_left-9999" type="file" id="m-file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,video/mp4,video/quicktime,video/webm,.mov" multiple>
+
+<!-- MEALS ORDER MODAL -->
+<div id="meals-order-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;overflow-y:auto;padding:1rem;-webkit-overflow-scrolling:touch" onclick="if(event.target===this)closeMealOrderModal()">
+  <div style="background:#fff;border-radius:14px;max-width:500px;margin:2rem auto;padding:1.5rem;position:relative">
+    <button onclick="closeMealOrderModal()" style="position:absolute;top:.75rem;right:.75rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#888;line-height:1"><i class="ti ti-x"></i></button>
+    <div id="meals-order-modal-body"></div>
+  </div>
+</div>
+
+<!-- MEALS ADMIN MODAL -->
+<div id="meals-admin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;overflow-y:auto;padding:1rem;-webkit-overflow-scrolling:touch" onclick="if(event.target===this)closeMealAdminModal()">
+  <div style="background:#fff;border-radius:14px;max-width:600px;margin:2rem auto;padding:1.5rem;position:relative">
+    <button onclick="closeMealAdminModal()" style="position:absolute;top:.75rem;right:.75rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#888;line-height:1"><i class="ti ti-x"></i></button>
+    <div id="meals-admin-modal-body"></div>
+  </div>
+</div>
 
 </div><!-- /wrap -->
 
